@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/login.css" rel="stylesheet" media="screen">
+{% endblock head_extra %}
+
+{% block content %}
+  <form class="form-signin" method="post" action="">
+    {% csrf_token %}
+    <h2 class="form-signin-heading">Login</h2>
+    <input type="text" placeholder="Username" class="input-block-level" name="username">
+    <input type="password" placeholder="Password" class="input-block-level" name="password">
+    <label class="text"><a href="#">Forgot your password?</a></label>
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <button type="submit" class="btn btn-large btn-primary">Sign in</button>
+    <input type="hidden" name="next" value="/prova/">
+  </form>
+{% endblock content %}

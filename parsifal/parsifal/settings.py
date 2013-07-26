@@ -1,3 +1,5 @@
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
 from unipath import Path
 PROJECT_DIR = Path(__file__).parent
 
@@ -39,7 +41,7 @@ STATIC_ROOT = PROJECT_DIR.child('public')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    PROJECT_DIR.parent.child('static')
+    PROJECT_DIR.parent.child('static'),
 )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -68,7 +70,11 @@ ROOT_URLCONF = 'parsifal.urls'
 WSGI_APPLICATION = 'parsifal.wsgi.application'
 
 TEMPLATE_DIRS = (
+    PROJECT_DIR.parent.child('templates'),
+)
 
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
 )
 
 INSTALLED_APPS = (
@@ -81,7 +87,10 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # 'django.contrib.admindocs',
     'core',
+    'reviews',
 )
+
+LOGIN_URL = '/login/'
 
 LOGGING = {
     'version': 1,

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Parsifal{% endblock %}</title>
+  <link type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen" />
+  <link type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />  
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+  {% block head_extra %}
+  {% endblock head_extra %}
+</head>
+<body>
+    <div class="navbar navbar-static-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>          
+          <a class="brand" href="/">Parsifal</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="/">My Reviews</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+            <ul class="nav pull-right">
+              <li><a href="/logout/">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% block header %}
+    {% endblock header %}
+
+    <div class="container-fluid" style="padding-top: 20px;">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav" style="padding: 10px 0;">
+            <ul class="nav nav-list">
+              <li class="nav-header">Planning</li>
+              <li class="active"><a href="#">Protocol</a></li>
+              <li class="nav-header">Execution</li>
+              <li><a href="#">Conduction</a></li>
+              <li><a href="#">Selection</a></li>
+              <li><a href="#">Extraction</a></li>
+              <li class="nav-header">Summarization</li>
+              <li><a href="#">Graphics</a></li>
+              <li><a href="#">Review's finalization</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} fade in">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+              </div>        
+            {% endfor %}
+          {% endif %}
+
+          {% block content %}
+          {% endblock content %}
+        </div>
+      </div>
+    </div>
+</body>
+</html>

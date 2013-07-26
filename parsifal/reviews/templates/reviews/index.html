@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+  <!--link href="{{ STATIC_URL }}css/login.css" rel="stylesheet" media="screen"-->
+{% endblock head_extra %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>My Reviews</h1>
+  </div>
+  <a href="#" class="btn btn-success" style="float:right;margin-bottom:20px;"><i class="icon-file icon-white"></i> New</a>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Effort Estimation in Software Product Line</td>
+        <td>Freitas, David, Kalinowski</td>
+        <td>26/07/2013</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+{% endblock content %}
