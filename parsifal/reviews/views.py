@@ -9,3 +9,13 @@ from django.template import RequestContext
 def index(request):
     context = RequestContext(request)
     return render_to_response('reviews/index.html', context)
+
+@login_required
+def new(request):
+    context = RequestContext(request)
+    return render_to_response('reviews/new.html', context)
+
+@login_required
+def review(request):
+    context = RequestContext(request)
+    return render_to_response('reviews/review.html', context)

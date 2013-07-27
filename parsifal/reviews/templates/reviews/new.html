@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Create a New Review</h1>
+  </div>
+  <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="review-name">Review Name</label>
+      <div class="controls">
+        <input type="text" id="review-name" class="input-block-level">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="review-title">Title</label>
+      <div class="controls">
+        <input type="text" id="review-title" class="input-block-level">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="review-authors">Authors</label>
+      <div class="controls">
+        <input type="password" id="review-authors" class="input-block-level">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="review-description">Description</label>
+      <div class="controls">
+        <textarea class="input-block-level" rows="5" id="review-description"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-success">Create review</button>
+    </div>
+  </form>
+{% endblock content %}
