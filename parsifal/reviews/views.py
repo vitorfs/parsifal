@@ -6,9 +6,9 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
 @login_required
-def index(request):
+def reviews(request):
     context = RequestContext(request)
-    return render_to_response('reviews/index.html', context)
+    return render_to_response('reviews/reviews.html', context)
 
 @login_required
 def new(request):

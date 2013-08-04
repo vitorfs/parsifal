@@ -35,3 +35,6 @@ nosetests.xml
 .pydevproject
 
 .DS_Store
+
+*.sublime-project
+*.sublime-workspace

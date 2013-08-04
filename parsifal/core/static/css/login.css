@@ -1,33 +1,38 @@
+@import url(reset.css);
+@import url(http://fonts.googleapis.com/css?family=Playball);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic);
+
 body {
-  background-color: #f5f5f5;
+  color: #333333;
+  font: 400 20px/1.5 "Source Sans Pro", sans-serif;
 }
 
-.form-signin {
-  max-width: 300px;
-  padding: 19px 29px 29px;
-  margin: 0 auto 20px;
-  background-color: #fff;
-  border: 1px solid #e5e5e5;
-  -webkit-border-radius: 5px;
-   -moz-border-radius: 5px;
-        border-radius: 5px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-   -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-        box-shadow: 0 1px 2px rgba(0,0,0,.05);
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin input[type="text"],
-.form-signin input[type="password"] {
-  font-size: 16px;
-  height: auto;
-  margin-bottom: 15px;
-  padding: 7px 9px;
+header {
+  background: #3A3D40;
+  width: 100%;
+  padding: .5em 0;
+  border-bottom: 0.3em solid #732B22;
 }
 
-div.alert {
-  width: 306px; 
-  margin: 0 auto 20px;
+header h1 {
+  font-family: Playball, cursive;
+  font-size: 1.8em;
+}
+
+header h1 a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+header h1 a:hover {
+  text-shadow: 0 0 5px #FFF;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 960px;
+}
+
+section {
+  padding: 5em 0;
 }

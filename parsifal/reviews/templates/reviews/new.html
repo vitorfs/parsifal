@@ -5,32 +5,34 @@
     <h1>Create a New Review</h1>
   </div>
   <form class="form-horizontal">
-    <div class="control-group">
-      <label class="control-label" for="review-name">Review Name</label>
-      <div class="controls">
-        <input type="text" id="review-name" class="input-block-level">
+    <div class="form-group">
+      <label for="input-short-name" class="col-lg-2 control-label">Short Name</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="input-short-name" placeholder="Short Name">
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="review-title">Title</label>
-      <div class="controls">
-        <input type="text" id="review-title" class="input-block-level">
+    <div class="form-group">
+      <label for="input-title" class="col-lg-2 control-label">Title</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="input-title" placeholder="Title">
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="review-authors">Authors</label>
-      <div class="controls">
-        <input type="password" id="review-authors" class="input-block-level">
+    <div class="form-group">
+      <label for="input-authors" class="col-lg-2 control-label">Authors</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="input-authors" placeholder="Authors">
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="review-description">Description</label>
-      <div class="controls">
-        <textarea class="input-block-level" rows="5" id="review-description"></textarea>
+    <div class="form-group">
+      <label for="input-description" class="col-lg-2 control-label">Description</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" id="input-description" rows="5" placeholder="Description"></textarea>
       </div>
     </div>
-    <div class="form-actions">
-      <button type="submit" class="btn btn-success">Create review</button>
+    <div class="form-group">
+      <div class="col-offset-2 col-lg-10">
+        <button type="submit" class="btn btn-success">Create review</button>
+      </div>
     </div>
   </form>
 {% endblock content %}

@@ -5,7 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^$', 'reviews.views.index'),
+    (r'^$', 'reviews.views.reviews'),
     (r'^reviews/new/$', 'reviews.views.new'),
     (r'^reviews/review/$', 'reviews.views.review'),
     (r'^login/$', 'core.views.login'),

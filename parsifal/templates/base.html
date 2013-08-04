@@ -4,46 +4,26 @@
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
   <link type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen" />
-  <link type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />  
+  <link type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />
+  <link type="text/css" href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen" />
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
   {% block head_extra %}
   {% endblock head_extra %}
 </head>
 <body>
-    <div class="navbar navbar-static-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>          
-          <a class="brand" href="/">Parsifal</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="/">Reviews</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-            <ul class="nav pull-right">
-              <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ user.get_username }} <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/profile/edit/"><i class="icon-pencil"></i> Edit Profile</a></li>
-                  <li><a href="/logout/"><i class="icon-off"></i> Logout</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    <div class="navbar">
+      <a class="navbar-brand" href="/">Parsifal</a>
+      <ul class="nav navbar-nav">
+        <li><a href="#">News</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
     </div>
     
     {% block header %}
     {% endblock header %}
 
-    <div class="container" style="padding-top: 20px;">
+    <div class="container">
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-{{ message.tags }} fade in">

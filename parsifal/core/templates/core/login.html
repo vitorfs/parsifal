@@ -1,20 +1,24 @@
-{% extends 'base.html' %}
-
-{% block head_extra %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Parsifal</title>
   <link href="{{ STATIC_URL }}css/login.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="wrapper">
+      <h1><a href="#">Parsifal</a></h1>
+    </div>
+  </header>
+  <section>
+    <div class="wrapper">
+      <h2>A tool for Systematic Literature Review</h2>
+    </div>
+  </section>
+  <footer>
 
-{% block content %}
-  <form class="form-signin" method="post" action="">
-    {% csrf_token %}
-    <h2 class="form-signin-heading">Login</h2>
-    <input type="text" placeholder="Username" class="input-block-level" name="username">
-    <input type="password" placeholder="Password" class="input-block-level" name="password">
-    <label class="text"><a href="#">Forgot your password?</a></label>
-    <label class="checkbox">
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-    <button type="submit" class="btn btn-large btn-primary">Sign in</button>
-    <input type="hidden" name="next" value="/prova/">
-  </form>
-{% endblock content %}
+  </footer>
+</body>
+</html>
