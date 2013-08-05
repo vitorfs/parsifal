@@ -3,38 +3,43 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
-  <link type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen" />
-  <link type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" />
-  <link type="text/css" href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen" />
+  <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
   {% block head_extra %}
   {% endblock head_extra %}
 </head>
 <body>
-    <div class="navbar">
-      <a class="navbar-brand" href="/">Parsifal</a>
-      <ul class="nav navbar-nav">
-        <li><a href="#">News</a></li>
-        <li><a href="#">Help</a></li>
-      </ul>
+  <header>
+    <div class="wrapper clearfix">
+      <h1><a href="/">Parsifal</a></h1>
+      <nav>
+        <a href="#">News</a>
+        <a href="#">About</a>
+        <a href="#">Help</a>
+      </nav>
+      <div class="signin">
+        <a href="/signin/">Sign in</a>
+      </div>
     </div>
-    
-    {% block header %}
-    {% endblock header %}
-
-    <div class="container">
+  </header>
+  <section class="content">
+    <div class="wrapper clearfix">
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} fade in">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <div class="alert alert-{{ message.tags }}">
             {{ message }}
-          </div>        
+          </div>
         {% endfor %}
       {% endif %}
-
+      
       {% block content %}
       {% endblock content %}
     </div>
+  </section>
+  <footer>
+    <div class="wrapper">
+      <p>© 2013 Parsifal, Inc</p>
+    </div>
+  </footer>
 </body>
 </html>

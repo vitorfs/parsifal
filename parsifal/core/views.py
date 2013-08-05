@@ -20,7 +20,7 @@ def signin(request):
                 if 'next' in request.GET:
                     return redirect(request.GET['next'])
                 else:
-                    return redirect('/')
+                    return redirect('/reviews/')
             else:
                 messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
                 context = RequestContext(request)

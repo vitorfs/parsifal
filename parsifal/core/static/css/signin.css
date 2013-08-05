@@ -1,13 +1,13 @@
+section.content {
+  padding: 5em 0;
+}
+
 .signin-form {
   width: 400px;
   margin: 0 auto;
   border-radius: 6px;
   padding-bottom: 1em;
   border: 1px solid #D2D1D2;
-  /*
-  background: #E3E2E4;
-  color: #FFF3D0;
-  */
   box-shadow: 0 0 6px 2px #D2D1D2 inset;
 }
 
@@ -45,4 +45,8 @@
 
 .signin-form .form-body {
   padding: .7em 1em;
+}
+
+.alert {
+  width: 400px;
 }

@@ -1,6 +1,140 @@
+@import url(reset.css);
+@import url(clearfix.css);
+@import url(alert.css);
 @import url(http://fonts.googleapis.com/css?family=Playball);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic);
 
-.navbar-brand {
+body {
+  color: #3A3D40;
+  font: 400 20px/1.5 "Source Sans Pro", sans-serif;
+}
+
+strong {
+  font-weight: 600;
+}
+
+header {
+  background: #3A3D40;
+  width: 100%;
+  padding: .4em 0;
+  border-bottom: 0.2em solid #732B22;
+}
+
+header h1 {
   font-family: Playball, cursive;
-  font-size: 2.4em;
+  font-size: 1.8em;
+}
+
+header h1 a {
+  color: #E6D9B8;
+  text-decoration: none;
+  float: left;
+}
+
+header h1 a:hover {
+  text-shadow: 0 0 3px #E6D9B8;
+}
+
+header nav {
+  float: left;
+  height: 100%;
+  padding: .6em 0 .6em 1.8em;
+}
+
+header nav a {
+  padding: .6em;
+  color: #E6D9B8;
+  text-decoration: none;
+  margin: 0 0.5em;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+header nav a:hover {
+  color: #FFF3D0;
+}
+
+.signin a {
+  font-size: .7em;
+  border: 1px solid #61241C;
+  width: 100px;
+  border: 1px solid #607577;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #728A8B;
+  color: #FFF3D0;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.2em 0;
+}
+
+.signin {
+  padding: .6em;
+  float: right;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 960px;
+}
+
+section.content {
+  background: url("../img/ticks.png");
+  padding: 1.5em 0;
+  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7) inset;
+}
+
+section.content input {
+  display: block;
+  border-radius: 5px;
+  border: 1px solid #CCCCCC;
+  margin-bottom: 0.7em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1em;
+  padding: 0.4em 0.7em;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+  color: #3A3D40;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+section.content input:focus {
+  border-color: rgba(148, 163, 144, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(148, 163, 144, 0.6);
+  outline: 0 none;
+}
+
+section.content h2 {
+  margin-bottom: .5em;
+  font-weight: 600;
+}
+
+section.content button {
+  width: 100%;
+  height: 50px;
+  font-size: 1em;
+  border: 1px solid #8A978D;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #94A390;
+  color: #FFF3D0;
+}
+
+section.content button:hover {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(148, 163, 144, 0.6);
+}
+
+footer {
+  background-color: #4A1916;
+  font-weight: 400;
+  padding: 1em 0;
+  font-size: .7em;
+  color: #FFF3D0;
 }
