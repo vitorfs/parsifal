@@ -1,0 +1,48 @@
+.signin-form {
+  width: 400px;
+  margin: 0 auto;
+  border-radius: 6px;
+  padding-bottom: 1em;
+  border: 1px solid #D2D1D2;
+  /*
+  background: #E3E2E4;
+  color: #FFF3D0;
+  */
+  box-shadow: 0 0 6px 2px #D2D1D2 inset;
+}
+
+.signin-form button {
+  margin-top: 1em;
+}
+
+.signin-form label {
+  font-weight: 600;
+  font-size: .8em;
+}
+
+.signin-form a {
+  font-size: .6em;
+  font-weight: 600;
+  color: #728A8B;
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
+
+.signin-form .form-header {
+  background: #728A8B;
+  padding: 0 1em;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  box-shadow: 0 3px 6px 0 #4C5D5E inset;
+}
+
+.signin-form .form-header h1 {
+  font-size: .9em;
+  font-weight: 600;
+  padding: .7em 0;
+  color: #E6D9B8;
+}
+
+.signin-form .form-body {
+  padding: .7em 1em 0;
+}

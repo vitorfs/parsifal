@@ -5,7 +5,11 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 
-def login(request):
+def home(request):
+    context = RequestContext(request)
+    return render_to_response('core/home.html', context)
+
+def signin(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -18,17 +22,17 @@ def login(request):
                 else:
                     return redirect('/')
             else:
-                messages.add_message(request, messages.ERROR, 'Sua conta está desativada.')
+                messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
                 context = RequestContext(request)
-                return render_to_response('core/login.html', context)
+                return render_to_response('core/signin.html', context)
         else:
-            messages.add_message(request, messages.ERROR, 'Usuário ou senha inválido.')
+            messages.add_message(request, messages.ERROR, 'Username or password invalid.')
             context = RequestContext(request)
-            return render_to_response('core/login.html', context)
+            return render_to_response('core/signin.html', context)
     else:
         context = RequestContext(request)
-        return render_to_response('core/login.html', context)
+        return render_to_response('core/signin.html', context)
 
-def logout(request):
+def signout(request):
     django_logout(request)
     return redirect('/login/')
