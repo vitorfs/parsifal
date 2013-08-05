@@ -90,7 +90,7 @@ INSTALLED_APPS = (
     'reviews',
 )
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/signin/'
 
 LOGGING = {
     'version': 1,

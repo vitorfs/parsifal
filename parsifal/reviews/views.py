@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
 @login_required
-def reviews(request):
+def reviews(request, username):
     context = RequestContext(request)
     return render_to_response('reviews/reviews.html', context)
 

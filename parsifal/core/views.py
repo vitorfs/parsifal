@@ -20,7 +20,7 @@ def signin(request):
                 if 'next' in request.GET:
                     return redirect(request.GET['next'])
                 else:
-                    return redirect('/reviews/')
+                    return redirect('/' + username + '/')
             else:
                 messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
                 context = RequestContext(request)
@@ -35,4 +35,4 @@ def signin(request):
 
 def signout(request):
     django_logout(request)
-    return redirect('/login/')
+    return redirect('/signin/')

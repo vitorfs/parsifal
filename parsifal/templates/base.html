@@ -17,9 +17,16 @@
         <a href="#">About</a>
         <a href="#">Help</a>
       </nav>
-      <div class="signin">
-        <a href="/signin/">Sign in</a>
-      </div>
+      {% if user.is_authenticated %}
+        <div class="signedin">
+          <a href="/{{ user.username }}/">{{ user.username }}</a>
+        </div>
+        asd
+      {% else %}
+        <div class="signin">
+          <a href="/signin/">Sign in</a>
+        </div>
+      {% endif %}
     </div>
   </header>
   <section class="content">
@@ -31,7 +38,7 @@
           </div>
         {% endfor %}
       {% endif %}
-      
+
       {% block content %}
       {% endblock content %}
     </div>

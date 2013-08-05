@@ -1,0 +1,15 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table td, .table th {
+  border: 1px solid #A7AFB7;
+  font-size: .8em;
+  padding: .2em .4em;
+}
+
+.table thead tr th {
+  font-size: .9em;
+  font-weight: 600;
+}
