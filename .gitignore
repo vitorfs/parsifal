@@ -38,3 +38,5 @@ nosetests.xml
 
 *.sublime-project
 *.sublime-workspace
+
+reminder.md
