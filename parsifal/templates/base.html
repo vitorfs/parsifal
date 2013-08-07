@@ -34,6 +34,7 @@
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-{{ message.tags }}">
+            <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut();">×</a>
             {{ message }}
           </div>
         {% endfor %}

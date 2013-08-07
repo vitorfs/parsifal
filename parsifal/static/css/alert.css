@@ -19,3 +19,17 @@
   color: #E6D9B8;
   box-shadow: 0 0 2px #732B22 inset;
 }
+
+.alert-success {
+  border: 1px solid #758373;
+  background: #94A390;
+  color: #FFF3D0;
+  box-shadow: 0 0 2px #758373 inset;
+}
+
+.alert a {
+  text-decoration: none;
+  color: #FFF3D0;
+  font-size: 1.5em;
+  margin-top: -0.27em;
+}
