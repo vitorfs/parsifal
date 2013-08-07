@@ -1,20 +1,20 @@
 .btn {
-  border: 1px solid #607577;
+  border: 1px solid #516465;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 400;
   background-color: #728A8B;
   color: #FFF3D0;
   font-size: .7em;
   text-decoration: none;
-  padding: .2em .7em;
-  box-shadow: 0px 3px 5px 0px #607577 inset; /*TODO: work on better color;*/
+  padding: .4em .7em;
+  box-shadow: 0px 3px 5px 0px #516465 inset;
 }
 
 .btn-success {
-  border-color: #8A978D;
+  border-color: #758373;
   background-color: #94A390;
-  box-shadow: 0px 3px 5px 0px #8A978D inset; /*TODO: work on better color;*/
+  box-shadow: 0px 3px 5px 0px #758373 inset;
 }
 
 .btn-warning {
