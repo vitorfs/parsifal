@@ -17,16 +17,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><a href="/reviews/review/">Effort Estimation in Software Product Line</a></td>
-        <td>Freitas, David, Kalinowski</td>
-        <td>26/07/2013</td>
-      </tr>
-      <tr>
-        <td><a href="/reviews/review/">Effort Estimation in Software Product Line</a></td>
-        <td>Freitas, David, Kalinowski</td>
-        <td>26/07/2013</td>
-      </tr>
+      {% for review in user_reviews %}
+        <tr>
+          <td>{{ review.title }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock content %}

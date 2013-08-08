@@ -31,6 +31,14 @@
     {% endif %}
   </header>
   <section class="content wrapper">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut();">×</a>
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
     {% block content %}
     {% endblock content %}
     <div class="push"></div>

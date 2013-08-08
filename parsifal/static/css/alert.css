@@ -2,7 +2,7 @@
   width: 100%;
   margin: 0 auto 1.2em;
   border-radius: 4px;
-  font-size: .7em;
+  font-size: 1.4em;
   padding: .7em 20px;
   font-weight: 600;
   border: 1px solid #728A8B;
@@ -21,15 +21,15 @@
 }
 
 .alert-success {
-  border: 1px solid #758373;
-  background: #94A390;
+  border: 1px solid #94A390;
+  background: #A9B9A4;
   color: #FFF3D0;
-  box-shadow: 0 0 2px #758373 inset;
+  box-shadow: 0 0 2px #94A390 inset;
 }
 
 .alert a {
   text-decoration: none;
   color: #FFF3D0;
   font-size: 1.5em;
-  margin-top: -0.27em;
+  margin-top: -0.2em;
 }

@@ -2,26 +2,24 @@
 
 {% block content %}
   <h1>Create a New Review</h1>
-  <form class="form-block">
-    
+  <form class="form-block" method="post">
+    {% csrf_token %}
     <div class="form-row">
       <div class="label-container">
-        <label for="name">Short Name</label>
+        <label for="short-name">Short Name</label>
       </div>
       <div class="input-container">
-        <input type="text" id="name" placeholder="Inform a short name for your review">
+        <input type="text" id="short-name" name="short-name" placeholder="Inform a short name for your review">
       </div>
     </div>
-
     <div class="form-row">
       <div class="label-container">
         <label for="title">Title</label>
       </div>
       <div class="input-container">
-        <input type="text" id="title" placeholder="Systematic literature review's title">
+        <input type="text" id="title" name="title" placeholder="Systematic literature review's title">
       </div>
     </div>
-
     <div class="form-row">
       <div class="label-container">
         <label for="authors">Authors</label>
@@ -30,16 +28,14 @@
         <input type="text" id="authors" placeholder="Leave blank if you are the only author">
       </div>
     </div>
-
     <div class="form-row clearfix">
       <div class="label-container">
         <label for="descripton">Description</label>
       </div>
       <div class="input-container">
-        <textarea rows="5" placeholder="Give a brief description of your systematic literature review"></textarea>
+        <textarea rows="5" id="description" name="description" placeholder="Give a brief description of your systematic literature review"></textarea>
       </div>
     </div>
-
     <button type="submit" style="margin-left: 150px;" class="btn btn-success">Create review</button>
   </form>
 {% endblock content %}
