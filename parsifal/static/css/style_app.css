@@ -24,6 +24,7 @@ header {
   border-bottom: 5px solid #732B22;
   position: fixed;
   width: 100%;
+  box-shadow: 0 0 8px #3A3D40;
 }
 
 header h1 {
@@ -70,7 +71,8 @@ header nav a:hover {
 }
 
 .wrapper, .content {
-  width: 95%;
+  min-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -90,6 +92,7 @@ header nav a:hover {
 footer {
   background-color: #4A1916;  
   height: 40px;
+  box-shadow: 0 0 8px #3A3D40;
 }
 
 footer p {
