@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
-  <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen">
+  <link href="{{ STATIC_URL }}css/style_app.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
   {% block head_extra %}
   {% endblock head_extra %}
@@ -21,7 +21,6 @@
         <div class="signedin">
           <a href="/{{ user.username }}/">{{ user.username }}</a>
         </div>
-        asd
       {% else %}
         <div class="signin">
           <a href="/signin/">Sign in</a>
@@ -30,21 +29,10 @@
     </div>
   </header>
   <section class="content">
-    <div class="wrapper clearfix">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut();">×</a>
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-      {% block content %}
-      {% endblock content %}
-    </div>
+    {% block content %}
+    {% endblock content %}
+    <div class="push"></div>
   </section>
-  {% block footer %}
-  {% endblock footer %}
   <footer>
     <div class="wrapper">
       <p>© 2013 Parsifal, Inc</p>

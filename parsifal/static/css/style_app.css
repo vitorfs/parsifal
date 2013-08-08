@@ -1,0 +1,117 @@
+@import url(reset.css);
+@import url(clearfix.css);
+@import url(alert.css);
+@import url(button.css);
+@import url(table.css);
+@import url(http://fonts.googleapis.com/css?family=Playball);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic);
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: url("../img/ticks.png");
+  color: #3A3D40;
+  font-family: "Source Sans Pro", Tahoma, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 62.5%;
+}
+
+header {
+  background: #3A3D40;
+  height: 65px;
+  border-bottom: 5px solid #732B22;
+  position: fixed;
+  width: 100%;
+}
+
+header h1 {
+  font-family: Playball, cursive;
+  font-size: 3.6em;
+  float: left;
+  padding-top: .4em;
+  margin-left: .3em;
+}
+
+header h1 a {
+  color: #E6D9B8;
+  text-decoration: none;
+}
+
+header nav {
+  float: left;
+  padding-top: 2.2em;
+  padding-left: 5em;
+}
+
+header nav a {
+  padding: 0 1.2em;
+  color: #E6D9B8;
+  text-decoration: none;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+header nav a:hover {
+  color: #FFF3D0;
+}
+
+.signedin {
+  padding-top: 2.2em;
+  margin-right: 1em;
+  float: right;
+}
+
+.signedin a {
+  font-size: 1.6em;
+  color: #E6D9B8;
+  text-decoration: none;
+}
+
+.wrapper, .content {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.content {
+  background: #FFF;
+  padding: 90px 20px 20px;
+  box-shadow: 0 0 8px #3A3D40;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -40px;
+}
+
+footer {
+  background-color: #4A1916;  
+  height: 40px;
+}
+
+footer p {
+  padding-top: 1em;
+  color: #FFF3D0;
+  font-size: 1.4em;
+  font-weight: 400;
+}
+
+.push {
+  height: 40px;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.content h1 {
+  font-size: 2.5em;
+  font-weight: 600;
+}
