@@ -1,38 +1,45 @@
-{% extends 'base.html' %}
+{% extends 'base_app.html' %}
 
 {% block content %}
-  <div class="page-header">
-    <h1>Create a New Review</h1>
-  </div>
-  <form class="form-horizontal">
-    <div class="form-group">
-      <label for="input-short-name" class="col-lg-2 control-label">Short Name</label>
-      <div class="col-lg-10">
-        <input type="text" class="form-control" id="input-short-name" placeholder="Short Name">
+  <h1>Create a New Review</h1>
+  <form class="form-block">
+    
+    <div class="form-row">
+      <div class="label-container">
+        <label for="name">Short Name</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="name" placeholder="Inform a short name for your review">
       </div>
     </div>
-    <div class="form-group">
-      <label for="input-title" class="col-lg-2 control-label">Title</label>
-      <div class="col-lg-10">
-        <input type="text" class="form-control" id="input-title" placeholder="Title">
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="title">Title</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="title" placeholder="Systematic literature review's title">
       </div>
     </div>
-    <div class="form-group">
-      <label for="input-authors" class="col-lg-2 control-label">Authors</label>
-      <div class="col-lg-10">
-        <input type="text" class="form-control" id="input-authors" placeholder="Authors">
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="authors">Authors</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="authors" placeholder="Leave blank if you are the only author">
       </div>
     </div>
-    <div class="form-group">
-      <label for="input-description" class="col-lg-2 control-label">Description</label>
-      <div class="col-lg-10">
-        <textarea class="form-control" id="input-description" rows="5" placeholder="Description"></textarea>
+
+    <div class="form-row clearfix">
+      <div class="label-container">
+        <label for="descripton">Description</label>
+      </div>
+      <div class="input-container">
+        <textarea rows="5" placeholder="Give a brief description of your systematic literature review"></textarea>
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-offset-2 col-lg-10">
-        <button type="submit" class="btn btn-success">Create review</button>
-      </div>
-    </div>
+
+    <button type="submit" style="margin-left: 150px;" class="btn btn-success">Create review</button>
   </form>
 {% endblock content %}

@@ -3,6 +3,8 @@
 @import url(alert.css);
 @import url(button.css);
 @import url(table.css);
+@import url(form.css);
+@import url(typography.css);
 @import url(http://fonts.googleapis.com/css?family=Playball);
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic);
 
@@ -24,7 +26,7 @@ header {
   border-bottom: 5px solid #732B22;
   position: fixed;
   width: 100%;
-  box-shadow: 0 0 8px #3A3D40;
+  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7);
 }
 
 header h1 {
@@ -32,7 +34,6 @@ header h1 {
   font-size: 3.6em;
   float: left;
   padding-top: .4em;
-  margin-left: .3em;
 }
 
 header h1 a {
@@ -40,13 +41,17 @@ header h1 a {
   text-decoration: none;
 }
 
-header nav {
+header h1 a:hover {
+  text-shadow: 0 0 3px #E6D9B8;
+}
+
+header nav.menu {
   float: left;
   padding-top: 2.2em;
   padding-left: 5em;
 }
 
-header nav a {
+header nav.menu a {
   padding: 0 1.2em;
   color: #E6D9B8;
   text-decoration: none;
@@ -54,32 +59,47 @@ header nav a {
   font-weight: bold;
 }
 
-header nav a:hover {
+header nav.menu a:hover {
   color: #FFF3D0;
 }
 
-.signedin {
+header nav.signedin {
   padding-top: 2.2em;
-  margin-right: 1em;
   float: right;
 }
 
-.signedin a {
-  font-size: 1.6em;
+header nav.signedin span.bullet {
   color: #E6D9B8;
-  text-decoration: none;
+  font-size: 1.6em;
+  font-weight: bold;
 }
 
-.wrapper, .content {
-  min-width: 1000px;
-  max-width: 1400px;
-  margin: 0 auto;
+header nav.signedin a {
+  color: #E6D9B8;
+  text-decoration: none;
+  font-size: 1.2em;
+  padding: 0 .7em;
+  font-weight: bold;
+}
+
+header nav.signedin a:hover {
+  color: #FFF3D0;
+}
+
+header nav.signedin a.user {
+  font-size: 1.6em;
+}
+
+.wrapper {
+  width: 100%;
+  padding: 0 20px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .content {
-  background: #FFF;
   padding: 90px 20px 20px;
-  box-shadow: 0 0 8px #3A3D40;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -92,7 +112,7 @@ header nav a:hover {
 footer {
   background-color: #4A1916;  
   height: 40px;
-  box-shadow: 0 0 8px #3A3D40;
+  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7);
 }
 
 footer p {

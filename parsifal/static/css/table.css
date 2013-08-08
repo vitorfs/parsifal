@@ -2,16 +2,20 @@
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #DDD;
 }
 
 .table td, .table th {
-  border: 1px solid #DDD;
+  /*border: 1px solid #AAA;*/
   font-size: 1.4em;
-  padding: .4em .6em;
+  padding: .8em .6em;
+  text-align: left;
 }
 
 .table thead tr th {
   font-size: 1.6em;
   font-weight: 600;
+}
+
+.table tr {
+  border-bottom: 1px solid #AAA;
 }
