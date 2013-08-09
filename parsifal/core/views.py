@@ -36,12 +36,3 @@ def signin(request):
 def signout(request):
   django_logout(request)
   return redirect('/signin/')
-
-def create_account(request):
-  username = request.POST['username']
-  password = request.POST['password']
-  email = request.POST['email']
-  User.objects.create_user(username=username, password=password, email=email)
-  user = authenticate(username=username, password=password)
-  django_login(request, user)
-  return redirect('/' + username + '/')
