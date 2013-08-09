@@ -9,6 +9,7 @@
   text-decoration: none;
   padding: .4em .7em;
   box-shadow: 0px 3px 5px 0px #516465 inset;
+  display: inline-block;
 }
 
 .btn-success {

@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, include, url
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -12,4 +14,4 @@ urlpatterns = patterns('',
     (r'^signin/$', 'core.views.signin'),
     (r'^signout/$', 'core.views.signout'),
     (r'^(?P<username>\w{1,50})/$', 'reviews.views.reviews'),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

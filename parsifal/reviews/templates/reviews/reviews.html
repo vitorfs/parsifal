@@ -4,26 +4,56 @@
 {% endblock head_extra %}
 
 {% block content %}
-  <div>
+  <style type="text/css">
+  .reviews {
+    float: left;
+    width: -moz-calc(100% - 234px);
+    width: -webkit-calc(100% - 234px);
+    width: calc(100% - 234px);
+  }
+  .profile {
+    width: 214px;
+    margin-left: 20px;
+    float: left;
+  }
+
+  .profile .picture {
+    width: 200px;
+    height: 200px;
+    background: #FFF;
+    border: 1px solid #CCC;
+    margin: 0 auto;
+    padding: 6px;
+    box-shadow: 0 0 3px #CCC;
+
+  }
+  </style>
+  <div class="clearfix">
+    <div class="reviews">
+      <a href="/reviews/new/" class="btn btn-success">New review</a>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Authors</th>
+            <th>Last update</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for review in user_reviews %}
+            <tr>
+              <td>{{ review.title }}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="profile">
+      <div class="picture">
+        <img src="{{ MEDIA_URL }}photo.jpg" width="200px">
+      </div>
+    </div>
   </div>
-  <h1>Systematic Literature Reviews</h1>
-  <a href="/reviews/new/" class="btn btn-success pull-right" style="margin-bottom: 1em;">New review</a>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Authors</th>
-        <th>Last update</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for review in user_reviews %}
-        <tr>
-          <td>{{ review.title }}</td>
-          <td></td>
-          <td></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 {% endblock content %}

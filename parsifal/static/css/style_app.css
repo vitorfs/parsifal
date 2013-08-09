@@ -120,6 +120,23 @@ footer p {
   color: #FFF3D0;
   font-size: 1.4em;
   font-weight: 400;
+  float: left;
+}
+
+footer ul {
+  float: left;
+  padding-top: 1.4em;
+  padding-left: 2em;
+}
+footer ul li {
+  display: inline;
+  font-size: 1.2em;
+  padding: 0 .7em;
+}
+
+footer ul li a {
+  color: #FFF3D0;
+  text-decoration: underline;
 }
 
 .push {
