@@ -1,3 +1,11 @@
+input, button, select, option, textarea {
+  font-family: inherit;
+}
+
+button {
+  text-transform: none;
+}
+
 .label-container {
   float: left;
   text-align: right;
@@ -10,6 +18,14 @@
   width: -moz-calc(100% - 150px);
   width: -webkit-calc(100% - 150px);
   width: calc(100% - 150px);
+}
+
+.button-container {
+  margin-left: 150px;
+}
+
+.button-container .btn {
+  margin-right: .3em;
 }
 
 .form-block {
@@ -44,7 +60,6 @@
 }
 
 .form-block textarea {
-  font-family: "Source Sans Pro", Tahoma, Arial, sans-serif;
   font-size: 1.8em;
 }
 
