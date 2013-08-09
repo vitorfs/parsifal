@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     (r'^$', 'core.views.home'),
-    #(r'^reviews/$', 'reviews.views.reviews'),
+    (r'^user/new/$', 'core.views.create_account'),
     (r'^reviews/new/$', 'reviews.views.new'),
     (r'^reviews/review/$', 'reviews.views.review'),
     (r'^signin/$', 'core.views.signin'),

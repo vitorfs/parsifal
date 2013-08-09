@@ -2,13 +2,15 @@
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, redirect
+from django.contrib.auth.models import User
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from reviews.models import Review
 
 @login_required
 def reviews(request, username):
   context = RequestContext(request)
+  user = get_object_or_404(User, username=username)
   user_reviews = Review.objects.all()
   context = RequestContext(request, {'user_reviews': user_reviews,})
   return render_to_response('reviews/reviews.html', context)

@@ -11,10 +11,11 @@
   </div>
   <div class="content-right">
     <h2>Sign up for Parsifal</h2>
-    <form>
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <input type="text" placeholder="Email">
+    <form action="/user/new/" method="post">
+      {% csrf_token %}
+      <input type="text" placeholder="Username" name="username">
+      <input type="password" placeholder="Password" name="password">
+      <input type="text" placeholder="Email" name="email">
       <button type="submit">Create a new account</button>
     </form>
   </div>
