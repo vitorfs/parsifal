@@ -11,8 +11,8 @@ from reviews.models import Review
 def reviews(request, username):
   context = RequestContext(request)
   user = get_object_or_404(User, username=username)
-  user_reviews = Review.objects.all()
-  context = RequestContext(request, {'user_reviews': user_reviews,})
+  user_reviews = Review.objects.filter(user__id=user.id)
+  context = RequestContext(request, {'user_reviews': user_reviews, 'page_user': user, })
   return render_to_response('reviews/reviews.html', context)
 
 @login_required
@@ -21,10 +21,11 @@ def new(request):
     short_name = request.POST['short-name']
     title = request.POST['title']
     description = request.POST['description']
-    review = Review(short_name = short_name, title = title, description = description)
+    user = request.user
+    review = Review(short_name = short_name, title = title, description = description, user=user)
     review.save()
     messages.add_message(request, messages.SUCCESS, 'Review created with success.')
-    return redirect('/admin/')
+    return redirect('/' + request.user.username + '/')
   else:
     context = RequestContext(request)
     return render_to_response('reviews/new.html', context)

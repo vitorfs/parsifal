@@ -18,8 +18,8 @@
   }
 
   .profile .picture {
-    width: 200px;
-    height: 200px;
+    width: 214px;
+    height: 214px;
     background: #FFF;
     border: 1px solid #CCC;
     margin: 0 auto;
@@ -30,25 +30,41 @@
   </style>
   <div class="clearfix">
     <div class="reviews">
-      <a href="/reviews/new/" class="btn btn-success">New review</a>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Authors</th>
-            <th>Last update</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for review in user_reviews %}
+      {% if user.username == page_user.username %}
+        <a href="/reviews/new/" class="btn btn-success">New review</a>
+      {% else %}
+        <button type="button" class="btn">Follow {{ page_user.username }}</button>
+      {% endif %}
+      {% if user_reviews %}
+        <table class="table">
+          <thead>
             <tr>
-              <td>{{ review.title }}</td>
-              <td></td>
-              <td></td>
+              <th>Title</th>
+              <th>Authors</th>
+              <th>Last update</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for review in user_reviews %}
+              <tr>
+                <td>{{ review.title }}</td>
+                <td>{{ review.user__first_name }}</td>
+                <td></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="container">
+          <h2>You don't have any systematic literature review yet.</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+      {% endif %}
     </div>
     <div class="profile">
       <div class="picture">

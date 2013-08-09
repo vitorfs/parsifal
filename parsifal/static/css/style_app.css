@@ -8,6 +8,12 @@
 @import url(http://fonts.googleapis.com/css?family=Playball);
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic);
 
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
 }
@@ -34,6 +40,8 @@ header h1 {
   font-size: 3.6em;
   float: left;
   padding-top: .4em;
+  font-weight: 400;
+  margin: 0;
 }
 
 header h1 a {
@@ -93,16 +101,10 @@ header nav.signedin a.user {
 .wrapper {
   width: 100%;
   padding: 0 20px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
 }
 
 .content {
   padding: 90px 20px 20px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   min-height: 100%;
   height: auto !important;
   height: 100%;
@@ -121,6 +123,7 @@ footer p {
   font-size: 1.4em;
   font-weight: 400;
   float: left;
+  margin: 0;
 }
 
 footer ul {
@@ -152,7 +155,12 @@ footer ul li a {
   float: left;
 }
 
-.content h1 {
-  font-size: 2.5em;
-  font-weight: 600;
+.container {
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 1px #C2C2C2;
+  border: 1px solid #C2C2C2;
+  background: #FFF;
+  padding: .3em 1.5em;
+  margin: 2em 0;
 }
