@@ -12,7 +12,7 @@ from reviews.models import Review
 def reviews(request, username):
   context = RequestContext(request)
   user = get_object_or_404(User, username=username)
-  user_reviews = Review.objects.filter(user__id=user.id)
+  user_reviews = Review.objects.filter(user__id=user.id).order_by('-last_update',)
   context = RequestContext(request, {'user_reviews': user_reviews, 'page_user': user})
   return render_to_response('reviews/reviews.html', context)
 

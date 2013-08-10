@@ -1,12 +1,17 @@
 {% extends 'base_app.html' %}
 
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+{% endblock head_extra %}
+
 {% block content %}
   <h1>{{ review.title }}</h1>
   <div class="container">
-    <h2>Authors</h2>
-    <ul>
+    <h2>Authors <button type="button" class="add-author">+ add</button></h2>
+    <ul class="authors">
       <li>Freitas, V.</li>
-      <li>Kalinowski, M.</li>
+      <li>Kalinowski, M. <button type="button" class="remove-author">× remove</button></li>
     </ul>
     <h2>Description</h2>
     <p>{{ review.description }}</p>

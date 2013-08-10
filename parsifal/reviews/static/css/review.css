@@ -1,0 +1,19 @@
+button.add-author, button.remove-author {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: .7em;
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+button.add-author {
+  color: #94A390;
+}
+
+button.remove-author {
+  color: #BE4D40;
+  font-size: 1em;
+}
