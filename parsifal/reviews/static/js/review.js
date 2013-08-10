@@ -12,10 +12,20 @@ $(function () {
         parent.remove();
       }
       else {
-        parent.html(author + ' <button type="button" class="remove-author">× remove</button>');
-        $('.remove-author').unbind('click').bind('click', $.fn.bindRemoveButton);
+        $.ajax({
+            url: '/reviews/addauthor/',
+            data: { username: author },
+            type: 'post',
+            cache: false,
+            success: function (data) {
+              parent.html(data + ' <button type="button" class="remove-author">× remove</button>');
+              $('.remove-author').unbind('click').bind('click', $.fn.bindRemoveButton);
+            },
+            complete: function () {
+              is_editing = false;
+            }
+        });
       }
-      is_editing = false;
     });
 
     $(this).keyup(function (evt) {

@@ -37,3 +37,11 @@ def review(request, username, review_name):
   review = Review.objects.get(short_name=review_name)
   context = RequestContext(request, {'review': review})
   return render_to_response('reviews/review.html', context)
+
+@login_required
+def add_author_to_review(request):
+  if request.method == 'POST':
+    username = request.GET['username']
+    user = User.objects.get(username=username)
+    return user.get_full_name
+  #return HttpResponse('OK')
