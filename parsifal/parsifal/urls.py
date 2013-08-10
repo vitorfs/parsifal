@@ -10,11 +10,12 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     (r'^$', 'core.views.home'),
-    (r'^users/new/$', 'users.views.create_account'),
+    (r'^users/new/$', 'users.views.new'),
     (r'^reviews/new/$', 'reviews.views.new'),
     (r'^reviews/review/$', 'reviews.views.review'),
     (r'^signin/$', 'core.views.signin'),
     (r'^signout/$', 'core.views.signout'),
+    (r'^(?P<username>[\w-]+)/edit/$', 'users.views.edit'),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/$', 'reviews.views.review'),
     (r'^(?P<username>[\w-]+)/$', 'reviews.views.reviews'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

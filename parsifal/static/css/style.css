@@ -167,3 +167,7 @@ footer {
 .pull-left {
   float: left;
 }
+
+.alert {
+  font-size: .7em;
+}

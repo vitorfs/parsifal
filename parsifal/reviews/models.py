@@ -10,6 +10,7 @@ class Review(models.Model):
   user = models.ForeignKey(User)
   create_date = models.DateTimeField(auto_now_add=True, blank=True)
   last_update = models.DateTimeField()
+  co_authors = models.ManyToManyField(User, related_name="co+")
 
   def __unicode__(self):
       return self.short_name

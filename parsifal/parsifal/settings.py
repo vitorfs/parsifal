@@ -89,6 +89,7 @@ INSTALLED_APPS = (
     'south',
     'core',
     'reviews',
+    'users',
 )
 
 LOGIN_URL = '/signin/'
