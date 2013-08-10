@@ -1,5 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'base_app.html' %}
 
 {% block content %}
-  <h1>Review</h1>
+  <h1>{{ review.title }}</h1>
+  <div class="container">
+    <h2>Authors</h2>
+    <ul>
+      <li>Freitas, V.</li>
+      <li>Kalinowski, M.</li>
+    </ul>
+    <h2>Description</h2>
+    <p>{{ review.description }}</p>
+  </div>
 {% endblock content %}

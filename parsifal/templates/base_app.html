@@ -37,6 +37,13 @@
           <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut();">×</a>
           {{ message }}
         </div>
+        <script type="text/javascript">
+          $(function () {
+            window.setTimeout(function () {
+              $('.alert').fadeOut();
+            }, 5000);
+          });
+        </script>
       {% endfor %}
     {% endif %}
     {% block content %}

@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
@@ -13,5 +15,6 @@ urlpatterns = patterns('',
     (r'^reviews/review/$', 'reviews.views.review'),
     (r'^signin/$', 'core.views.signin'),
     (r'^signout/$', 'core.views.signout'),
-    (r'^(?P<username>\w{1,50})/$', 'reviews.views.reviews'),
+    (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/$', 'reviews.views.review'),
+    (r'^(?P<username>[\w-]+)/$', 'reviews.views.reviews'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

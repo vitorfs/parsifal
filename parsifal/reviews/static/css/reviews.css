@@ -1,0 +1,49 @@
+.reviews {
+  float: left;
+  width: -moz-calc(100% - 234px);
+  width: -webkit-calc(100% - 234px);
+  width: calc(100% - 234px);
+}
+
+.reviews table tbody tr td a:hover {
+  border-bottom: 1px solid;
+}
+
+.profile {
+  width: 214px;
+  margin-left: 20px;
+  float: left;
+}
+
+.profile .picture {
+  width: 214px;
+  height: 214px;
+  background: #FFF;
+  border: 1px solid #CCC;
+  margin: 0 auto;
+  padding: 6px;
+  box-shadow: 0 0 3px #CCC;
+}
+
+.profile ul {
+  margin-top: 1em;
+}
+
+.profile ul li {
+  font-size: 1.4em;
+  padding: .2em 0;
+}
+
+.profile .full-name {
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.profile .username {
+  color: #666;
+}
+
+.profile ul li.divider {
+  border-bottom: 1px solid #999;
+  margin: .4em 0;
+}

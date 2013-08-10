@@ -158,9 +158,26 @@ footer ul li a {
 .container {
   width: 100%;
   border-radius: 5px;
-  box-shadow: 0 0 5px 1px #C2C2C2;
+  box-shadow: 0 0 5px 0 #C2C2C2;
   border: 1px solid #C2C2C2;
   background: #FFF;
-  padding: .3em 1.5em;
+  padding: 1em 1.5em;
   margin: 2em 0;
+  background: #F9F9F9;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #EEE;
+}
+
+ul {
+  margin-left: 20px;
+}
+
+ul li {
+  font-size: 1.4em;
+  padding: .2em 0;
+  list-style: square;
 }

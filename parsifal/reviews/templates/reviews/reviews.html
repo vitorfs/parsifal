@@ -1,33 +1,10 @@
 {% extends 'base_app.html' %}
 
 {% block head_extra %}
+  <link href="{{ STATIC_URL }}css/reviews.css" rel="stylesheet" media="screen">
 {% endblock head_extra %}
 
 {% block content %}
-  <style type="text/css">
-  .reviews {
-    float: left;
-    width: -moz-calc(100% - 234px);
-    width: -webkit-calc(100% - 234px);
-    width: calc(100% - 234px);
-  }
-  .profile {
-    width: 214px;
-    margin-left: 20px;
-    float: left;
-  }
-
-  .profile .picture {
-    width: 214px;
-    height: 214px;
-    background: #FFF;
-    border: 1px solid #CCC;
-    margin: 0 auto;
-    padding: 6px;
-    box-shadow: 0 0 3px #CCC;
-
-  }
-  </style>
   <div class="clearfix">
     <div class="reviews">
       {% if user.username == page_user.username %}
@@ -47,9 +24,9 @@
           <tbody>
             {% for review in user_reviews %}
               <tr>
-                <td>{{ review.title }}</td>
+                <td><a href="/{{ page_user.username }}/{{ review.short_name }}/">{{ review.title }}</a></td>
                 <td>{{ review.user__first_name }}</td>
-                <td></td>
+                <td>{{ review.last_update }}</td>
               </tr>
             {% endfor %}
           </tbody>
@@ -68,8 +45,16 @@
     </div>
     <div class="profile">
       <div class="picture">
-        <img src="{{ MEDIA_URL }}photo.jpg" width="200px">
+        <img src="{{ STATIC_URL }}img/user.png" width="200px" height="200px">
       </div>
+      <ul>
+        <li class="full-name">{{ page_user.get_full_name }}</li>
+        <li class="username">{{ page_user.username }}</li>
+        <li>{{ page_user.email }}</li>
+        <li class="divider"></li>
+        <li>Juiz de Fora, Brazil</li>
+        <li>Universidade Federal de Juiz de Fora</li>
+      </ul>
     </div>
   </div>
 {% endblock content %}
