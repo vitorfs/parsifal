@@ -26,12 +26,13 @@
 }
 
 .profile ul {
-  margin-top: 1em;
+  margin: 1em 0 0 0;
 }
 
 .profile ul li {
   font-size: 1.4em;
   padding: .2em 0;
+  list-style: none;
 }
 
 .profile .full-name {
