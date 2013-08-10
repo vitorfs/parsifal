@@ -17,3 +17,7 @@ button.remove-author {
   color: #BE4D40;
   font-size: 1em;
 }
+
+ul.authors li {
+  line-height: 1.3;
+}
