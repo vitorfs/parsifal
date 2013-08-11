@@ -11,7 +11,9 @@
     <h2>Authors <button type="button" class="add-author">+ add</button></h2>
     <ul class="authors">
       <li>{{ review.user.get_full_name }}</li>
-      <!--li>Kalinowski, M. <button type="button" class="remove-author">× remove</button></li-->
+      {% for author in review.co_authors.all %}
+        <li>{{ author.get_full_name }} <button type="button" class="remove-author">× remove</button></li>
+      {% endfor %}
     </ul>
     <h2>Description</h2>
     <p>{{ review.description }}</p>

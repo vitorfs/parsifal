@@ -25,7 +25,7 @@
             {% for review in user_reviews %}
               <tr onclick="document.location.href='/{{ page_user.username }}/{{ review.short_name }}/';">
                 <td>{{ review.title }}</td>
-                <td>{{ review.user__first_name }}</td>
+                <td>{{ review.user.get_full_name }}</td>
                 <td>{{ review.last_update|date:"D d M Y" }}</td>
               </tr>
             {% endfor %}
