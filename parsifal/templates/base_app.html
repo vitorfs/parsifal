@@ -16,19 +16,13 @@
       <a href="#">About</a>
       <a href="#">Help</a>
     </nav>
-    {% if user.is_authenticated %}
-      <nav class="signedin">
-        <a href="/{{ user.username }}/" class="user">{{ user.username }}</a>
-        <span class="bullet">&bull;</span>
-        <a href="/users/profile/">Edit Profile</a>
-        <span class="bullet">&bull;</span>
-        <a href="/signout/">Sign Out</a>
-      </nav>
-    {% else %}
-      <div class="signin">
-        <a href="/signin/">Sign in</a>
-      </div>
-    {% endif %}
+    <nav class="signedin">
+      <a href="/{{ user.username }}/" class="user">{{ user.username }}</a>
+      <span class="bullet">&bull;</span>
+      <a href="/users/profile/">Edit Profile</a>
+      <span class="bullet">&bull;</span>
+      <a href="/signout/">Sign Out</a>
+    </nav>
   </header>
   <section class="content wrapper">
     {% if messages %}

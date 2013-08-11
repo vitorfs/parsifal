@@ -10,7 +10,7 @@ button {
   float: left;
   text-align: right;
   width: 150px;
-  padding-top: .5em;
+  padding-top: .7em;
 }
 
 .input-container {
@@ -33,7 +33,7 @@ button {
 }
 
 .form-block label {
-  font-size: 2em;
+  font-size: 1.8em;
   padding-right: .8em;
 }
 

@@ -5,17 +5,12 @@
   width: calc(100% - 234px);
 }
 
-.reviews table tbody tr td a {
-
-}
-
 .reviews table tbody tr td a:hover {
-
+  text-decoration: underline;
 }
 
 .reviews table tbody tr:hover {
   background: rgba(148, 163, 144, .2);
-  cursor: pointer;
 }
 
 .profile {

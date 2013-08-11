@@ -23,8 +23,8 @@
           </thead>
           <tbody>
             {% for review in user_reviews %}
-              <tr onclick="document.location.href='/{{ page_user.username }}/{{ review.short_name }}/';">
-                <td>{{ review.title }}</td>
+              <tr>
+                <td><a href="/{{ page_user.username }}/{{ review.short_name }}/">{{ review.title }}</a></td>
                 <td>{{ review.user.get_full_name }}</td>
                 <td>{{ review.last_update|date:"D d M Y" }}</td>
               </tr>

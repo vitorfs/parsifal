@@ -1,46 +1,14 @@
 {% extends 'base_app.html' %}
 
 {% block head_extra %}
+  <link href="{{ STATIC_URL }}css/edit.css" rel="stylesheet" media="screen">
 {% endblock head_extra %}
 
 {% block content %}
-  <style type="text/css">
-    .users-menu {
-      float: left;
-      width: 200px;
-    }
-
-    .users-menu nav a {
-      display: block;
-      font-size: 1.6em;
-      border-bottom: 1px solid #732B22;
-      border-left: 4px solid #732B22;
-      padding: .4em .3em;
-      margin-bottom: .3em;
-      color: #3A3D40;
-      font-weight: 600;
-    }
-
-    .users-menu nav a:hover {
-      background: rgba(115, 43, 34, 0.075);
-    }
-
-    .users-content {
-      float: left;
-      width: -moz-calc(100% - 200px);
-      width: -webkit-calc(100% - 200px);
-      width: calc(100% - 200px);
-      padding-left: 20px;
-    }
-  </style>
   <div class="clearfix">
-    <ul class="breadcrumb">
-      <li><a href="/{{ user.username }}/">{{ user.username }}</a></li>
-      <li class="active">Edit Profile</li>
-    </ul>
-
-    <div class="users-menu">
+    <div class="users-menu container" style="padding: 0">
       <nav>
+        <h3>Account Settings</h3>
         <a href="#">Profile</a>
         <a href="#">Password</a>
         <a href="#">Settings</a>

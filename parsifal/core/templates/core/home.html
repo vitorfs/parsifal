@@ -1,41 +1,5 @@
-{% extends 'base.html' %}
-
-{% block head_extra %}
-  <link href="{{ STATIC_URL }}css/home.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
+{% extends 'base_app.html' %}
 
 {% block content %}
-  <div class="content-left">
-    <h1>Perform Systematic Literature Reviews</h1>
-    <p class="slogan">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
-  </div>
-  <div class="content-right">
-    <h2>Sign up for Parsifal</h2>
-    <form action="/users/new/" method="post">
-      {% csrf_token %}
-      <input type="text" placeholder="Username" name="username">
-      <input type="password" placeholder="Password" name="password">
-      <input type="text" placeholder="Email" name="email">
-      <button type="submit">Create a new account</button>
-    </form>
-  </div>
+  <h1>Last updates on Parsifal</h1>
 {% endblock content %}
-
-{% block footer %}
-  <section class="features">
-    <div class="wrapper">
-      <article>
-        <h2>Support for geographically distributed researchers</h2>
-        <p>Parsifal is a powerful platform that provides full support for researchers geographically distributed to work on the same Systematic Literature Review. There is no limit of authors per review.</p>
-      </article>
-      <article>
-        <h2>Publish extra information</h2>
-        <p>Normally you can't publish all relevant information about the research as frequently there is a limit amount of pages to publish your article on a certain conference or journal. Parsifal provides you a beautiful interface to publish any extra information like the whole result from the search string, all modifications of the search string, more details about the protocol, etc.</p>
-      </article>
-      <article>
-        <h2>Support for tertiary studies</h2>
-        <p>Having a huge amount of Systematic Literature Reviews in the platform, it will provide a powerful support for tertiary studies, that is, systematic literature review of secondary studies.</p>
-      </article>
-    </div>
-  </section>
-{% endblock footer %}
