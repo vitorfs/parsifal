@@ -13,28 +13,31 @@ def home(request):
     return render_to_response('core/cover.html', context)
 
 def signin(request):
-  if request.method == 'POST':
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-      if user.is_active:
-        login(request, user)
-        if 'next' in request.GET:
-          return redirect(request.GET['next'])
+  if request.user.is_authenticated():
+    return redirect('/')
+  else:
+    if request.method == 'POST':
+      username = request.POST['username']
+      password = request.POST['password']
+      user = authenticate(username=username, password=password)
+      if user is not None:
+        if user.is_active:
+          login(request, user)
+          if 'next' in request.GET:
+            return redirect(request.GET['next'])
+          else:
+            return redirect('/')
         else:
-          return redirect('/')
+          messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
+          context = RequestContext(request)
+          return render_to_response('core/signin.html', context)
       else:
-        messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
+        messages.add_message(request, messages.ERROR, 'Username or password invalid.')
         context = RequestContext(request)
         return render_to_response('core/signin.html', context)
     else:
-      messages.add_message(request, messages.ERROR, 'Username or password invalid.')
       context = RequestContext(request)
       return render_to_response('core/signin.html', context)
-  else:
-    context = RequestContext(request)
-    return render_to_response('core/signin.html', context)
 
 def signout(request):
   logout(request)
