@@ -181,3 +181,26 @@ ul li {
   padding: .2em 0;
   list-style: square;
 }
+
+ul.breadcrumb {
+  padding: 8px 15px;
+  margin: 0 0 20px 0;
+  list-style: none;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+ul.breadcrumb li {
+  display: inline-block;
+  font-size: 1.4em;
+}
+
+ul.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #cccccc;
+  content: "/\00a0";
+}
+
+ul.breadcrumb > li.active {
+  color: #999999;
+}

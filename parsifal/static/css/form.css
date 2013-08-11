@@ -9,19 +9,19 @@ button {
 .label-container {
   float: left;
   text-align: right;
-  width: 170px;
+  width: 150px;
   padding-top: .5em;
 }
 
 .input-container {
   float:left;
-  width: -moz-calc(100% - 170px);
-  width: -webkit-calc(100% - 170px);
-  width: calc(100% - 170px);
+  width: -moz-calc(100% - 150px);
+  width: -webkit-calc(100% - 150px);
+  width: calc(100% - 150px);
 }
 
 .button-container {
-  margin-left: 170px;
+  margin-left: 150px;
 }
 
 .button-container .btn {

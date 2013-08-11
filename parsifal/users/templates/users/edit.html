@@ -4,65 +4,105 @@
 {% endblock head_extra %}
 
 {% block content %}
-  <h1>Edit Profile <span style="color:#999">({{ user.username }})</span></h1>
-  <form action="." method="post" class="form-block">
-    {% csrf_token %}
-    <div class="form-row">
-      <div class="label-container">
-        <label for="first-name">First Name</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="first-name" name="first-name" value="{{ user.first_name }}">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="last-name">Last Name</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="last-name" name="last-name" value="{{ user.last_name }}">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="email">Email</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="email" name="email" value="{{ user.email }}">
-      </div>
-    </div>
+  <style type="text/css">
+    .users-menu {
+      float: left;
+      width: 200px;
+    }
 
-    <div class="form-row">
-      <div class="label-container">
-        <label for="url">URL</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="url" name="url">
-      </div>
-    </div>
+    .users-menu nav a {
+      display: block;
+      font-size: 1.6em;
+      border-bottom: 1px solid #732B22;
+      border-left: 4px solid #732B22;
+      padding: .4em .3em;
+      margin-bottom: .3em;
+      color: #3A3D40;
+      font-weight: 600;
+    }
 
-    <div class="form-row">
-      <div class="label-container">
-        <label for="institution">Institution</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="institution" name="institution">
-      </div>
-    </div>
+    .users-menu nav a:hover {
+      background: rgba(115, 43, 34, 0.075);
+    }
 
-    <div class="form-row">
-      <div class="label-container">
-        <label for="location">Location</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="location" name="location">
-      </div>
-    </div>
+    .users-content {
+      float: left;
+      width: -moz-calc(100% - 200px);
+      width: -webkit-calc(100% - 200px);
+      width: calc(100% - 200px);
+      padding-left: 20px;
+    }
+  </style>
+  <div class="clearfix">
+    <ul class="breadcrumb">
+      <li><a href="/{{ user.username }}/">{{ user.username }}</a></li>
+      <li class="active">Edit Profile</li>
+    </ul>
 
-    <div class="button-container">
-      <button type="submit" class="btn btn-success btn-large">Save profile</button>
-      <button type="button" class="btn btn-large" onclick="document.location = '/{{ user.username }}/';">Cancel</button>
+    <div class="users-menu">
+      <nav>
+        <a href="#">Profile</a>
+        <a href="#">Password</a>
+        <a href="#">Settings</a>
+      </nav>
     </div>
-
-  </form>
+    <div class="users-content">
+      <h1>Edit Profile <span style="color:#999">({{ user.username }})</span></h1>
+      <form action="." method="post" class="form-block">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="label-container">
+            <label for="first-name">First Name</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="first-name" name="first-name" value="{{ user.first_name }}">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label-container">
+            <label for="last-name">Last Name</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="last-name" name="last-name" value="{{ user.last_name }}">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label-container">
+            <label for="email">Email</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="email" name="email" value="{{ user.email }}">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label-container">
+            <label for="url">URL</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="url" name="url">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label-container">
+            <label for="institution">Institution</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="institution" name="institution">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label-container">
+            <label for="location">Location</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="location" name="location">
+          </div>
+        </div>
+        <div class="button-container">
+          <button type="submit" class="btn btn-success btn-large">Save profile</button>
+          <button type="button" class="btn btn-large" onclick="document.location = '/{{ user.username }}/';">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock content %}

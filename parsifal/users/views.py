@@ -17,12 +17,12 @@ def new(request):
   return redirect('/' + username + '/')
 
 @login_required
-def edit(request, username):
+def edit(request):
   if request.method == 'POST':
     first_name = request.POST['first-name']
     last_name = request.POST['last-name']
     email = request.POST['email']
-    user = User.objects.get(username=username)
+    user = request.user
     user.first_name = first_name
     user.last_name = last_name
     user.email = email

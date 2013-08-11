@@ -43,5 +43,4 @@ def add_author_to_review(request):
   if request.method == 'POST':
     username = request.GET['username']
     user = User.objects.get(username=username)
-    return user.get_full_name
-  #return HttpResponse('OK')
+  return HttpResponse('OK')
