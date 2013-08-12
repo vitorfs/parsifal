@@ -33,3 +33,11 @@ em {
 small {
   font-size: 65%;
 }
+
+.text-success {
+  color: #94A390;
+}
+
+.text-error {
+  color: #732B22;
+}

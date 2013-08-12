@@ -40,7 +40,13 @@ def review(request, username, review_name):
 
 @login_required
 def add_author_to_review(request):
-  if request.method == 'POST':
-    username = request.GET['username']
-    user = User.objects.get(username=username)
-  return HttpResponse('OK')
+  username = request.GET['username']
+  review_id = request.GET['id']
+  user = User.objects.get(username=username)
+  review = Review.objects.get(pk=review_id)
+  if review.user.id == request.user.id:
+    review.co_authors.add(user)
+    review.save()
+    return HttpResponse(user.get_full_name())
+  else:
+    return HttpResponse('error')

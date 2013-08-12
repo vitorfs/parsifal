@@ -7,6 +7,7 @@ $(function () {
     $(this).blur(function () {
       var author = $(this).val();
       var parent = $(this).closest('li');
+      var id = $('#review-id').val();
       $(this).remove();
       if (author == "") {
         parent.remove();
@@ -14,11 +15,11 @@ $(function () {
       else {
         $.ajax({
             url: '/reviews/addauthor/',
-            data: { username: author },
-            type: 'post',
+            data: { id: id, username: author },
+            type: 'get',
             cache: false,
             success: function (data) {
-              parent.html(data + ' <button type="button" class="remove-author">× remove</button>');
+              parent.html(data + ' <button type="button" class="remove-author">(remove)</button>');
               $('.remove-author').unbind('click').bind('click', $.fn.bindRemoveButton);
             },
             complete: function () {
@@ -30,8 +31,12 @@ $(function () {
 
     $(this).keyup(function (evt) {
       var keyCode = evt.which?evt.which:evt.keyCode; 
-      if (keyCode == RETURN || keyCode == ESC) {
+      if (keyCode == RETURN) {
         $(this).blur();
+      }
+      else if (keyCode == ESC) {
+        $(this).closest('li').remove();
+        is_editing = false;
       }
     });
   };
@@ -46,7 +51,7 @@ $(function () {
     }
     else {
       is_editing = true;
-      $('.authors').append('<li><input type="text" class="input-author"></li>');
+      $('.authors').append('<li class="add-author-input"><input type="text" class="input-author"> <span>(please inform the author\'s username or email and then press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel)</span></li>');
       $('.input-author').focus();
       $('.input-author').addSettings();
     }
