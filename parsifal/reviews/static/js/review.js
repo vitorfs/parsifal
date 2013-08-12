@@ -8,19 +8,20 @@ $(function () {
       var author = $(this).val();
       var parent = $(this).closest('li');
       var id = $('#review-id').val();
-      $(this).remove();
       if (author == "") {
         parent.remove();
+        is_editing = false;
       }
       else {
         $.ajax({
-            url: '/reviews/addauthor/',
+            url: '/reviews/add_author/',
             data: { id: id, username: author },
             type: 'get',
             cache: false,
             success: function (data) {
-              parent.html(data + ' <button type="button" class="remove-author">(remove)</button>');
-              $('.remove-author').unbind('click').bind('click', $.fn.bindRemoveButton);
+              parent.remove();
+              $('.authors').append(data);
+              $('.remove-author').unbind('click').bind('click', removeAuthor);
             },
             complete: function () {
               is_editing = false;
@@ -41,8 +42,19 @@ $(function () {
     });
   };
 
-  $.fn.bindRemoveButton = function () {
-    $(this).closest('li').remove();
+  var removeAuthor = function () {
+    var review_id = $('#review-id').val();
+    var parent = $(this).closest('li');
+    var author_id = parent.attr("author-id");
+    $.ajax({
+      url: '/reviews/remove_author/',
+      data: { review_id: review_id, author_id: author_id },
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        parent.remove();
+      }
+    });
   };
 
   $('.add-author').click(function () {
@@ -57,7 +69,6 @@ $(function () {
     }
   });
 
-  $('.remove-author').click(function () {
-    $(this).closest('li').remove();
-  });
+  $('.remove-author').unbind('click').bind('click', removeAuthor);
+
 });

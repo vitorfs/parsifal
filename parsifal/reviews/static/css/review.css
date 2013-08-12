@@ -78,3 +78,7 @@ ul.review-menu li.active {
   color: #999;
   margin-left: 5px;
 }
+
+.add-author-input input {
+  font-size: 1em;
+}

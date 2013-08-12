@@ -47,6 +47,16 @@ def add_author_to_review(request):
   if review.user.id == request.user.id:
     review.co_authors.add(user)
     review.save()
-    return HttpResponse(user.get_full_name())
+    return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="remove-author">(remove)</button></li>')
   else:
     return HttpResponse('error')
+
+@login_required
+def remove_author_from_review(request):
+  author_id = request.GET['author_id']
+  review_id = request.GET['review_id']
+  author = User.objects.get(pk=author_id)
+  review = Review.objects.get(pk=review_id)
+  review.co_authors.remove(author)
+  review.save()
+  return HttpResponse('OK')
