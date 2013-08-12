@@ -18,6 +18,11 @@
   line-height: 1.6em;
 }
 
+.btn-small {
+  font-size: 12px;
+  line-height: .8em;
+}
+
 .btn-success {
   background-color: #94A390;
   border-color: #758373;
