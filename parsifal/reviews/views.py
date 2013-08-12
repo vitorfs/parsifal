@@ -74,3 +74,9 @@ def planning(request, username, review_name):
   review = Review.objects.get(short_name=review_name)
   context = RequestContext(request, {'review': review})
   return render_to_response('reviews/planning.html', context)
+
+@login_required
+def conducting(request, username, review_name):
+  review = Review.objects.get(short_name=review_name)
+  context = RequestContext(request, {'review': review})
+  return render_to_response('reviews/conducting.html', context)

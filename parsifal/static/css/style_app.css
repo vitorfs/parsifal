@@ -202,3 +202,36 @@ ul.breadcrumb > li + li:before {
 ul.breadcrumb > li.active {
   color: #999999;
 }
+
+ul.tab {
+  font-size: 0;
+  display: block;
+  padding: 15px 0;
+  border-bottom: 1px solid #C2C2C2;
+  margin: 0;
+}
+ul.tab li {
+  list-style: none;
+  display: inline;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+ul.tab li a {
+  padding: 12px 14px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+ul.tab li a:hover {
+  background: #F5F5F5;
+}
+
+ul.tab li.active a {
+  padding: 14px;
+  color: #3A3D40;
+  border: 1px solid #C2C2C2;
+  border-bottom: none;
+  background: url("../img/ticks.png");
+}

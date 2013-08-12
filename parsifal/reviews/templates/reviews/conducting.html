@@ -1,0 +1,23 @@
+{% extends 'base_app.html' %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+{% endblock head_extra %}
+
+{% block content %}
+  <ul class="review-menu">
+    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/">{{ review.short_name }}</a></li>
+    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">Planning</a></li>
+    <li class="active"><a href="/{{ review.user.username }}/{{ review.short_name }}/conducting/">Conducting</a></li>
+    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
+  </ul>
+  <h1>{{ review.title }}</h1>
+  <ul class="tab">
+    <li><a href="#">Scopus</a></li>
+    <li class="active"><a href="#">Science@Direct</a></li>
+    <li><a href="#">IEEE Digital Library</a></li>
+    <li><a href="#">ACM Digital Library</a></li>
+    <li><a href="#">Manual</a></li>
+  </ul>  
+{% endblock content %}
