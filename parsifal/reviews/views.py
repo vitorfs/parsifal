@@ -42,12 +42,20 @@ def review(request, username, review_name):
 def add_author_to_review(request):
   username = request.GET['username']
   review_id = request.GET['id']
-  user = User.objects.get(username=username)
-  review = Review.objects.get(pk=review_id)
-  if review.user.id == request.user.id:
-    review.co_authors.add(user)
-    review.save()
-    return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="remove-author">(remove)</button></li>')
+  
+  try:
+    user = User.objects.get(username=username)
+  except User.DoesNotExist:
+    user = None
+
+  if user is not None:
+    review = Review.objects.get(pk=review_id)
+    if review.user.id == request.user.id:
+      review.co_authors.add(user)
+      review.save()
+      return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="remove-author">(remove)</button></li>')
+    else:
+      return HttpResponse('error')
   else:
     return HttpResponse('error')
 
@@ -60,3 +68,9 @@ def remove_author_from_review(request):
   review.co_authors.remove(author)
   review.save()
   return HttpResponse('OK')
+
+@login_required
+def planning(request, username, review_name):
+  review = Review.objects.get(short_name=review_name)
+  context = RequestContext(request, {'review': review})
+  return render_to_response('reviews/planning.html', context)

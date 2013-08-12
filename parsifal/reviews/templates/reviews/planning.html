@@ -1,0 +1,76 @@
+{% extends 'base_app.html' %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+{% endblock head_extra %}
+
+{% block content %}
+  <ul class="review-menu">
+    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/">{{ review.short_name }}</a></li>
+    <li class="active"><a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">Planning</a></li>
+    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/conducting/">Conducting</a></li>
+    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
+  </ul>
+  <button type="button" class="btn btn-success pull-right">Save Planning</button>
+  <h1>{{ review.title }}</h1>
+  <form class="form-block">
+    <input type="hidden" id="review-id" value="{{ review.id }}">
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="">Objectives</label>
+      </div>
+      <div class="input-container">
+        <textarea rows="5"></textarea>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="label-container">
+        <label for="">Main Question</label>
+      </div>
+      <div class="input-container">
+        <textarea rows="2"></textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="population">Population</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="population" name="population" placeholder="">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="">Intervention</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="" name="" placeholder="">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="">Comparison</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="" name="" placeholder="">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="label-container">
+        <label for="">Outcome</label>
+      </div>
+      <div class="input-container">
+        <input type="text" id="" name="" placeholder="">
+      </div>
+    </div>
+
+  </form>
+  
+{% endblock content %}

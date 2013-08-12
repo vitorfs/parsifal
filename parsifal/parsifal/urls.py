@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     (r'^reviews/add_author/$', 'reviews.views.add_author_to_review'),
     (r'^reviews/remove_author/$', 'reviews.views.remove_author_from_review'),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/$', 'reviews.views.review'),
+    (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/planning/$', 'reviews.views.planning'),
     (r'^(?P<username>[\w-]+)/$', 'reviews.views.reviews'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
