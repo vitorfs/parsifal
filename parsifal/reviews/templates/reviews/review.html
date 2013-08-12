@@ -7,7 +7,8 @@
 
 {% block content %}
   <ul class="review-menu">
-    <li class="active"><a href="#">Planning</a></li>
+    <li class="active"><a href="/{{ review.user.username }}/{{ review.short_name }}/">{{ review.short_name }}</a></li>
+    <li><a href="#">Planning</a></li>
     <li><a href="#">Conducting</a></li>
     <li><a href="#">Reporting</a></li>
   </ul>
@@ -15,9 +16,9 @@
   <div class="container">
     <h2>Authors <button type="button" class="add-author">+ add</button></h2>
     <ul class="authors">
-      <li>{{ review.user.get_full_name }}</li>
+      <li><a href="/{{ review.user.username }}/">{{ review.user.get_full_name }}</a></li>
       {% for author in review.co_authors.all %}
-        <li>{{ author.get_full_name }} <button type="button" class="remove-author">× remove</button></li>
+        <li><a href="/{{ author.username }}/">{{ author.get_full_name }}</a> <button type="button" class="remove-author">× remove</button></li>
       {% endfor %}
     </ul>
     <h2>Description</h2>

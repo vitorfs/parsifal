@@ -41,25 +41,33 @@ ul.review-menu li {
   list-style: none;
   padding: 0;
   font-size: 14px;
+  border-bottom: 3px solid #CCCCCC;
+  border-right: 1px solid #C2C2C2;
+}
+
+ul.review-menu li:first-child {
+  border-bottom-left-radius: 5px;
 }
 
 ul.review-menu li a {
   display: block;
   padding: .8em 1.6em;
   font-weight: 600;
-  border-right: 1px solid #C2C2C2;
+  color: #3A3D40;
+  
 }
 
-ul.review-menu li:first-child a {
+ul.review-menu li:first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
-ul.review-menu li a:hover {
+ul.review-menu li:hover {
   background: #F5F5F5;
 }
 
-ul.review-menu li.active a {
+ul.review-menu li.active {
   background: #F5F5F5;
   color: #666B71;
+  border-bottom: 3px solid #AC4539;
 }
