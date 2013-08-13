@@ -2,6 +2,7 @@
 
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
+  <link href="{{ STATIC_URL }}css/planning.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning.js"></script>
 {% endblock head_extra %}
 
@@ -71,25 +72,45 @@
   <hr>
   
   <h2>Sources</h2>
+  
+  <div class="modal" id="modal-suggested-sources">
+    <div class="modal-header">
+      <a href="#" class="close" onclick="$(this).closest('div.modal').slideUp();return false;">×</a>
+      <h2>Suggested Sources</h2>
+    </div>
+    <div class="modal-body">
+      <form>
+        <label class="checkbox"><input type="checkbox">Scopus</label>
+        <label class="checkbox"><input type="checkbox">ACM</label>
+        <label class="checkbox"><input type="checkbox">Science@Direct</label>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success">Save</button>
+      <button type="button" class="btn btn-warning">Cancel</button>
+    </div>
+  </div>
+
   <button type="button" class="btn btn-success btn-small" id="btn-add-source">Add Source</button>
+  <button type="button" class="btn btn-link btn-small" style="margin-left: 8px;" id="btn-suggested-sources">(Suggested Sources)</button>
   <table class="table" id="tbl-sources">
     <thead>
       <tr>
         <th>Name</th>
         <th>URL</th>
-        <th></th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Scopus</td>
         <td>http://www.scopus.com</td>
-        <td><a href="#">edit</a> <a href="#" class="text-error">remove</a></td>
+        <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small">remove</a></td>
       </tr>
       <tr>
         <td>Science@Direct</td>
         <td>http://www.sciencedirect.com</td>
-        <td><a href="#">edit</a> <a href="#" class="text-error">remove</a></td>
+        <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small">remove</a></td>
       </tr>
     </tbody>
   </table>
