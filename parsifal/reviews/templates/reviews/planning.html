@@ -7,6 +7,7 @@
 {% endblock head_extra %}
 
 {% block content %}
+  <input type="hidden" id="review-id" value="{{ review.id }}">
   <ul class="review-menu">
     <li><a href="/{{ review.user.username }}/{{ review.short_name }}/">{{ review.short_name }}</a></li>
     <li class="active"><a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">Planning</a></li>
@@ -17,7 +18,6 @@
   <h1>{{ review.title }}</h1>
   <form method="post" action="." class="form-block">
     {% csrf_token %}
-    <input type="hidden" id="review-id" value="{{ review.id }}">
     <div class="form-row">
       <h2>Objectives</h2>
       <textarea rows="5"></textarea>
@@ -102,16 +102,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Scopus</td>
-        <td>http://www.scopus.com</td>
-        <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small">remove</a></td>
-      </tr>
-      <tr>
-        <td>Science@Direct</td>
-        <td>http://www.sciencedirect.com</td>
-        <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small">remove</a></td>
-      </tr>
+      {% for source in review.sources.all %}
+        <tr>
+          <td>{{ source.name }}</td>
+          <td>{{ source.url }}</td>
+          <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock content %}

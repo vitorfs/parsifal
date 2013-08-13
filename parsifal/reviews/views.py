@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
-from reviews.models import Review
+from reviews.models import Review, Source
 
 @login_required
 def reviews(request, username):
@@ -80,3 +80,20 @@ def conducting(request, username, review_name):
   review = Review.objects.get(short_name=review_name)
   context = RequestContext(request, {'review': review})
   return render_to_response('reviews/conducting.html', context)
+
+@login_required
+def add_source_to_review(request):
+  review_id = request.GET['id']
+  name = request.GET['name']
+  url = request.GET['url']
+  source = Source(name=name, url=url)
+  source.save()
+
+  review = Review.objects.get(pk=review_id)
+  if review.user.id == request.user.id:
+    review.sources.add(source)
+    review.save()
+    return_html = '<tr><td>' + name + '</td><td>' + url + '</td><td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
+    return HttpResponse(return_html)
+  else:
+    return HttpResponse('error')
