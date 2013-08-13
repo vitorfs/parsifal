@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.utils.html import escape
 from reviews.models import Review, Source
 
 @login_required
@@ -83,6 +84,12 @@ def conducting(request, username, review_name):
 
 @login_required
 def add_source_to_review(request):
+  '''
+    Function used via Ajax request only.
+    This function adds a new source to the source list of the review.
+    To add the source successfully the logged in user must be the author or a co-author
+    of the review.
+  '''
   review_id = request.GET['id']
   name = request.GET['name']
   url = request.GET['url']
@@ -93,7 +100,21 @@ def add_source_to_review(request):
   if review.user.id == request.user.id:
     review.sources.add(source)
     review.save()
-    return_html = '<tr><td>' + name + '</td><td>' + url + '</td><td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
+    return_html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td><td>' + escape(source.url) + '</td><td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
     return HttpResponse(return_html)
   else:
     return HttpResponse('error')
+
+@login_required
+def remove_source_from_review(request):
+  '''
+    Function used via Ajax request only.
+  '''
+  source_id = request.GET['source_id']
+  review_id = request.GET['review_id']
+  source = Source.objects.get(pk=source_id)
+  review = Review.objects.get(pk=review_id)
+  review.sources.remove(source)
+  source.delete()
+  review.save()
+  return HttpResponse('OK')
