@@ -52,3 +52,24 @@
   border-bottom: 1px solid #999;
   margin: .4em 0;
 }
+
+.profile .stats div {
+  float: left;
+  text-align: center;
+  width: 33.333%;
+  border-right: 1px solid #999;
+}
+
+.profile .stats div:last-child {
+  border: none;
+}
+
+.profile .stats div h3 {
+  font-size: 1.4em;
+  font-weight: 600;
+  margin: .5em 0;
+}
+
+.profile .stats div span {
+  font-size: 1.4em;
+}

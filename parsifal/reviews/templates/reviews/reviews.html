@@ -45,9 +45,24 @@
         <li>{{ page_user.email }}</li>
         <li class="divider"></li>
         <li>Juiz de Fora, Brazil</li>
-        <li>UFJF</li>
-        <li>Member since: {{ page_user.date_joined|date:"d M Y" }}</li>
+        <li>Universidade Federal de Juiz de Fora</li>
+        <li>Joined on {{ page_user.date_joined|date:"d M Y" }}</li>
+        <li class="divider"></li>
       </ul>
+      <div class="stats">
+        <div>
+          <h3>Reviews</h3>
+          <span>5</span>
+        </div>
+        <div>
+          <h3>Following</h3>
+          <span>12</span>
+        </div>
+        <div>
+          <h3>Followers</h3>
+          <span>523</span>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock content %}
