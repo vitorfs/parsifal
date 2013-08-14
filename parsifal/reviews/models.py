@@ -13,6 +13,7 @@ class Source(models.Model):
     class Meta:
         verbose_name = "Source"
         verbose_name_plural = "Sources"
+        ordering = ("name",)
 
 class Question(models.Model):
     QUESTION_TYPES = (
