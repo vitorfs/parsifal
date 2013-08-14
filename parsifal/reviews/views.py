@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source
+from reviews.models import Review, Source, ReferenceArticle
+from pybtex.database.input import bibtex
 
 @login_required
 def reviews(request, username):
@@ -78,8 +79,27 @@ def planning(request, username, review_name):
 
 @login_required
 def conducting(request, username, review_name):
+    parser = bibtex.Parser()
+    bibdata = parser.parse_file("/Users/vitorfs/Downloads/scopus.bib")
+
+    articles = []
+    for bib_id in bibdata.entries:
+        b = bibdata.entries[bib_id].fields
+        article = ReferenceArticle()
+
+        try:
+            article.title = b["title"]
+            article.journal = b["journal"]
+            article.year = b["year"]
+            article.author = b["author"]
+            article.id = bib_id
+        except(KeyError):
+            continue
+
+        articles.append(article)
+
     review = Review.objects.get(short_name=review_name)
-    context = RequestContext(request, {'review': review})
+    context = RequestContext(request, {'review': review, 'articles': articles})
     return render_to_response('reviews/conducting.html', context)
 
 @login_required

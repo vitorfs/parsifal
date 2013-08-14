@@ -2,6 +2,7 @@
 
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
+  <link href="{{ STATIC_URL }}css/conducting.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/conducting.js"></script>
 {% endblock head_extra %}
 
@@ -22,4 +23,31 @@
   {% else %}
     <p>Use the <a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
   {% endif %}
+  <div class="articles clearfix">
+    <button type="button" class="btn btn-import-bibtex pull-right">Import BibTeX</button>
+    <table class="table" style="margin-top: 40px">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Journal</th>
+          <th>Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for article in articles %}
+          <tr>
+            <td></td>
+            <td>{{ article.id }}</td>
+            <td>{{ article.title }}</td>
+            <td>{{ article.author }}</td>
+            <td>{{ article.journal }}</td>
+            <td>{{ article.year }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock content %}

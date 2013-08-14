@@ -210,7 +210,7 @@ ul.tab {
   padding: 14px 0;
   border-bottom: 1px solid #C2C2C2;
   display: block;
-  margin: 0;
+  margin: 0 0 20px 0;
 }
 
 ul.tab li {
