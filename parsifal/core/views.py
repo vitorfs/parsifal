@@ -6,40 +6,40 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 def home(request):
-  context = RequestContext(request)
-  if request.user.is_authenticated():
-    return render_to_response('core/home.html', context)
-  else:
-    return render_to_response('core/cover.html', context)
+    context = RequestContext(request)
+    if request.user.is_authenticated():
+        return render_to_response('core/home.html', context)
+    else:
+        return render_to_response('core/cover.html', context)
 
 def signin(request):
-  if request.user.is_authenticated():
-    return redirect('/')
-  else:
-    if request.method == 'POST':
-      username = request.POST['username']
-      password = request.POST['password']
-      user = authenticate(username=username, password=password)
-      if user is not None:
-        if user.is_active:
-          login(request, user)
-          if 'next' in request.GET:
-            return redirect(request.GET['next'])
-          else:
-            return redirect('/')
-        else:
-          messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
-          context = RequestContext(request)
-          return render_to_response('core/signin.html', context)
-      else:
-        messages.add_message(request, messages.ERROR, 'Username or password invalid.')
-        context = RequestContext(request)
-        return render_to_response('core/signin.html', context)
+    if request.user.is_authenticated():
+        return redirect('/')
     else:
-      context = RequestContext(request)
-      return render_to_response('core/signin.html', context)
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    if 'next' in request.GET:
+                        return redirect(request.GET['next'])
+                    else:
+                        return redirect('/')
+                else:
+                    messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
+                    context = RequestContext(request)
+                    return render_to_response('core/signin.html', context)
+            else:
+                messages.add_message(request, messages.ERROR, 'Username or password invalid.')
+                context = RequestContext(request)
+                return render_to_response('core/signin.html', context)
+        else:
+            context = RequestContext(request)
+            return render_to_response('core/signin.html', context)
 
 def signout(request):
-  logout(request)
-  messages.add_message(request, messages.SUCCESS, 'You have successfully signed out.')
-  return redirect('/signin/')
+    logout(request)
+    messages.add_message(request, messages.SUCCESS, 'You have successfully signed out.')
+    return redirect('/signin/')
