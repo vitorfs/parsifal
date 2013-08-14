@@ -41,5 +41,4 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    messages.add_message(request, messages.SUCCESS, 'You have successfully signed out.')
-    return redirect('/signin/')
+    return redirect('/')

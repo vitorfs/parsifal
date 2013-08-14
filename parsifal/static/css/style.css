@@ -155,9 +155,32 @@ section.content h1 {
 footer {
   background-color: #4A1916;
   font-weight: 400;
-  padding: 1em 0;
-  font-size: .7em;
   color: #FFF3D0;
+  padding: .7em 0;
+}
+
+footer p {
+  color: #FFF3D0;
+  font-size: .7em;
+  font-weight: 400;
+  float: left;
+  margin: 0;
+  padding-top: .5em;
+}
+
+footer ul {
+  float: left;
+  padding-left: 1em;
+}
+footer ul li {
+  display: inline;
+  font-size: .6em;
+  padding-left: 1em;
+}
+
+footer ul li a {
+  color: #FFF3D0;
+  text-decoration: underline;
 }
 
 .pull-right {
