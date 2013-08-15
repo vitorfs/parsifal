@@ -1,0 +1,8 @@
+<h1><a href="/{{ review.user.username }}/">{{ review.user.username }}</a> / {{ review.title }}</h1>
+<ul class="review-menu">
+  <li {% if active_menu == "review"%} class="active" {% endif %}><a href="/{{ review.user.username }}/{{ review.short_name }}/">Review</a></li>
+  <li {% if active_menu == "planning"%} class="active" {% endif %}><a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">Planning</a></li>
+  <li {% if active_menu == "conducting"%} class="active" {% endif %}><a href="/{{ review.user.username }}/{{ review.short_name }}/conducting/">Conducting</a></li>
+  <li {% if active_menu == "reporting"%} class="active" {% endif %}><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
+</ul>
+<input type="hidden" id="review-id" value="{{ review.id }}">

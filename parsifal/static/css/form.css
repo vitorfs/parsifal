@@ -16,6 +16,10 @@ input, textarea, select {
   color: #3A3D40;
 }
 
+textarea {
+  padding: 0.7em;
+}
+
 input:focus, textarea:focus {
   border-color: rgba(85, 137, 155, 0.8);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(85, 137, 155, 0.6);

@@ -6,14 +6,7 @@
 {% endblock head_extra %}
 
 {% block content %}
-  <h1>{{ review.title }}</h1>
-  <ul class="review-menu">
-    <li class="active"><a href="/{{ review.user.username }}/{{ review.short_name }}/">Review</a></li>
-    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">Planning</a></li>
-    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/conducting/">Conducting</a></li>
-    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
-  </ul>
-  <input type="hidden" id="review-id" value="{{ review.id }}">  
+  {% include "reviews/review_header.html" with active_menu="review" %}
   <h2>
     Authors
     {% if user.id == review.user.id %}

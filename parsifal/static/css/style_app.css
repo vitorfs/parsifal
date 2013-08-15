@@ -61,6 +61,7 @@ header h1 a {
 header h1 a:hover {
   color: #FFF3D0;
   text-shadow: 0 0 3px #E6D9B8;
+  text-decoration: none;
 }
 
 header nav.menu {
@@ -84,12 +85,6 @@ header nav.menu a:hover {
 header nav.signedin {
   padding-top: 2.2em;
   float: right;
-}
-
-header nav.signedin span.bullet {
-  color: #E6D9B8;
-  font-size: 1.6em;
-  font-weight: bold;
 }
 
 header nav.signedin a {
@@ -176,7 +171,7 @@ footer ul li a {
 hr {
   border: none;
   border-top: 1px solid #CCC;
-  border-bottom: 1px solid #EEE;
+  border-bottom: 1px solid #FFF;
   margin: 20px 0;
 }
 

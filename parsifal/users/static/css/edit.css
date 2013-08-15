@@ -17,6 +17,7 @@
 
 .users-menu nav a:hover {
   background: rgba(58, 61, 64, 0.05);
+  text-decoration: none;
 }
 
 .users-menu nav h3 {

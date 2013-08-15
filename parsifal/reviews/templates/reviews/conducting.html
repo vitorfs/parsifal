@@ -7,13 +7,7 @@
 {% endblock head_extra %}
 
 {% block content %}
-  <h1>{{ review.title }}</h1>
-  <ul class="review-menu">
-    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/">Review</a></li>
-    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">Planning</a></li>
-    <li class="active"><a href="/{{ review.user.username }}/{{ review.short_name }}/conducting/">Conducting</a></li>
-    <li><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
-  </ul>
+  {% include "reviews/review_header.html" with active_menu="conducting" %}
   {% if review.sources.all %}
     <ul class="tab" id="source-tab">
       {% for source in review.sources.all %}

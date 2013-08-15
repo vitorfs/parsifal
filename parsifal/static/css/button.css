@@ -1,6 +1,6 @@
 .btn {
   border: 1px solid #516465;
-  border-radius: 5px;
+  border-radius: 3px;
   cursor: pointer;
   background-color: #728A8B;
   color: #FFF3D0;
@@ -10,6 +10,11 @@
   margin-bottom: 0;
   font-weight: 600;
   line-height: 1.4em;
+}
+
+.btn:hover {
+  background-color: #516465;
+  text-decoration: none;
 }
 
 .btn-large {
@@ -28,13 +33,16 @@
 }
 
 .btn-success:hover {
-  border-color: #94A390;
-  background-color: #A9BBA5;
+  background-color: #758373;
 }
 
 .btn-warning {
   border-color: #732B22;
   background: #C45A46;
+}
+
+.btn-warning:hover {
+  background-color: #732B22;
 }
 
 .btn-link {

@@ -10,7 +10,7 @@
 }
 
 .reviews table tbody tr:hover {
-  background: rgba(115, 138, 139, .2);
+  background: rgba(115, 138, 139, .1);
 }
 
 .profile {

@@ -59,6 +59,10 @@ ul.review-menu li a {
   color: #3A3D40;
 }
 
+ul.review-menu li a:hover {
+  text-decoration: none;
+}
+
 ul.review-menu li:first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;

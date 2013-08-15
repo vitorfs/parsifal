@@ -23,7 +23,8 @@ ul.tab li a {
 }
 
 ul.tab li a:hover {
-  background: #F5F5F5;
+  background: #EEE;
+  text-decoration: none;
 }
 
 ul.tab li.active a {

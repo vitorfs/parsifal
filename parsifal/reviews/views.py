@@ -103,6 +103,12 @@ def conducting(request, username, review_name):
     return render_to_response('reviews/conducting.html', context)
 
 @login_required
+def reporting(request, username, review_name):
+    review = Review.objects.get(short_name=review_name)
+    context = RequestContext(request, {'review': review})
+    return render_to_response('reviews/reporting.html', context)
+
+@login_required
 def add_source_to_review(request):
     '''
         Function used via Ajax request only.
