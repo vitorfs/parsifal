@@ -1,0 +1,22 @@
+ul.breadcrumb {
+  padding: 8px 15px;
+  margin: 0 0 20px 0;
+  list-style: none;
+  background-color: #F9F9F9;
+  border-radius: 4px;
+}
+
+ul.breadcrumb li {
+  display: inline-block;
+  font-size: 1.4em;
+}
+
+ul.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #CCCCCC;
+  content: "/\00a0";
+}
+
+ul.breadcrumb > li.active {
+  color: #999999;
+}

@@ -1,0 +1,34 @@
+ul.tab {
+  font-size: 0;
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid #C2C2C2;
+  display: block;
+  margin: 0 0 10px 0;
+}
+
+ul.tab li {
+  list-style: none;
+  display: inline;
+  font-size: 14px;
+  margin: 0;
+  padding: 14px 0 12px;
+}
+
+ul.tab li a {
+  padding: 14px 14px 13px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: relative;
+}
+
+ul.tab li a:hover {
+  background: #F5F5F5;
+}
+
+ul.tab li.active a {
+  color: #3A3D40;
+  border: 1px solid #C2C2C2;
+  border-bottom: none;
+  background: url("../img/ticks.png");
+}

@@ -5,3 +5,7 @@
 #tbl-sources tbody tr td {
   padding: 0.4em 0.6em;
 }
+
+#tbl-sources tbody tr td input {
+  font-size: 1em;
+}

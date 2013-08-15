@@ -37,6 +37,8 @@ em {
 
 small {
   font-size: 65%;
+  color: #999;
+  font-weight: 400;
 }
 
 .text-success {

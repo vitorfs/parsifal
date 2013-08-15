@@ -24,8 +24,12 @@
     <p>Use the <a href="/{{ review.user.username }}/{{ review.short_name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
   {% endif %}
   <div class="articles clearfix">
-    <button type="button" class="btn btn-import-bibtex pull-right">Import BibTeX</button>
-    <table class="table" style="margin-top: 40px">
+    <h2>Search String <small>(This is a suggested search string based on your keywords and synonyms)</small></h2>
+    <textarea style="width:100%" rows="5"></textarea>
+    <div class="source-buttons">
+      <button type="button" class="btn btn-import-bibtex">Import BibTeX</button>
+    </div>
+    <table class="table">
       <thead>
         <tr>
           <th></th>
