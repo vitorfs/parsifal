@@ -22,7 +22,8 @@ html, body {
 }
 
 body {
-  background: url("../img/ticks.png");
+  /*background: url("../img/ticks.png");*/
+  background: #F6F6F6;
   color: #3A3D40;
   font-family: "Source Sans Pro", Tahoma, Arial, sans-serif;
   font-weight: 400;
@@ -30,12 +31,16 @@ body {
 }
 
 header {
-  background: #3A3D40;
+  background: #728A8B;
   height: 65px;
-  border-bottom: 5px solid #732B22;
+  /*border-bottom: 5px solid #732B22;*/
+  border-bottom: 1px solid #667D7E;
   position: fixed;
   width: 100%;
-  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7);
+  /*box-shadow: 0 0px 5px rgba(0, 0, 0, 0.7);*/
+  /*box-shadow: 0 1px 1px rgba(#000, 0); e transition: box-shadow 100ms ease-out;
+  box-shadow: 0 1px 5px rgba(#000, .3);*/
+  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
   z-index: 1000;
 }
 
@@ -54,6 +59,7 @@ header h1 a {
 }
 
 header h1 a:hover {
+  color: #FFF3D0;
   text-shadow: 0 0 3px #E6D9B8;
 }
 
@@ -116,14 +122,13 @@ header nav.signedin a.user {
 }
 
 footer {
-  background-color: #4A1916;  
+  background-color: #E9E9E9;
   height: 40px;
-  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7);
 }
 
 footer p {
   padding-top: 1em;
-  color: #FFF3D0;
+  color: #3A3D40;
   font-size: 1.4em;
   font-weight: 400;
   float: left;
@@ -142,7 +147,7 @@ footer ul li {
 }
 
 footer ul li a {
-  color: #FFF3D0;
+  color: #3A3D40;
   text-decoration: underline;
 }
 

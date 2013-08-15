@@ -30,5 +30,5 @@ ul.tab li.active a {
   color: #3A3D40;
   border: 1px solid #C2C2C2;
   border-bottom: none;
-  background: url("../img/ticks.png");
+  background: #F6F6F6;
 }
