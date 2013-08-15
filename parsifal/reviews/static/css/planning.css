@@ -1,3 +1,7 @@
+#tbl-sources {
+  width: auto;
+}
+
 #tbl-sources tbody tr td {
   padding: 0.4em 0.6em;
 }

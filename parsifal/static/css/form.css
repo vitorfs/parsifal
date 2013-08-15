@@ -6,7 +6,8 @@ button {
   text-transform: none;
 }
 
-input, textarea {
+input, textarea, select {
+  font-size: 1.4em;
   border-radius: 5px;
   border: 1px solid #CCCCCC;
   padding: 0.4em 0.7em;

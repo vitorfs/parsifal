@@ -14,101 +14,148 @@
     <li><a href="/{{ review.user.username }}/{{ review.short_name }}/conducting/">Conducting</a></li>
     <li><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
   </ul>
-  <button type="button" class="btn btn-success pull-right">Save Planning</button>
   <h1>{{ review.title }}</h1>
-  <form method="post" action="." class="form-block">
-    {% csrf_token %}
-    <div class="form-row">
-      <h2>Objectives</h2>
-      <textarea rows="5"></textarea>
-    </div>
-  </form>
+  <section id="objective-section" class="clearfix">
+    <h2>Objectives</h2>
+    <form method="post" action="." class="form-block">
+      {% csrf_token %}
+      <div class="form-row">
+        <textarea rows="5"></textarea>
+      </div>
+    </form>
+  </section>
   <hr>
-  <h2>Questions</h2>
-  <form method="post" action="." class="form-block">
-    {% csrf_token %}
-    <div class="form-row">
-      <div class="label-container">
-        <label for="">Main Question</label>
+  <section id="question-section" class="clearfix">
+    <h2>Questions</h2>
+    <button type="button" class="btn btn-small">Add Secondary Question</button>
+    <form method="post" action="." class="form-block">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="label-container">
+          <label for="">Main Question</label>
+        </div>
+        <div class="input-container">
+          <textarea rows="2"></textarea>
+        </div>
       </div>
-      <div class="input-container">
-        <textarea rows="2"></textarea>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="population">Population</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="population" name="population" placeholder="">
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="population">Population</label>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="">Intervention</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="" name="" placeholder="">
+        </div>
       </div>
-      <div class="input-container">
-        <input type="text" id="population" name="population" placeholder="">
+      <div class="form-row">
+        <div class="label-container">
+          <label for="">Comparison</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="" name="" placeholder="">
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="">Intervention</label>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="">Outcome</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="" name="" placeholder="">
+        </div>
       </div>
-      <div class="input-container">
-        <input type="text" id="" name="" placeholder="">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="">Comparison</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="" name="" placeholder="">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="">Outcome</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="" name="" placeholder="">
-      </div>
-    </div>
-  </form>
-
+    </form>
+  </section>
   <hr>
-  
-  <h2>Sources</h2>
-  
-  <div class="modal" id="modal-suggested-sources">
-    <div class="modal-header">
-      <a href="#" class="close" onclick="$(this).closest('div.modal').slideUp();return false;">×</a>
-      <h2>Suggested Sources</h2>
+  <section id="keywords-section" class="clearfix">
+    <h2>Keywords</h2>
+  </section>
+  <hr>
+  <section id="sources-section" class="clearfix">
+    <h2>Sources</h2>
+    <div class="modal" id="modal-suggested-sources">
+      <div class="modal-header">
+        <a href="#" class="close" onclick="$(this).closest('div.modal').slideUp();return false;">×</a>
+        <h2>Suggested Sources</h2>
+      </div>
+      <div class="modal-body">
+        <form>
+          <label class="checkbox"><input type="checkbox">Scopus</label>
+          <label class="checkbox"><input type="checkbox">ACM</label>
+          <label class="checkbox"><input type="checkbox">Science@Direct</label>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-warning">Cancel</button>
+      </div>
     </div>
-    <div class="modal-body">
-      <form>
-        <label class="checkbox"><input type="checkbox">Scopus</label>
-        <label class="checkbox"><input type="checkbox">ACM</label>
-        <label class="checkbox"><input type="checkbox">Science@Direct</label>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success">Save</button>
-      <button type="button" class="btn btn-warning">Cancel</button>
-    </div>
-  </div>
-
-  <button type="button" class="btn btn-success btn-small" id="btn-add-source">Add Source</button>
-  <button type="button" class="btn btn-link btn-small" style="margin-left: 8px;" id="btn-suggested-sources">(Suggested Sources)</button>
-  <table class="table" id="tbl-sources">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>URL</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for source in review.sources.all %}
-        <tr source-id="{{ source.id }}">
-          <td>{{ source.name }}</td>
-          <td>{{ source.url }}</td>
-          <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td>
+    <button type="button" class="btn btn-small" id="btn-add-source">Add Source</button>
+    <button type="button" class="btn btn-link btn-small" style="margin-left: 8px;" id="btn-suggested-sources">(Suggested Sources)</button>
+    <table class="table" id="tbl-sources">
+      <thead>
+        <tr>
+          <th style="width: 200px">Name</th>
+          <th style="width: 300px">URL</th>
+          <th>Actions</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for source in review.sources.all %}
+          <tr source-id="{{ source.id }}">
+            <td>{{ source.name }}</td>
+            <td>{{ source.url }}</td>
+            <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  <hr>
+  <section id="selection-section" class="clearfix">
+    <h2>Selection Criteria</h2>
+    <script>
+      $(function () {
+        $("input#input-inclusion").keyup(function (event) {
+          if (event.keyCode == 13) {
+            if ($(this).val() != ""){
+              $("#inclusion-criteria").append("<option>" + $(this).val() + "</option>");
+              $(this).val("");
+              $("input#input-inclusion").focus();
+            }
+          }
+        });
+
+        $("input#input-exclusion").keyup(function (event) {
+          if (event.keyCode == 13) {
+            if ($(this).val() != ""){
+              $("#exclusion-criteria").append("<option>" + $(this).val() + "</option>");
+              $(this).val("");
+              $("input#input-exclusion").focus();
+            }
+          }
+        });
+
+      });
+    </script>
+    <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
+    <div style="width:50%;float:left;padding-right:15px;">
+      <h3>Inclusion Criteria:</h3>
+      <input type="text" id="input-inclusion" style="width:100%">
+      <select multiple="multiple" size="6" style="width: 100%; margin: 10px 0;" id="inclusion-criteria"></select>
+      <button type="button" class="btn btn-warning btn-small">remove selected</button>
+    </div>
+    <div style="width:50%;float:left;padding-left:15px;">
+      <h3>Exclusion Criteria:</h3>
+      <input type="text" id="input-exclusion" style="width:100%">
+      <select multiple="multiple" size="6" style="width: 100%; margin: 10px 0;" id="exclusion-criteria"></select>
+      <button type="button" class="btn btn-warning btn-small">remove selected</button>
+    </div>
+  </section>
 {% endblock content %}

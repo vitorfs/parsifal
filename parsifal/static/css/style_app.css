@@ -34,6 +34,7 @@ header {
   position: fixed;
   width: 100%;
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7);
+  z-index: 1000;
 }
 
 header h1 {
@@ -169,6 +170,7 @@ hr {
   border: none;
   border-top: 1px solid #CCC;
   border-bottom: 1px solid #EEE;
+  margin: 20px 0;
 }
 
 ul {

@@ -13,25 +13,23 @@
     <li><a href="/{{ review.user.username }}/{{ review.short_name }}/reporting/">Reporting</a></li>
   </ul>
   <h1>{{ review.title }}</h1>
-  <input type="hidden" id="review-id" value="{{ review.id }}">
-  <div class="container">
-    <h2>
-      Authors
-      {% if user.id == review.user.id %}
-        <button type="button" class="add-author">+ add</button>
-      {% endif %}
-    </h2>
-    <ul class="authors">
-      <li author=id="{{ review.user.id }}"><a href="/{{ review.user.username }}/">{{ review.user.get_full_name }}</a></li>
-      {% for author in review.co_authors.all %}
-        <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
-          {% if user.id == review.user.id %}
-            <button type="button" class="remove-author">(remove)</button>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-    <h2>Description</h2>
-    <p>{{ review.description }}</p>
-  </div>
+  <input type="hidden" id="review-id" value="{{ review.id }}">  
+  <h2>
+    Authors
+    {% if user.id == review.user.id %}
+      <button type="button" class="add-author">+ add</button>
+    {% endif %}
+  </h2>
+  <ul class="authors">
+    <li author=id="{{ review.user.id }}"><a href="/{{ review.user.username }}/">{{ review.user.get_full_name }}</a></li>
+    {% for author in review.co_authors.all %}
+      <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
+        {% if user.id == review.user.id %}
+          <button type="button" class="remove-author">(remove)</button>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>Description</h2>
+  <p>{{ review.description }}</p>
 {% endblock content %}

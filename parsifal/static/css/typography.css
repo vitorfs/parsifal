@@ -12,6 +12,11 @@ h2 {
   margin: .6em 0;
 }
 
+h3 {
+  font-size: 1.6em;
+  margin: .6em 0;
+}
+
 a {
   color: #55899B;
   text-decoration: none;
