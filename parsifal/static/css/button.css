@@ -6,7 +6,6 @@
   color: #FFF3D0;
   font-size: 14px;
   padding: 6px 12px;
-  box-shadow: 0px 3px 5px 0px #516465 inset;
   display: inline-block;
   margin-bottom: 0;
   font-weight: 600;
@@ -26,7 +25,6 @@
 .btn-success {
   background-color: #94A390;
   border-color: #758373;
-  box-shadow: 0px 3px 5px 0px #758373 inset;
 }
 
 .btn-success:hover {
@@ -38,7 +36,6 @@
 .btn-warning {
   border-color: #732B22;
   background: #C45A46;
-  box-shadow: 0px 3px 5px 0px #732B22 inset;
 }
 
 .btn-link {
