@@ -67,8 +67,8 @@ input:focus, textarea:focus {
 }
 
 .form-block input:focus, .form-block textarea:focus {
-  border-color: rgba(148, 163, 144, 0.8);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(148, 163, 144, 0.6);
+  border-color: rgba(85, 137, 155, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(85, 137, 155, 0.6);
   outline: 0 none;
 }
 
