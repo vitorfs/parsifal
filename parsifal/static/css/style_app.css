@@ -34,7 +34,7 @@ header {
   background: #728A8B;
   height: 65px;
   /*border-bottom: 5px solid #732B22;*/
-  border-bottom: 1px solid #667D7E;
+  border-bottom: 1px solid #56696A;
   position: fixed;
   width: 100%;
   /*box-shadow: 0 0px 5px rgba(0, 0, 0, 0.7);*/
@@ -51,6 +51,7 @@ header h1 {
   padding-top: .4em;
   font-weight: 400;
   margin: 0;
+  text-shadow: 1px 1px 0 #3A3D40;
 }
 
 header h1 a {
@@ -60,7 +61,6 @@ header h1 a {
 
 header h1 a:hover {
   color: #FFF3D0;
-  text-shadow: 0 0 3px #E6D9B8;
   text-decoration: none;
 }
 

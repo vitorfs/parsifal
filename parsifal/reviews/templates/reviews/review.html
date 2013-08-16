@@ -7,30 +7,34 @@
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="review" %}
-  <h2>
-    Authors
-    {% if user.id == review.user.id %}
-      <button type="button" class="add-author">+ add</button>
-    {% endif %}
-  </h2>
-  <ul class="authors">
-    <li author=id="{{ review.user.id }}">
-      <a href="/{{ review.user.username }}/">
-        {% if review.user.get_full_name %}
-          {{ review.user.get_full_name }}
-        {% else %}
-          {{ review.user.username }}
-        {% endif %}
-      </a>
-    </li>
-    {% for author in review.co_authors.all %}
-      <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
-        {% if user.id == review.user.id %}
-          <button type="button" class="remove-author">(remove)</button>
-        {% endif %}
+  <section class="clearfix">
+    <h2>
+      Authors
+      {% if user.id == review.user.id %}
+        <button type="button" class="add-author">+ add</button>
+      {% endif %}
+    </h2>
+    <ul class="authors">
+      <li author=id="{{ review.user.id }}">
+        <a href="/{{ review.user.username }}/">
+          {% if review.user.get_full_name %}
+            {{ review.user.get_full_name }}
+          {% else %}
+            {{ review.user.username }}
+          {% endif %}
+        </a>
       </li>
-    {% endfor %}
-  </ul>
-  <h2>Description</h2>
-  <p>{{ review.description }}</p>
+      {% for author in review.co_authors.all %}
+        <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
+          {% if user.id == review.user.id %}
+            <button type="button" class="remove-author">(remove)</button>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="clearfix">
+    <h2>Description</h2>
+    <p>{{ review.description }}</p>
+  </section>
 {% endblock content %}
