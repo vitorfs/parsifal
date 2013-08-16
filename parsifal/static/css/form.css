@@ -38,10 +38,9 @@ input:focus, textarea:focus {
   width: -moz-calc(100% - 150px);
   width: -webkit-calc(100% - 150px);
   width: calc(100% - 150px);
-  margin-bottom: 20px;
 }
 
-.button-container {
+.button-container, .message-container {
   margin-left: 150px;
 }
 
@@ -97,4 +96,13 @@ input:focus, textarea:focus {
 }
 .form-row {
   zoom: 1; /* IE6&7 */ 
+  margin-bottom: 20px;
+}
+
+.form-status-message {
+  font-size: 1.6em;
+  font-weight: 600;
+  padding: .9em 0;
+  display: none;
+  margin-left: 10px;
 }

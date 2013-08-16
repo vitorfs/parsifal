@@ -76,7 +76,38 @@ $(function () {
 
   $(".btn-remove-source").click(removeSource);
 
-  //var row = $(this).closest("tr");
-  //row.remove();
+  $("#main-question-save").click(function () {
+    var btn = $(this);
+    $.ajax({
+      url: '/reviews/planning/save_question/',
+      data: $("#main-question-form").serialize(),
+      type: 'post',
+      cache: false,
+      beforeSend: function () {
+      },
+      error: function () {
+        var msg = btn.siblings('.form-status-message');
+        console.log(msg);
+        msg.removeClass("text-success").addClass("text-error");
+        msg.text('Something went wrong! Please contact the administrator.');
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
+      },
+      success: function(data) {
+        var msg = btn.siblings('.form-status-message');
+        console.log(msg);
+        msg.removeClass("text-error").addClass("text-success");
+        msg.text('Your question has been saved successfully!');
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
+      },
+      complete: function () {
+      }
+    });
+  });
 
 });

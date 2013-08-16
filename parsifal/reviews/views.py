@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Article
+from reviews.models import Review, Source, Article, Question
 from pybtex.database.input import bibtex
 
 @login_required
@@ -36,7 +36,7 @@ def new(request):
 
 @login_required
 def review(request, username, review_name):
-    review = Review.objects.get(name=review_name)
+    review = Review.objects.get(name=review_name, author__username=username)
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/review.html', context)
 
@@ -73,8 +73,12 @@ def remove_author_from_review(request):
 
 @login_required
 def planning(request, username, review_name):
-    review = Review.objects.get(name=review_name)
-    context = RequestContext(request, {'review': review})
+    review = Review.objects.get(name=review_name, author__username=username)
+    try:
+        main_question = Question.objects.filter(review__id=review.id, question_type='M')[:1].get()
+    except Question.DoesNotExist:
+        main_question = Question()
+    context = RequestContext(request, {'review': review, 'main_question': main_question, })
     return render_to_response('reviews/planning.html', context)
 
 @login_required
@@ -98,13 +102,13 @@ def conducting(request, username, review_name):
 
         articles.append(article)
 
-    review = Review.objects.get(name=review_name)
+    review = Review.objects.get(name=review_name, author__username=username)
     context = RequestContext(request, {'review': review, 'articles': articles})
     return render_to_response('reviews/conducting.html', context)
 
 @login_required
 def reporting(request, username, review_name):
-    review = Review.objects.get(name=review_name)
+    review = Review.objects.get(name=review_name, author__username=username)
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/reporting.html', context)
 
@@ -144,3 +148,39 @@ def remove_source_from_review(request):
     source.delete()
     review.save()
     return HttpResponse('OK')
+
+@login_required
+def save_question(request):
+    '''
+        Function used via Ajax request only.
+        This function takes a review question form and save on the database
+    '''
+    if request.method == 'POST':
+        review_id = request.POST['main-question-review-id']
+        description = request.POST['main-question-description']
+        population = request.POST['main-question-population']
+        intervention = request.POST['main-question-intervention']
+        comparison = request.POST['main-question-comparison']
+        outcome = request.POST['main-question-outcome']
+        question_type = request.POST['main-question-type']
+
+        if (question_type == 'M'):
+            try:
+                question = Question.objects.filter(review__id=review_id, question_type=question_type)[:1].get()
+            except Question.DoesNotExist:
+                question = Question()
+
+        review = Review.objects.get(pk=review_id)
+
+        question.review = review
+        question.question = description
+        question.population = population
+        question.intervention = intervention
+        question.comparison = comparison
+        question.outcome = outcome
+        question.question_type = question_type
+
+        question.save()
+
+        return HttpResponse('OK')
+    return HttpResponse('ERROR')
