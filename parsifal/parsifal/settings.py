@@ -14,12 +14,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'database.db',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'parsifal_des',
+        'USER': 'richard_wagner',
+        'PASSWORD': 'holygrail',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

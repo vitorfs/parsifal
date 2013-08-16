@@ -10,23 +10,23 @@
   <section class="clearfix">
     <h2>
       Authors
-      {% if user.id == review.user.id %}
+      {% if user.id == review.author.id %}
         <button type="button" class="add-author">+ add</button>
       {% endif %}
     </h2>
     <ul class="authors">
-      <li author=id="{{ review.user.id }}">
-        <a href="/{{ review.user.username }}/">
-          {% if review.user.get_full_name %}
-            {{ review.user.get_full_name }}
+      <li author=id="{{ review.author.id }}">
+        <a href="/{{ review.author.username }}/">
+          {% if review.author.get_full_name %}
+            {{ review.author.get_full_name }}
           {% else %}
-            {{ review.user.username }}
+            {{ review.author.username }}
           {% endif %}
         </a>
       </li>
       {% for author in review.co_authors.all %}
         <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
-          {% if user.id == review.user.id %}
+          {% if user.id == review.author.id %}
             <button type="button" class="remove-author">(remove)</button>
           {% endif %}
         </li>

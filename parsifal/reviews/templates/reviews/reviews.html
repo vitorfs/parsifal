@@ -24,8 +24,8 @@
           <tbody>
             {% for review in user_reviews %}
               <tr>
-                <td><a href="/{{ page_user.username }}/{{ review.short_name }}/">{{ review.title }}</a></td>
-                <td>{{ review.user.get_full_name }}</td>
+                <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
+                <td>{{ review.author.get_full_name }}</td>
                 <td>{{ review.last_update|date:"D d M Y" }}</td>
               </tr>
             {% endfor %}

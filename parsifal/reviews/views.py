@@ -7,26 +7,26 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, ReferenceArticle
+from reviews.models import Review, Source, Article
 from pybtex.database.input import bibtex
 
 @login_required
 def reviews(request, username):
     context = RequestContext(request)
     user = get_object_or_404(User, username=username)
-    user_reviews = Review.objects.filter(user__id=user.id).order_by('-last_update',)
+    user_reviews = Review.objects.filter(author__id=user.id).order_by('-last_update',)
     context = RequestContext(request, {'user_reviews': user_reviews, 'page_user': user})
     return render_to_response('reviews/reviews.html', context)
 
 @login_required
 def new(request):
     if request.method == 'POST':
-        short_name = request.POST['short-name']
+        name = request.POST['short-name']
         title = request.POST['title']
         description = request.POST['description']
-        user = request.user
+        author = request.user
         last_update = datetime.date.today()
-        review = Review(short_name = short_name, title = title, description = description, user=user, last_update=last_update)
+        review = Review(name = name, title = title, description = description, author=author, last_update=last_update)
         review.save()
         messages.add_message(request, messages.SUCCESS, 'Review created with success.')
         return redirect('/' + request.user.username + '/')
@@ -36,7 +36,7 @@ def new(request):
 
 @login_required
 def review(request, username, review_name):
-    review = Review.objects.get(short_name=review_name)
+    review = Review.objects.get(name=review_name)
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/review.html', context)
 
@@ -52,7 +52,7 @@ def add_author_to_review(request):
 
     if user is not None:
         review = Review.objects.get(pk=review_id)
-        if review.user.id == request.user.id:
+        if review.author.id == request.user.id:
             review.co_authors.add(user)
             review.save()
             return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="remove-author">(remove)</button></li>')
@@ -73,7 +73,7 @@ def remove_author_from_review(request):
 
 @login_required
 def planning(request, username, review_name):
-    review = Review.objects.get(short_name=review_name)
+    review = Review.objects.get(name=review_name)
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/planning.html', context)
 
@@ -85,7 +85,7 @@ def conducting(request, username, review_name):
     articles = []
     for bib_id in bibdata.entries:
         b = bibdata.entries[bib_id].fields
-        article = ReferenceArticle()
+        article = Article()
 
         try:
             article.title = b["title"]
@@ -98,13 +98,13 @@ def conducting(request, username, review_name):
 
         articles.append(article)
 
-    review = Review.objects.get(short_name=review_name)
+    review = Review.objects.get(name=review_name)
     context = RequestContext(request, {'review': review, 'articles': articles})
     return render_to_response('reviews/conducting.html', context)
 
 @login_required
 def reporting(request, username, review_name):
-    review = Review.objects.get(short_name=review_name)
+    review = Review.objects.get(name=review_name)
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/reporting.html', context)
 
@@ -123,7 +123,7 @@ def add_source_to_review(request):
     source.save()
 
     review = Review.objects.get(pk=review_id)
-    if review.user.id == request.user.id:
+    if review.author.id == request.user.id:
         review.sources.add(source)
         review.save()
         return_html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td><td>' + escape(source.url) + '</td><td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
