@@ -38,6 +38,7 @@ input:focus, textarea:focus {
   width: -moz-calc(100% - 150px);
   width: -webkit-calc(100% - 150px);
   width: calc(100% - 150px);
+  margin-bottom: 20px;
 }
 
 .button-container {
@@ -67,7 +68,6 @@ input:focus, textarea:focus {
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
   color: #3A3D40;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .form-block input:focus, .form-block textarea:focus {
@@ -78,6 +78,12 @@ input:focus, textarea:focus {
 
 .form-block textarea {
   font-size: 1.8em;
+}
+
+.form-block .help {
+  font-size: 1.2em;
+  margin-top: .6em;
+  display: block;
 }
 
 .form-row:before, 

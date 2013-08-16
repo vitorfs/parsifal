@@ -6,10 +6,11 @@
     {% csrf_token %}
     <div class="form-row">
       <div class="label-container">
-        <label for="short-name">Short Name</label>
+        <label for="name">Name</label>
       </div>
       <div class="input-container">
-        <input type="text" id="short-name" name="short-name" placeholder="Inform a short name for your review">
+        <input type="text" id="name" name="name" placeholder="Inform a name for your review">
+        <span class="help">The name will be used to create a unique url for your review. Make sure you choose something <strong>short</strong> and <strong>elegant</strong>.</span>
       </div>
     </div>
     <div class="form-row">
@@ -18,14 +19,6 @@
       </div>
       <div class="input-container">
         <input type="text" id="title" name="title" placeholder="Systematic literature review's title">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="authors">Authors</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="authors" placeholder="Leave blank if you are the only author">
       </div>
     </div>
     <div class="form-row clearfix">
@@ -38,7 +31,7 @@
     </div>
     <div class="button-container">
       <button type="submit" class="btn btn-success btn-large">Create review</button>
-      <button type="button" class="btn btn-large" onclick="location.href = '/{{ user.username }}/';">Cancel</button>
+      <button type="button" class="btn btn-large" onclick="location.href = '/{{ user.username }}/'">Cancel</button>
     </div>
   </form>
 {% endblock content %}

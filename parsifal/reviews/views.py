@@ -21,7 +21,7 @@ def reviews(request, username):
 @login_required
 def new(request):
     if request.method == 'POST':
-        name = request.POST['short-name']
+        name = request.POST['name']
         title = request.POST['title']
         description = request.POST['description']
         author = request.user

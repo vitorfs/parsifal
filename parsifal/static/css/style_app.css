@@ -22,7 +22,6 @@ html, body {
 }
 
 body {
-  /*background: url("../img/ticks.png");*/
   background: #F6F6F6;
   color: #3A3D40;
   font-family: "Source Sans Pro", Tahoma, Arial, sans-serif;
@@ -33,13 +32,9 @@ body {
 header {
   background: #728A8B;
   height: 65px;
-  /*border-bottom: 5px solid #732B22;*/
   border-bottom: 1px solid #56696A;
   position: fixed;
   width: 100%;
-  /*box-shadow: 0 0px 5px rgba(0, 0, 0, 0.7);*/
-  /*box-shadow: 0 1px 1px rgba(#000, 0); e transition: box-shadow 100ms ease-out;
-  box-shadow: 0 1px 5px rgba(#000, .3);*/
   box-shadow: 0 0 5px rgba(0, 0, 0, .6);
   z-index: 1000;
 }
