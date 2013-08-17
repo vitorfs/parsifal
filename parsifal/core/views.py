@@ -42,3 +42,15 @@ def signin(request):
 def signout(request):
     logout(request)
     return redirect('/')
+
+def news(request):
+    context = RequestContext(request)
+    return render_to_response('core/news.html', context)
+
+def about(request):
+    context = RequestContext(request)
+    return render_to_response('core/about.html', context)
+
+def help(request):
+    context = RequestContext(request)
+    return render_to_response('core/help.html', context)

@@ -9,3 +9,20 @@
 #tbl-sources tbody tr td input {
   font-size: 1em;
 }
+
+#tbl-keywords {
+  width: auto;
+}
+
+#tbl-keywords tbody tr td {
+  vertical-align: middle;
+}
+
+#tbl-keywords ul {
+  margin: 0;
+}
+
+#tbl-keywords ul li {
+  list-style: none;
+  font-size: 1em;
+}

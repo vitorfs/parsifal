@@ -1,0 +1,57 @@
+<form method="post" action="." class="form-block" id="main-question-form">
+  <input type="hidden" name="main-question-review-id" value="{{ review.id }}">
+  <input type="hidden" name="main-question-type" value="M">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="label-container">
+      <label for="main-question-description">Main Question</label>
+    </div>
+    <div class="input-container">
+      <textarea rows="2" id="main-question-description" name="main-question-description">{{ main_question.question }}</textarea>
+    </div>
+  </div>      
+  <div class="form-row">
+    <div class="message-container">
+      <p>Separate the terms used in the PICO using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
+      <p>If any of the sections of PICO doesn't apply to your research, please leave it blank.</p>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="label-container">
+      <label for="main-question-population">Population</label>
+    </div>
+    <div class="input-container">
+      <input type="text" id="main-question-population" name="main-question-population" placeholder="" value="{{ main_question.population }}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="label-container">
+      <label for="main-question-intervention">Intervention</label>
+    </div>
+    <div class="input-container">
+      <input type="text" id="main-question-intervention" name="main-question-intervention" placeholder="" value="{{ main_question.intervention }}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="label-container">
+      <label for="main-question-comparison">Comparison</label>
+    </div>
+    <div class="input-container">
+      <input type="text" id="main-question-comparison" name="main-question-comparison" placeholder="" value="{{ main_question.comparison }}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="label-container">
+      <label for="main-question-outcome">Outcome</label>
+    </div>
+    <div class="input-container">
+      <input type="text" id="main-question-outcome" name="main-question-outcome" placeholder="" value="{{ main_question.outcome }}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="button-container">
+      <button type="button" class="btn btn-success btn-large pull-left" id="main-question-save">Save</button>
+      <span class="form-status-message pull-left"></span>
+    </div>
+  </div>
+</form>

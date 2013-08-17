@@ -30,6 +30,13 @@ class Review(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_questions(self):
+        '''
+            This function returns the list of questions. Main and secondary.
+        '''
+        questions = Question.objects.filter(review__id=self.id)
+        return questions
+
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
