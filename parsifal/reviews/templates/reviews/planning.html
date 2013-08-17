@@ -10,11 +10,14 @@
   {% include "reviews/review_header.html" with active_menu="planning" %}
   <section id="objective-section" class="clearfix">
     <h2>Objectives</h2>
-    <form method="post" action="." class="form-block">
+    <form method="post" action="." class="form-block" id="form-objective">
       {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
       <div class="form-row">
-        <textarea rows="5"></textarea>
+        <textarea rows="5" name="objective">{{ review.objective }}</textarea>
       </div>
+      <button type="button" class="btn btn-success pull-left btn-save-objective">Save</button>
+      <span class="form-status-message pull-left"></span>
     </form>
   </section>
   <hr>
@@ -97,30 +100,6 @@
   <hr>
   <section id="selection-section" class="clearfix">
     <h2>Selection Criteria</h2>
-    <script>
-      $(function () {
-        $("input#input-inclusion").keyup(function (event) {
-          if (event.keyCode == 13) {
-            if ($(this).val() != ""){
-              $("#inclusion-criteria").append("<option>" + $(this).val() + "</option>");
-              $(this).val("");
-              $("input#input-inclusion").focus();
-            }
-          }
-        });
-
-        $("input#input-exclusion").keyup(function (event) {
-          if (event.keyCode == 13) {
-            if ($(this).val() != ""){
-              $("#exclusion-criteria").append("<option>" + $(this).val() + "</option>");
-              $(this).val("");
-              $("input#input-exclusion").focus();
-            }
-          }
-        });
-
-      });
-    </script>
     <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
     <div style="width:50%;float:left;padding-right:15px;">
       <h3>Inclusion Criteria:</h3>

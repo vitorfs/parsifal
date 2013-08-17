@@ -222,3 +222,16 @@ def remove_question(request):
 
         return HttpResponse('OK')
     return HttpResponse('ERROR')
+
+@login_required
+def save_question(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    if request.method == 'POST':
+        review_id = request.POST['review-id']
+        objective = request.POST['objective']
+        review = Review.objects.get(pk=review_id)
+        review.objective = objective
+        review.save()
+    return HttpResponse('')

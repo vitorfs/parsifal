@@ -24,7 +24,7 @@ class Review(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, blank=True)
     last_update = models.DateTimeField()
     co_authors = models.ManyToManyField(User, related_name="co+")
-    objective = models.TextField(max_length=1000, null=True)
+    objective = models.TextField(max_length=1000, null=True, blank=True)
     sources = models.ManyToManyField(Source)
 
     def __unicode__(self):

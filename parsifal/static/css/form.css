@@ -102,7 +102,7 @@ input:focus, textarea:focus {
 .form-status-message {
   font-size: 1.6em;
   font-weight: 600;
-  padding: .9em 0;
+  padding: .6em 0;
   display: none;
   margin-left: 10px;
 }

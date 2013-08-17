@@ -83,7 +83,7 @@ $(function () {
         $("input[name='question-id']", form).val(data);
         var msg = btn.siblings('.form-status-message');
         msg.removeClass("text-error").addClass("text-success");
-        msg.text('Your question has been saved successfully!');
+        msg.text('Your question have been saved successfully!');
         msg.fadeIn();
         window.setTimeout(function () {
           msg.fadeOut();
@@ -142,6 +142,45 @@ $(function () {
         }, 1000);
         $('.btn-save-question').unbind('click').bind('click', saveQuestion);
         $('.btn-remove-question').unbind('click').bind('click', removeQuestion);
+      }
+    });
+  });
+
+  $("input#input-inclusion").keyup(function (event) {
+    if (event.keyCode == 13) {
+      if ($(this).val() != ""){
+        $("#inclusion-criteria").append("<option>" + $(this).val() + "</option>");
+        $(this).val("");
+        $("input#input-inclusion").focus();
+      }
+    }
+  });
+
+  $("input#input-exclusion").keyup(function (event) {
+    if (event.keyCode == 13) {
+      if ($(this).val() != ""){
+        $("#exclusion-criteria").append("<option>" + $(this).val() + "</option>");
+        $(this).val("");
+        $("input#input-exclusion").focus();
+      }
+    }
+  });
+
+  $(".btn-save-objective").click(function () {
+    var btn = $(this);
+    $.ajax({
+      url: '/reviews/planning/save_objective/',
+      data: $('#form-objective').serialize(),
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        var msg = btn.siblings('.form-status-message');
+        msg.removeClass("text-error").addClass("text-success");
+        msg.text('Your review have been saved successfully!');
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
       }
     });
   });
