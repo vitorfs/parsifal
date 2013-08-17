@@ -31,10 +31,18 @@ class Review(models.Model):
         return self.name
 
     def get_questions(self):
-        '''
-            This function returns the list of questions. Main and secondary.
-        '''
         questions = Question.objects.filter(review__id=self.id)
+        return questions
+
+    def get_main_question(self):
+        try:
+            question = Question.objects.filter(review__id=self.id, question_type='M')[:1].get()
+        except Question.DoesNotExist:
+            question = Question()
+        return question
+
+    def get_secondary_questions(self):
+        questions = Question.objects.filter(review__id=self.id, question_type='S')
         return questions
 
     class Meta:

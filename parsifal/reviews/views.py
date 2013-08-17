@@ -1,5 +1,6 @@
 # coding: utf-8
 import datetime
+import time
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -74,11 +75,7 @@ def remove_author_from_review(request):
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    try:
-        main_question = Question.objects.filter(review__id=review.id, question_type='M')[:1].get()
-    except Question.DoesNotExist:
-        main_question = Question()
-    context = RequestContext(request, {'review': review, 'main_question': main_question, })
+    context = RequestContext(request, {'review': review })
     return render_to_response('reviews/planning.html', context)
 
 @login_required
@@ -156,21 +153,28 @@ def save_question(request):
         This function takes a review question form and save on the database
     '''
     if request.method == 'POST':
-        review_id = request.POST['main-question-review-id']
-        description = request.POST['main-question-description']
-        population = request.POST['main-question-population']
-        intervention = request.POST['main-question-intervention']
-        comparison = request.POST['main-question-comparison']
-        outcome = request.POST['main-question-outcome']
-        question_type = request.POST['main-question-type']
+        prefix = str(request.POST['prefix'])
+        review_id = request.POST['review-id']
+        question_id = request.POST['question-id']
+        question_type = request.POST['question-type']
 
-        if (question_type == 'M'):
-            try:
-                question = Question.objects.filter(review__id=review_id, question_type=question_type)[:1].get()
-            except Question.DoesNotExist:
-                question = Question()
+        description = request.POST[prefix + 'question-description']
+        population = request.POST[prefix + 'question-population']
+        intervention = request.POST[prefix + 'question-intervention']
+        comparison = request.POST[prefix + 'question-comparison']
+        outcome = request.POST[prefix + 'question-outcome']
 
         review = Review.objects.get(pk=review_id)
+
+        question = Question()
+
+        if question_type == 'M':
+            question = review.get_main_question()
+        elif question_id != 'None':
+            try:
+                question = Question.objects.get(pk=question_id)
+            except Question.DoesNotExist:
+                pass
 
         question.review = review
         question.question = description
@@ -181,6 +185,40 @@ def save_question(request):
         question.question_type = question_type
 
         question.save()
+
+        return HttpResponse(question.id)
+    return HttpResponse('ERROR')
+
+@login_required
+def add_question(request):
+    '''
+        Function used via Ajax request only.
+        This functions adds a new secondary question to the review.
+    '''
+    review_id = request.GET['review-id']
+    review = Review.objects.get(pk=review_id)
+    question = Question()
+    prefix = int(time.time())
+    context = RequestContext(request, {'review': review, 'question': question, 'question_type':'S', 'prefix':prefix})
+    return render_to_response('reviews/planning_question.html', context)
+
+@login_required
+def remove_question(request):
+    '''
+        Function used via Ajax request only.
+        This function removes a secondary question from the review.
+    '''
+    if request.method == 'POST':
+        review_id = request.POST['review-id']
+        question_id = request.POST['question-id']
+        question_type = request.POST['question-type']
+
+        if question_id != 'None' and question_type != 'M':
+            try:
+                question = Question.objects.get(pk=question_id)
+                question.delete()
+            except Question.DoesNotExist:
+                return HttpResponse('ERROR')
 
         return HttpResponse('OK')
     return HttpResponse('ERROR')

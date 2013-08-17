@@ -60,3 +60,9 @@
   padding-left: 0;
   padding-right: 0;
 }
+
+.btn-link:hover {
+  box-shadow: none;
+  background: none;
+  text-decoration: underline;
+}
