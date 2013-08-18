@@ -19,11 +19,15 @@
 }
 
 #tbl-keywords ul {
-  margin: 0;
+  margin: 5px 0;
 }
 
 #tbl-keywords ul li {
   list-style: none;
+  font-size: 1em;
+}
+
+#tbl-keywords input {
   font-size: 1em;
 }
 

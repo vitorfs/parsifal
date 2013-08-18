@@ -34,22 +34,25 @@
   <hr>
   <section id="keywords-section" class="clearfix">
     <h2>Keywords and Synonyms</h2>
-    <p>Inform a keyword and press Enter to add.</p>
+    <p>Inform a keyword and press <strong>Enter</strong> to add. To remove or edit a keyword or synonym you may click on the word and change the text. After editing or removing the text press <strong>Enter</strong> to confirm.</p>
     <table class="table" id="tbl-keywords">
       <thead>
         <tr>
-          <th>Keyword</th>
+          <th style="width:200px">Keyword</th>
           <th>Synonyms</th>
         </tr>
       </thead>
       <tbody>
         {% for keyword in review.get_keywords %}
-          <tr>
-            <td>{{ keyword.description }}</td>
+          <tr keyword-id="{{ keyword.id }}">
+            <td class="keyword-row">{{ keyword.description }}</td>
             <td>
               <ul>
-                <li><input type="text" class="add-synonym" style="font-size: 1em"></li>
+                {% for synonym in keyword.get_synonyms %}
+                  <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
+                {% endfor %}
               </ul>
+              <input type="text" class="add-synonym">
             </td>
           </tr>
         {% endfor %}

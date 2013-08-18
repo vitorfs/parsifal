@@ -53,8 +53,8 @@ class Review(models.Model):
         return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='E')    
 
     def get_keywords(self):
-        return Keyword.objects.filter(review__id=self.id)
-        
+        return Keyword.objects.filter(review__id=self.id, synonym_of=None)
+
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
@@ -127,6 +127,9 @@ class Keyword(models.Model):
     
     def __unicode__(self):
         return self.description
+
+    def get_synonyms(self):
+        return Keyword.objects.filter(review__id=self.review.id, synonym_of__id=self.id)
 
     class Meta:
         verbose_name = "Keyword"

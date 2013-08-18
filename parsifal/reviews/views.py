@@ -290,3 +290,19 @@ def remove_criteria(request):
             criteria = SelectionCriteria.objects.get(pk=id)
             criteria.delete()
     return HttpResponse('')
+
+@login_required
+def add_synonym(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review-id']
+    keyword_id = request.GET['keyword-id']
+    description = request.GET['synonym']
+
+    review = Review.objects.get(pk=review_id)
+    keyword = Keyword.objects.get(pk=keyword_id)
+    synonym = Keyword(review=review, synonym_of=keyword, description=description)
+    synonym.save()
+
+    return HttpResponse('<li synonym-id="' + str(synonym.id) + '">' + escape(synonym.description) + '</li>')
