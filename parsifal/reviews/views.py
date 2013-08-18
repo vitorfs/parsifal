@@ -224,7 +224,7 @@ def remove_question(request):
     return HttpResponse('ERROR')
 
 @login_required
-def save_question(request):
+def save_objective(request):
     '''
         Function used via Ajax request only.
     '''
@@ -242,10 +242,27 @@ def add_criteria(request):
         Function used via Ajax request only.
     '''
     review_id = request.GET['review-id']
-    criteria = request.GET['criteria']
+    description = request.GET['criteria']
     criteria_type = request.GET['criteria-type']
     review = Review.objects.get(pk=review_id)
     if review.author.id == request.user.id:
-        criteria = SelectionCriteria(review=review, description=criteria, criteria_type=criteria_type)
+        criteria = SelectionCriteria(review=review, description=description, criteria_type=criteria_type)
         criteria.save()
+        return HttpResponse('<option value="' + str(criteria.id) + '">' + escape(criteria.description) + '</option>')
+    else:
+        return HttpResponse('')
+
+@login_required
+def remove_criteria(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review-id']
+    review = Review.objects.get(pk=review_id)
+    criteria_ids = request.GET['criteria-ids']
+    ids = criteria_ids.split(',')
+    if review.author.id == request.user.id:
+        for id in ids:
+            criteria = SelectionCriteria.objects.get(pk=id)
+            criteria.delete()
     return HttpResponse('')

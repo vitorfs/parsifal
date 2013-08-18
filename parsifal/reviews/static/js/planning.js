@@ -158,7 +158,7 @@ $(function () {
       type: 'get',
       cache: false,
       success: function (data) {
-        select_list.prepend("<option>" + criteria + "</option>");
+        select_list.prepend(data);
         input.val("");
         input.focus();
       }
@@ -200,6 +200,33 @@ $(function () {
         }, 2000);
       }
     });
+  });
+
+  $(".btn-remove-criteria").click(function () {
+    var select = $(this).siblings("select");
+    var ids = select.val();
+    if (ids != null) {
+      var review_id = $('#review-id').val();
+      var str_ids = "";
+      var i;
+      for (i = 0 ; i < ids.length ; i++) {
+        if (i == 0) {
+          str_ids += ids[i];  
+        }
+        else {
+          str_ids += "," + ids[i];
+        }
+      }
+      $.ajax({
+        url: '/reviews/planning/remove_criteria/',
+        data: { 'review-id': review_id,  'criteria-ids': str_ids },
+        type: 'get',
+        cache: false,
+        success: function (data) {
+          $("option:selected", select).remove();
+        }
+      });
+    }
   });
 
 });
