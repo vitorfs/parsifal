@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Article, Question, SelectionCriteria
+from reviews.models import Review, Source, Article, Question, SelectionCriteria, Keyword
 from pybtex.database.input import bibtex
 
 @login_required
@@ -185,6 +185,30 @@ def save_question(request):
         question.question_type = question_type
 
         question.save()
+
+        population_list = question.population.split(',')
+        for term in population_list:
+            if len(term) > 0:
+                keyword = Keyword(review=review, description=term.strip())
+                keyword.save()
+
+        intervention_list = question.intervention.split(',')
+        for term in intervention_list:
+            if len(term) > 0:
+                keyword = Keyword(review=review, description=term.strip())
+                keyword.save()
+
+        comparison_list = question.comparison.split(',')
+        for term in comparison_list:
+            if len(term) > 0:
+                keyword = Keyword(review=review, description=term.strip())
+                keyword.save()
+
+        outcome_list = question.outcome.split(',')
+        for term in outcome_list:
+            if len(term) > 0:
+                keyword = Keyword(review=review, description=term.strip())
+                keyword.save()
 
         return HttpResponse(question.id)
     return HttpResponse('ERROR')

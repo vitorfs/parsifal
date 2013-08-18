@@ -229,4 +229,12 @@ $(function () {
     }
   });
 
+  $(".add-synonym").keyup(function (event) {
+    if (event.keyCode == 13) {
+      $(this).closest("ul").prepend("<li>" + $(this).val() + "</li>");
+      $(this).val("");
+      $(this).focus();
+    }
+  });
+
 });

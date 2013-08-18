@@ -52,6 +52,9 @@ class Review(models.Model):
     def get_exclusion_criterias(self):
         return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='E')    
 
+    def get_keywords(self):
+        return Keyword.objects.filter(review__id=self.id)
+        
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"

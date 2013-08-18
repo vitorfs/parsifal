@@ -43,16 +43,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>software product line</td>
-          <td>
-            <ul>
-              <li>product line</li>
-              <li>spl</li>
-              <li>software product family</li>
-            </ul>
-          </td>
-        </tr>
+        {% for keyword in review.get_keywords %}
+          <tr>
+            <td>{{ keyword.description }}</td>
+            <td>
+              <ul>
+                <li><input type="text" class="add-synonym" style="font-size: 1em"></li>
+              </ul>
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </section>
