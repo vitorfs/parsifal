@@ -42,8 +42,13 @@ class Review(models.Model):
         return question
 
     def get_secondary_questions(self):
-        questions = Question.objects.filter(review__id=self.id, question_type='S')
-        return questions
+        return Question.objects.filter(review__id=self.id, question_type='S')
+
+    def get_inclusion_criterias(self):
+        return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='I')
+
+    def get_exclusion_criterias(self):
+        return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='E')    
 
     class Meta:
         verbose_name = "Review"
@@ -85,6 +90,7 @@ class SelectionCriteria(models.Model):
     class Meta:
         verbose_name = "Selection Criteria"
         verbose_name_plural = "Selection Criterias"
+        ordering = ("description",)
 
 class Article(models.Model):
     review = models.ForeignKey(Review)

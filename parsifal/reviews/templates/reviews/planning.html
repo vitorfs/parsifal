@@ -101,17 +101,25 @@
   <section id="selection-section" class="clearfix">
     <h2>Selection Criteria</h2>
     <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
-    <div style="width:50%;float:left;padding-right:15px;">
+    <div class="criteria-container">
       <h3>Inclusion Criteria:</h3>
-      <input type="text" id="input-inclusion" style="width:100%">
-      <select multiple="multiple" size="6" style="width: 100%; margin: 10px 0;" id="inclusion-criteria"></select>
-      <button type="button" class="btn btn-warning btn-small">remove selected</button>
+      <input type="text" id="input-inclusion">
+      <select multiple="multiple" size="6" id="inclusion-criteria">
+        {% for criteria in review.get_inclusion_criterias %}
+          <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+        {% endfor %}
+      </select>
+      <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
     </div>
-    <div style="width:50%;float:left;padding-left:15px;">
+    <div class="criteria-container">
       <h3>Exclusion Criteria:</h3>
-      <input type="text" id="input-exclusion" style="width:100%">
-      <select multiple="multiple" size="6" style="width: 100%; margin: 10px 0;" id="exclusion-criteria"></select>
-      <button type="button" class="btn btn-warning btn-small">remove selected</button>
+      <input type="text" id="input-exclusion">
+      <select multiple="multiple" size="6" id="exclusion-criteria">
+        {% for criteria in review.get_exclusion_criterias %}
+          <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+        {% endfor %}
+      </select>
+      <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
     </div>
   </section>
 {% endblock content %}

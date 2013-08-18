@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Article, Question
+from reviews.models import Review, Source, Article, Question, SelectionCriteria
 from pybtex.database.input import bibtex
 
 @login_required
@@ -234,4 +234,18 @@ def save_question(request):
         review = Review.objects.get(pk=review_id)
         review.objective = objective
         review.save()
+    return HttpResponse('')
+
+@login_required
+def add_criteria(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review-id']
+    criteria = request.GET['criteria']
+    criteria_type = request.GET['criteria-type']
+    review = Review.objects.get(pk=review_id)
+    if review.author.id == request.user.id:
+        criteria = SelectionCriteria(review=review, description=criteria, criteria_type=criteria_type)
+        criteria.save()
     return HttpResponse('')

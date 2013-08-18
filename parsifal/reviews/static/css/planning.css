@@ -26,3 +26,18 @@
   list-style: none;
   font-size: 1em;
 }
+
+.criteria-container {
+  width: 50%;
+  float: left;
+  padding-right: 15px;
+}
+
+.criteria-container input {
+  width: 100%;
+}
+
+.criteria-container select {
+  width: 100%; 
+  margin: 10px 0;
+}

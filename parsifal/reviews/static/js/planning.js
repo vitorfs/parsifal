@@ -146,22 +146,39 @@ $(function () {
     });
   });
 
+  function addCriteria(criteria, type, input, select_list) {
+    var review_id = $('#review-id').val();
+    $.ajax({
+      url: '/reviews/planning/add_criteria/',
+      data: { 
+        'criteria': criteria, 
+        'review-id': review_id,
+        'criteria-type': type
+      },
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        select_list.prepend("<option>" + criteria + "</option>");
+        input.val("");
+        input.focus();
+      }
+    });
+  }
+
   $("input#input-inclusion").keyup(function (event) {
     if (event.keyCode == 13) {
-      if ($(this).val() != ""){
-        $("#inclusion-criteria").append("<option>" + $(this).val() + "</option>");
-        $(this).val("");
-        $("input#input-inclusion").focus();
+      var criteria = $(this).val();
+      if (criteria != ""){
+        addCriteria(criteria, 'I', $("input#input-inclusion"), $("#inclusion-criteria"));
       }
     }
   });
 
   $("input#input-exclusion").keyup(function (event) {
     if (event.keyCode == 13) {
-      if ($(this).val() != ""){
-        $("#exclusion-criteria").append("<option>" + $(this).val() + "</option>");
-        $(this).val("");
-        $("input#input-exclusion").focus();
+      var criteria = $(this).val();
+      if (criteria != ""){
+        addCriteria(criteria, 'E', $("input#input-exclusion"), $("#exclusion-criteria"));
       }
     }
   });
