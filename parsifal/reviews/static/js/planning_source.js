@@ -124,4 +124,9 @@ $(function () {
 
   $(".btn-remove-source").click(removeSource);
   $(".btn-edit-source").click(editSource);
+
+  $("#checkbox-all-sources").click(function () {
+    var is_checked = $(this).is(":checked");
+    $("#tbl-suggested-sources tbody tr td input").prop("checked", is_checked);
+  });
 });
