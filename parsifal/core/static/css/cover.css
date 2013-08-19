@@ -26,20 +26,15 @@ p.slogan {
 section.features {
   padding-top: 1em;
   width: 100%;
-  background-color: #732B22;
-  background: -moz-linear-gradient(top, #4A1916 0%, #732B22 10%);
-  background: -webkit-linear-gradient(top, #4A1916 0%, #732B22 10%);
-  background: -o-linear-gradient(top, #4A1916 0%, #732B22 10%);
+  background: -moz-linear-gradient(top, #57696A 0%, #738A8B 10%);
+  background: -webkit-linear-gradient(top, #57696A 0%, #738A8B 10%);
+  background: -o-linear-gradient(top, #57696A 0%, #738A8B 10%);
   color: #FFF3D0;
 }
 
 section.features article {
   padding: 2em 0;
-  box-shadow: 0 4px 2px -3px #4A1916;
-}
-
-section.features article:nth-child(even) {
-  text-align: right;
+  box-shadow: 0 4px 2px -3px #57696A;
 }
 
 section.features article:last-child {

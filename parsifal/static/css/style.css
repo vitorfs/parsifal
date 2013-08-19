@@ -20,15 +20,17 @@ strong {
 }
 
 header {
-  background: #3A3D40;
+  background: #728A8B;
+  border-bottom: 1px solid #56696A;
   width: 100%;
   padding: .4em 0;
-  border-bottom: 0.2em solid #732B22;
+  box-shadow: 0 0 5px #000;
 }
 
 header h1 {
   font-family: Playball, cursive;
   font-size: 1.8em;
+  text-shadow: 1px 1px 0px #3A3D40;
 }
 
 header h1 a {
@@ -38,7 +40,7 @@ header h1 a {
 }
 
 header h1 a:hover {
-  text-shadow: 0 0 3px #E6D9B8;
+  color: #FFF3D0;
 }
 
 header nav {
@@ -61,34 +63,12 @@ header nav a:hover {
 }
 
 .signin a {
-  font-size: .7em;
-  width: 100px;
-  border: 1px solid #607577;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  background-color: #728A8B;
-  color: #FFF3D0;
-  display: block;
-  text-decoration: none;
-  text-align: center;
-  padding: 0.2em 0;
+
 }
 
 .signin {
   padding: .6em 0;
   float: right;
-}
-
-.signedin {
-  padding: .9em 0;
-  float: right;
-  font-size: .8em;
-}
-
-.signedin a {
-  color: #E6D9B8;
-  text-decoration: none;
 }
 
 .wrapper {
@@ -98,8 +78,9 @@ header nav a:hover {
 
 section.content {
   background: url("../img/ticks.png");
+  background: #f6f6f6;
   padding: 1.5em 0;
-  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.7) inset;
+  
 }
 
 section.content input {
@@ -131,29 +112,13 @@ section.content h2 {
   font-weight: 600;
 }
 
-section.content button {
-  border: 1px solid #8A978D;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  background-color: #94A390;
-  color: #FFF3D0;
-  height: 50px;
-  width: 100%;
-  font-size: 1em;
-}
-
-section.content button:hover {
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(148, 163, 144, 0.6);
-}
-
 section.content h1 {
   font-weight: 600;
   font-size: 1.2em;
 }
 
 footer {
-  background-color: #4A1916;
+  background-color: #57696A;
   font-weight: 400;
   color: #FFF3D0;
   padding: .7em 0;

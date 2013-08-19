@@ -30,8 +30,8 @@ body {
 }
 
 header {
-  background: #728A8B;
   height: 65px;
+  background: #728A8B;
   border-bottom: 1px solid #56696A;
   position: fixed;
   width: 100%;
