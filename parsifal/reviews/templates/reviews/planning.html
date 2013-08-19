@@ -14,7 +14,7 @@
   {% include "reviews/review_header.html" with active_menu="planning" %}
   <section id="objective-section" class="clearfix">
     <h2>Objectives</h2>
-    <form method="post" action="." class="form-block" id="form-objective">
+    <form method="post" action="." class="form-block form-normal" id="form-objective">
       {% csrf_token %}
       <input type="hidden" name="review-id" value="{{ review.id }}">
       <div class="form-row">
@@ -117,7 +117,7 @@
   <section id="selection-section" class="clearfix">
     <h2>Selection Criteria</h2>
     <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
-    <div class="criteria-container">
+    <div class="criteria-container-left">
       <h3>Inclusion Criteria:</h3>
       <input type="text" id="input-inclusion">
       <select multiple="multiple" size="6" id="inclusion-criteria">
@@ -127,7 +127,7 @@
       </select>
       <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
     </div>
-    <div class="criteria-container">
+    <div class="criteria-container-right">
       <h3>Exclusion Criteria:</h3>
       <input type="text" id="input-exclusion">
       <select multiple="multiple" size="6" id="exclusion-criteria">

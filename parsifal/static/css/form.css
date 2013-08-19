@@ -106,3 +106,7 @@ input:focus, textarea:focus {
   display: none;
   margin-left: 10px;
 }
+
+.form-normal input, .form-normal textarea, .form-normal label {
+  font-size: 1.4em;
+}
