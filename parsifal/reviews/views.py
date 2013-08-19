@@ -130,12 +130,14 @@ def save_source(request):
             try:
                 source = Source.objects.get(pk=source_id)
                 source.name=name
-                source.url=url
+                source.set_url(url)
                 source.save()
             except Source.DoesNotExist:
                 pass
         else:
-            source = Source(name=name, url=url)
+            source = Source()
+            source.name=name
+            source.set_url(url)
             source.save()
             review.sources.add(source)
             review.save()

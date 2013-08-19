@@ -13,6 +13,12 @@ class Source(models.Model):
     def __unicode__(self):
         return self.name
 
+    def set_url(self, value):
+        if "http://" not in value and "https://" not in value:
+            self.url = "http://" + str(value)
+        else:
+            self.url = value
+
     class Meta:
         verbose_name = "Source"
         verbose_name_plural = "Sources"
