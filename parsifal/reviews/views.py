@@ -110,29 +110,41 @@ def reporting(request, username, review_name):
     return render_to_response('reviews/reporting.html', context)
 
 @login_required
-def add_source_to_review(request):
+def save_source(request):
     '''
         Function used via Ajax request only.
         This function adds a new source to the source list of the review.
         To add the source successfully the logged in user must be the author or a co-author
         of the review.
+        If the request receives a source_id, that means the source already exist so the function
+        will just edit the existing source and save the model.
     '''
-    review_id = request.GET['id']
+    review_id = request.GET['review-id']
+    source_id = request.GET['source-id']
     name = request.GET['name']
     url = request.GET['url']
-    source = Source(name=name, url=url)
-    source.save()
 
     review = Review.objects.get(pk=review_id)
     if review.author.id == request.user.id:
-        review.sources.add(source)
-        review.save()
+        if source_id:
+            try:
+                source = Source.objects.get(pk=source_id)
+                source.name=name
+                source.url=url
+                source.save()
+            except Source.DoesNotExist:
+                pass
+        else:
+            source = Source(name=name, url=url)
+            source.save()
+            review.sources.add(source)
+            review.save()
         return_html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td>'
         if source.url:
             return_html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
         else:
             return_html += '<td>' + escape(source.url) + '</td>'
-        return_html += '<td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
+        return_html += '<td><button type="button" class="btn btn-small btn-edit-source">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
         return HttpResponse(return_html)
     else:
         return HttpResponse('error')
