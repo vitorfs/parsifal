@@ -186,30 +186,6 @@ def save_question(request):
 
         question.save()
 
-        population_list = question.population.split(',')
-        for term in population_list:
-            if len(term) > 0:
-                keyword = Keyword(review=review, description=term.strip())
-                keyword.save()
-
-        intervention_list = question.intervention.split(',')
-        for term in intervention_list:
-            if len(term) > 0:
-                keyword = Keyword(review=review, description=term.strip())
-                keyword.save()
-
-        comparison_list = question.comparison.split(',')
-        for term in comparison_list:
-            if len(term) > 0:
-                keyword = Keyword(review=review, description=term.strip())
-                keyword.save()
-
-        outcome_list = question.outcome.split(',')
-        for term in outcome_list:
-            if len(term) > 0:
-                keyword = Keyword(review=review, description=term.strip())
-                keyword.save()
-
         return HttpResponse(question.id)
     return HttpResponse('ERROR')
 
@@ -306,3 +282,41 @@ def add_synonym(request):
     synonym.save()
 
     return HttpResponse('<li synonym-id="' + str(synonym.id) + '">' + escape(synonym.description) + '</li>')
+
+def extract_keywords(keywords, review):
+    keyword_list = keywords.split(',')
+    keyword_objects = []
+    for term in keyword_list:
+        if len(term) > 0:
+            keyword = Keyword(review=review, description=term.strip())
+            keyword.save()
+            keyword_objects.append(keyword)
+    return keyword_objects
+
+@login_required
+def import_pico_keywords(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review-id']
+    review = Review.objects.get(pk=review_id)
+    questions = review.get_questions()
+    keywords = []
+
+    for question in questions:
+        keywords += extract_keywords(question.population, review)
+        keywords += extract_keywords(question.intervention, review)
+        keywords += extract_keywords(question.comparison, review)
+        keywords += extract_keywords(question.outcome, review)
+
+    str_return = ""
+
+    for keyword in keywords:
+        str_return += '''<tr keyword-id="''' + str(keyword.id) + '''">
+                           <td class="keyword-row">''' + escape(keyword.description) + '''</td>
+                           <td>
+                             <ul></ul>
+                             <input type="text" class="add-synonym">
+                           </td>
+                         </tr>'''
+    return HttpResponse(str_return)

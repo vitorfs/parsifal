@@ -229,25 +229,30 @@ $(function () {
     }
   });
 
-  $(".add-synonym").keyup(function (event) {
-    if (event.keyCode == 13) {
-      var synonym = $(this).val();
-      var keyword_id = $(this).closest("tr").attr("keyword-id");
-      var review_id = $("#review-id").val();
-      var input = $(this);
-      $.ajax({
-        url: '/reviews/planning/add_synonym/',
-        data: { 'review-id': review_id, 'keyword-id': keyword_id, 'synonym': synonym },
-        cache: false,
-        type: 'get',
-        success: function (data) {
-          input.siblings("ul").append(data);
-          input.val("");
-          input.focus();
-        }
-      });
-    }
-  });
+  
+  $.fn.bindAddSynonym = function () {
+    $(this).keyup(function (event) {
+      if (event.keyCode == 13) {
+        var synonym = $(this).val();
+        var keyword_id = $(this).closest("tr").attr("keyword-id");
+        var review_id = $("#review-id").val();
+        var input = $(this);
+        $.ajax({
+          url: '/reviews/planning/add_synonym/',
+          data: { 'review-id': review_id, 'keyword-id': keyword_id, 'synonym': synonym },
+          cache: false,
+          type: 'get',
+          success: function (data) {
+            input.siblings("ul").append(data);
+            input.val("");
+            input.focus();
+          }
+        });
+      }
+    });
+  };
+
+  $(".add-synonym").bindAddSynonym();
 
   function saveKeyword() {
     var value = $(".edit-keyword").val();
@@ -277,5 +282,19 @@ $(function () {
   }
 
   $("#tbl-keywords td.keyword-row").click(editKeyword);
+
+  $("#import-pico-keywords").click(function () {
+    $.ajax({
+      url: '/reviews/planning/import_pico_keywords/',
+      data: { 'review-id': $('#review-id').val() },
+      cache: false,
+      type: 'get',
+      success: function (data) {
+        $("#tbl-keywords tbody").append(data);
+        $(".add-synonym").unbind("keyup");
+        $(".add-synonym").bindAddSynonym();
+      }
+    });
+  });
 
 });
