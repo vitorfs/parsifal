@@ -127,7 +127,12 @@ def add_source_to_review(request):
     if review.author.id == request.user.id:
         review.sources.add(source)
         review.save()
-        return_html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td><td>' + escape(source.url) + '</td><td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
+        return_html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td>'
+        if source.url:
+            return_html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
+        else:
+            return_html += '<td>' + escape(source.url) + '</td>'
+        return_html += '<td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
         return HttpResponse(return_html)
     else:
         return HttpResponse('error')

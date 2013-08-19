@@ -98,8 +98,16 @@
         {% for source in review.sources.all %}
           <tr source-id="{{ source.id }}">
             <td>{{ source.name }}</td>
-            <td>{{ source.url }}</td>
-            <td><button type="button" class="btn btn-small">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td>
+            <td>
+              {% if source.url %}
+                <a href="{{ source.url }}" target="_blank">{{ source.url }}</a>
+              {% else %}
+                {{ source.url }}
+              {% endif %}
+            </td>
+            <td>
+              <button type="button" class="btn btn-small btn-edit-source">edit</button>
+              <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td>
           </tr>
         {% endfor %}
       </tbody>
