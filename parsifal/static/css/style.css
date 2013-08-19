@@ -24,7 +24,6 @@ header {
   border-bottom: 1px solid #56696A;
   width: 100%;
   padding: .4em 0;
-  box-shadow: 0 0 5px #000;
 }
 
 header h1 {
@@ -77,10 +76,9 @@ header nav a:hover {
 }
 
 section.content {
-  background: url("../img/ticks.png");
   background: #f6f6f6;
   padding: 1.5em 0;
-  
+  box-shadow: 0 0px 5px rgba(0, 0, 0, .6) inset;
 }
 
 section.content input {
