@@ -69,11 +69,13 @@
     <h2>Sources</h2>
     <div class="modal" id="modal-suggested-sources">
       <div class="modal-header">
-        <a href="#" class="close" onclick="$(this).closest('div.modal').slideUp();return false;">×</a>
+        <a href="#" class="close close-modal">×</a>
         <h2>Suggested Sources</h2>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="." method="post" id="form-suggested-sources">
+          {% csrf_token %}
+          <input type="hidden" name="review_id" value="{{ review.id }}">
           <table class="table" id="tbl-suggested-sources">
             <thead>
               <tr>
@@ -88,7 +90,7 @@
               {% for source in default_sources %}
                 <tr>
                   <td>
-                    <input type="checkbox" value="{{ source.id }}">
+                    <input type="checkbox" value="{{ source.id }}" name="source_id">
                   </td>
                   <td>{{ source.name }}</td>
                   <td>
@@ -101,8 +103,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" id="btn-save-suggested-source">Save</button>
-        <button type="button" class="btn btn-warning">Cancel</button>
+        <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
+        <button type="button" class="btn btn-warning close-modal">Cancel</button>
       </div>
     </div>
     <button type="button" class="btn btn-small" id="btn-add-source">Add Source</button>

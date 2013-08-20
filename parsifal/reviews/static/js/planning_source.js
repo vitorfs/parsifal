@@ -31,8 +31,8 @@ $(function () {
           $("#tbl-sources tbody tr:first-child").remove();
           $("#tbl-sources tbody").prepend(data);          
         }
+        $(".btn-edit-source").unbind("click").bind("click", editSource);
         $(".btn-remove-source").unbind("click").bind("click", removeSource);
-        $(".btn-edit-source").unbind("blick").bind("click", editSource);
       },
       error: function (jqXHR, textStatus, errorThrown) {
 
@@ -50,8 +50,8 @@ $(function () {
       $("#tbl-sources tbody tr[source-id='" + source_editing_id + "']").html(source_editing_html);
       source_editing_id = "";
       source_editing_html = "";
+      $(".btn-edit-source").unbind("click").bind("click", editSource);
       $(".btn-remove-source").unbind("click").bind("click", removeSource);
-      $(".btn-edit-source").unbind("blick").bind("click", editSource);
     }
     else {
       $("#tbl-sources tbody tr:first-child").remove();
@@ -70,12 +70,10 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        button.html("removing…");
-        button.attr("disabled", true);
+
       },
       error: function () {
-        button.html("remove");
-        button.attr("disabled", false);
+
       },
       success: function(data) {
         row.remove();
@@ -130,10 +128,28 @@ $(function () {
     $("#tbl-suggested-sources tbody tr td input").prop("checked", is_checked);
   });
 
-  $("#btn-save-suggested-source").click(function () {
-    var review_id = $("#review-id").val()
+  $("#btn-save-suggested-sources").click(function () {
+    var modal = $(this).closest('div.modal');
     $.ajax({
-
+      url: '/reviews/planning/add_suggested_sources/',
+      data: $('#form-suggested-sources').serialize(),
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        $("#tbl-sources tbody").append(data);
+        $(".btn-edit-source").unbind("click").bind("click", editSource);
+        $(".btn-remove-source").unbind("click").bind("click", removeSource);
+        modal.slideUp(400, function () {
+          $("#tbl-suggested-sources input").prop("checked", false);
+        });
+      }
     });
+  });
+
+  $(".close-modal").click(function () {
+    $(this).closest('div.modal').slideUp(400, function () {
+      $("#tbl-suggested-sources input").prop("checked", false);
+    });
+    return false;
   });
 });

@@ -179,3 +179,11 @@ ul li {
   padding: .2em 0;
   list-style: square;
 }
+
+a.close {
+  text-decoration: none;
+}
+
+a.close:hover {
+  text-decoration: none;
+}

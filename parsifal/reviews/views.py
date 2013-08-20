@@ -110,6 +110,16 @@ def reporting(request, username, review_name):
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/reporting.html', context)
 
+def html_source(source):
+    html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td>'
+    if source.url:
+        html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
+    else:
+        html += '<td>' + escape(source.url) + '</td>'
+    html += '<td><button type="button" class="btn btn-small btn-edit-source">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
+    return html
+
+
 @login_required
 def save_source(request):
     '''
@@ -130,6 +140,9 @@ def save_source(request):
         if source_id:
             try:
                 source = Source.objects.get(pk=source_id)
+                if source.is_default:
+                    review.sources.remove(source)
+                    source = Source()
                 source.name=name
                 source.set_url(url)
                 source.save()
@@ -142,13 +155,7 @@ def save_source(request):
             source.save()
             review.sources.add(source)
             review.save()
-        return_html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td>'
-        if source.url:
-            return_html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
-        else:
-            return_html += '<td>' + escape(source.url) + '</td>'
-        return_html += '<td><button type="button" class="btn btn-small btn-edit-source">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
-        return HttpResponse(return_html)
+        return HttpResponse(html_source(source))
     else:
         return HttpResponse('error')
 
@@ -162,23 +169,26 @@ def remove_source_from_review(request):
     source = Source.objects.get(pk=source_id)
     review = Review.objects.get(pk=review_id)
     review.sources.remove(source)
-    source.delete()
+    if not source.is_default:
+        source.delete()
     review.save()
     return HttpResponse('OK')
 
 @login_required
-def add_suggested_source(request):
+def add_suggested_sources(request):
     '''
         Function used via Ajax request only.
     '''
-    sources_ids = request.GET['sources_ids']
-    review_id = request.GET['review_id']
+    source_ids = request.POST.getlist('source_id')
+    review_id = request.POST['review_id']
     review = Review.objects.get(pk=review_id)
-    source_id_list = sources_ids.split('|')
-    for source_id in source_id_list
-        review.sources.append(Source(id=source_id))
+    return_html = ''
+    for source_id in source_ids:
+        source = Source.objects.get(pk=source_id)
+        review.sources.add(source)
+        return_html += html_source(source)
     review.save()
-    return HttpResponse('OK')
+    return HttpResponse(return_html)
 
 @login_required
 def save_question(request):
