@@ -25,7 +25,7 @@
       {% for author in review.co_authors.all %}
         <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
           {% if user.id == review.author.id %}
-            <button type="button" class="btn btn-small btn-warning remove-author">remove</button>
+            <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button>
           {% endif %}
         </li>
       {% endfor %}
