@@ -14,7 +14,7 @@ class Source(models.Model):
         return self.name
 
     def set_url(self, value):
-        if "http://" not in value and "https://" not in value:
+        if "http://" not in value and "https://" not in value and len(value) > 0:
             self.url = "http://" + str(value)
         else:
             self.url = value

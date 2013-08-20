@@ -75,7 +75,8 @@ def remove_author_from_review(request):
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review })
+    default_sources = Source.objects.filter(is_default=True)
+    context = RequestContext(request, {'review': review, 'default_sources': default_sources })
     return render_to_response('reviews/planning.html', context)
 
 @login_required

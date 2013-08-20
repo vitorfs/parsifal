@@ -1,0 +1,65 @@
+[
+  {
+    "model": "reviews.Source",
+    "pk": 1,
+    "fields": {
+      "name": "Science@Direct",
+      "url": "http://www.sciencedirect.com",
+      "is_default": true
+    }
+  },
+  {
+    "model": "reviews.Source",
+    "pk": 2,
+    "fields": {
+      "name": "El Compendex",
+      "url": "http://www.engineeringvillage.com",
+      "is_default": true
+    }
+  },
+  {
+    "model": "reviews.Source",
+    "pk": 3,
+    "fields": {
+      "name": "IEEE Digital Library",
+      "url": "http://ieeexplore.ieee.org",
+      "is_default": true
+    }
+  },
+  {
+    "model": "reviews.Source",
+    "pk": 4,
+    "fields": {
+      "name": "ACM Digital Library",
+      "url": "http://portal.acm.org",
+      "is_default": true
+    }
+  },
+  {
+    "model": "reviews.Source",
+    "pk": 5,
+    "fields": {
+      "name": "ISI Web of Science",
+      "url": "www.isiknowledge.com",
+      "is_default": true
+    }
+  },
+  {
+    "model": "reviews.Source",
+    "pk": 6,
+    "fields": {
+      "name": "Springer Link",
+      "url": "http://link.springer.com",
+      "is_default": true
+    }
+  },
+  {
+    "model": "reviews.Source",
+    "pk": 7,
+    "fields": {
+      "name": "Scopus",
+      "url": "http://www.scopus.com",
+      "is_default": true
+    }
+  }
+]
