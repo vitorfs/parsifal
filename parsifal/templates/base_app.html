@@ -10,40 +10,42 @@
   {% endblock head_extra %}
 </head>
 <body>
-  <header class="wrapper">
-    <h1><a href="/">Parsifal</a></h1>
-    <nav class="menu">
-      <a href="/news/">News</a>
-      <a href="/about/">About</a>
-      <a href="/help/">Help</a>
-    </nav>
-    <nav class="signedin">
-      <a href="/{{ user.username }}/" class="user">{{ user.username }}</a>
-      <a href="/settings/">Account Settings</a>
-      <a href="/signout/">Sign Out</a>
-    </nav>
-  </header>
-  <section class="content wrapper">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();">×</a>
-          {{ message }}
-        </div>
-        <script type="text/javascript">
-          $(function () {
-            window.setTimeout(function () {
-              $('.alert').fadeOut();
-            }, 5000);
-          });
-        </script>
-      {% endfor %}
-    {% endif %}
-    {% block content %}
-    {% endblock content %}
-    <div class="push"></div>
-  </section>
-  <footer class="wrapper">
+  <div class="wrapper">
+    <header>
+      <h1><a href="/">Parsifal</a></h1>
+      <nav class="menu">
+        <a href="/news/">News</a>
+        <a href="/about/">About</a>
+        <a href="/help/">Help</a>
+      </nav>
+      <nav class="signedin">
+        <a href="/{{ user.username }}/" class="user">{{ user.username }}</a>
+        <a href="/settings/">Account Settings</a>
+        <a href="/signout/">Sign Out</a>
+      </nav>
+    </header>
+    <section class="content">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();">×</a>
+            {{ message }}
+          </div>
+          <script type="text/javascript">
+            $(function () {
+              window.setTimeout(function () {
+                $('.alert').fadeOut();
+              }, 5000);
+            });
+          </script>
+        {% endfor %}
+      {% endif %}
+      {% block content %}
+      {% endblock content %}
+      <div class="push"></div>
+    </section>
+  </div>
+  <footer>
     <p>© 2013 Parsifal Ltd.</p>
     <ul>
       <li><a href="#">Terms of Use</a></li>

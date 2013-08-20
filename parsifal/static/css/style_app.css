@@ -33,10 +33,11 @@ header {
   height: 65px;
   background: #728A8B;
   border-bottom: 1px solid #56696A;
-  position: fixed;
+  /*position: fixed;*/
   width: 100%;
   box-shadow: 0 0 5px rgba(0, 0, 0, .6);
   z-index: 1000;
+  padding: 0 20px;
 }
 
 header h1 {
@@ -99,21 +100,21 @@ header nav.signedin a.user {
 }
 
 .wrapper {
-  width: 100%;
-  padding: 0 20px;
-}
-
-.content {
-  padding: 90px 20px 20px;
   min-height: 100%;
   height: auto !important;
   height: 100%;
   margin: 0 auto -40px;
 }
 
+.content {
+  /*padding: 90px 20px 20px;*/
+  padding: 20px;
+}
+
 footer {
   background-color: #E9E9E9;
   height: 40px;
+  padding: 0 20px;
 }
 
 footer p {
