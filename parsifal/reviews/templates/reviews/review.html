@@ -8,12 +8,10 @@
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="review" %}
   <section class="clearfix">
-    <h2>
-      Authors
-      {% if user.id == review.author.id %}
-        <button type="button" class="add-author">+ add</button>
-      {% endif %}
-    </h2>
+    <h2>Authors</h2>
+    {% if user.id == review.author.id %}
+      <button type="button" class="btn btn-small add-author">Add Author</button>
+    {% endif %}
     <ul class="authors">
       <li author=id="{{ review.author.id }}">
         <a href="/{{ review.author.username }}/">
@@ -27,14 +25,24 @@
       {% for author in review.co_authors.all %}
         <li author-id="{{ author.id }}"><a href="/{{ author.username }}/">{{ author.get_full_name }}</a>
           {% if user.id == review.author.id %}
-            <button type="button" class="remove-author">(remove)</button>
+            <button type="button" class="btn btn-small btn-warning remove-author">remove</button>
           {% endif %}
         </li>
       {% endfor %}
     </ul>
   </section>
+  <hr>
   <section class="clearfix">
     <h2>Description</h2>
-    <p>{{ review.description }}</p>
+    <form method="post" action="." class="form-block">
+      {% csrf_token %}
+      <div class="form-row form-normal">
+        <textarea rows="5">{{ review.description }}</textarea>
+      </div>
+      <div class="form-row">
+        <button type="button" class="btn btn-success pull-left btn-save-objective">Save</button>
+        <span class="form-status-message pull-left"></span>
+      </div>
+    </form>
   </section>
 {% endblock content %}

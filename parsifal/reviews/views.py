@@ -56,7 +56,7 @@ def add_author_to_review(request):
         if review.author.id == request.user.id:
             review.co_authors.add(user)
             review.save()
-            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="remove-author">(remove)</button></li>')
+            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="btn btn-small btn-warning remove-author">remove</button></li>')
         else:
             return HttpResponse('error')
     else:

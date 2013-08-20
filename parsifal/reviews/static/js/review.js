@@ -20,8 +20,10 @@ $(function () {
             cache: false,
             success: function (data) {
               parent.remove();
-              $('.authors').append(data);
-              $('.remove-author').unbind('click').bind('click', removeAuthor);
+              if (data != 'error') {
+                $('.authors').append(data);
+                $('.remove-author').unbind('click').bind('click', removeAuthor);                
+              }
             },
             complete: function () {
               is_editing = false;

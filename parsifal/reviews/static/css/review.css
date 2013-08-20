@@ -1,26 +1,6 @@
-button.add-author, button.remove-author {
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-weight: 600;
-  font-size: 14px;
-  display: inline;
-  padding: 0;
-  margin: 0;
+ul.authors {
+  margin-top: 10px;
 }
-
-button.add-author:hover, button.remove-author:hover {
-  text-decoration: underline;
-}
-
-button.add-author {
-  color: #94A390;
-}
-
-button.remove-author {
-  color: #BE4D40;
-}
-
 ul.authors li {
   line-height: 1.3;
 }
