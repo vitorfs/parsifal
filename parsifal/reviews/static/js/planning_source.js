@@ -129,4 +129,11 @@ $(function () {
     var is_checked = $(this).is(":checked");
     $("#tbl-suggested-sources tbody tr td input").prop("checked", is_checked);
   });
+
+  $("#btn-save-suggested-source").click(function () {
+    var review_id = $("#review-id").val()
+    $.ajax({
+
+    });
+  });
 });

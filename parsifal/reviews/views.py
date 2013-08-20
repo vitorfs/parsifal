@@ -167,6 +167,20 @@ def remove_source_from_review(request):
     return HttpResponse('OK')
 
 @login_required
+def add_suggested_source(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    sources_ids = request.GET['sources_ids']
+    review_id = request.GET['review_id']
+    review = Review.objects.get(pk=review_id)
+    source_id_list = sources_ids.split('|')
+    for source_id in source_id_list
+        review.sources.append(Source(id=source_id))
+    review.save()
+    return HttpResponse('OK')
+
+@login_required
 def save_question(request):
     '''
         Function used via Ajax request only.
