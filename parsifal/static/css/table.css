@@ -19,3 +19,7 @@
 .table tr {
   border-bottom: 1px solid #AAA;
 }
+
+.no-data {
+  border-top: 1px solid #AAA;
+}

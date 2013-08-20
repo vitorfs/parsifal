@@ -12,28 +12,47 @@
       {% else %}
         <button type="button" class="btn">Follow {{ page_user.username }}</button>
       {% endif %}
-      {% if user_reviews %}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Authors</th>
-              <th>Last update</th>
-            </tr>
-          </thead>
+      <div class="review-list">
+        <h2>Published Reviews</h2>
+        <table class="table no-data">
           <tbody>
-            {% for review in user_reviews %}
-              <tr>
-                <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
-                <td>{{ review.author.get_full_name }}</td>
-                <td>{{ review.last_update|date:"D d M Y" }}</td>
-              </tr>
-            {% endfor %}
+            <tr>
+              <td>You haven't published any systematic literature review yet.</td>
+            </tr>
           </tbody>
         </table>
-      {% else %}
-        <h2>You don't have any systematic literature review yet.</h2>
-      {% endif %}
+      </div>
+      <div class="review-list">
+        <h2>Work in Progress</h2>
+        {% if user_reviews %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Last update</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for review in user_reviews %}
+                <tr>
+                  <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
+                  <td>{{ review.author.get_full_name }}</td>
+                  <td>{{ review.last_update|date:"D d M Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <table class="table no-data">
+            <tbody>
+              <tr>
+                <td>You don't have any systematic literature review yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        {% endif %}
+      </div>
     </div>
     <div class="profile">
       <div class="picture">

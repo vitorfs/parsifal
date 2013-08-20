@@ -68,3 +68,7 @@
 .profile .stats div span {
   font-size: 1.4em;
 }
+
+.review-list {
+  margin: 20px 0;
+}
