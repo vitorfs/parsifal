@@ -14,3 +14,4 @@ Technology
 * Python 2.7
 * Django 1.5
 * jQuery 1.10
+* PostgreSQL 9.2
