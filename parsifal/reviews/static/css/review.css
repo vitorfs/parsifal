@@ -66,3 +66,18 @@ ul.review-menu li.active {
 .add-author-input input {
   font-size: 1em;
 }
+
+.stuck {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top-left-radius: 0!important;
+  border-top-right-radius: 0!important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
+}
+
+ul.stuck li {
+  border-top-left-radius: 0!important;
+  border-top-right-radius: 0!important;
+}

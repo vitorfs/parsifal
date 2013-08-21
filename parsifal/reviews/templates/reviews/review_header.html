@@ -6,3 +6,9 @@
   <li {% if active_menu == "reporting"%} class="active" {% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/reporting/">Reporting</a></li>
 </ul>
 <input type="hidden" id="review-id" value="{{ review.id }}">
+
+<script type="text/javascript">
+  $(function () {
+    $('.review-menu').waypoint('sticky');
+  });
+</script>
