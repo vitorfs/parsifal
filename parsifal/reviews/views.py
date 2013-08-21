@@ -30,7 +30,7 @@ def new(request):
         review = Review(name = name, title = title, description = description, author=author, last_update=last_update)
         review.save()
         messages.add_message(request, messages.SUCCESS, 'Review created with success.')
-        return redirect('/' + request.user.username + '/')
+        return redirect('/' + review.author.username + '/' + review.name + '/')
     else:
         context = RequestContext(request)
         return render_to_response('reviews/new.html', context)

@@ -62,7 +62,7 @@ $(function () {
       success: function (data) {
         $('.questions-containers').append(data);
         $('html, body').animate({
-            scrollTop: ($(".questions-containers .question:last-child").offset().top - 90)
+            scrollTop: ($(".questions-containers .question:last-child").offset().top - 20)
         }, 1000);
         $('.btn-save-question').unbind('click').bind('click', saveQuestion);
         $('.btn-remove-question').unbind('click').bind('click', removeQuestion);

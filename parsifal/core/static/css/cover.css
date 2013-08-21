@@ -34,7 +34,7 @@ section.features {
 
 section.features article {
   padding: 2em 0;
-  box-shadow: 0 4px 2px -3px #57696A;
+  border-bottom: 1px solid #58696A;
 }
 
 section.features article:last-child {

@@ -7,7 +7,7 @@
 {% block content %}
   <div class="clearfix">
     <div class="reviews">
-      {% if user.username == page_user.username %}
+      {% if user.id == page_user.id %}
         <a href="/reviews/new/" class="btn btn-success">New review</a>
       {% else %}
         <button type="button" class="btn">Follow {{ page_user.username }}</button>
@@ -17,42 +17,53 @@
         <table class="table no-data">
           <tbody>
             <tr>
-              <td>You haven't published any systematic literature review yet.</td>
+              <td>
+                {% if user.id == page_user.id %}
+                  You  
+                {% elif page_user.get_full_name %}
+                  {{ page_user.get_full_name }}
+                {% else %}
+                  {{ page_user.username }}
+                {% endif %}
+                haven't published any systematic literature review yet.
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="review-list">
-        <h2>Work in Progress</h2>
-        {% if user_reviews %}
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Authors</th>
-                <th>Last update</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for review in user_reviews %}
+      {% if user.id == page_user.id %}
+        <div class="review-list">
+          <h2>Work in Progress</h2>
+          {% if user_reviews %}
+            <table class="table">
+              <thead>
                 <tr>
-                  <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
-                  <td>{{ review.author.get_full_name }}</td>
-                  <td>{{ review.last_update|date:"D d M Y" }}</td>
+                  <th>Title</th>
+                  <th>Authors</th>
+                  <th>Last update</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <table class="table no-data">
-            <tbody>
-              <tr>
-                <td>You don't have any systematic literature review yet.</td>
-              </tr>
-            </tbody>
-          </table>
-        {% endif %}
-      </div>
+              </thead>
+              <tbody>
+                {% for review in user_reviews %}
+                  <tr>
+                    <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
+                    <td>{{ review.author.get_full_name }}</td>
+                    <td>{{ review.last_update|date:"D d M Y" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <table class="table no-data">
+              <tbody>
+                <tr>
+                  <td>You don't have any systematic literature review yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
     <div class="profile">
       <div class="picture">
@@ -71,15 +82,15 @@
       <div class="stats">
         <div>
           <h3>Following</h3>
-          <span>12</span>
+          <span>0</span>
         </div>
         <div>
           <h3>Reviews</h3>
-          <span>5</span>
+          <span>{{ user_reviews.count }}</span>
         </div>
         <div>
           <h3>Followers</h3>
-          <span>523</span>
+          <span>0</span>
         </div>
       </div>
     </div>
