@@ -449,3 +449,13 @@ def save_synonym(request):
             synonym.save()
             return HttpResponse(escape(synonym.description))
     return HttpResponse('ERROR')
+
+@login_required
+def save_description(request):
+    review_id = request.POST['review-id']
+    description = request.POST['description']
+    review = Review.objects.get(pk=review_id)
+    if review.is_author_or_coauthor(request.user):
+        review.description = description
+        review.save()
+    return HttpResponse('')

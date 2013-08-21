@@ -34,13 +34,14 @@
   <hr>
   <section class="clearfix">
     <h2>Description</h2>
-    <form method="post" action="." class="form-block">
+    <form method="post" action="." class="form-block" id="form-description">
       {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
       <div class="form-row form-normal">
-        <textarea rows="5">{{ review.description }}</textarea>
+        <textarea rows="5" name="description">{{ review.description }}</textarea>
       </div>
       <div class="form-row">
-        <button type="button" class="btn btn-success pull-left btn-save-objective">Save</button>
+        <button type="button" class="btn btn-success pull-left" id="btn-save-objective">Save</button>
         <span class="form-status-message pull-left"></span>
       </div>
     </form>
