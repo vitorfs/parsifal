@@ -411,3 +411,41 @@ def add_new_keyword(request):
         </tr>'''
         return HttpResponse(str_return)
     return HttpResponse('ERROR')
+
+@login_required
+def save_keyword(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review_id']
+    keyword_id = request.GET['keyword_id']
+    description = request.GET['description']
+
+    review = Review.objects.get(pk=review_id)
+    keyword = Keyword.objects.get(pk=keyword_id)
+    if review.is_author_or_coauthor(request.user):
+        keyword.description = description
+        keyword.save()
+        return HttpResponse(escape(keyword.description))
+    return HttpResponse('ERROR')
+
+@login_required
+def save_synonym(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review_id']
+    synonym_id = request.GET['synonym_id']
+    description = request.GET['description']
+
+    review = Review.objects.get(pk=review_id)
+    if review.is_author_or_coauthor(request.user):
+        synonym = Keyword.objects.get(pk=synonym_id)
+        if (len(description) == 0):
+            synonym.delete()
+            return HttpResponse('REMOVE')
+        else:
+            synonym.description = description
+            synonym.save()
+            return HttpResponse(escape(synonym.description))
+    return HttpResponse('ERROR')

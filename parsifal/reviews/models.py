@@ -148,3 +148,4 @@ class Keyword(models.Model):
     class Meta:
         verbose_name = "Keyword"
         verbose_name_plural = "Keywords"
+        ordering = ("description",)
