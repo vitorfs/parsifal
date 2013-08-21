@@ -86,4 +86,47 @@ $(function () {
 
   $(".btn-remove-keyword").click(removeKeyword);
 
+  function saveNewKeyword() {
+    var review_id = $("#review-id").val();
+    var description = $("#input-add-keyword").val();
+    $.ajax({
+      url: '/reviews/planning/add_new_keyword/',
+      data: { 'review_id': review_id, 'description': description },
+      cache: false,
+      type: 'get',
+      success: function (data) {
+        if (data != 'ERROR') {
+          $("#tbl-keywords tbody tr:eq(0)").remove();
+          $("#tbl-keywords tbody").prepend(data);
+          $(".add-synonym").unbind("keyup");
+          $(".add-synonym").bindAddSynonym();
+          $(".btn-remove-keyword").unbind("click").bind("click", removeKeyword);
+          $("#tbl-keywords td.keyword-row").unbind("click").bind("click", editKeyword);
+        }
+      }
+    });
+  }
+
+  function cancelNewKeyword() {
+    $("#tbl-keywords tbody tr:eq(0)").remove();
+  }
+
+  $.fn.addKeywordSettings = function () {
+    $(this).keyup(function (event) {
+      if (event.keyCode == 13) {
+        saveNewKeyword();
+      } else if (event.keyCode == 27) {
+        cancelNewKeyword();
+      }
+    });
+
+    $(this).blur(cancelNewKeyword);
+  };
+
+  $("#add-keyword").click(function () {
+    $("#tbl-keywords tbody").prepend("<tr><td><input type='text' id='input-add-keyword'></td><td></td><td></td><td class='no-border'>Press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel.</td></tr>");
+    $("#input-add-keyword").addKeywordSettings();
+    $("#input-add-keyword").focus();
+  });
+
 });

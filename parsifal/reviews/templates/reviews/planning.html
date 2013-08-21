@@ -38,7 +38,7 @@
   <hr>
   <section id="keywords-section" class="clearfix">
     <h2>Keywords and Synonyms</h2>
-    <button type="button" class="btn btn-small">Add Keyword</button>
+    <button type="button" class="btn btn-small" id="add-keyword">Add Keyword</button>
     <button type="button" class="btn btn-small" id="import-pico-keywords">Import PICO Keywods</button>
     <table class="table" id="tbl-keywords">
       <thead>
@@ -46,6 +46,7 @@
           <th style="width:200px">Keyword</th>
           <th>Synonyms</th>
           <th></th>
+          <th class="no-border"></th>
         </tr>
       </thead>
       <tbody>
@@ -63,6 +64,7 @@
             <td>
               <button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button>
             </td>
+            <td class="no-border"></td>
           </tr>
         {% endfor %}
       </tbody>

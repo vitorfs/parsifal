@@ -356,14 +356,16 @@ def import_pico_keywords(request):
     str_return = ""
 
     for keyword in keywords:
-        str_return += '''<tr keyword-id="''' + str(keyword.id) + '''">
-                           <td class="keyword-row">''' + escape(keyword.description) + '''</td>
-                           <td>
-                             <ul></ul>
-                             <input type="text" class="add-synonym">
-                           </td>
-                           <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
-                         </tr>'''
+        str_return += '''
+        <tr keyword-id="''' + str(keyword.id) + '''">
+          <td class="keyword-row">''' + escape(keyword.description) + '''</td>
+          <td>
+            <ul></ul>
+            <input type="text" class="add-synonym">
+          </td>
+          <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
+          <td class="no-border"></td>
+        </tr>'''
     return HttpResponse(str_return)
 
 
@@ -383,4 +385,29 @@ def remove_keyword(request):
             synonym.delete()
         keyword.delete()
         return HttpResponse('OK')
+    return HttpResponse('ERROR')
+
+@login_required
+def add_new_keyword(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review_id']
+    description = request.GET['description']
+
+    review = Review.objects.get(pk=review_id)
+    if review.is_author_or_coauthor(request.user):
+        keyword = Keyword(review=review, description=description)
+        keyword.save()
+        str_return = '''
+        <tr keyword-id="''' + str(keyword.id) + '''">
+          <td class="keyword-row">''' + escape(keyword.description) + '''</td>
+          <td>
+            <ul></ul>
+            <input type="text" class="add-synonym">
+          </td>
+          <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
+          <td class="no-border"></td>
+        </tr>'''
+        return HttpResponse(str_return)
     return HttpResponse('ERROR')
