@@ -62,7 +62,28 @@ $(function () {
         $("#tbl-keywords tbody").append(data);
         $(".add-synonym").unbind("keyup");
         $(".add-synonym").bindAddSynonym();
+        $(".btn-remove-keyword").unbind("click").bind("click", removeKeyword);
+        $("#tbl-keywords td.keyword-row").unbind("click").bind("click", editKeyword);
       }
     });
   });
+
+  function removeKeyword() {
+    var row = $(this).closest("tr");
+    keyword_id = row.attr("keyword-id");
+    $.ajax({
+      url: '/reviews/planning/remove_keyword/',
+      data: {'review_id': $('#review-id').val(), 'keyword_id': keyword_id },
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        if (data != "ERROR"){
+          row.remove();
+        }
+      }
+    });
+  }
+
+  $(".btn-remove-keyword").click(removeKeyword);
+
 });

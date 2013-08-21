@@ -362,5 +362,25 @@ def import_pico_keywords(request):
                              <ul></ul>
                              <input type="text" class="add-synonym">
                            </td>
+                           <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
                          </tr>'''
     return HttpResponse(str_return)
+
+
+@login_required
+def remove_keyword(request):
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review_id']
+    keyword_id = request.GET['keyword_id']
+
+    review = Review.objects.get(pk=review_id)
+    if review.is_author_or_coauthor(request.user):
+        keyword = Keyword.objects.get(pk=keyword_id)
+        synonyms = Keyword.objects.filter(synonym_of__id=keyword_id)
+        for synonym in synonyms:
+            synonym.delete()
+        keyword.delete()
+        return HttpResponse('OK')
+    return HttpResponse('ERROR')

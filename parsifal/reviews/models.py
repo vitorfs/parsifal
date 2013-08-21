@@ -61,6 +61,14 @@ class Review(models.Model):
     def get_keywords(self):
         return Keyword.objects.filter(review__id=self.id, synonym_of=None)
 
+    def is_author_or_coauthor(self, user):
+        if user.id == self.author.id:
+            return True
+        for co_author in self.co_authors.all():
+            if user.id == co_author.id:
+                return True
+        return False
+
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
