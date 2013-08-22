@@ -459,3 +459,62 @@ def save_description(request):
         review.description = description
         review.save()
     return HttpResponse('')
+
+# Still have to refactor this function. This is just a first approach.
+@login_required
+def generate_search_string(request):
+    review_id = request.GET['review_id']
+    review = Review.objects.get(pk=review_id)
+    if review.is_author_or_coauthor(request.user):
+        questions = Question.objects.filter(review__id=review_id)
+        keywords = Keyword.objects.filter(review__id=review_id)
+
+        population_list = []
+        intervention_list = []
+        comparison_list = []
+        outcome_list = []
+
+        query_population = []
+        query_intervention = []
+        query_comparison = []
+        query_outcome = []
+
+        for question in questions:
+            population_list = question.population.split(',')
+            intervention_list = question.intervention.split(',')
+            comparison_list = question.comparison.split(',')
+            outcome_list = question.outcome.split(',')
+
+            for keyword in population_list:
+                query_population.append(keyword)
+                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+                for synonym in synonyms:
+                    query_population.append(synonym.description)
+
+            for keyword in intervention_list:
+                query_intervention.append(keyword)
+                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+                for synonym in synonyms:
+                    query_intervention.append(synonym.description)
+
+            for keyword in comparison_list:
+                query_comparison.append(keyword)
+                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+                for synonym in synonyms:
+                    query_comparison.append(synonym.description)
+
+            for keyword in outcome_list:
+                query_outcome.append(keyword)
+                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+                for synonym in synonyms:
+                    query_outcome.append(synonym.description)
+
+
+        str_population = ' OR '.join(query_population)
+        str_intervention = ' OR '.join(query_intervention)
+        str_comparison = ' OR '.join(query_comparison)
+        str_outcome = ' OR '.join(query_outcome)
+        search_string = '(' + str_population + ') AND (' + str_intervention + ') AND (' + str_comparison + ') AND (' + str_outcome + ')'
+
+        return HttpResponse(search_string)
+    return HttpResponse('')
