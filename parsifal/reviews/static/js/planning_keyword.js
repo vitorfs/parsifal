@@ -84,8 +84,8 @@ $(function () {
         }
         else {
           $(".edit-synonym").closest("li").html(data);
-          $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
         }
+        $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
       },
       complete: function () {
         btn.show();
