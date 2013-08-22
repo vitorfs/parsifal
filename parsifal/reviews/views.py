@@ -514,7 +514,16 @@ def generate_search_string(request):
         str_intervention = ' OR '.join(query_intervention)
         str_comparison = ' OR '.join(query_comparison)
         str_outcome = ' OR '.join(query_outcome)
-        search_string = '(' + str_population + ') AND (' + str_intervention + ') AND (' + str_comparison + ') AND (' + str_outcome + ')'
 
-        return HttpResponse(search_string)
+        search_string = []
+        if str_population:
+            search_string.append('(' + str_population + ')')
+        if str_intervention:
+            search_string.append('(' + str_intervention + ')')
+        if str_comparison:
+            search_string.append('(' + str_comparison + ')')
+        if str_outcome:
+            search_string.append('(' + str_outcome + ')')
+
+        return HttpResponse(' AND '.join(search_string))
     return HttpResponse('')
