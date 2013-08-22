@@ -29,6 +29,14 @@ body {
   font-size: 62.5%;
 }
 
+.logo {
+  float: left;
+  margin-top: 15px;
+  margin-right: 15px;
+  width: 32px;
+  height: 32px;
+}
+
 header {
   height: 65px;
   background: #728A8B;
