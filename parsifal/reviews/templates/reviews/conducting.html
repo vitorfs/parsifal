@@ -11,45 +11,39 @@
   {% if review.sources.all %}
     <ul class="tab" id="source-tab">
       {% for source in review.sources.all %}
-        <li><a href="#">{{ source.name }}</a></li>
+        <li><a href="#tab{{ source.id }}">{{ source.name }}</a></li>
       {% endfor %}
     </ul>
-    <div class="articles clearfix">
-      <form class="form-block">
-        <div class="clearfix" style="margin-bottom: 15px">
-          <button type="button" class="btn btn-success pull-right" style="margin-left: 8px">Save Search String</button>
-          <button type="button" class="btn pull-right btn-suggested-search-string">Suggested Search String</button>
-          <h2>Search String</h2>
+    <div class="source-tab-content">
+      {% for source in review.sources.all %}
+        <div id="tab{{ source.id }}" class="articles clearfix hide">
+          <h2>{{ source.name }}</h2>
+          <form class="form-block">
+            <div class="clearfix" style="margin-bottom: 15px">
+              <button type="button" class="btn btn-success pull-right" style="margin-left: 8px">Save Search String</button>
+              <button type="button" class="btn pull-right btn-suggested-search-string">Suggested Search String</button>
+              <h2>Search String</h2>
+            </div>
+            <textarea style="width:100%" rows="5" name="search-string" class="search-string"></textarea>
+          </form>
+          <div class="source-buttons">
+            <button type="button" class="btn btn-import-bibtex">Import BibTeX</button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Journal</th>
+                <th>Year</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
-        <textarea style="width:100%" rows="5" name="search-string" class="search-string"></textarea>
-      </form>
-      <div class="source-buttons">
-        <button type="button" class="btn btn-import-bibtex">Import BibTeX</button>
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Journal</th>
-            <th>Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for article in articles %}
-            <tr>
-              <td></td>
-              <td>{{ article.id }}</td>
-              <td>{{ article.title }}</td>
-              <td>{{ article.author }}</td>
-              <td>{{ article.journal }}</td>
-              <td>{{ article.year }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      {% endfor %}
     </div>
   {% else %}
     <p>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>

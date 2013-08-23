@@ -196,3 +196,7 @@ a.close {
 a.close:hover {
   text-decoration: none;
 }
+
+.hide {
+  display: none;
+}
