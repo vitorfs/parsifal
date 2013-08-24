@@ -70,12 +70,21 @@
         <img src="{{ MEDIA_URL }}photo.jpg" width="200px" height="200px">
       </div>
       <ul>
-        <li class="full-name">{{ page_user.get_full_name }}</li>
+        {% if page_user.get_full_name %}
+          <li class="full-name">{{ page_user.get_full_name }}</li>
+        {% endif %}
         <li class="username">{{ page_user.username }}</li>
         <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
+        {% if page_user.get_profile.url %}
+          <li><a href="{{ page_user.get_profile.url }}">{{ page_user.get_profile.url }}</a></li>
+        {% endif %}
         <li class="divider"></li>
-        <li>Juiz de Fora, Brazil</li>
-        <li>Universidade Federal de Juiz de Fora</li>
+        {% if page_user.get_profile.location %}
+          <li>{{ page_user.get_profile.location }}</li>
+        {% endif %}
+        {% if page_user.get_profile.institution %}
+          <li>{{ page_user.get_profile.institution }}</li>
+        {% endif %}
         <li>Joined on {{ page_user.date_joined|date:"d M Y" }}</li>
         <li class="divider"></li>
       </ul>

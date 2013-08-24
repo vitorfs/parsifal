@@ -27,7 +27,6 @@ def new(request):
         title = request.POST['title']
         description = request.POST['description']
         author = request.user
-        last_update = datetime.date.today()
         review = Review(name = name, title = title, description = description, author=author, last_update=last_update)
         review.save()
         messages.add_message(request, messages.SUCCESS, 'Review created with success.')
@@ -557,4 +556,4 @@ def generate_search_string(request):
             search_string.append('(' + str_outcome + ')')
 
         return HttpResponse(' AND '.join(search_string))
-    return HttpResponse('')
+    return HttpResponse()

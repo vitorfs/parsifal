@@ -15,10 +15,20 @@ def profile(request):
         first_name = request.POST['first-name']
         last_name = request.POST['last-name']
         email = request.POST['email']
+        location = request.POST['location']
+        institution = request.POST['institution']
+        url = request.POST['url']
+
         user = request.user
+
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
+
+        user.get_profile().location = location
+        user.get_profile().institution = institution
+        user.get_profile().url = url
+
         user.save()
         messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')
         return redirect('/' + request.user.username + '/')

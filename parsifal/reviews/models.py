@@ -38,6 +38,10 @@ class Review(models.Model):
     def __unicode__(self):
         return self.name
 
+    def save(self):
+        self.last_update = datetime.datetime.now()
+        super(Review, self).save()
+
     def get_questions(self):
         questions = Question.objects.filter(review__id=self.id)
         return questions
