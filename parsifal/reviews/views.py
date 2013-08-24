@@ -388,16 +388,14 @@ def remove_keyword(request):
         return HttpResponse('OK')
     return HttpResponse('ERROR')
 
+@ajax_required
+@author_required
 @login_required
 def add_new_keyword(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review_id']
-    description = request.GET['description']
-
-    review = Review.objects.get(pk=review_id)
-    if review.is_author_or_coauthor(request.user):
+    try:
+        review_id = request.GET['review-id']
+        description = request.GET['description']
+        review = Review.objects.get(pk=review_id)
         keyword = Keyword(review=review, description=description)
         keyword.save()
         str_return = '''
@@ -411,7 +409,8 @@ def add_new_keyword(request):
           <td class="no-border"></td>
         </tr>'''
         return HttpResponse(str_return)
-    return HttpResponse('ERROR')
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required

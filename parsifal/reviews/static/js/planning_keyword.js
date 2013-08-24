@@ -170,15 +170,16 @@ $(function () {
     var description = $("#input-add-keyword").val();
     $.ajax({
       url: '/reviews/planning/add_new_keyword/',
-      data: { 'review_id': review_id, 'description': description },
+      data: { 'review-id': review_id, 'description': description },
       cache: false,
       type: 'get',
       success: function (data) {
-        if (data != 'ERROR') {
-          $("#tbl-keywords tbody tr:eq(0)").remove();
-          $("#tbl-keywords tbody").prepend(data);
-          loadKeywordSettings();
-        }
+        $("#tbl-keywords tbody tr:eq(0)").remove();
+        $("#tbl-keywords tbody").prepend(data);
+        loadKeywordSettings();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#tbl-keywords tbody tr:eq(0)").remove();
       }
     });
   }
