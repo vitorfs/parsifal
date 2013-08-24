@@ -14,6 +14,15 @@ $(function () {
         window.setTimeout(function () {
           msg.fadeOut();
         }, 2000);
+      },
+      error: function () {
+        var msg = btn.siblings('.form-status-message');
+        msg.removeClass("text-success").addClass("text-error");
+        msg.text('Something went wrong! Please contact the administrator.');
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
       }
     });
   });

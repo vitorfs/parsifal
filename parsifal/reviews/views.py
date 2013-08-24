@@ -191,13 +191,15 @@ def add_suggested_sources(request):
     review.save()
     return HttpResponse(return_html)
 
+@ajax_required
+@author_required
 @login_required
 def save_question(request):
     '''
         Function used via Ajax request only.
         This function takes a review question form and save on the database
     '''
-    if request.method == 'POST':
+    try:
         prefix = str(request.POST['prefix'])
         review_id = request.POST['review-id']
         question_id = request.POST['question-id']
@@ -228,58 +230,64 @@ def save_question(request):
         question.comparison = comparison
         question.outcome = outcome
         question.question_type = question_type
-
         question.save()
-
         return HttpResponse(question.id)
-    return HttpResponse('ERROR')
+    except:
+        return HttpResponseBadRequest()
 
+@ajax_required
+@author_required
 @login_required
 def add_question(request):
     '''
         Function used via Ajax request only.
         This functions adds a new secondary question to the review.
     '''
-    review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
-    question = Question()
-    prefix = int(time.time())
-    context = RequestContext(request, {'review': review, 'question': question, 'question_type':'S', 'prefix':prefix})
-    return render_to_response('reviews/planning_question.html', context)
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        question = Question()
+        prefix = int(time.time())
+        context = RequestContext(request, {'review': review, 'question': question, 'question_type':'S', 'prefix':prefix})
+        return render_to_response('reviews/planning_question.html', context)
+    except:
+        return HttpResponseBadRequest()
 
+@ajax_required
+@author_required
 @login_required
 def remove_question(request):
     '''
         Function used via Ajax request only.
         This function removes a secondary question from the review.
     '''
-    if request.method == 'POST':
+    try:
         review_id = request.POST['review-id']
         question_id = request.POST['question-id']
         question_type = request.POST['question-type']
-
         if question_id != 'None' and question_type != 'M':
             try:
                 question = Question.objects.get(pk=question_id)
                 question.delete()
             except Question.DoesNotExist:
-                return HttpResponse('ERROR')
+                return HttpResponseBadRequest()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
 
-        return HttpResponse('OK')
-    return HttpResponse('ERROR')
-
+@ajax_required
+@author_required
 @login_required
 def save_objective(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    if request.method == 'POST':
+    try:
         review_id = request.POST['review-id']
         objective = request.POST['objective']
         review = Review.objects.get(pk=review_id)
         review.objective = objective
         review.save()
-    return HttpResponse('')
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
@@ -295,7 +303,7 @@ def add_criteria(request):
         return HttpResponse('<option value="' + str(criteria.id) + '">' + escape(criteria.description) + '</option>')
     except:
         return HttpResponseBadRequest()
-        
+
 @ajax_required
 @author_required
 @login_required

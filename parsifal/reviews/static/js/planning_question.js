@@ -34,8 +34,8 @@ $(function () {
   }
 
   function removeQuestion() {
+    var btn = $(this);
     var form = $(this).closest("form");
-    $(form).closest("div.question").fadeOut();
     var question_id = $("input[name='question-id']", form).val();
     if (question_id != 'None') {
       $.ajax({
@@ -44,7 +44,16 @@ $(function () {
         type: 'post',
         cache: false,
         success: function (data) {
-
+          $(form).closest("div.question").fadeOut();
+        },
+        error: function () {
+        var msg = btn.siblings('.form-status-message');
+          msg.removeClass("text-success").addClass("text-error");
+          msg.text('Something went wrong! Please contact the administrator.');
+          msg.fadeIn();
+          window.setTimeout(function () {
+            msg.fadeOut();
+          }, 2000);
         }
       });
     }
