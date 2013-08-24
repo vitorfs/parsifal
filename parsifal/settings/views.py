@@ -31,12 +31,26 @@ def profile(request):
 
         user.save()
         messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')
-        return redirect('/' + request.user.username + '/')
-    else:
-        context = RequestContext(request)
-        return render_to_response('settings/profile.html', context)
+    context = RequestContext(request)
+    return render_to_response('settings/profile.html', context)
 
 @login_required
 def password(request):
+    if request.method == 'POST':
+        old_password = request.POST['old-password']
+        new_password = request.POST['new-password']
+        confirm_new_password = request.POST['confirm-new-password']
+        
+        user = request.user
+
+        if user.check_password(old_password):
+            if new_password == confirm_new_password:
+                user.set_password(new_password)
+                user.save()
+                messages.add_message(request, messages.SUCCESS, 'Your password were successfully changed.')
+            else:
+                messages.add_message(request, messages.ERROR, 'The new password didn\'t match.')
+        else:
+            messages.add_message(request, messages.ERROR, 'The old password didn\'t match.')
     context = RequestContext(request)
     return render_to_response('settings/password.html', context)
