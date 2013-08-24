@@ -312,21 +312,21 @@ def remove_criteria(request):
             criteria.delete()
     return HttpResponse('')
 
+@ajax_required
+@author_required
 @login_required
 def add_synonym(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review-id']
-    keyword_id = request.GET['keyword-id']
-    description = request.GET['synonym']
-
-    review = Review.objects.get(pk=review_id)
-    keyword = Keyword.objects.get(pk=keyword_id)
-    synonym = Keyword(review=review, synonym_of=keyword, description=description)
-    synonym.save()
-
-    return HttpResponse('<li synonym-id="' + str(synonym.id) + '">' + escape(synonym.description) + '</li>')
+    try:
+        review_id = request.GET['review-id']
+        keyword_id = request.GET['keyword-id']
+        description = request.GET['synonym']
+        review = Review.objects.get(pk=review_id)
+        keyword = Keyword.objects.get(pk=keyword_id)
+        synonym = Keyword(review=review, synonym_of=keyword, description=description)
+        synonym.save()
+        return HttpResponse('<li synonym-id="' + str(synonym.id) + '">' + escape(synonym.description) + '</li>')
+    except:
+        return HttpResponseBadRequest()
 
 def extract_keywords(keywords, review):
     keyword_list = keywords.split(',')
@@ -338,36 +338,38 @@ def extract_keywords(keywords, review):
             keyword_objects.append(keyword)
     return keyword_objects
 
+@ajax_required
+@author_required
 @login_required
 def import_pico_keywords(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
-    questions = review.get_questions()
-    keywords = []
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        questions = review.get_questions()
+        keywords = []
 
-    for question in questions:
-        keywords += extract_keywords(question.population, review)
-        keywords += extract_keywords(question.intervention, review)
-        keywords += extract_keywords(question.comparison, review)
-        keywords += extract_keywords(question.outcome, review)
+        for question in questions:
+            keywords += extract_keywords(question.population, review)
+            keywords += extract_keywords(question.intervention, review)
+            keywords += extract_keywords(question.comparison, review)
+            keywords += extract_keywords(question.outcome, review)
 
-    str_return = ""
+        str_return = ""
 
-    for keyword in keywords:
-        str_return += '''
-        <tr keyword-id="''' + str(keyword.id) + '''">
-          <td class="keyword-row">''' + escape(keyword.description) + '''</td>
-          <td>
-            <ul></ul>
-            <input type="text" class="add-synonym">
-          </td>
-          <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
-          <td class="no-border"></td>
-        </tr>'''
-    return HttpResponse(str_return)
+        for keyword in keywords:
+            str_return += '''
+            <tr keyword-id="''' + str(keyword.id) + '''">
+              <td class="keyword-row">''' + escape(keyword.description) + '''</td>
+              <td>
+                <ul></ul>
+                <input type="text" class="add-synonym">
+              </td>
+              <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
+              <td class="no-border"></td>
+            </tr>'''
+        return HttpResponse(str_return)
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
