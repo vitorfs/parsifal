@@ -281,36 +281,36 @@ def save_objective(request):
         review.save()
     return HttpResponse('')
 
+@ajax_required
+@author_required
 @login_required
 def add_criteria(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review-id']
-    description = request.GET['criteria']
-    criteria_type = request.GET['criteria-type']
-    review = Review.objects.get(pk=review_id)
-    if review.author.id == request.user.id:
+    try:
+        review_id = request.GET['review-id']
+        description = request.GET['criteria']
+        criteria_type = request.GET['criteria-type']
+        review = Review.objects.get(pk=review_id)
         criteria = SelectionCriteria(review=review, description=description, criteria_type=criteria_type)
         criteria.save()
         return HttpResponse('<option value="' + str(criteria.id) + '">' + escape(criteria.description) + '</option>')
-    else:
-        return HttpResponse('')
-
+    except:
+        return HttpResponseBadRequest()
+        
+@ajax_required
+@author_required
 @login_required
 def remove_criteria(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
-    criteria_ids = request.GET['criteria-ids']
-    ids = criteria_ids.split(',')
-    if review.author.id == request.user.id:
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        criteria_ids = request.GET['criteria-ids']
+        ids = criteria_ids.split(',')
         for id in ids:
             criteria = SelectionCriteria.objects.get(pk=id)
             criteria.delete()
-    return HttpResponse('')
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
