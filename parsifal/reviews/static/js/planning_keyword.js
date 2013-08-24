@@ -31,16 +31,19 @@ $(function () {
 
   $(".add-synonym").bindAddSynonym();
 
-  function saveKeyword(keyword_id) {
+  function saveKeyword(keyword_id, old_description) {
     var description = $(".edit-keyword").val();
     $.ajax({
       url: '/reviews/planning/save_keyword/',
-      data: { 'review_id': $("#review-id").val(), 'keyword_id': keyword_id, 'description': description },
+      data: { 'review-id': $("#review-id").val(), 'keyword-id': keyword_id, 'description': description },
       type: 'get',
       cache: false,
       success: function (data) {
         $(".edit-keyword").closest("td").html(data);
         $("#tbl-keywords td.keyword-row").bind("click", editKeyword);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        cancelEditKeyword(old_description);
       }
     });
   }
@@ -57,11 +60,11 @@ $(function () {
     $(this).html("<input type='text' value='" + description + "' class='edit-keyword'>");
     $(".edit-keyword").focus();
     $(".edit-keyword").blur(function () {
-        saveKeyword(keyword_id);
+        saveKeyword(keyword_id, description);
     });
     $(".edit-keyword").keyup(function (event) {
       if (event.keyCode == 13) {
-        saveKeyword(keyword_id);
+        saveKeyword(keyword_id, description);
       } else if (event.keyCode == 27) {
         cancelEditKeyword(description);
       }
@@ -79,7 +82,7 @@ $(function () {
       type: 'get',
       cache: false,
       success: function (data) {
-        if (description == "") {
+        if (data == "") {
           $(".edit-synonym").closest("li").remove();  
         }
         else {

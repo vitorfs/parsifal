@@ -413,51 +413,46 @@ def add_new_keyword(request):
         return HttpResponse(str_return)
     return HttpResponse('ERROR')
 
+@ajax_required
+@author_required
 @login_required
 def save_keyword(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review_id']
-    keyword_id = request.GET['keyword_id']
-    description = request.GET['description']
-
-    review = Review.objects.get(pk=review_id)
-    keyword = Keyword.objects.get(pk=keyword_id)
-    if review.is_author_or_coauthor(request.user):
+    try:
+        review_id = request.GET['review-id']
+        keyword_id = request.GET['keyword-id']
+        description = request.GET['description']
+        review = Review.objects.get(pk=review_id)
+        keyword = Keyword.objects.get(pk=keyword_id)
         keyword.description = description
         keyword.save()
         return HttpResponse(escape(keyword.description))
-    return HttpResponse('ERROR')
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
 @login_required
 def save_synonym(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    review_id = request.GET['review-id']
-    synonym_id = request.GET['synonym-id']
-    description = request.GET['description']
-
-    review = Review.objects.get(pk=review_id)
-    synonym = Keyword.objects.get(pk=synonym_id)
-    if (len(description) == 0):
-        synonym.delete()
-        return HttpResponse()
-    else:
-        synonym.description = description
-        synonym.save()
-        return HttpResponse(escape(synonym.description))
+    try:
+        review_id = request.GET['review-id']
+        synonym_id = request.GET['synonym-id']
+        description = request.GET['description']
+        review = Review.objects.get(pk=review_id)
+        synonym = Keyword.objects.get(pk=synonym_id)
+        if (len(description) == 0):
+            synonym.delete()
+            return HttpResponse()
+        else:
+            synonym.description = description
+            synonym.save()
+            return HttpResponse(escape(synonym.description))
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
 @login_required
 def save_description(request):
-    '''
-        Function used via Ajax request only.
-    '''
     try:
         review_id = request.POST['review-id']
         description = request.POST['description']
@@ -471,13 +466,13 @@ def save_description(request):
     except:
         return HttpResponseBadRequest()
 
-# Still have to refactor this function. This is just a first approach.
 @ajax_required
 @author_required
 @login_required
 def generate_search_string(request):
     '''
         Function used via Ajax request only.
+        Still have to refactor this function. This is just a first approach.
     '''
     review_id = request.GET['review-id']
     review = Review.objects.get(pk=review_id)
