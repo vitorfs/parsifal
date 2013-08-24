@@ -93,6 +93,8 @@ INSTALLED_APPS = (
     'settings',
 )
 
+AUTH_PROFILE_MODULE = 'users.UserProfile'
+
 LOGIN_URL = '/signin/'
 
 LOGGING = {

@@ -1,7 +1,7 @@
 # coding: utf-8
 import datetime
 import time
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
 from reviews.models import Review, Source, Article, Question, SelectionCriteria, Keyword
+from reviews.decorators import author_required, ajax_required
 from pybtex.database.input import bibtex
 
 @login_required
@@ -452,18 +453,31 @@ def save_synonym(request):
 
 @login_required
 def save_description(request):
-    review_id = request.POST['review-id']
-    description = request.POST['description']
-    review = Review.objects.get(pk=review_id)
-    if review.is_author_or_coauthor(request.user):
-        review.description = description
-        review.save()
-    return HttpResponse('')
+    '''
+        Function used via Ajax request only.
+    '''
+    if request.is_ajax():
+        review_id = request.POST['review-id']
+        description = request.POST['description']
+        review = Review.objects.get(pk=review_id)
+        if review.is_author_or_coauthor(request.user):
+            review.description = description
+            review.save()
+            return HttpResponse('')
+        else:
+           HttpResponseForbidden('') 
+    else:
+        return HttpResponseBadRequest('')
 
 # Still have to refactor this function. This is just a first approach.
+@ajax_required
+@author_required
 @login_required
 def generate_search_string(request):
-    review_id = request.GET['review_id']
+    '''
+        Function used via Ajax request only.
+    '''
+    review_id = request.GET['review-id']
     review = Review.objects.get(pk=review_id)
     if review.is_author_or_coauthor(request.user):
         questions = Question.objects.filter(review__id=review_id)
