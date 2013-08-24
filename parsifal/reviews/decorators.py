@@ -3,6 +3,25 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequ
 from reviews.models import Review
 from functools import wraps
 
+def main_author_required(f):
+    def wrap(request, *args, **kwargs):
+        try:
+            review_id = request.POST['review-id']
+        except:
+            try:
+                review_id = request.GET['review-id']
+            except:
+                return HttpResponseBadRequest()
+
+        review = Review.objects.get(pk=review_id)
+        if review.author.id == request.user.id:
+            return f(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden()
+    wrap.__doc__=f.__doc__
+    wrap.__name__=f.__name__
+    return wrap
+
 def author_required(f):
     def wrap(request, *args, **kwargs):
         try:

@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
 from reviews.models import Review, Source, Article, Question, SelectionCriteria, Keyword
-from reviews.decorators import author_required, ajax_required
+from reviews.decorators import main_author_required, author_required, ajax_required
 from pybtex.database.input import bibtex
 
 @login_required
@@ -42,36 +42,44 @@ def review(request, username, review_name):
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/review.html', context)
 
+@ajax_required
+@main_author_required
 @login_required
 def add_author_to_review(request):
-    username = request.GET['username']
-    review_id = request.GET['id']
-    
     try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        user = None
+        username = request.GET['username']
+        review_id = request.GET['review-id']
+        
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            user = None
 
-    if user is not None:
         review = Review.objects.get(pk=review_id)
-        if review.author.id == request.user.id:
+
+        if user is not None and user.id != review.author.id:
             review.co_authors.add(user)
             review.save()
             return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button></li>')
         else:
-            return HttpResponse('error')
-    else:
-        return HttpResponse('error')
+            return HttpResponseBadRequest()
+    except:
+        return HttpResponseBadRequest()
 
+@ajax_required
+@main_author_required
 @login_required
 def remove_author_from_review(request):
-    author_id = request.GET['author_id']
-    review_id = request.GET['review_id']
-    author = User.objects.get(pk=author_id)
-    review = Review.objects.get(pk=review_id)
-    review.co_authors.remove(author)
-    review.save()
-    return HttpResponse('OK')
+    try:
+        author_id = request.GET['author-id']
+        review_id = request.GET['review-id']
+        author = User.objects.get(pk=author_id)
+        review = Review.objects.get(pk=review_id)
+        review.co_authors.remove(author)
+        review.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
 
 @login_required
 def planning(request, username, review_name):
@@ -120,7 +128,8 @@ def html_source(source):
     html += '<td><button type="button" class="btn btn-small btn-edit-source">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
     return html
 
-
+@ajax_required
+@author_required
 @login_required
 def save_source(request):
     '''
@@ -131,13 +140,13 @@ def save_source(request):
         If the request receives a source_id, that means the source already exist so the function
         will just edit the existing source and save the model.
     '''
-    review_id = request.GET['review-id']
-    source_id = request.GET['source-id']
-    name = request.GET['name']
-    url = request.GET['url']
+    try:
+        review_id = request.GET['review-id']
+        source_id = request.GET['source-id']
+        name = request.GET['name']
+        url = request.GET['url']
 
-    review = Review.objects.get(pk=review_id)
-    if review.author.id == request.user.id:
+        review = Review.objects.get(pk=review_id)
         if source_id:
             try:
                 source = Source.objects.get(pk=source_id)
@@ -157,39 +166,43 @@ def save_source(request):
             review.sources.add(source)
             review.save()
         return HttpResponse(html_source(source))
-    else:
-        return HttpResponse('error')
+    except:
+        return HttpResponseBadRequest()
 
+@ajax_required
+@author_required
 @login_required
 def remove_source_from_review(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    source_id = request.GET['source_id']
-    review_id = request.GET['review_id']
-    source = Source.objects.get(pk=source_id)
-    review = Review.objects.get(pk=review_id)
-    review.sources.remove(source)
-    if not source.is_default:
-        source.delete()
-    review.save()
-    return HttpResponse('OK')
+    try:
+        source_id = request.GET['source-id']
+        review_id = request.GET['review-id']
+        source = Source.objects.get(pk=source_id)
+        review = Review.objects.get(pk=review_id)
+        review.sources.remove(source)
+        if not source.is_default:
+            source.delete()
+        review.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
 
+@ajax_required
+@author_required
 @login_required
 def add_suggested_sources(request):
-    '''
-        Function used via Ajax request only.
-    '''
-    source_ids = request.POST.getlist('source_id')
-    review_id = request.POST['review_id']
-    review = Review.objects.get(pk=review_id)
-    return_html = ''
-    for source_id in source_ids:
-        source = Source.objects.get(pk=source_id)
-        review.sources.add(source)
-        return_html += html_source(source)
-    review.save()
-    return HttpResponse(return_html)
+    try:
+        source_ids = request.POST.getlist('source-id')
+        review_id = request.POST['review-id']
+        review = Review.objects.get(pk=review_id)
+        return_html = ''
+        for source_id in source_ids:
+            source = Source.objects.get(pk=source_id)
+            review.sources.add(source)
+            return_html += html_source(source)
+        review.save()
+        return HttpResponse(return_html)
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required

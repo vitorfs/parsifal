@@ -66,7 +66,7 @@ $(function () {
     source_id = row.attr("source-id");
     $.ajax({
       url: '/reviews/planning/remove_source/',
-      data: { review_id: review_id, source_id: source_id },
+      data: { 'review-id': review_id, 'source-id': source_id },
       type: 'get',
       cache: false,
       beforeSend: function () {

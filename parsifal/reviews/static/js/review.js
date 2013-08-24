@@ -15,15 +15,16 @@ $(function () {
       else {
         $.ajax({
             url: '/reviews/add_author/',
-            data: { id: id, username: author },
+            data: { 'review-id': id, 'username': author },
             type: 'get',
             cache: false,
             success: function (data) {
               parent.remove();
-              if (data != 'error') {
-                $('.authors').append(data);
-                $('.remove-author').unbind('click').bind('click', removeAuthor);                
-              }
+              $('.authors').append(data);
+              $('.remove-author').unbind('click').bind('click', removeAuthor);
+            },
+            error: function () {
+              parent.remove();
             },
             complete: function () {
               is_editing = false;
@@ -50,7 +51,7 @@ $(function () {
     var author_id = parent.attr("author-id");
     $.ajax({
       url: '/reviews/remove_author/',
-      data: { review_id: review_id, author_id: author_id },
+      data: { 'review-id': review_id, 'author-id': author_id },
       type: 'get',
       cache: false,
       success: function (data) {

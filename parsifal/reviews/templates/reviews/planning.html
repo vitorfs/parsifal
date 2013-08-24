@@ -81,7 +81,7 @@
       <div class="modal-body">
         <form action="." method="post" id="form-suggested-sources">
           {% csrf_token %}
-          <input type="hidden" name="review_id" value="{{ review.id }}">
+          <input type="hidden" name="review-id" value="{{ review.id }}">
           <table class="table" id="tbl-suggested-sources">
             <thead>
               <tr>
@@ -96,7 +96,7 @@
               {% for source in default_sources %}
                 <tr>
                   <td>
-                    <input type="checkbox" value="{{ source.id }}" name="source_id">
+                    <input type="checkbox" value="{{ source.id }}" name="source-id">
                   </td>
                   <td>{{ source.name }}</td>
                   <td>
