@@ -152,13 +152,11 @@ $(function () {
     keyword_id = row.attr("keyword-id");
     $.ajax({
       url: '/reviews/planning/remove_keyword/',
-      data: {'review_id': $('#review-id').val(), 'keyword_id': keyword_id },
+      data: {'review-id': $('#review-id').val(), 'keyword-id': keyword_id },
       type: 'get',
       cache: false,
       success: function (data) {
-        if (data != "ERROR"){
-          row.remove();
-        }
+        row.remove();
       }
     });
   }
