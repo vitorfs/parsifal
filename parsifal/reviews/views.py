@@ -430,44 +430,46 @@ def save_keyword(request):
         return HttpResponse(escape(keyword.description))
     return HttpResponse('ERROR')
 
+@ajax_required
+@author_required
 @login_required
 def save_synonym(request):
     '''
         Function used via Ajax request only.
     '''
-    review_id = request.GET['review_id']
-    synonym_id = request.GET['synonym_id']
+    review_id = request.GET['review-id']
+    synonym_id = request.GET['synonym-id']
     description = request.GET['description']
 
     review = Review.objects.get(pk=review_id)
-    if review.is_author_or_coauthor(request.user):
-        synonym = Keyword.objects.get(pk=synonym_id)
-        if (len(description) == 0):
-            synonym.delete()
-            return HttpResponse('REMOVE')
-        else:
-            synonym.description = description
-            synonym.save()
-            return HttpResponse(escape(synonym.description))
-    return HttpResponse('ERROR')
+    synonym = Keyword.objects.get(pk=synonym_id)
+    if (len(description) == 0):
+        synonym.delete()
+        return HttpResponse()
+    else:
+        synonym.description = description
+        synonym.save()
+        return HttpResponse(escape(synonym.description))
 
+@ajax_required
+@author_required
 @login_required
 def save_description(request):
     '''
         Function used via Ajax request only.
     '''
-    if request.is_ajax():
+    try:
         review_id = request.POST['review-id']
         description = request.POST['description']
         review = Review.objects.get(pk=review_id)
         if review.is_author_or_coauthor(request.user):
             review.description = description
             review.save()
-            return HttpResponse('')
+            return HttpResponse()
         else:
-           HttpResponseForbidden('') 
-    else:
-        return HttpResponseBadRequest('')
+           return HttpResponseForbidden()
+    except:
+        return HttpResponseBadRequest()
 
 # Still have to refactor this function. This is just a first approach.
 @ajax_required

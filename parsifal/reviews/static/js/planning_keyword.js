@@ -70,12 +70,12 @@ $(function () {
 
   $("#tbl-keywords td.keyword-row").click(editKeyword);
   
-  function saveSynonym(synonym_id) {
+  function saveSynonym(synonym_id, old_description) {
     var btn = $(".edit-synonym").closest("ul").siblings(".add-synonym");
     var description = $(".edit-synonym").val();
     $.ajax({
       url: '/reviews/planning/save_synonym/',
-      data: { 'review_id': $("#review-id").val(), 'synonym_id': synonym_id, 'description': description },
+      data: { 'review-id': $("#review-id").val(), 'synonym-id': synonym_id, 'description': description },
       type: 'get',
       cache: false,
       success: function (data) {
@@ -86,6 +86,9 @@ $(function () {
           $(".edit-synonym").closest("li").html(data);
         }
         $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        cancelEditSynonym(old_description);
       },
       complete: function () {
         btn.show();
@@ -111,7 +114,7 @@ $(function () {
     $(".edit-synonym").focus();
     $(".edit-synonym").blur(function () {
       if (description != $(".edit-synonym").val()) {
-        saveSynonym(synonym_id);
+        saveSynonym(synonym_id, description);
       }
       else {
         cancelEditSynonym(description);
@@ -119,7 +122,7 @@ $(function () {
     });
     $(".edit-synonym").keyup(function (event) {
       if (event.keyCode == 13) {
-        saveSynonym(synonym_id);
+        saveSynonym(synonym_id, description);
       } else if (event.keyCode == 27) {
         cancelEditSynonym(description);
       }
