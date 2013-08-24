@@ -1,0 +1,48 @@
+.grail {
+  width: 256px;
+  height: 256px;
+}
+
+.details-wrapper {
+  background: #F6F6F6;
+  padding: 20px 0;
+  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.details-wrapper img {
+  margin: 10px 0;
+}
+
+.details-wrapper h1 {
+  font-size: 64px;
+  margin-bottom: 10px;
+}
+
+.details-wrapper h2 {
+  font-size: 26px;
+}
+
+body {
+  background: #728A8B;
+  text-align: center;
+}
+
+ul {
+  margin: 30px 0;
+}
+
+ul li {
+  display: inline;
+  padding: 0 20px;
+  font-size: 18px;
+}
+
+ul li a {
+  color: #E6D9B8;
+  text-decoration: underline;
+}
+
+p {
+  font-size: 16px;
+  color: #E6D9B8;
+}
