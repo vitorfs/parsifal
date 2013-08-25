@@ -27,7 +27,7 @@ def new(request):
         title = request.POST['title']
         description = request.POST['description']
         author = request.user
-        review = Review(name = name, title = title, description = description, author=author, last_update=last_update)
+        review = Review(name = name, title = title, description = description, author=author)
         review.save()
         messages.add_message(request, messages.SUCCESS, 'Review created with success.')
         return redirect('/' + review.author.username + '/' + review.name + '/')
