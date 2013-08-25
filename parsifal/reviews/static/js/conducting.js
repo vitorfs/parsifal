@@ -1,21 +1,20 @@
 $(function () {
   $("ul#source-tab li:eq(0)").addClass("active");
-
   $("div.source-tab-content div.articles:eq(0)").show();
 
-
   $(".btn-suggested-search-string").click(function () {
+    var form = $(this).closest("form");
     $.ajax({
       url: '/reviews/conducting/generate_search_string/',
       data: { 'review-id': $("#review-id").val() },
       cache: false,
       type: 'get',
       success: function (data) {
-        $(".search-string").val(data);
+        $(".search-string", form).val(data);
       }
     });
   });
-
+  
   $("#source-tab a").click(function () {
     var tab_id = $(this).attr("href");
     $("div.source-tab-content div.articles").hide();

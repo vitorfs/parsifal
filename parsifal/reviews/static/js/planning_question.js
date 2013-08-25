@@ -57,6 +57,9 @@ $(function () {
         }
       });
     }
+    else {
+      $(form).closest("div.question").fadeOut();
+    }
   }
 
   $(".btn-save-question").click(saveQuestion);

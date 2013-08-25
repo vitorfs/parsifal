@@ -485,6 +485,16 @@ def save_description(request):
     except:
         return HttpResponseBadRequest()
 
+def extract_keyword_to_search_string(term_list, query_list, keywords):
+    for keyword in term_list:
+        if keyword:
+            query_list.append(keyword)
+            synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+            for synonym in synonyms:
+                if synonym:
+                    query_list.append(synonym.description)
+    return query_list
+
 @ajax_required
 @author_required
 @login_required
@@ -515,30 +525,10 @@ def generate_search_string(request):
             comparison_list = question.comparison.split(',')
             outcome_list = question.outcome.split(',')
 
-            for keyword in population_list:
-                query_population.append(keyword)
-                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
-                for synonym in synonyms:
-                    query_population.append(synonym.description)
-
-            for keyword in intervention_list:
-                query_intervention.append(keyword)
-                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
-                for synonym in synonyms:
-                    query_intervention.append(synonym.description)
-
-            for keyword in comparison_list:
-                query_comparison.append(keyword)
-                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
-                for synonym in synonyms:
-                    query_comparison.append(synonym.description)
-
-            for keyword in outcome_list:
-                query_outcome.append(keyword)
-                synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
-                for synonym in synonyms:
-                    query_outcome.append(synonym.description)
-
+            query_population = extract_keyword_to_search_string(population_list, query_population, keywords)
+            query_intervention = extract_keyword_to_search_string(intervention_list, query_intervention, keywords)
+            query_comparison = extract_keyword_to_search_string(comparison_list, query_comparison, keywords)
+            query_outcome = extract_keyword_to_search_string(outcome_list, query_outcome, keywords)
 
         str_population = ' OR '.join(query_population)
         str_intervention = ' OR '.join(query_intervention)
@@ -546,6 +536,7 @@ def generate_search_string(request):
         str_outcome = ' OR '.join(query_outcome)
 
         search_string = []
+
         if str_population:
             search_string.append('(' + str_population + ')')
         if str_intervention:

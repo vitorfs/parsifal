@@ -8,44 +8,54 @@
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="conducting" %}
-  {% if review.sources.all %}
-    <ul class="tab" id="source-tab">
-      {% for source in review.sources.all %}
-        <li><a href="#tab{{ source.id }}">{{ source.name }}</a></li>
-      {% endfor %}
-    </ul>
-    <div class="source-tab-content">
-      {% for source in review.sources.all %}
-        <div id="tab{{ source.id }}" class="articles clearfix hide">
-          <h2>{{ source.name }}</h2>
-          <form class="form-block">
-            <div class="clearfix" style="margin-bottom: 15px">
-              <button type="button" class="btn btn-success pull-right" style="margin-left: 8px">Save Search String</button>
-              <button type="button" class="btn pull-right btn-suggested-search-string">Suggested Search String</button>
-              <h2>Search String</h2>
+  <section id="generic-search-string" class="clearfix">
+    <h2>Generic Search String</h2>
+    <form class="form-block form-normal">
+      <div class="form-row">
+        <button type="button" class="btn btn-suggested-search-string btn-small">Suggested Search String</button>
+      </div>
+      <div class="form-row">
+        <textarea style="width:100%" rows="4" name="search-string" class="search-string"></textarea>
+      </div>
+      <div class="form-row">
+        <button type="button" class="btn btn-success">Save</button>
+      </div>
+    </form>
+  </section>
+  <hr>
+  <section id="sources" class="clearfix">
+    <h2>Articles</h2>
+    {% if review.sources.all %}
+      <ul class="tab" id="source-tab">
+        {% for source in review.sources.all %}
+          <li><a href="#tab{{ source.id }}">{{ source.name }}</a></li>
+        {% endfor %}
+      </ul>
+      <div class="source-tab-content">
+        {% for source in review.sources.all %}
+          <div id="tab{{ source.id }}" class="articles clearfix hide">
+            <div class="source-buttons">
+              <button type="button" class="btn btn-import-bibtex btn-small">Import BibTeX</button>
+              <button type="button" class="btn btn-import-bibtex btn-small">Add Custom Search String</button>
             </div>
-            <textarea style="width:100%" rows="5" name="search-string" class="search-string"></textarea>
-          </form>
-          <div class="source-buttons">
-            <button type="button" class="btn btn-import-bibtex">Import BibTeX</button>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Id</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Journal</th>
+                  <th>Year</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Journal</th>
-                <th>Year</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
-  {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
+    {% endif %}
+  </section>
 {% endblock content %}
