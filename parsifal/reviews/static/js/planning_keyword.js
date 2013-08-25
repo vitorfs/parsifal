@@ -28,12 +28,27 @@ $(function () {
     var keyword_id = $(this).closest("tr").attr("keyword-id");
     $(this).html("<input type='text' value='" + description + "' class='edit-keyword'>");
     $(".edit-keyword").focus();
+
     $(".edit-keyword").blur(function () {
-        saveKeyword(keyword_id, description);
+        if ($(this).val() == description) {
+          cancelEditKeyword(description);
+        }
+        else {
+          saveKeyword(keyword_id, description);  
+        }
     });
+
     $(".edit-keyword").keyup(function (event) {
       if (event.keyCode == 13) {
-        saveKeyword(keyword_id, description);
+        if ($(this).val() == description) {
+          cancelEditKeyword(description);
+        }
+        else if ($(this).val() == "") {
+          cancelEditKeyword(description);
+        }
+        else {
+          saveKeyword(keyword_id, description);
+        }
       } else if (event.keyCode == 27) {
         cancelEditKeyword(description);
       }
@@ -154,12 +169,17 @@ $(function () {
   $.fn.addKeywordSettings = function () {
     $(this).keyup(function (event) {
       if (event.keyCode == 13) {
-        saveNewKeyword();
+        if ($("#input-add-keyword").val() != "") {
+          saveNewKeyword();  
+        }
+        else {
+          cancelNewKeyword();
+        }
       } else if (event.keyCode == 27) {
         cancelNewKeyword();
       }
     });
-
+    
     $(this).blur(cancelNewKeyword);
   };
 
@@ -175,21 +195,23 @@ $(function () {
   $("table#tbl-keywords tbody").on("keyup", ".add-synonym", function (event) {
     if (event.keyCode == 13) {
       var synonym = $(this).val();
-      var keyword_id = $(this).closest("tr").attr("keyword-id");
-      var review_id = $("#review-id").val();
-      var input = $(this);
-      $.ajax({
-        url: '/reviews/planning/add_synonym/',
-        data: { 'review-id': review_id, 'keyword-id': keyword_id, 'synonym': synonym },
-        cache: false,
-        type: 'get',
-        success: function (data) {
-          input.siblings("ul").append(data);
-          input.val("");
-          input.focus();
-          $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
-        }
-      });
+      if (synonym != "") {
+        var keyword_id = $(this).closest("tr").attr("keyword-id");
+        var review_id = $("#review-id").val();
+        var input = $(this);
+        $.ajax({
+          url: '/reviews/planning/add_synonym/',
+          data: { 'review-id': review_id, 'keyword-id': keyword_id, 'synonym': synonym },
+          cache: false,
+          type: 'get',
+          success: function (data) {
+            input.siblings("ul").append(data);
+            input.val("");
+            input.focus();
+            $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
+          }
+        });        
+      }
     }
   });
 

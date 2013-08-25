@@ -131,6 +131,8 @@ $(function () {
         $("#tbl-sources tbody").append(data);
         modal.slideUp(400, function () {
           $("#tbl-suggested-sources input").prop("checked", false);
+          $(".shade").remove();
+          $("body").removeClass("modal-open");
         });
       }
     });
