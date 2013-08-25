@@ -21,7 +21,6 @@ $(function () {
             success: function (data) {
               parent.remove();
               $('.authors').append(data);
-              $('.remove-author').unbind('click').bind('click', removeAuthor);
             },
             error: function () {
               parent.remove();
@@ -72,8 +71,6 @@ $(function () {
     }
   });
 
-  $('.remove-author').unbind('click').bind('click', removeAuthor);
-
   $("#btn-save-objective").click(function () {
     var btn = $(this);
     $.ajax({
@@ -92,5 +89,7 @@ $(function () {
       }
     });
   });
+
+  $("ul.authors").on("click", ".remove-author", removeAuthor);
 
 });

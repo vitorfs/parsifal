@@ -1,4 +1,5 @@
 $(function () {
+
   function saveQuestion() {
     var btn = $(this);
     var form = $(this).closest("form");
@@ -8,25 +9,14 @@ $(function () {
       type: 'post',
       cache: false,
       beforeSend: function () {
+
       },
       error: function () {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-success").addClass("text-error");
-        msg.text('Something went wrong! Please contact the administrator.');
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+        displayFormMessage(btn, "text-error", "Something went wrong! Please contact the administrator.");
       },
       success: function(data) {
         $("input[name='question-id']", form).val(data);
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-error").addClass("text-success");
-        msg.text('Your question have been saved successfully!');
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+        displayFormMessage(btn, "text-success", "Your question have been saved successfully!");
       },
       complete: function () {
       }
@@ -47,13 +37,7 @@ $(function () {
           $(form).closest("div.question").fadeOut();
         },
         error: function () {
-        var msg = btn.siblings('.form-status-message');
-          msg.removeClass("text-success").addClass("text-error");
-          msg.text('Something went wrong! Please contact the administrator.');
-          msg.fadeIn();
-          window.setTimeout(function () {
-            msg.fadeOut();
-          }, 2000);
+          displayFormMessage(btn, "text-error", "Something went wrong! Please contact the administrator.");
         }
       });
     }
@@ -61,9 +45,6 @@ $(function () {
       $(form).closest("div.question").fadeOut();
     }
   }
-
-  $(".btn-save-question").click(saveQuestion);
-  $(".btn-remove-question").click(removeQuestion);
 
   $("#btn-add-sec-question").click(function () {
     $.ajax({
@@ -76,9 +57,10 @@ $(function () {
         $('html, body').animate({
             scrollTop: ($(".questions-containers .question:last-child").offset().top - 20)
         }, 1000);
-        $('.btn-save-question').unbind('click').bind('click', saveQuestion);
-        $('.btn-remove-question').unbind('click').bind('click', removeQuestion);
       }
     });
   });
+
+  $("div.questions-containers").on("click", ".btn-save-question", saveQuestion);
+  $("div.questions-containers").on("click", ".btn-remove-question", removeQuestion);
 });
