@@ -109,7 +109,10 @@ $(function () {
   });  
 
   $("#btn-suggested-sources").click(function () {
-    $("#modal-suggested-sources").slideDown();
+    $("#modal-suggested-sources").before("<div class='shade'></div>");
+    $("#modal-suggested-sources").slideDown(400, function () {
+      $("body").addClass("modal-open");
+    });
   });
 
   $("#checkbox-all-sources").click(function () {
@@ -133,12 +136,16 @@ $(function () {
     });
   });
 
-  $(".close-modal").click(function () {
+  function closeModal() {
     $(this).closest('div.modal').slideUp(400, function () {
       $("#tbl-suggested-sources input").prop("checked", false);
+      $(".shade").remove();
+      $("body").removeClass("modal-open");
     });
-    return false;
-  });
+    return false;    
+  }
+
+  $(".close-modal").click(closeModal);
 
   $("table#tbl-sources tbody").on("click", ".btn-remove-source", removeSource);
   $("table#tbl-sources tbody").on("click", ".btn-edit-source", editSource);
