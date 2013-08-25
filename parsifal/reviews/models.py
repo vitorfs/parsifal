@@ -73,6 +73,13 @@ class Review(models.Model):
                 return True
         return False
 
+    def get_generic_search_string(self):
+        try:
+            search_string = SearchSession.objects.filter(review__id=self.id, source=None)[:1].get()
+        except SearchSession.DoesNotExist:
+            search_string = SearchSession(review=self)
+        return search_string
+
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
@@ -117,11 +124,11 @@ class SelectionCriteria(models.Model):
 
 class SearchSession(models.Model):
     review = models.ForeignKey(Review)
-    source = models.ForeignKey(Source)
+    source = models.ForeignKey(Source, null=True)
     search_string = models.TextField(max_length=2000, null=True)
 
     def __unicode__(self):
-        return u"%s %s" % (self.review.name, self.source.name)
+        return self.search_string
 
 class Article(models.Model):
     review = models.ForeignKey(Review)

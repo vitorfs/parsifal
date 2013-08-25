@@ -11,14 +11,17 @@
   <section id="generic-search-string" class="clearfix">
     <h2>Generic Search String</h2>
     <form class="form-block form-normal">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
       <div class="form-row">
         <button type="button" class="btn btn-suggested-search-string btn-small">Suggested Search String</button>
       </div>
       <div class="form-row">
-        <textarea style="width:100%" rows="4" name="search-string" class="search-string"></textarea>
+        <textarea style="width:100%" rows="4" name="search-string" class="search-string">{{ review.get_generic_search_string.search_string }}</textarea>
       </div>
       <div class="form-row">
-        <button type="button" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-success btn-save-generic-search-string pull-left">Save</button>
+        <span class="form-status-message pull-left"></span>
       </div>
     </form>
   </section>
