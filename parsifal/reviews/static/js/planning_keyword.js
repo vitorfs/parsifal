@@ -1,35 +1,4 @@
 $(function () {
-  $.fn.bindAddSynonym = function () {
-    $(this).keyup(function (event) {
-      if (event.keyCode == 13) {
-        var synonym = $(this).val();
-        var keyword_id = $(this).closest("tr").attr("keyword-id");
-        var review_id = $("#review-id").val();
-        var input = $(this);
-        $.ajax({
-          url: '/reviews/planning/add_synonym/',
-          data: { 'review-id': review_id, 'keyword-id': keyword_id, 'synonym': synonym },
-          cache: false,
-          type: 'get',
-          success: function (data) {
-            input.siblings("ul").append(data);
-            input.val("");
-            input.focus();
-            $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
-          }
-        });
-      }
-    });
-  };
-
-  function loadKeywordSettings() {
-    $(".add-synonym").unbind("keyup");
-    $(".add-synonym").bindAddSynonym();
-    $(".btn-remove-keyword").unbind("click").bind("click", removeKeyword);
-    $("#tbl-keywords td.keyword-row").unbind("click").bind("click", editKeyword);
-  }
-
-  $(".add-synonym").bindAddSynonym();
 
   function saveKeyword(keyword_id, old_description) {
     var description = $(".edit-keyword").val();
@@ -70,9 +39,7 @@ $(function () {
       }
     });
   }
-
-  $("#tbl-keywords td.keyword-row").click(editKeyword);
-  
+ 
   function saveSynonym(synonym_id, old_description) {
     var btn = $(".edit-synonym").closest("ul").siblings(".add-synonym");
     var description = $(".edit-synonym").val();
@@ -142,7 +109,7 @@ $(function () {
       type: 'get',
       success: function (data) {
         $("#tbl-keywords tbody").append(data);
-        loadKeywordSettings();
+        $("#tbl-keywords td.keyword-row").unbind("click").bind("click", editKeyword);
       }
     });
   });
@@ -161,8 +128,6 @@ $(function () {
     });
   }
 
-  $(".btn-remove-keyword").click(removeKeyword);
-
   function saveNewKeyword() {
     var review_id = $("#review-id").val();
     var description = $("#input-add-keyword").val();
@@ -174,7 +139,7 @@ $(function () {
       success: function (data) {
         $("#tbl-keywords tbody tr:eq(0)").remove();
         $("#tbl-keywords tbody").prepend(data);
-        loadKeywordSettings();
+        $("#tbl-keywords td.keyword-row").unbind("click").bind("click", editKeyword);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#tbl-keywords tbody tr:eq(0)").remove();
@@ -202,6 +167,30 @@ $(function () {
     $("#tbl-keywords tbody").prepend("<tr><td><input type='text' id='input-add-keyword'></td><td></td><td></td><td class='no-border'>Press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel.</td></tr>");
     $("#input-add-keyword").addKeywordSettings();
     $("#input-add-keyword").focus();
+  });
+
+  $("#tbl-keywords td.keyword-row").click(editKeyword);
+
+  $("table#tbl-keywords tbody").on("click", ".btn-remove-keyword", removeKeyword);
+  $("table#tbl-keywords tbody").on("keyup", ".add-synonym", function (event) {
+    if (event.keyCode == 13) {
+      var synonym = $(this).val();
+      var keyword_id = $(this).closest("tr").attr("keyword-id");
+      var review_id = $("#review-id").val();
+      var input = $(this);
+      $.ajax({
+        url: '/reviews/planning/add_synonym/',
+        data: { 'review-id': review_id, 'keyword-id': keyword_id, 'synonym': synonym },
+        cache: false,
+        type: 'get',
+        success: function (data) {
+          input.siblings("ul").append(data);
+          input.val("");
+          input.focus();
+          $("#tbl-keywords td ul li").unbind("click").bind("click", editSynonym);
+        }
+      });
+    }
   });
 
 });
