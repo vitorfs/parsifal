@@ -115,6 +115,14 @@ class SelectionCriteria(models.Model):
         verbose_name_plural = "Selection Criterias"
         ordering = ("description",)
 
+class SearchSession(models.Model):
+    review = models.ForeignKey(Review)
+    source = models.ForeignKey(Source)
+    search_string = models.TextField(max_length=2000, null=True)
+
+    def __unicode__(self):
+        return u"%s %s" % (self.review.name, self.source.name)
+
 class Article(models.Model):
     review = models.ForeignKey(Review)
     bibtex_key = models.CharField(max_length=50)
@@ -130,6 +138,7 @@ class Article(models.Model):
     document_type = models.CharField(max_length=100, null=True)
     author_keywords = models.CharField(max_length=500, null=True)
     note = models.CharField(max_length=100, null=True)
+    search_session = models.ForeignKey(SearchSession, null=True)
 
     def __unicode__(self):
         return self.title
@@ -153,11 +162,3 @@ class Keyword(models.Model):
         verbose_name = "Keyword"
         verbose_name_plural = "Keywords"
         ordering = ("description",)
-
-class SearchSession(models.Model):
-    review = models.ForeignKey(Review)
-    source = models.ForeignKey(Source)
-    search_string = models.TextField(max_length=2000, null=True)
-
-    def __unicode__(self):
-        return u"%s %s" % (self.review.name, self.source.name)
