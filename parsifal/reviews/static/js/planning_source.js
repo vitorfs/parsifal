@@ -31,8 +31,6 @@ $(function () {
           $("#tbl-sources tbody tr:first-child").remove();
           $("#tbl-sources tbody").prepend(data);          
         }
-        $(".btn-edit-source").unbind("click").bind("click", editSource);
-        $(".btn-remove-source").unbind("click").bind("click", removeSource);
       },
       error: function (jqXHR, textStatus, errorThrown) {
 
@@ -50,8 +48,6 @@ $(function () {
       $("#tbl-sources tbody tr[source-id='" + source_editing_id + "']").html(source_editing_html);
       source_editing_id = "";
       source_editing_html = "";
-      $(".btn-edit-source").unbind("click").bind("click", editSource);
-      $(".btn-remove-source").unbind("click").bind("click", removeSource);
     }
     else {
       $("#tbl-sources tbody tr:first-child").remove();
@@ -101,8 +97,6 @@ $(function () {
       row.html(str_row);
 
       $("#tbl-sources tbody tr td input:eq(0)").focus();
-      $(".btn-save-source").unbind("click").bind("click", saveSource);
-      $(".btn-cancel-source").unbind("click").bind("click", cancelSource);
       }
   }
 
@@ -111,17 +105,12 @@ $(function () {
       is_adding_or_editing_source = true;
       $("#tbl-sources tbody").prepend('<tr><td><input type="text" id="name"></td><td><input type="text" id="url"></td><td><button type="button" class="btn btn-success btn-small btn-save-source">save</button> <button type="button" class="btn btn-warning btn-small btn-cancel-source">cancel</button></td></tr>');
       $("#tbl-sources tbody tr:first-child td:first-child input").focus();
-      $(".btn-save-source").unbind("click").bind("click", saveSource);
-      $(".btn-cancel-source").unbind("click").bind("click", cancelSource);
     }
   });  
 
   $("#btn-suggested-sources").click(function () {
     $("#modal-suggested-sources").slideDown();
   });
-
-  $(".btn-remove-source").click(removeSource);
-  $(".btn-edit-source").click(editSource);
 
   $("#checkbox-all-sources").click(function () {
     var is_checked = $(this).is(":checked");
@@ -137,8 +126,6 @@ $(function () {
       cache: false,
       success: function (data) {
         $("#tbl-sources tbody").append(data);
-        $(".btn-edit-source").unbind("click").bind("click", editSource);
-        $(".btn-remove-source").unbind("click").bind("click", removeSource);
         modal.slideUp(400, function () {
           $("#tbl-suggested-sources input").prop("checked", false);
         });
@@ -152,4 +139,10 @@ $(function () {
     });
     return false;
   });
+
+  $("table#tbl-sources tbody").on("click", ".btn-remove-source", removeSource);
+  $("table#tbl-sources tbody").on("click", ".btn-edit-source", editSource);
+  $("table#tbl-sources tbody").on("click", ".btn-save-source", saveSource);
+  $("table#tbl-sources tbody").on("click", ".btn-cancel-source", cancelSource);
+
 });
