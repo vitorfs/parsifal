@@ -92,19 +92,7 @@
                 <th>URL</th>
               </tr>
             </thead>
-            <tbody>
-              {% for source in default_sources %}
-                <tr>
-                  <td>
-                    <input type="checkbox" value="{{ source.id }}" name="source-id">
-                  </td>
-                  <td>{{ source.name }}</td>
-                  <td>
-                    <a href="{{ source.url }}" target="_blank">{{ source.url }}</a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
+            <tbody></tbody>
           </table>
         </form>
       </div>

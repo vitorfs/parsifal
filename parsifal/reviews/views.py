@@ -83,8 +83,7 @@ def remove_author_from_review(request):
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    default_sources = Source.objects.filter(is_default=True)
-    context = RequestContext(request, {'review': review, 'default_sources': default_sources })
+    context = RequestContext(request, {'review': review })
     return render_to_response('reviews/planning.html', context)
 
 @login_required
@@ -182,6 +181,32 @@ def remove_source_from_review(request):
             source.delete()
         review.save()
         return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def suggested_sources(request):
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        review.sources
+        default_sources = Source.objects.filter(is_default=True)
+        sources = filter(lambda s: s not in review.sources.all(), default_sources)
+        return_html = ''
+        for source in sources:
+            return_html += '''
+<tr>
+  <td>
+    <input type="checkbox" value="''' + str(source.id) + '''" name="source-id">
+  </td>
+  <td>''' + str(source.name) + '''</td>
+  <td>
+    <a href="''' + source.url + '''" target="_blank">''' + source.url + '''</a>
+  </td>
+</tr>'''
+        return HttpResponse(return_html)
     except:
         return HttpResponseBadRequest()
 

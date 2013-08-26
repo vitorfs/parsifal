@@ -109,9 +109,18 @@ $(function () {
   });  
 
   $("#btn-suggested-sources").click(function () {
-    $("#modal-suggested-sources").before("<div class='shade'></div>");
-    $("#modal-suggested-sources").slideDown(400, function () {
-      $("body").addClass("modal-open");
+    $.ajax({
+      url: '/reviews/planning/suggested_sources/',
+      data: { 'review-id': $('#review-id').val() },
+      cache: false,
+      type: 'get',
+      success: function (data) {
+        $("#modal-suggested-sources table tbody").html(data);
+        $("#modal-suggested-sources").before("<div class='shade'></div>");
+        $("#modal-suggested-sources").slideDown(400, function () {
+          $("body").addClass("modal-open");
+        });
+      }
     });
   });
 
