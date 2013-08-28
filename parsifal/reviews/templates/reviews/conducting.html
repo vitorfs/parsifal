@@ -26,6 +26,16 @@
     </form>
   </section>
   <hr>
+
+  <script>
+    $(function () {
+      $(".btn-import-bibtex").click(function () {
+        var container = $(this).closest(".articles");
+        $("input[type=file]", container).click();
+      });
+    });
+  </script>
+
   <section id="sources" class="clearfix">
     <h2>Articles</h2>
     {% if review.sources.all %}
@@ -38,8 +48,13 @@
         {% for source in review.sources.all %}
           <div id="tab{{ source.id }}" class="articles clearfix hide">
             <div class="source-buttons">
-              <button type="button" class="btn btn-import-bibtex btn-small">Import BibTeX</button>
-              <button type="button" class="btn btn-import-bibtex btn-small">Add Custom Search String</button>
+              <form enctype="multipart/form-data" id="article-bib-{{ source.id }}" method="post" action=".">
+                <input type="hidden" name="review-id" value="{{ review.id }}">
+                <input type="hidden" name="source-id" value="{{ source.id }}">
+                <input type="file" class="hide">
+              </form>
+              <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
+              <button type="button" class="btn btn-add-custom-search btn-small">Add Custom Search String</button>
             </div>
             <table class="table">
               <thead>
