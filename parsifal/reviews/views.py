@@ -11,6 +11,7 @@ from django.utils.html import escape
 from reviews.models import Review, Source, Article, Question, SelectionCriteria, Keyword
 from reviews.decorators import main_author_required, author_required, ajax_required
 from pybtex.database.input import bibtex
+from django.conf import settings
 
 @login_required
 def reviews(request, username):
@@ -88,27 +89,8 @@ def planning(request, username, review_name):
 
 @login_required
 def conducting(request, username, review_name):
-    parser = bibtex.Parser()
-    bibdata = parser.parse_file("/Users/vitorfs/Downloads/scopus.bib")
-
-    articles = []
-    for bib_id in bibdata.entries:
-        b = bibdata.entries[bib_id].fields
-        article = Article()
-
-        try:
-            article.title = b["title"]
-            article.journal = b["journal"]
-            article.year = b["year"]
-            article.author = b["author"]
-            article.id = bib_id
-        except(KeyError):
-            continue
-
-        articles.append(article)
-
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review, 'articles': articles})
+    context = RequestContext(request, {'review': review})
     return render_to_response('reviews/conducting.html', context)
 
 @login_required
@@ -587,3 +569,77 @@ def save_generic_search_string(request):
         return HttpResponse()
     except:
         return HttpResponseBadRequest()
+
+def bibtex_to_article_object(filename, review_id, source_id):
+    parser = bibtex.Parser()
+    bibdata = parser.parse_file(filename)
+    articles = []
+    for bib_id in bibdata.entries:
+        b = bibdata.entries[bib_id].fields
+        article = Article()
+        try:
+            article.title = b["title"]
+            article.journal = b["journal"]
+            article.year = b["year"]
+            article.author = b["author"]
+            article.bibtex_key = bib_id
+            article.review = Review(id=review_id)
+            article.source = Source(id=source_id)
+        except(KeyError):
+            continue
+        articles.append(article)
+    return articles
+
+@author_required
+@login_required
+def import_bibtex(request):
+    review_id = request.POST['review-id']
+    source_id = request.POST['source-id']
+    review = Review.objects.get(pk=review_id)
+    f = request.FILES['bibtex']
+    filename = settings.MEDIA_ROOT + '/temp_bibitex_upload/' + request.user.username + '.bib'
+    with open(filename, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    articles = bibtex_to_article_object(filename, review_id, source_id)
+    for article in articles:
+        print article
+        article.save()
+    return redirect('/' + review.author.username + '/' + review.name + '/conducting/')
+
+@ajax_required
+@author_required
+@login_required
+def source_articles(request):
+    review_id = request.GET['review-id']
+    source_id = request.GET['source-id']
+    review = Review.objects.get(pk=review_id)
+    html_return = '''
+    <table class="table">
+    <thead>
+    <tr>
+      <th></th>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Journal</th>
+      <th>Year</th>
+    </tr>
+    </thead>
+    <tbody>'''
+
+    for article in review.get_source_articles(source_id):
+        html_return+='''
+        <tr>
+          <td></td>
+          <td>''' + article.bibtex_key + '''</td>
+          <td>''' + article.title + '''</td>
+          <td>''' + article.author + '''</td>
+          <td>''' + article.journal + '''</td>
+          <td>''' + article.year + '''</td>
+        </tr>'''
+
+    html_return +='''
+      </tbody>
+    </table>'''
+    return HttpResponse(html_return)

@@ -35,7 +35,6 @@
       });
     });
   </script>
-
   <section id="sources" class="clearfix">
     <h2>Articles</h2>
     {% if review.sources.all %}
@@ -48,27 +47,16 @@
         {% for source in review.sources.all %}
           <div id="tab{{ source.id }}" class="articles clearfix hide">
             <div class="source-buttons">
-              <form enctype="multipart/form-data" id="article-bib-{{ source.id }}" method="post" action=".">
+              <form enctype="multipart/form-data" name="article-bib-{{ source.id }}" method="post" action="/reviews/conducting/import_bibtex/">
+                {% csrf_token %}
                 <input type="hidden" name="review-id" value="{{ review.id }}">
                 <input type="hidden" name="source-id" value="{{ source.id }}">
-                <input type="file" class="hide">
+                <input type="file" class="hide" name="bibtex">
               </form>
               <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
               <button type="button" class="btn btn-add-custom-search btn-small">Add Custom Search String</button>
             </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Id</th>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Journal</th>
-                  <th>Year</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
+            <div class="source-articles"></div>
           </div>
         {% endfor %}
       </div>

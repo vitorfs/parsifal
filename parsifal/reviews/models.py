@@ -80,6 +80,9 @@ class Review(models.Model):
             search_string = SearchSession(review=self)
         return search_string
 
+    def get_source_articles(self, source_id):
+        return Article.objects.filter(review__id=self.id, source__id=source_id)
+
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
@@ -133,9 +136,9 @@ class SearchSession(models.Model):
 class Article(models.Model):
     review = models.ForeignKey(Review)
     bibtex_key = models.CharField(max_length=50)
-    title = models.CharField(max_length=200, null=True)
+    title = models.CharField(max_length=500, null=True)
     author = models.CharField(max_length=500, null=True)
-    journal = models.CharField(max_length=100, null=True)
+    journal = models.CharField(max_length=500, null=True)
     year = models.CharField(max_length=4, null=True)
     source = models.ForeignKey(Source, null=True)
     pages = models.CharField(max_length=20, null=True)
@@ -144,7 +147,7 @@ class Article(models.Model):
     abstract = models.TextField(max_length=4000, null=True)
     document_type = models.CharField(max_length=100, null=True)
     author_keywords = models.CharField(max_length=500, null=True)
-    note = models.CharField(max_length=100, null=True)
+    note = models.CharField(max_length=500, null=True)
     search_session = models.ForeignKey(SearchSession, null=True)
 
     def __unicode__(self):

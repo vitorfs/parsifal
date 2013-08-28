@@ -1,6 +1,26 @@
 $(function () {
+
+  $.fn.loadArticles = function () {
+    var div = $(this);
+    $.ajax({
+      url: '/reviews/conducting/source_articles/',
+      data: { 'review-id': $("#review-id").val(), 'source-id': $("input[name='source-id']", div).val() },
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $(".source-articles", div).html("<p>Loading data...</p>");
+      },
+      success: function (data) {
+        $(".source-articles", div).html(data);
+      }
+    });
+  };
+  
   $("ul#source-tab li:eq(0)").addClass("active");
-  $("div.source-tab-content div.articles:eq(0)").show();
+
+  var div = $("div.source-tab-content div.articles:eq(0)");
+  $(div).show();
+  $(div).loadArticles();
 
   $(".btn-suggested-search-string").click(function () {
     var form = $(this).closest("form");
@@ -51,7 +71,13 @@ $(function () {
     $("ul#source-tab li").removeClass("active");
     $(this).closest("li").addClass("active");
     $(tab_id).show();
+    $(tab_id).loadArticles();
     return false;
+  });
+
+  $("input[name='bibtex']").change(function () {
+    var form = $(this).closest("form");
+    $(form).submit();
   });
 
 });
