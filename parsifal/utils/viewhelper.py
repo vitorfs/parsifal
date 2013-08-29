@@ -10,16 +10,12 @@ def _pretty_name(name):
         return ''
     return name.replace('_', ' ').capitalize()
 
-
-class HtmlTable:
-
+class Tag(object):
     def __init__(self):
-        self._header = []
-        self._body = []
-        self._data = []
         self._id = ''
         self._class = ''
-        self._attrs = {}  
+        self._attrs = {}
+        self._text = ''
 
     def id(self, value):
         self._id = value
@@ -32,6 +28,15 @@ class HtmlTable:
     def attrs(self, values):
         self._attrs = dict(self._attrs.items() + values.items())
         return self
+
+
+class Table(Tag):
+
+    def __init__(self):
+        self._header = []
+        self._body = []
+        self._data = []
+        super(Table, self).__init__()
 
     def header(self, *args):
         for arg in args:
