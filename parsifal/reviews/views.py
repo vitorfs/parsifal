@@ -12,7 +12,7 @@ from reviews.models import Review, Source, Article, Question, SelectionCriteria,
 from reviews.decorators import main_author_required, author_required, ajax_required
 from pybtex.database.input import bibtex
 from django.conf import settings
-from utils.viewhelper import Table
+from utils.viewhelper import HtmlTable
 
 @login_required
 def reviews(request, username):
@@ -617,10 +617,10 @@ def source_articles(request):
     review = Review.objects.get(pk=review_id)
     articles = review.get_source_articles(source_id)
 
-    header = ['Id', 'Title', 'Author', 'Journal', 'Year']
-    body = ['bibtex_key', 'title', 'author', 'journal', 'year']
-    config = { 'class': 'table' }
-    table = Table()
-    html_table = table.thead(header).tbody(body).css_class(config).rows(articles).build()
+    html_table = HtmlTable().header('Id', 'Title', 'Author', 'Journal', 'Year')\
+        .data_attrs('bibtex_key', 'title', 'author', 'journal', 'year')\
+        .data(articles)\
+        .css_class('table')\
+        .build()
 
     return HttpResponse(html_table)

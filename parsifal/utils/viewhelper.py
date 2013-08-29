@@ -1,46 +1,106 @@
-def _get_config(config):
-    str_config = ''
-    for key in config.keys():
-        str_config += ' %s="%s"' % (key, config[key])
-    return str_config
+def _extract_attrs(attrs):
+    str_attrs = ''
+    if attrs:
+        for key in attrs.keys():
+            str_attrs += ' %s="%s"' % (key, attrs[key])
+    return str_attrs
 
-def _html_table(header, body, elements, configs):
-    html = '<table%s><thead><tr>' % _get_config(configs)
-    for col in header:
-        html += '<th>%s</th>' % col
-    html += '</tr></thead><tbody>'
-    for element in elements:
-        html += '<tr>'
-        for col in body:
-            html += '<td>%s</td>' % getattr(element, col)
-        html += '</tr>'
-    html += '</tbody></table>'
-    return html
+def _pretty_name(name):
+    if not name:
+        return ''
+    return name.replace('_', ' ').capitalize()
 
-class Table:
-    _header = None
-    _body = None
-    _css_class = None
-    _elements = None
+
+class HtmlTable:
 
     def __init__(self):
-        pass
+        self._header = []
+        self._body = []
+        self._data = []
+        self._id = ''
+        self._class = ''
+        self._attrs = {}  
 
-    def thead(self, header):
-        self._header = header
-        return self
-
-    def tbody(self, body):
-        self._body = body
+    def id(self, value):
+        self._id = value
         return self
 
     def css_class(self, value):
-        self._css_class = value
+        self._class += ' ' + value
         return self
 
-    def rows(self, elements):
-        self._elements = elements
+    def attrs(self, values):
+        self._attrs = dict(self._attrs.items() + values.items())
         return self
+
+    def header(self, *args):
+        for arg in args:
+            if type(arg) is list:
+                for attr in arg:
+                    self._header.append(attr)
+            else:
+                self._header.append(arg)
+        return self
+
+    def data_attrs(self, *args):
+        for arg in args:
+            if type(arg) is list:
+                for attr in arg:
+                    self._body.append(attr)
+            else:
+                self._body.append(arg)
+        return self
+
+    def data(self, values):
+        self._data = values
+        return self
+
+    def _extract_dict_columns(self, values):
+        for key in values.keys():
+            self._header.append(key)
+            self._body.append(values[key])
+
+    def _extract_list_columns(self, values):
+        for value in values:
+            self._header.append(_pretty_name(value))
+            self._body.append(value)
+
+    def columns(self, values):
+        if type(values) is dict:
+            self._extract_dict_columns(values)
+            pass
+        elif type(values) is list:
+            self._extract_list_columns(values)
+        return self
+
+    def _join_attrs(self):
+        if self._id:
+            self._attrs['id'] = self._id
+        if self._class:
+            if 'class' in self._attrs.keys():
+                self._attrs['class'] = self._attrs['class'] + ' ' + self._class
+            else: 
+                self._attrs['class'] = self._class
+        return self._attrs
 
     def build(self):
-        return _html_table(self._header, self._body, self._elements, self._css_class)
+        html = '<table%s>' % _extract_attrs(self._join_attrs())
+
+        if self._header:
+            html += '<thead><tr>'
+            for col in self._header:
+                html += '<th>%s</th>' % col
+            html += '</tr></thead>'
+
+        if self._body:
+            html += '<tbody>'
+            for element in self._data:
+                html += '<tr>'
+                for col in self._body:
+                    html += '<td>%s</td>' % getattr(element, col)
+                html += '</tr>'
+            html += '</tbody>'
+
+        html += '</table>'
+
+        return html
