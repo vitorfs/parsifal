@@ -26,15 +26,6 @@
     </form>
   </section>
   <hr>
-
-  <script>
-    $(function () {
-      $(".btn-import-bibtex").click(function () {
-        var container = $(this).closest(".articles");
-        $("input[type=file]", container).click();
-      });
-    });
-  </script>
   <section id="sources" class="clearfix">
     <h2>Articles</h2>
     {% if review.sources.all %}

@@ -41,10 +41,8 @@ header {
   height: 65px;
   background: #728A8B;
   border-bottom: 1px solid #56696A;
-  /*position: fixed;*/
   width: 100%;
   box-shadow: 0 0 5px rgba(0, 0, 0, .6);
-  z-index: 1000;
   padding: 0 20px;
 }
 

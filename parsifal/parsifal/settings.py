@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'reviews',
     'users',
     'settings',
+    'utils',
 )
 
 AUTH_PROFILE_MODULE = 'users.UserProfile'

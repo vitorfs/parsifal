@@ -1,5 +1,10 @@
 $(function () {
 
+  $(".btn-import-bibtex").click(function () {
+    var container = $(this).closest(".articles");
+    $("input[type=file]", container).click();
+  });
+
   $.fn.loadArticles = function () {
     var div = $(this);
     $.ajax({
@@ -15,7 +20,7 @@ $(function () {
       }
     });
   };
-  
+
   $("ul#source-tab li:eq(0)").addClass("active");
 
   var div = $("div.source-tab-content div.articles:eq(0)");

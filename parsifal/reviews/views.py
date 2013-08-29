@@ -12,6 +12,7 @@ from reviews.models import Review, Source, Article, Question, SelectionCriteria,
 from reviews.decorators import main_author_required, author_required, ajax_required
 from pybtex.database.input import bibtex
 from django.conf import settings
+from utils.viewhelper import Table
 
 @login_required
 def reviews(request, username):
@@ -614,32 +615,14 @@ def source_articles(request):
     review_id = request.GET['review-id']
     source_id = request.GET['source-id']
     review = Review.objects.get(pk=review_id)
-    html_return = '''
-    <table class="table">
-    <thead>
-    <tr>
-      <th></th>
-      <th>Id</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Journal</th>
-      <th>Year</th>
-    </tr>
-    </thead>
-    <tbody>'''
+    articles = review.get_source_articles(source_id)
 
-    for article in review.get_source_articles(source_id):
-        html_return+='''
-        <tr>
-          <td></td>
-          <td>''' + article.bibtex_key + '''</td>
-          <td>''' + article.title + '''</td>
-          <td>''' + article.author + '''</td>
-          <td>''' + article.journal + '''</td>
-          <td>''' + article.year + '''</td>
-        </tr>'''
+    header = ['Id', 'Title', 'Author', 'Journal', 'Year']
+    body = ['bibtex_key', 'title', 'author', 'journal', 'year']
+    config = { 'class': 'table' }
+    #html = html_table(header, body, articles, config)
+    table = Table()
 
-    html_return +='''
-      </tbody>
-    </table>'''
-    return HttpResponse(html_return)
+    html = table.thead(header).tbody(body).css_class(config).rows(articles).build()
+
+    return HttpResponse(html)
