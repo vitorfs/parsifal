@@ -180,15 +180,15 @@ def suggested_sources(request):
         return_html = ''
         for source in sources:
             return_html += '''
-<tr>
-  <td>
-    <input type="checkbox" value="''' + str(source.id) + '''" name="source-id">
-  </td>
-  <td>''' + str(source.name) + '''</td>
-  <td>
-    <a href="''' + source.url + '''" target="_blank">''' + source.url + '''</a>
-  </td>
-</tr>'''
+            <tr>
+              <td>
+                <input type="checkbox" value="''' + str(source.id) + '''" name="source-id">
+              </td>
+              <td>''' + str(source.name) + '''</td>
+              <td>
+                <a href="''' + source.url + '''" target="_blank">''' + source.url + '''</a>
+              </td>
+            </tr>'''
         return HttpResponse(return_html)
     except:
         return HttpResponseBadRequest()
@@ -620,9 +620,7 @@ def source_articles(request):
     header = ['Id', 'Title', 'Author', 'Journal', 'Year']
     body = ['bibtex_key', 'title', 'author', 'journal', 'year']
     config = { 'class': 'table' }
-    #html = html_table(header, body, articles, config)
     table = Table()
+    html_table = table.thead(header).tbody(body).css_class(config).rows(articles).build()
 
-    html = table.thead(header).tbody(body).css_class(config).rows(articles).build()
-
-    return HttpResponse(html)
+    return HttpResponse(html_table)
