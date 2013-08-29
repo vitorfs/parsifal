@@ -65,12 +65,19 @@ class HtmlTable:
             self._header.append(_pretty_name(value))
             self._body.append(value)
 
-    def columns(self, values):
-        if type(values) is dict:
-            self._extract_dict_columns(values)
-            pass
-        elif type(values) is list:
-            self._extract_list_columns(values)
+    def _extract_str_column(self, value):
+        self._header.append(_pretty_name(value))
+        self._body.append(value)
+
+    def columns(self, *values):
+        for value in values:
+            if type(value) is str:
+                self._extract_str_column(value)
+            elif type(value) is dict:
+                self._extract_dict_columns(value)
+                pass
+            elif type(value) is list:
+                self._extract_list_columns(value)
         return self
 
     def _join_attrs(self):

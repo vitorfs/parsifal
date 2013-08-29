@@ -617,8 +617,8 @@ def source_articles(request):
     review = Review.objects.get(pk=review_id)
     articles = review.get_source_articles(source_id)
 
-    html_table = HtmlTable().header('Id', 'Title', 'Author', 'Journal', 'Year')\
-        .data_attrs('bibtex_key', 'title', 'author', 'journal', 'year')\
+    html_table = HtmlTable()\
+        .columns('bibtex_key', 'title', 'author', 'journal', 'year')\
         .data(articles)\
         .css_class('table')\
         .build()
