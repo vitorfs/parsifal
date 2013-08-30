@@ -2,7 +2,7 @@
   float: left;
   width: -moz-calc(100% - 234px);
   width: -webkit-calc(100% - 234px);
-  width: calc(100% - 234px);
+  width: calc(100% - 254px);
 }
 
 .reviews table tbody tr td a:hover {
@@ -15,7 +15,7 @@
 
 .profile {
   width: 214px;
-  margin-left: 20px;
+  margin-right: 40px;
   float: left;
 }
 
@@ -70,5 +70,5 @@
 }
 
 .review-list {
-  margin: 20px 0;
+  margin: 20px 0 40px;
 }

@@ -6,6 +6,44 @@
 
 {% block content %}
   <div class="clearfix">
+    <div class="profile">
+      <div class="picture">
+        <img src="{{ MEDIA_URL }}photo.jpg" width="200px" height="200px">
+      </div>
+      <ul>
+        {% if page_user.get_full_name %}
+          <li class="full-name">{{ page_user.get_full_name }}</li>
+        {% endif %}
+        <li class="username">{{ page_user.username }}</li>
+        <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
+        {% if page_user.get_profile.url %}
+          <li><a href="{{ page_user.get_profile.url }}">{{ page_user.get_profile.url }}</a></li>
+        {% endif %}
+        <li class="divider"></li>
+        {% if page_user.get_profile.location %}
+          <li>{{ page_user.get_profile.location }}</li>
+        {% endif %}
+        {% if page_user.get_profile.institution %}
+          <li>{{ page_user.get_profile.institution }}</li>
+        {% endif %}
+        <li>Joined on {{ page_user.date_joined|date:"d M Y" }}</li>
+        <li class="divider"></li>
+      </ul>
+      <div class="stats">
+        <div>
+          <h3>Following</h3>
+          <span>0</span>
+        </div>
+        <div>
+          <h3>Reviews</h3>
+          <span>{{ user_reviews.count }}</span>
+        </div>
+        <div>
+          <h3>Followers</h3>
+          <span>0</span>
+        </div>
+      </div>
+    </div>
     <div class="reviews">
       {% if user.id == page_user.id %}
         <a href="/reviews/new/" class="btn btn-success">New review</a>
@@ -64,44 +102,6 @@
           {% endif %}
         </div>
       {% endif %}
-    </div>
-    <div class="profile">
-      <div class="picture">
-        <img src="{{ MEDIA_URL }}photo.jpg" width="200px" height="200px">
-      </div>
-      <ul>
-        {% if page_user.get_full_name %}
-          <li class="full-name">{{ page_user.get_full_name }}</li>
-        {% endif %}
-        <li class="username">{{ page_user.username }}</li>
-        <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
-        {% if page_user.get_profile.url %}
-          <li><a href="{{ page_user.get_profile.url }}">{{ page_user.get_profile.url }}</a></li>
-        {% endif %}
-        <li class="divider"></li>
-        {% if page_user.get_profile.location %}
-          <li>{{ page_user.get_profile.location }}</li>
-        {% endif %}
-        {% if page_user.get_profile.institution %}
-          <li>{{ page_user.get_profile.institution }}</li>
-        {% endif %}
-        <li>Joined on {{ page_user.date_joined|date:"d M Y" }}</li>
-        <li class="divider"></li>
-      </ul>
-      <div class="stats">
-        <div>
-          <h3>Following</h3>
-          <span>0</span>
-        </div>
-        <div>
-          <h3>Reviews</h3>
-          <span>{{ user_reviews.count }}</span>
-        </div>
-        <div>
-          <h3>Followers</h3>
-          <span>0</span>
-        </div>
-      </div>
     </div>
   </div>
 {% endblock content %}
