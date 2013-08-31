@@ -5,3 +5,14 @@ div.source-buttons {
 #source-tab {
   margin-top: 20px;
 }
+
+#modal-article {
+  width: 850px;
+  height: 500px;
+  margin-left: -425px;
+  margin-top: -250px;
+}
+
+#modal-article .modal-body {
+  height: 400px;
+}

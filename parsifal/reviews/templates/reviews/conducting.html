@@ -27,6 +27,20 @@
   </section>
   <hr>
   <section id="sources" class="clearfix">
+    <div class="modal" id="modal-article" style="display: block">
+      <div class="modal-header">
+        <a href="#" class="close close-modal">×</a>
+        <h2>Article Details</h2>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn">Previous</button>
+        <button type="button" class="btn">Next</button>
+        <button type="button" class="btn btn-warning close-modal">Cancel</button>
+        <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
+      </div>
+    </div>
     <h2>Articles</h2>
     {% if review.sources.all %}
       <ul class="tab" id="source-tab">
