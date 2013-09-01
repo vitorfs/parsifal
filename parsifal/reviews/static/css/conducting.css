@@ -16,3 +16,8 @@ div.source-buttons {
 #modal-article .modal-body {
   height: 400px;
 }
+
+.source-articles table.table tbody tr:hover {
+  background: rgba(115, 138, 139, .1);
+  cursor: pointer;
+}

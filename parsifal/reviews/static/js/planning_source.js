@@ -147,17 +147,6 @@ $(function () {
     });
   });
 
-  function closeModal() {
-    $(this).closest('div.modal').slideUp(400, function () {
-      $("#tbl-suggested-sources input").prop("checked", false);
-      $(".shade").remove();
-      $("body").removeClass("modal-open");
-    });
-    return false;    
-  }
-
-  $(".close-modal").click(closeModal);
-
   $("table#tbl-sources tbody").on("click", ".btn-remove-source", removeSource);
   $("table#tbl-sources tbody").on("click", ".btn-edit-source", editSource);
   $("table#tbl-sources tbody").on("click", ".btn-save-source", saveSource);

@@ -85,4 +85,14 @@ $(function () {
     $(form).submit();
   });
 
+  $(".source-articles").on("click", "tr", function () {
+    $("#modal-article").open();
+  });
+
+  $("body").keyup(function (event) {
+    if (event.which == 27 && $("body").hasClass("modal-open")) {
+      $(".modal").close();
+    }
+  });
+
 });
