@@ -18,6 +18,10 @@ div.source-buttons {
 }
 
 .source-articles table.table tbody tr:hover {
-  background: rgba(115, 138, 139, .1);
+  background: rgba(115, 138, 139, .2);
   cursor: pointer;
+}
+
+.source-articles tr.active {
+  background: rgba(149, 163, 142, .4);
 }
