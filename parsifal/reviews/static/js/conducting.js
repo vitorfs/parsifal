@@ -1,3 +1,13 @@
+function isScrolledIntoView(elem) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
 $(function () {
 
   $(".btn-import-bibtex").click(function () {
@@ -91,9 +101,37 @@ $(function () {
     $("#modal-article").open();
   });
 
-  $("body").keyup(function (event) {
-    if (event.which == 27 && $("body").hasClass("modal-open")) {
-      $(".modal").close();
+  $("body").keydown(function (event) {
+    if (event.which == 27) { // Escape
+      if ($("body").hasClass("modal-open")) {
+        $(".modal").close();  
+      }
+      else {
+        $(".source-articles tbody tr").removeClass("active");    
+      }
+    }
+    else if (!$("body").hasClass("modal-open")) { // Up arrow
+      if (event.which == 38) {
+        event.preventDefault();
+        if (!isScrolledIntoView($(".source-articles tbody tr.active"))) {
+          $('html, body').animate({
+              scrollTop: ($(".source-articles tbody tr.active").offset().top)
+          }, 200);
+        }
+        move(-1);
+      }
+      else if (event.which == 40) { // Down arrow
+        event.preventDefault();
+        if (!isScrolledIntoView($(".source-articles tbody tr.active"))) {
+          $('html, body').animate({
+              scrollTop: ($(".source-articles tbody tr.active").offset().top)
+          }, 200); 
+        }
+        move(1);
+      }
+      else if (event.which == 13) {
+       $(".source-articles tbody tr.active").click();
+      }
     }
   });
 
