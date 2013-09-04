@@ -107,7 +107,7 @@ class Table(Tag):
         if self._body:
             html += '<tbody>'
             for element in self._data:
-                html += '<tr>'
+                html += '<tr oid="%s">' % element.id
                 for col in self._body:
                     html += '<td>%s</td>' % getattr(element, col)
                 html += '</tr>'

@@ -1,15 +1,19 @@
+var FORWARD = 1;
+var BACKWARD = -1;
+var UP_ARROW_KEY = 38;
+var DOWN_ARROW_KEY = 40;
+var ENTER_KEY = 13;
+var ESCAPE_KEY = 27;
+
 function isScrolledIntoView(elem) {
     var docViewTop = $(window).scrollTop();
     var docViewBottom = docViewTop + $(window).height();
-
     var elemTop = $(elem).offset().top;
     var elemBottom = elemTop + $(elem).height();
-
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
 $(function () {
-
   $(".btn-import-bibtex").click(function () {
     var container = $(this).closest(".articles");
     $("input[type=file]", container).click();
@@ -95,14 +99,30 @@ $(function () {
     $(form).submit();
   });
 
+  $.fn.loadActiveArticle = function () {
+    var article_id = $(".source-articles tbody tr.active").attr("oid");
+    var review_id = $("#review-id").val();
+    var container = $(this);
+    $.ajax({
+      url: '/reviews/conducting/article_details/',
+      data: {'review-id': review_id, 'article-id': article_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(container).html(data);
+      }
+    });
+  };
+
   $(".source-articles").on("click", "tr", function () {
     $(".source-articles tbody tr").removeClass("active");
     $(this).addClass("active");
+    $("#modal-article .modal-body").loadActiveArticle();
     $("#modal-article").open();
   });
 
   $("body").keydown(function (event) {
-    if (event.which == 27) { // Escape
+    if (event.which == ESCAPE_KEY) {
       if ($("body").hasClass("modal-open")) {
         $(".modal").close();  
       }
@@ -110,26 +130,26 @@ $(function () {
         $(".source-articles tbody tr").removeClass("active");    
       }
     }
-    else if (!$("body").hasClass("modal-open")) { // Up arrow
-      if (event.which == 38) {
+    else if (!$("body").hasClass("modal-open")) {
+      if (event.which == UP_ARROW_KEY) {
         event.preventDefault();
         if (!isScrolledIntoView($(".source-articles tbody tr.active"))) {
           $('html, body').animate({
               scrollTop: ($(".source-articles tbody tr.active").offset().top)
           }, 200);
         }
-        move(-1);
+        move(BACKWARD);
       }
-      else if (event.which == 40) { // Down arrow
+      else if (event.which == DOWN_ARROW_KEY) {
         event.preventDefault();
         if (!isScrolledIntoView($(".source-articles tbody tr.active"))) {
           $('html, body').animate({
               scrollTop: ($(".source-articles tbody tr.active").offset().top)
           }, 200); 
         }
-        move(1);
+        move(FORWARD);
       }
-      else if (event.which == 13) {
+      else if (event.which == ENTER_KEY) {
        $(".source-articles tbody tr.active").click();
       }
     }
@@ -144,11 +164,13 @@ $(function () {
   }
 
   $("#btn-previous").click(function () {
-    move(-1);
+    move(BACKWARD);
+    $("#modal-article .modal-body").loadActiveArticle();
   });
 
   $("#btn-next").click(function () {
-    move(1);
+    move(FORWARD);
+    $("#modal-article .modal-body").loadActiveArticle();
   });
 
 });

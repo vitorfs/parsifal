@@ -616,11 +616,18 @@ def source_articles(request):
     source_id = request.GET['source-id']
     review = Review.objects.get(pk=review_id)
     articles = review.get_source_articles(source_id)
-
     html_table = Table()\
         .columns('bibtex_key', 'title', 'author', 'journal', 'year')\
         .data(articles)\
         .css_class('table')\
         .build()
-
     return HttpResponse(html_table)
+
+@ajax_required
+@author_required
+@login_required
+def article_details(request):
+    article_id = request.GET['article-id']
+    article = Article.objects.get(pk=article_id)
+    context = RequestContext(request, {'article': article})
+    return render_to_response('reviews/conducting_article_details.html', context)
