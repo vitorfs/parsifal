@@ -1,6 +1,4 @@
 $(function () {
-  var RETURN = 13;
-  var ESC = 27;
   var is_editing = false;
 
   $.fn.addSettings = function () {
@@ -33,11 +31,11 @@ $(function () {
     });
 
     $(this).keyup(function (evt) {
-      var keyCode = evt.which?evt.which:evt.keyCode; 
-      if (keyCode == RETURN) {
+      var keyCode = evt.which?evt.which:evt.keyCode;
+      if (keyCode == ENTER_KEY) {
         $(this).blur();
       }
-      else if (keyCode == ESC) {
+      else if (keyCode == ESCAPE_KEY) {
         $(this).closest('li').remove();
         is_editing = false;
       }

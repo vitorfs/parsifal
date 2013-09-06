@@ -616,12 +616,15 @@ def source_articles(request):
     source_id = request.GET['source-id']
     review = Review.objects.get(pk=review_id)
     articles = review.get_source_articles(source_id)
-    html_table = Table()\
-        .columns('bibtex_key', 'title', 'author', 'journal', 'year')\
-        .data(articles)\
-        .css_class('table')\
-        .build()
-    return HttpResponse(html_table)
+    if articles:
+        html_table = Table()\
+            .columns('bibtex_key', 'title', 'author', 'journal', 'year')\
+            .data(articles)\
+            .css_class('table')\
+            .build()
+        return HttpResponse(html_table)
+    else:
+        return HttpResponse("<h3>You haven't imported any article so far.</h3>")
 
 @ajax_required
 @author_required

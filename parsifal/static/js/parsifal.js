@@ -1,3 +1,10 @@
+var FORWARD = 1;
+var BACKWARD = -1;
+var UP_ARROW_KEY = 38;
+var DOWN_ARROW_KEY = 40;
+var ENTER_KEY = 13;
+var ESCAPE_KEY = 27;
+
 // Form functions
 
 function displayFormMessage(ref, type, message) {

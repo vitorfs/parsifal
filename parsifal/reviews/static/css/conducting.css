@@ -17,6 +17,10 @@ div.source-buttons {
   height: 400px;
 }
 
+.source-articles {
+  min-height: 300px;
+}
+
 .source-articles table.table tbody tr:hover {
   background: rgba(115, 138, 139, .2);
   cursor: pointer;
