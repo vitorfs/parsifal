@@ -134,6 +134,11 @@ class SearchSession(models.Model):
         return self.search_string
 
 class Article(models.Model):
+    STATUS = (
+            (u'U', u'Unclassified'),
+            (u'R', u'Rejected'),
+            (u'A', u'Accepted'),
+        )
     review = models.ForeignKey(Review)
     bibtex_key = models.CharField(max_length=50)
     title = models.CharField(max_length=500, null=True)
@@ -149,6 +154,7 @@ class Article(models.Model):
     author_keywords = models.CharField(max_length=500, null=True)
     note = models.CharField(max_length=500, null=True)
     search_session = models.ForeignKey(SearchSession, null=True)
+    status = models.CharField(max_length=1, choices=STATUS, default='U')
 
     def __unicode__(self):
         return self.title
