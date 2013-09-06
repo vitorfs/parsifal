@@ -212,3 +212,8 @@ a.close:hover {
 .modal-open {
   overflow: hidden;
 }
+
+.loading {
+  text-align: center;
+  padding: 10px 0;
+}

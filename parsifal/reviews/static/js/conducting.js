@@ -20,7 +20,7 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $(".source-articles", div).html("<p>Loading data...</p>");
+        $(".source-articles", div).html(LOADING);
       },
       success: function (data) {
         $(".source-articles", div).html(data);
@@ -116,7 +116,7 @@ $(function () {
 
   $("body").keydown(function (event) {
     var keyCode = event.which?event.which:event.keyCode;
-    
+
     if (keyCode == ESCAPE_KEY) {
       if ($("body").hasClass("modal-open")) {
         $(".modal").close();  
