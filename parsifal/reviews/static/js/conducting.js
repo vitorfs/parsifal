@@ -20,10 +20,13 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $(".source-articles", div).html(LOADING);
+        $(".source-articles", div).loading();
       },
       success: function (data) {
         $(".source-articles", div).html(data);
+      },
+      complete: function () {
+        $(".source-articles", div).stopLoading();
       }
     });
   };
@@ -101,8 +104,14 @@ $(function () {
       data: {'review-id': review_id, 'article-id': article_id},
       type: 'get',
       cache: false,
+      beforeSend: function () {
+        $(container).loading();
+      },
       success: function (data) {
         $(container).html(data);
+      },
+      complete: function () {
+        $(container).stopLoading();
       }
     });
   };

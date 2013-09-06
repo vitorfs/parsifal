@@ -214,6 +214,20 @@ a.close:hover {
 }
 
 .loading {
+  height: inherit;
+  width: 100%;
+}
+
+.loading tr td {
+  vertical-align: middle;
   text-align: center;
-  padding: 10px 0;
+}
+
+.loading tr td img {
+  padding: 20px 0;
+}
+
+.loading-state {
+  margin: 0!important;
+  padding: 0!important;
 }
