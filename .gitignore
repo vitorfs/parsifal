@@ -40,3 +40,5 @@ nosetests.xml
 *.sublime-workspace
 
 reminder.md
+
+media
