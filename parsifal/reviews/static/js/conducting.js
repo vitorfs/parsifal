@@ -133,20 +133,10 @@ $(function () {
     else if (!$("body").hasClass("modal-open")) {
       if (event.which == UP_ARROW_KEY) {
         event.preventDefault();
-        if (!isScrolledIntoView($(".source-articles tbody tr.active"))) {
-          $('html, body').animate({
-              scrollTop: ($(".source-articles tbody tr.active").offset().top)
-          }, 200);
-        }
         move(BACKWARD);
       }
       else if (event.which == DOWN_ARROW_KEY) {
         event.preventDefault();
-        if (!isScrolledIntoView($(".source-articles tbody tr.active"))) {
-          $('html, body').animate({
-              scrollTop: ($(".source-articles tbody tr.active").offset().top)
-          }, 200); 
-        }
         move(FORWARD);
       }
       else if (event.which == ENTER_KEY) {
