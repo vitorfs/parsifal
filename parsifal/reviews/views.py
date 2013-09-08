@@ -91,6 +91,7 @@ def planning(request, username, review_name):
 @login_required
 def conducting(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
+    status = Article.STATUS
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/conducting.html', context)
 
