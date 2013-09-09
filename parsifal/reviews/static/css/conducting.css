@@ -29,3 +29,7 @@ div.source-buttons {
 .source-articles tr.active {
   background: rgba(149, 163, 142, .4);
 }
+
+.source-articles table.table tbody tr.active:hover {
+  background: rgba(149, 163, 142, .4);
+}
