@@ -36,9 +36,9 @@
       </div>
       <div class="modal-footer">
         <select class="pull-left">
-          <option>Unclassified</option>
-          <option>Accepted</option>
-          <option>Rejected</option>
+          {% for s in status %}
+            <option value="{{ s.0 }}">{{ s.1 }}</option>
+          {% endfor %}
         </select>
         <button type="button" class="btn" id="btn-previous">Previous</button>
         <button type="button" class="btn" id="btn-next">Next</button>
