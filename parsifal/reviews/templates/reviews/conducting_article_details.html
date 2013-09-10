@@ -1,4 +1,10 @@
 <h2>{{ article.title }}</h2>
 <form name="article-details" id="article-details" method="post" action=".">
-  
+  {% csrf_token %}
+  <input type="hidden" name="article-id" value="{{ article.id }}">
+  <select class="pull-left" name="article-status">
+    {% for s in status %}
+      <option value="{{ s.0 }}" {% if article.status == s.0 %} selected {% endif %}>{{ s.1 }}</option>
+    {% endfor %}
+  </select>
 </form>

@@ -171,4 +171,22 @@ $(function () {
     $("#modal-article .modal-body").loadActiveArticle();
   });
 
+  $("#btn-save-suggested-sources").click(function () {
+    $.ajax({
+      url: '/reviews/conducting/save_article_details/',
+      cache: false,
+      data: $("#article-details").serialize(),
+      type: 'post',
+      beforeSend: function () {
+
+      },
+      success: function (data) {
+
+      },
+      error: function () {
+
+      }
+    });
+  });
+
 });

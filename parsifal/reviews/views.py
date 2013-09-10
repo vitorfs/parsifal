@@ -91,8 +91,7 @@ def planning(request, username, review_name):
 @login_required
 def conducting(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    status = Article.STATUS
-    context = RequestContext(request, {'review': review, 'status': status,})
+    context = RequestContext(request, {'review': review,})
     return render_to_response('reviews/conducting.html', context)
 
 @login_required
@@ -546,14 +545,10 @@ def generate_search_string(request):
 
     search_string = []
 
-    if str_population:
-        search_string.append('(' + str_population + ')')
-    if str_intervention:
-        search_string.append('(' + str_intervention + ')')
-    if str_comparison:
-        search_string.append('(' + str_comparison + ')')
-    if str_outcome:
-        search_string.append('(' + str_outcome + ')')
+    if str_population: search_string.append('(' + str_population + ')')
+    if str_intervention: search_string.append('(' + str_intervention + ')')
+    if str_comparison: search_string.append('(' + str_comparison + ')')
+    if str_outcome: search_string.append('(' + str_outcome + ')')
 
     return HttpResponse(' AND '.join(search_string))
 
@@ -633,5 +628,20 @@ def source_articles(request):
 def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
-    context = RequestContext(request, {'article': article})
+    status = Article.STATUS
+    context = RequestContext(request, {'article': article, 'status': status,})
     return render_to_response('reviews/conducting_article_details.html', context)
+
+@ajax_required
+@author_required
+@login_required
+def save_article_details(request):
+    try:
+        article_id = request.POST['article-id']
+        article = Article.objects.get(pk=article_id)
+        status = request.POST['article-status']
+        article.status = status
+        article.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
