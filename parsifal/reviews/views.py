@@ -645,3 +645,9 @@ def save_article_details(request):
         return HttpResponse()
     except:
         return HttpResponseBadRequest()
+
+@login_required
+def settings(request, username, review_name):
+    review = Review.objects.get(name=review_name, author__username=username)
+    context = RequestContext(request, {'review': review,})
+    return render_to_response('reviews/settings.html', context)

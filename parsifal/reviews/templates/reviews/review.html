@@ -7,7 +7,6 @@
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="review" %}
-  <button type="button" class="btn pull-right btn-warning">Review Settings</button>
   <section class="clearfix">
     <h2>Authors</h2>
     {% if user.id == review.author.id %}

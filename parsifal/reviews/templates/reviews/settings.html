@@ -1,0 +1,13 @@
+{% extends 'base_app.html' %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+{% endblock head_extra %}
+
+{% block content %}
+  {% include "reviews/review_header.html" with active_menu="review" %}
+  <section class="clearfix">
+    <h2>Settings</h2>
+  </section>
+{% endblock content %}
