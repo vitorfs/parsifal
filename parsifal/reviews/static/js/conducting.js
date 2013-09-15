@@ -117,14 +117,10 @@ $(function () {
   };
 
   $(".source-articles").on("click", "tr", function () {
-    if ($(this).hasClass("active")) {
-      $("#modal-article .modal-body").loadActiveArticle();
-      $("#modal-article").open();
-    }
-    else {
-      $(".source-articles tbody tr").removeClass("active");
-      $(this).addClass("active");
-    }
+    $(".source-articles tbody tr").removeClass("active");
+    $(this).addClass("active");
+    $("#modal-article .modal-body").loadActiveArticle();
+    $("#modal-article").open();
   });
 
   $("body").keydown(function (event) {
