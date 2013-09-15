@@ -11,7 +11,12 @@
 
   <div class="form-row">
     <h3>Abstract</h3>
-    <textarea>{{ article.abstract }}</textarea>
+    <textarea rows="5">{{ article.abstract }}</textarea>
+  </div>
+
+  <div class="form-row">
+    <h3>Journal</h3>
+    <input value="{{ article.journal }}">
   </div>
 
   <div class="form-row">
