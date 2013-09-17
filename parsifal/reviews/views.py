@@ -579,6 +579,7 @@ def bibtex_to_article_object(filename, review_id, source_id):
             article.journal = b["journal"]
             article.year = b["year"]
             article.author = b["author"]
+            article.abstract = b["abstract"]
             article.bibtex_key = bib_id
             article.review = Review(id=review_id)
             article.source = Source(id=source_id)
