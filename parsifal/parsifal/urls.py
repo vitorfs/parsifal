@@ -50,5 +50,6 @@ urlpatterns = patterns('',
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/conducting/$', 'reviews.views.conducting'),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/reporting/$', 'reviews.views.reporting'),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/settings/$', 'reviews.views.settings'),
+    (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/settings/save/$', 'reviews.views.settings'),
     (r'^(?P<username>[\w-]+)/$', 'reviews.views.reviews'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
