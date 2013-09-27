@@ -1,29 +1,35 @@
 <h2>{{ article.title }}</h2>
 <ul class="tab">
-    <li class="active"><a href="#tab1">Details</a></li>
-    <li><a href="#tab2">Criteria</a></li>
+    <li class="active"><a href="#tab-details">Details</a></li>
+    <li><a href="#tab-criteria">Criteria</a></li>
 </ul>
-<form name="article-details" id="article-details" method="post" action="." class="form-block form-normal">
-  {% csrf_token %}
-  <input type="hidden" name="review-id" value="{{ article.review.id }}">
-  <input type="hidden" name="article-id" value="{{ article.id }}">
-  <div class="form-row">
-    <h3>Authors</h3>
-    <input value="{{ article.author }}">
+<div class="tabs">
+  <div id="tab-details">
+    <form name="article-details" id="article-details" method="post" action="." class="form-block form-normal">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ article.review.id }}">
+      <input type="hidden" name="article-id" value="{{ article.id }}">
+      <div class="form-row">
+        <h3>Authors</h3>
+        <input value="{{ article.author }}">
+      </div>
+      <div class="form-row">
+        <h3>Abstract</h3>
+        <textarea rows="5">{{ article.abstract }}</textarea>
+      </div>
+      <div class="form-row">
+        <h3>Journal</h3>
+        <input value="{{ article.journal }}">
+      </div>
+      <div class="form-row">
+        <select class="pull-left" name="article-status">
+        {% for s in status %}
+          <option value="{{ s.0 }}" {% if article.status == s.0 %} selected {% endif %}>{{ s.1 }}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </form>
   </div>
-  <div class="form-row">
-    <h3>Abstract</h3>
-    <textarea rows="5">{{ article.abstract }}</textarea>
+  <div id="tab-criteria">
   </div>
-  <div class="form-row">
-    <h3>Journal</h3>
-    <input value="{{ article.journal }}">
-  </div>
-  <div class="form-row">
-    <select class="pull-left" name="article-status">
-    {% for s in status %}
-      <option value="{{ s.0 }}" {% if article.status == s.0 %} selected {% endif %}>{{ s.1 }}</option>
-    {% endfor %}
-    </select>
-  </div>
-</form>
+</div>
