@@ -1,6 +1,9 @@
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-
 from unipath import Path
+import dj_database_url
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')A
+
 PROJECT_DIR = Path(__file__).parent
 
 DEBUG = True
@@ -13,17 +16,11 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'parsifal_des',
-        'USER': 'richard_wagner',
-        'PASSWORD': 'holygrail',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+      default = 'sqlite:///' + PROJECT_DIR.child('parsifal.db'))
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 TIME_ZONE = 'America/Sao_Paulo'
 LANGUAGE_CODE = 'en-us'
