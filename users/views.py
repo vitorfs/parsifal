@@ -10,6 +10,16 @@ def new(request):
     username = request.POST['username']
     password = request.POST['password']
     email = request.POST['email']
+
+    if username == '' or password == '' or email == '':
+      return redirect('/')
+    
+    unique_username = User.objects.filter(username=username)
+    unique_email = User.objects.filter(email=email)
+
+    if unique_username or unique_email:
+      return redirect('/')
+
     User.objects.create_user(username=username, password=password, email=email)
     user = authenticate(username=username, password=password)
     login(request, user)
