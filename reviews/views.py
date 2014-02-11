@@ -11,7 +11,7 @@ from django.utils.html import escape
 from reviews.models import Review, Source, Article, Question, SelectionCriteria, Keyword
 from reviews.decorators import main_author_required, author_required, ajax_required
 from pybtex.database.input import bibtex
-from django.conf import settings
+from django.conf import settings as django_settings
 from utils.viewhelper import Table
 
 @login_required
@@ -595,7 +595,7 @@ def import_bibtex(request):
     source_id = request.POST['source-id']
     review = Review.objects.get(pk=review_id)
     f = request.FILES['bibtex']
-    filename = settings.MEDIA_ROOT + '/temp_bibitex_upload/' + request.user.username + '.bib'
+    filename = django_settings.MEDIA_ROOT + '/temp_bibitex_upload/' + request.user.username + '.bib'
     with open(filename, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
