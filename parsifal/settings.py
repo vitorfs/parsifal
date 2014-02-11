@@ -31,7 +31,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-MEDIA_ROOT = PROJECT_DIR.child('media')
+MEDIA_ROOT = PROJECT_DIR.parent.child('media')
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = PROJECT_DIR.child('static')
