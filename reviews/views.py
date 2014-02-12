@@ -26,26 +26,19 @@ def reviews(request, username):
 def new(request):
     review = Review()
     if request.method == 'POST':
-        name = request.POST['name']
         title = request.POST['title']
         description = request.POST['description']
         author = request.user
-
-        name = ' '.join(name.split()) # remove random spaces between words
+        name = ' '.join(title.split()) # remove random spaces between words
         name = name.replace(' ', '-').lower()
         review = Review(name = name, title = title, description = description, author=author)
-
-        if name and title:
+        if title:
             review.save()
             messages.add_message(request, messages.SUCCESS, 'Review created with success.')
             return redirect('/' + review.author.username + '/' + review.name + '/')
         else:
-            fields = []
-            if not name: fields.append('Short Name')
-            if not title: fields.append('Title')
-            message = 'The following fields are required: ' + ', '.join(fields) + '.'
+            message = 'Title is a required field.'
             messages.add_message(request, messages.ERROR, message)
-
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/new.html', context)
 
