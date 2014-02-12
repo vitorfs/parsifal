@@ -1,27 +1,31 @@
-{% extends 'base.html' %}
-
-{% block head_extra %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Parsifal</title>
+  <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" media="screen">
   <link href="{{ STATIC_URL }}css/cover.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
-
-{% block content %}
-  <div class="content-left">
-    <h1>Perform Systematic Literature Reviews</h1>
-    <p class="slogan">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
-  </div>
-  <div class="content-right">
-    <h2>Sign up for Parsifal</h2>
-    <form action="/users/new/" method="post">
-      {% csrf_token %}
-      <input type="text" placeholder="Username" name="username">
-      <input type="password" placeholder="Password" name="password">
-      <input type="text" placeholder="Email" name="email">
-      <button type="submit" class="btn btn-success btn-large" style="width:100%">Create a new account</button>
-    </form>
-  </div>
-{% endblock content %}
-
-{% block footer %}
+</head>
+<body>
+  <header>
+    <div class="wrapper clearfix">
+      <h1><a href="/">Parsifal</a></h1>
+      <nav>
+        <a href="mailto:vitor@freitas.com">Contact</a>
+        <a href="https://github.com/vitorfs/parsifal" target="_blank">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <section class="content" style="padding: 3em 0">
+    <div class="wrapper clearfix">
+      <div class="content-left">
+        <h1>Perform Systematic Literature Reviews</h1>
+        <p class="slogan">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
+        <p class="slogan">Parsifal is an open source project, and is currently under development. You can contribute on <a href="https://github.com/vitorfs/parsifal/" target="_blank">GitHub</a>.</p>
+        <p class="slogan">Vitor Freitas</p>
+      </div>
+    </div>
+  </section>
   <section class="features">
     <div class="wrapper">
       <article>
@@ -38,4 +42,10 @@
       </article>
     </div>
   </section>
-{% endblock footer %}
+  <footer>
+    <div class="wrapper clearfix">
+      <p>© 2014 Parsifal Ltd.</p>
+    </div>
+  </footer>
+</body>
+</html>

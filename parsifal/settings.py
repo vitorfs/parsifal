@@ -17,7 +17,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': dj_database_url.config(
-      default = 'sqlite:///' + PROJECT_DIR.child('parsifal.db'))
+      default = 'sqlite:///' + PROJECT_DIR.child('parsifal.sqlite3'))
 }
 
 ALLOWED_HOSTS = ['*']
@@ -81,8 +81,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.admin',
-    # 'django.contrib.admindocs',
     'south',
     'core',
     'reviews',
