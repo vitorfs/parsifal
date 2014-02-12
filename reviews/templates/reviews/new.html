@@ -6,11 +6,12 @@
     {% csrf_token %}
     <div class="form-row">
       <div class="label-container">
-        <label for="name">Name</label>
+        <label for="name">Short Name</label>
       </div>
       <div class="input-container">
-        <input type="text" id="name" name="name" placeholder="Inform a name for your review">
+        <input type="text" id="name" name="name" placeholder="Inform a name for your review" value="{{review.name}}">
         <span class="help">The name will be used to create a unique url for your review. Make sure you choose something <strong>short</strong> and <strong>elegant</strong>.</span>
+        <span class="help">It will look like http://parsif.al/{{user.username}}/<strong>effort-estimation</strong>/</span>
       </div>
     </div>
     <div class="form-row">
@@ -18,7 +19,7 @@
         <label for="title">Title</label>
       </div>
       <div class="input-container">
-        <input type="text" id="title" name="title" placeholder="Systematic literature review's title">
+        <input type="text" id="title" name="title" placeholder="Systematic literature review's title" value="{{review.title}}">
       </div>
     </div>
     <div class="form-row clearfix">
@@ -26,7 +27,7 @@
         <label for="descripton">Description</label>
       </div>
       <div class="input-container">
-        <textarea rows="5" id="description" name="description" placeholder="Give a brief description of your systematic literature review"></textarea>
+        <textarea rows="5" id="description" name="description" placeholder="Give a brief description of your systematic literature review" value="{{review.description}}"></textarea>
       </div>
     </div>
     <div class="button-container">

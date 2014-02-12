@@ -31,16 +31,9 @@
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-{{ message.tags }}">
-            <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();">×</a>
+            <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();return false;">×</a>
             {{ message }}
           </div>
-          <script type="text/javascript">
-            $(function () {
-              window.setTimeout(function () {
-                $('.alert').fadeOut();
-              }, 5000);
-            });
-          </script>
         {% endfor %}
       {% endif %}
       {% block content %}
