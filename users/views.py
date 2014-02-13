@@ -12,13 +12,13 @@ def new(request):
     email = request.POST['email']
 
     if username == '' or password == '' or email == '':
-      return redirect('/')
+      return redirect('/signup/')
     
     unique_username = User.objects.filter(username=username)
     unique_email = User.objects.filter(email=email)
 
     if unique_username or unique_email:
-      return redirect('/')
+      return redirect('/signup/')
 
     User.objects.create_user(username=username, password=password, email=email)
     user = authenticate(username=username, password=password)

@@ -12,6 +12,10 @@ def home(request):
     else:
         return render_to_response('core/cover.html', context)
 
+def signup(request):
+    context = RequestContext(request)
+    return render_to_response('core/signup.html', context)
+
 def signin(request):
     if request.user.is_authenticated():
         return redirect('/')

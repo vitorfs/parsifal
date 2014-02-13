@@ -10,6 +10,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     (r'^$', 'core.views.home'),
+    (r'^signup/$', 'core.views.signup'),
     (r'^signin/$', 'core.views.signin'),
     (r'^signout/$', 'core.views.signout'),
     (r'^news/$', 'core.views.news'),

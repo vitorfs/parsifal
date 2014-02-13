@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Parsifal - Sign up{% endblock title %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/signup.css" rel="stylesheet" media="screen">
+{% endblock head_extra %}
+
+{% block content %}
+  <div class="signup">
+    <h1 class="join">Sign up for Parsifal</h1>
+    <form action="/users/new/" method="post">
+      {% csrf_token %}
+      <label for="username">Username:</label>
+      <input type="text" placeholder="" name="username">
+
+      <label for="email">Email Address:</label>
+      <input type="text" placeholder="" name="email">
+
+      <label for="email">Password:</label>
+      <input type="password" placeholder="" name="password">
+
+      <label for="confirm-password">Confirm your password:</label>
+      <input type="password" placeholder="" name="confirm-password">
+      <button type="submit" class="btn btn-success">Create an account</button>
+    </form>
+  </div>
+{% endblock content %}

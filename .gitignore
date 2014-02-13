@@ -36,9 +36,6 @@ nosetests.xml
 
 .DS_Store
 
-*.sublime-project
-*.sublime-workspace
-
 reminder.md
 
 *.sqlite3
