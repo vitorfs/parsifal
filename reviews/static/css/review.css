@@ -66,3 +66,9 @@ ul.review-menu li.active {
 .add-author-input input {
   font-size: 1em;
 }
+
+span.main-author-label {
+  color: #94A390;
+  font-weight: 400;
+  font-size: 0.9em;
+}
