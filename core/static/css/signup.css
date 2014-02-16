@@ -1,5 +1,8 @@
 div.signup form input {
   font-size: 0.8em;
+}
+
+div.signup div.form-row {
   margin-bottom: 1.2em;
 }
 
@@ -11,4 +14,9 @@ div.signup form label {
 div.signup h1.join {
   margin-bottom: 0.8em;
   font-size: 1.8em;
+}
+
+div.signup div.form-row p.info {
+  font-size: 0.7em;
+  color: #A84635;
 }

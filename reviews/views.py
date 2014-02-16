@@ -29,9 +29,16 @@ def new(request):
         title = request.POST['title']
         description = request.POST['description']
         author = request.user
-        name = ' '.join(title.split()) # remove random spaces between words
-        name = name.replace(' ', '-').lower()
-        review = Review(name = name, title = title, description = description, author=author)
+        name = '-'.join(title.split()).lower() # remove random spaces between words
+
+        unique_name = name
+        i = 0
+
+        while Review.objects.filter(name=unique_name):
+            i = i + 1
+            unique_name = name + str(i)
+
+        review = Review(name = unique_name, title = title, description = description, author=author)
         if title:
             review.save()
             messages.add_message(request, messages.SUCCESS, 'Review created with success.')
