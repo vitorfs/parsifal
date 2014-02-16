@@ -34,7 +34,7 @@ def new(request):
         unique_name = name
         i = 0
 
-        while Review.objects.filter(name=unique_name):
+        while Review.objects.filter(name=unique_name, author__username=request.user.username):
             i = i + 1
             unique_name = name + str(i)
 
