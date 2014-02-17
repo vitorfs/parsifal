@@ -8,6 +8,12 @@ class UserProfile(models.Model):
     url = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
 
+    def get_screen_name(self):
+        if self.user.get_full_name():
+            return self.user.get_full_name()
+        else:
+            return self.user.username
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)

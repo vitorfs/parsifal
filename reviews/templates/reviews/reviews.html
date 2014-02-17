@@ -1,5 +1,7 @@
 {% extends 'base_app.html' %}
 
+{% block title %}Parsifal - {{ page_user.get_profile.get_screen_name }}{% endblock %}
+
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/reviews.css" rel="stylesheet" media="screen">
 {% endblock head_extra %}

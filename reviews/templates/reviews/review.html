@@ -14,24 +14,12 @@
     {% endif %}
     <ul class="authors">
       <li author=id="{{ review.author.id }}">
-        <a href="/{{ review.author.username }}/">
-          {% if review.author.get_full_name %}
-            {{ review.author.get_full_name }}
-          {% else %}
-            {{ review.author.username }}
-          {% endif %}
-        </a>
+        <a href="/{{ review.author.username }}/">{{ review.author.get_profile.get_screen_name }}</a>
         <span class="main-author-label">(main author)</span>
       </li>
       {% for author in review.co_authors.all %}
         <li author-id="{{ author.id }}">
-          <a href="/{{ author.username }}/">
-            {% if author.get_full_name %}
-              {{ author.get_full_name }}
-            {% else %}
-              {{ author.username }}
-            {% endif %}
-          </a>
+          <a href="/{{ author.username }}/">{{ author.get_profile.get_screen_name }}</a>
           {% if user.id == review.author.id %}
             <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button>
           {% endif %}
