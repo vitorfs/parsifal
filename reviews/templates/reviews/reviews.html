@@ -60,10 +60,8 @@
               <td>
                 {% if user.id == page_user.id %}
                   You  
-                {% elif page_user.get_full_name %}
-                  {{ page_user.get_full_name }}
                 {% else %}
-                  {{ page_user.username }}
+                  {{ page_user.get_profile.get_screen_name }}
                 {% endif %}
                 haven't published any systematic literature review yet.
               </td>
@@ -87,7 +85,9 @@
                 {% for review in user_reviews %}
                   <tr>
                     <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
-                    <td>{{ review.author.get_full_name }}</td>
+                    <td>
+                      <a href="/{{ review.author.username }}/">{{ review.author.get_profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.get_profile.get_screen_name }}</a>{% endfor %}
+                    </td>
                     <td>{{ review.last_update|date:"D d M Y" }}</td>
                   </tr>
                 {% endfor %}

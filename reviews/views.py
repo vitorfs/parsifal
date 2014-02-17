@@ -73,7 +73,7 @@ def add_author_to_review(request):
         if user is not None and user.id != review.author.id:
             review.co_authors.add(user)
             review.save()
-            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_full_name() + '</a> <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button></li>')
+            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_profile().get_screen_name() + '</a> <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button></li>')
         else:
             return HttpResponseBadRequest()
     except:
