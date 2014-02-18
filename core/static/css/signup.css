@@ -16,7 +16,12 @@ div.signup h1.join {
   font-size: 1.8em;
 }
 
-div.signup div.form-row p.info {
+ul.errorlist li {
   font-size: 0.7em;
   color: #A84635;
+}
+
+span.info {
+  color: #999999;
+  font-size: 0.7em;
 }

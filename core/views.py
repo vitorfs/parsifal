@@ -1,10 +1,13 @@
 # coding: utf-8
 from django.contrib import messages
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from reviews.models import Review
+from utils.string import remove_accents
+from core.forms import SignUpForm
 
 def home(request):
     if request.user.is_authenticated():
@@ -17,80 +20,28 @@ def home(request):
 
 def signup(request):
     if request.method == 'POST':
-        validate_form = True
-        error_username = ''
-        error_email = ''
-        error_password = ''
-        error_confirm_password = ''
-
-        forbidden_usernames = ['admin', 'settings', 'news', 'about', 'help', 'signin', 'signup', 
-            'signout', 'terms', 'privacy', 'cookie', 'new', 'login', 'logout', 'administrator', 
-            'join', 'account', 'username', 'root', 'blog', 'user', 'users', 'billing', 'subscribe',
-            'reviews', 'review', 'blog', 'blogs', 'edit', 'mail', 'email', 'home', 'job', 'jobs', 
-            'contribute', 'newsletter', 'shop', 'profile', 'register', 'auth', 'authentication',
-            'campaign', 'config', 'delete', 'remove', 'forum', 'forums', 'download', 'downloads', 
-            'contact', 'blogs', 'feed', 'faq', 'intranet', 'log', 'registration', 'search', 
-            'explore', 'rss', 'support', 'status', 'static', 'media', 'setting', 'css', 'js']
-
-        username = request.POST['username']
-        if not username:
-            error_username = 'Username is a required field.'
-            validate_form = False
+        form = SignUpForm(request.POST)
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'There was some problems while creating your account. Please review some fields before submiting again.')
+            context = RequestContext(request, {'form': form})
+            return render_to_response('core/signup.html', context)
         else:
-            exists_username = User.objects.filter(username=username)
-            if exists_username:
-                error_username = 'The username is already taken.'
-                validate_form = False
-
-        email = request.POST['email']
-        if not email:
-            error_email = 'Email is a required field.'
-            validate_form = False
-        else:
-            exists_email = User.objects.filter(email=email)
-            if exists_email:
-                error_email = 'The email is already used.'
-                validate_form = False
-
-        password = request.POST['password']
-        if not password:
-            error_password = 'Password is a required field.'
-            validate_form = False
-
-        try:
-            confirm_password = request.POST['confirm-password']
-            if confirm_password != password:
-                error_confirm_password = 'Password didn\'t match.'
-                validate_form = False
-        except:
-            confirm_password = ''
-        
-        if validate_form:
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
             User.objects.create_user(username=username, password=password, email=email)
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.add_message(request, messages.SUCCESS, 'Your account were successfully created.')
-            return redirect('/' + username + '/')
-        else:
-            messages.add_message(request, messages.ERROR, 'There was some problems while creating your account. Please review some fields before submiting again.')
-            new_user = User(username=username, email=email, password=password)
-            if confirm_password: 
-                new_user.confirm_password = confirm_password
-            context = RequestContext(request, {'new_user': new_user
-                , 'error_username': error_username
-                , 'error_email': error_email
-                , 'error_password': error_password
-                , 'error_confirm_password': error_confirm_password
-            })
-            return render_to_response('core/signup.html', context)
+            return HttpResponseRedirect('/' + username + '/')
     else:
-        context = RequestContext(request)
+        context = RequestContext(request,  {'form': SignUpForm() })
         return render_to_response('core/signup.html', context)
 
 
 def signin(request):
     if request.user.is_authenticated():
-        return redirect('/')
+        return HttpResponseRedirect('/')
     else:
         if request.method == 'POST':
             username = request.POST['username']
@@ -100,9 +51,9 @@ def signin(request):
                 if user.is_active:
                     login(request, user)
                     if 'next' in request.GET:
-                        return redirect(request.GET['next'])
+                        return HttpResponseRedirect(request.GET['next'])
                     else:
-                        return redirect('/')
+                        return HttpResponseRedirect('/')
                 else:
                     messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
                     context = RequestContext(request)
@@ -117,7 +68,7 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return redirect('/')
+    return HttpResponseRedirect('/')
 
 def news(request):
     context = RequestContext(request)

@@ -12,24 +12,25 @@
     <form action="/signup/" method="post">
       {% csrf_token %}
       <div class="form-row">
-        <label for="username">Username:</label>
-        <input type="text" name="username" value="{{ new_user.username }}">
-        <p class="info">{{ error_username }}</p>
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}: </label>
+        <span class="info">(Required. 30 characters or fewer. Usernames may contain alphanumeric, _, @, +, . and - characters.)</span>
+        {{ form.username }}
+        {{ form.username.errors }}
       </div>
       <div class="form-row">
-        <label for="email">Email Address:</label>
-        <input type="text" name="email" value="{{ new_user.email }}">
-        <p class="info">{{ error_email }}</p>
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+        {{ form.email }}
+        {{ form.email.errors }}
       </div>
       <div class="form-row">
-        <label for="email">Password:</label>
-        <input type="password" name="password">
-        <p class="info">{{ error_password }}</p>
+        <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+        {{ form.password }}
+        {{ form.password.errors }}
       </div>
       <div class="form-row">
-        <label for="confirm-password">Confirm your password:</label>
-        <input type="password" name="confirm-password">
-        <p class="info">{{ error_confirm_password }}</p>
+        <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}:</label>
+        {{ form.confirm_password }}
+        {{ form.confirm_password.errors }}
       </div>
       <button type="submit" class="btn btn-success btn-large">Create an account</button>
     </form>
