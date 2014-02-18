@@ -23,6 +23,10 @@ def signup(request):
         error_password = ''
         error_confirm_password = ''
 
+        forbidden_usernames = ['admin', 'settings', 'news', 'about', 'help', 'signin', 'signup', 
+            'signout', 'terms', 'privacy', 'cookie', 'new', 'login', 'logout', 'administrator', 
+            'join', 'account', 'username', 'www', 'root']
+
         username = request.POST['username']
         if not username:
             error_username = 'Username is a required field.'
