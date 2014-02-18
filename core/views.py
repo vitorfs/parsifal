@@ -4,12 +4,15 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from reviews.models import Review
 
 def home(request):
-    context = RequestContext(request)
     if request.user.is_authenticated():
+        user_reviews = Review.objects.filter(author__id=request.user.id).order_by('-last_update',)
+        context = RequestContext(request, {'user_reviews': user_reviews})
         return render_to_response('core/home.html', context)
     else:
+        context = RequestContext(request)
         return render_to_response('core/cover.html', context)
 
 def signup(request):

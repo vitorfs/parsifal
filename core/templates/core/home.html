@@ -1,5 +1,33 @@
 {% extends 'base_app.html' %}
 
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/home.css" rel="stylesheet" media="screen">
+{% endblock head_extra %}
+
 {% block content %}
-  <h1>Last updates on Parsifal</h1>
+  <div class="clearfix">
+    <div class="last-updates">
+      <h1>Last updates on Parsifal</h1>
+      <ul>
+        <li>There is no recent update on your network.</li>
+      </ul>
+    </div>
+    <div class="user-reviews">
+      <div class="clearfix" style="margin-bottom: 1.5em">
+        <a href="/reviews/new/" class="btn btn-success pull-right">New review</a>
+      </div>
+      <div class="container reviews" style="padding: 0">
+        <nav>
+          <h3>Your Reviews</h3>
+          {% if user_reviews%}
+            {% for review in user_reviews %}
+              <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
+            {% endfor %}
+          {% else %}
+            <p>You don't have any systematic literature review yet.</p>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
