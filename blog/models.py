@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 
 class Entry(models.Model):
     ENTRY_STATUS = (
-        (u'DRAFT', u'Draft'),
-        (u'HIDDEN', u'Hidden'),
-        (u'PUBLISHED', u'Published'),
+        (u'D', u'Draft'),
+        (u'H', u'Hidden'),
+        (u'P', u'Published'),
     )
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)

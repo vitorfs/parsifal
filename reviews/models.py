@@ -25,15 +25,21 @@ class Source(models.Model):
         ordering = ("name",)
 
 class Review(models.Model):
+    STATUS = (
+            (u'U', u'Unpublished'),
+            (u'P', u'Published'),
+        )
+
     name = models.CharField(max_length=50)
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
     author = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True, blank=True)
     last_update = models.DateTimeField()
-    co_authors = models.ManyToManyField(User, related_name="co+")
+    co_authors = models.ManyToManyField(User, related_name="+")
     objective = models.TextField(max_length=1000, null=True, blank=True)
     sources = models.ManyToManyField(Source)
+    status = models.CharField(max_length=1, choices=STATUS, default='U')
 
     def __unicode__(self):
         return self.name
