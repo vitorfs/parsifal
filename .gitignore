@@ -40,3 +40,5 @@ reminder.md
 
 *.sqlite3
 venv
+
+.env
