@@ -11,14 +11,22 @@
   </div>
   <div class="content-right">
     <h2>Sign up for Parsifal</h2>
-    <form action="/signup/" method="post">
+    <form action="/signup/" method="post" id="new-account">
       {% csrf_token %}
       <input type="text" placeholder="Username" name="username">
       <input type="password" placeholder="Password" name="password">
+      <input type="hidden" name="confirm_password" value="">
       <input type="text" placeholder="Email" name="email">
       <button type="submit" class="btn btn-success btn-large" style="width:100%">Create a new account</button>
     </form>
   </div>
+  <script type="text/javascript">
+    $(function() {
+      $("#new-account").submit(function () {
+        $("input[name=confirm_password]").val($("input[name=password]").val());
+      });
+    });
+  </script>
 {% endblock content %}
 
 {% block footer %}

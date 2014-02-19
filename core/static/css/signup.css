@@ -1,9 +1,11 @@
 div.signup form input {
   font-size: 0.8em;
+  width: 400px;
+  margin-left: 0;
 }
 
 div.signup div.form-row {
-  margin-bottom: 1.2em;
+  margin-bottom: 0.8em;
 }
 
 div.signup form label {

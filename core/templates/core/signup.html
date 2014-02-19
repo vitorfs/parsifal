@@ -12,23 +12,23 @@
     <form action="/signup/" method="post">
       {% csrf_token %}
       <div class="form-row">
-        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}: </label>
-        <span class="info">(Required. 30 characters or fewer. Usernames may contain alphanumeric, _, @, +, . and - characters.)</span>
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+        <span class="info">(Usernames may contain alphanumeric, _, @, +, . and - characters.)</span>
         {{ form.username }}
         {{ form.username.errors }}
       </div>
       <div class="form-row">
-        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
         {{ form.email }}
         {{ form.email.errors }}
       </div>
       <div class="form-row">
-        <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+        <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
         {{ form.password }}
         {{ form.password.errors }}
       </div>
       <div class="form-row">
-        <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}:</label>
+        <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}</label>
         {{ form.confirm_password }}
         {{ form.confirm_password.errors }}
       </div>
