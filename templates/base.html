@@ -9,35 +9,46 @@
   {% endblock head_extra %}
 </head>
 <body>
-  <header>
-    <div class="wrapper clearfix">
-      <h1><a href="/">Parsifal</a></h1>
-      <nav>
-        <a href="#">Blog</a>
-        <a href="#">About</a>
-        <a href="#">Help</a>
-      </nav>
-      <div class="signin">
-        <a href="/signin/" class="btn btn-success" style="text-decoration: none">Sign in</a>
-      </div>
-    </div>
-  </header>
-  <section class="content">
-    <div class="wrapper clearfix">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut(); return false;">×</a>
-            {{ message }}
+  <div class="page-wrapper">
+    <header>
+      <div class="wrapper clearfix">
+        <h1><a href="/">Parsifal</a></h1>
+        <nav>
+          <a href="/blog/">Blog</a>
+          <a href="/about/">About</a>
+          <a href="/help/">Help</a>
+        </nav>
+        {% if user.is_authenticated %}
+          <nav class="signedin">
+            <a href="/{{ user.username }}/" class="user">{{ user.username }}</a>
+            <a href="/settings/">Account Settings</a>
+            <a href="/signout/">Sign Out</a>
+          </nav>
+        {% else %}
+          <div class="signin">
+            <a href="/signin/" class="btn btn-success" style="text-decoration: none">Sign in</a>
           </div>
-        {% endfor %}
-      {% endif %}
-      {% block content %}
-      {% endblock content %}
-    </div>
-  </section>
-  {% block footer %}
-  {% endblock footer %}
+        {% endif %}
+      </div>
+    </header>
+    <section class="content">
+      <div class="wrapper clearfix">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut(); return false;">×</a>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </section>
+    {% block footer %}
+    {% endblock footer %}
+    <div class="push"></div>
+  </div>
   <footer>
     <div class="wrapper clearfix">
       <p>© 2014 Parsifal Ltd.</p>

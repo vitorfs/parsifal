@@ -13,6 +13,7 @@ html, body {
 body {
   color: #3A3D40;
   font: 400 20px/1.5 "Source Sans Pro", sans-serif;
+  background: #f6f6f6;
 }
 
 strong {
@@ -24,6 +25,7 @@ header {
   border-bottom: 1px solid #56696A;
   width: 100%;
   padding: .4em 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
 }
 
 header h1 {
@@ -61,13 +63,24 @@ header nav a:hover {
   color: #FFF3D0;
 }
 
-.signin a {
-
-}
-
 .signin {
   padding: .6em 0;
   float: right;
+}
+
+header nav.signedin {
+  float: right;
+}
+
+header nav.signedin a.user {
+  font-size: 0.8em;
+}
+
+header nav.signedin a {
+  font-size: 0.6em;
+  padding: 0;
+  margin: 0;
+  margin-left: 0.8em;
 }
 
 .wrapper {
@@ -76,9 +89,7 @@ header nav a:hover {
 }
 
 section.content {
-  background: #f6f6f6;
   padding: 1.5em 0;
-  box-shadow: 0 0px 5px rgba(0, 0, 0, .6) inset;
 }
 
 section.content input {
@@ -115,11 +126,27 @@ section.content h1 {
   font-size: 1.2em;
 }
 
+.push {
+  height: 50px;
+}
+
+.page-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+}
+
 footer {
   background-color: #57696A;
   font-weight: 400;
   color: #FFF3D0;
-  padding: .7em 0;
+  height: 50px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
+}
+
+footer div {
+  padding-top: .3em;
 }
 
 footer p {

@@ -30,6 +30,7 @@ section.features {
   background: -webkit-linear-gradient(top, #57696A 0%, #738A8B 10%);
   background: -o-linear-gradient(top, #57696A 0%, #738A8B 10%);
   color: #FFF3D0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
 }
 
 section.features article {
@@ -49,4 +50,8 @@ section.features article h2 {
 section.features article h2 ~ p {
   font-size: 0.9em;
   margin-top: 1em;
+}
+
+footer {
+  box-shadow: none;
 }
