@@ -14,9 +14,17 @@ def ForbiddenUsernamesValidator(value):
     if value.lower() in forbidden_usernames:
         raise ValidationError('This is a reserved word.')
 
+def InvalidUsernameValidator(value):
+    if '@' in value or '+' in value or '-' in value:
+        raise ValidationError('Enter a valid username.')
+
 def UniqueEmailValidator(value):
     if User.objects.filter(email__iexact=value).exists():
         raise ValidationError('User with this Email already exists.')
+
+def UniqueUsernameIgnoreCaseValidator(value):
+    if User.objects.filter(username__iexact=value).exists():
+        raise ValidationError('User with this Username already exists.')
 
 class SignUpForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -30,6 +38,8 @@ class SignUpForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
         self.fields['username'].validators.append(ForbiddenUsernamesValidator)
+        self.fields['username'].validators.append(InvalidUsernameValidator)
+        self.fields['username'].validators.append(UniqueUsernameIgnoreCaseValidator)
         self.fields['email'].validators.append(UniqueEmailValidator)
 
     def clean(self):

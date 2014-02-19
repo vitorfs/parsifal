@@ -13,7 +13,7 @@
       {% csrf_token %}
       <div class="form-row">
         <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-        <span class="info">(Usernames may contain alphanumeric, _, @, +, . and - characters.)</span>
+        <span class="info">(Usernames may contain <strong>alphanumeric</strong>, <strong>_</strong> and <strong>.</strong> characters)</span>
         {{ form.username }}
         {{ form.username.errors }}
       </div>
