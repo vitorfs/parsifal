@@ -1,5 +1,25 @@
 {% extends 'base.html' %}
 
+{% block title %}Parsifal - Blog{% endblock %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/blog.css" rel="stylesheet" media="screen">
+{% endblock head_extra %}
+
 {% block content %}
   <h1>The Parsifal Blog</h1>
+  <div class="blog">
+    {% for entry in entries %}
+      <article>
+        <h2><a href="/blog/{{ entry.slug }}/">{{ entry.title }}</a></h2>
+        <ul>
+          <li>{{ entry.start_publication|date:"D d M Y" }}</li>
+          <li><a href="/{{ entry.created_by.username }}/">{{ entry.created_by.get_profile.get_screen_name }}</a></li>
+        </ul>
+        <div class="content">
+          <p>{{ entry.content }}</p>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
 {% endblock content %}

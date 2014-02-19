@@ -1,0 +1,48 @@
+.blog article {
+  padding: 1em 0;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+.blog article:last-child {
+  border-bottom: none;
+}
+
+.blog article.single-entry {
+  padding: 0;
+}
+
+.blog article h2 {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.blog article h2 a {
+  color: #728A8B;
+  text-decoration: none;
+}
+
+.blog article h2 a:hover {
+  text-decoration: underline;
+}
+
+.blog article ul li {
+  display: inline;
+  font-size: .7em;
+  color: #999;
+  margin-right: .8em;
+  font-weight: 600;
+}
+
+.blog article ul li a {
+  text-decoration: none;
+  color: #728A8B;
+}
+
+.blog article ul li a:hover {
+  text-decoration: underline;
+}
+
+.blog article .content p {
+  margin-top: 0.5em;
+  font-size: .8em;
+}

@@ -71,11 +71,10 @@ INSTALLED_APPS = (
     'reviews.planning',
     'reviews.conducting',
     'reviews.reporting',
-    'users',
     'settings',
     'utils',
 )
 
-AUTH_PROFILE_MODULE = 'users.UserProfile'
+AUTH_PROFILE_MODULE = 'auth.UserProfile'
 
 LOGIN_URL = '/signin/'
