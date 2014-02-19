@@ -4,9 +4,8 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', 'core.views.home'),
@@ -45,6 +44,7 @@ urlpatterns = patterns('',
     (r'^reviews/conducting/source_articles/$', 'reviews.views.source_articles'),
     (r'^reviews/conducting/article_details/$', 'reviews.views.article_details'),
     (r'^reviews/conducting/save_article_details/$', 'reviews.views.save_article_details'),
+    url(r'^admin/', include(admin.site.urls)),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/$', 'reviews.views.review'),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/planning/$', 'reviews.views.planning'),
     (r'^(?P<username>[\w-]+)/(?P<review_name>[\w-]+)/conducting/$', 'reviews.views.conducting'),

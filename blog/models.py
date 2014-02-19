@@ -18,6 +18,7 @@ class Entry(models.Model):
     start_publication = models.DateTimeField(blank=True, null=True)
     creation_date = models.DateTimeField(default=timezone.now)
     last_update = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.title
