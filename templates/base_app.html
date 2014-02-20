@@ -20,11 +20,18 @@
           <a href="/about/">About</a>
           <a href="/help/">Help</a>
         </nav>
+        {% if user.is_authenticated %}
         <nav class="signedin">
           <a href="/{{ user.username }}/" class="user">{{ user.username }}</a>
           <a href="/settings/">Account Settings</a>
           <a href="/signout/">Sign Out</a>
         </nav>
+        {% else %}
+        <div class="signup-signin">
+          <a href="/signup/" class="btn btn-success" style="text-decoration: none">Sign up</a>
+          <a href="/signin/" class="btn" style="text-decoration: none">Sign in</a>
+        </div>
+        {% endif %}
       </header>
     </div>
     <section class="content">

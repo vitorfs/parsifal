@@ -75,6 +75,4 @@ INSTALLED_APPS = (
     'utils',
 )
 
-AUTH_PROFILE_MODULE = 'auth.UserProfile'
-
 LOGIN_URL = '/signin/'

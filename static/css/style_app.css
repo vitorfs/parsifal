@@ -230,3 +230,12 @@ a.close:hover {
   margin: 0!important;
   padding: 0!important;
 }
+
+.signup-signin {
+  padding: 1.5em 0;
+  float: right;
+}
+
+.signup-signin .btn {
+  margin-left: 0.5em;
+}

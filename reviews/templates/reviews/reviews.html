@@ -1,6 +1,6 @@
 {% extends 'base_app.html' %}
 
-{% block title %}Parsifal - {{ page_user.get_profile.get_screen_name }}{% endblock %}
+{% block title %}Parsifal - {{ page_user.profile.get_screen_name }}{% endblock %}
 
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/reviews.css" rel="stylesheet" media="screen">
@@ -18,15 +18,15 @@
         {% endif %}
         <li class="username">{{ page_user.username }}</li>
         <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
-        {% if page_user.get_profile.url %}
-          <li><a href="{{ page_user.get_profile.url }}">{{ page_user.get_profile.url }}</a></li>
+        {% if page_user.profile.url %}
+          <li><a href="{{ page_user.profile.url }}">{{ page_user.profile.url }}</a></li>
         {% endif %}
         <li class="divider"></li>
-        {% if page_user.get_profile.location %}
-          <li>{{ page_user.get_profile.location }}</li>
+        {% if page_user.profile.location %}
+          <li>{{ page_user.profile.location }}</li>
         {% endif %}
-        {% if page_user.get_profile.institution %}
-          <li>{{ page_user.get_profile.institution }}</li>
+        {% if page_user.profile.institution %}
+          <li>{{ page_user.profile.institution }}</li>
         {% endif %}
         <li>Joined on {{ page_user.date_joined|date:"d M Y" }}</li>
         <li class="divider"></li>
@@ -47,10 +47,12 @@
       </div>
     </div>
     <div class="reviews">
-      {% if user.id == page_user.id %}
-        <a href="/reviews/new/" class="btn btn-success">New review</a>
-      {% else %}
-        <button type="button" class="btn">Follow {{ page_user.username }}</button>
+      {% if user.is_authenticated %}
+        {% if user.id == page_user.id %}
+          <a href="/reviews/new/" class="btn btn-success">New review</a>
+        {% else %}
+          <button type="button" class="btn">Follow {{ page_user.username }}</button>
+        {% endif %}
       {% endif %}
       <div class="review-list">
         <h2>Published Reviews</h2>
@@ -61,7 +63,7 @@
                 {% if user.id == page_user.id %}
                   You  
                 {% else %}
-                  {{ page_user.get_profile.get_screen_name }}
+                  {{ page_user.profile.get_screen_name }}
                 {% endif %}
                 haven't published any systematic literature review yet.
               </td>
@@ -86,7 +88,7 @@
                   <tr>
                     <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
                     <td>
-                      <a href="/{{ review.author.username }}/">{{ review.author.get_profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.get_profile.get_screen_name }}</a>{% endfor %}
+                      <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>{% endfor %}
                     </td>
                     <td>{{ review.last_update|date:"D d M Y" }}</td>
                   </tr>

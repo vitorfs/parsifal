@@ -14,7 +14,7 @@
         <h2><a href="/blog/{{ entry.slug }}/">{{ entry.title }}</a></h2>
         <ul>
           <li>{{ entry.start_publication|date:"D d M Y" }}</li>
-          <li><a href="/{{ entry.created_by.username }}/">{{ entry.created_by.get_profile.get_screen_name }}</a></li>
+          <li><a href="/{{ entry.created_by.username }}/">{{ entry.created_by.profile.get_screen_name }}</a></li>
         </ul>
         <div class="content">
           <p>{{ entry.content }}</p>

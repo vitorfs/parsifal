@@ -25,9 +25,9 @@ def profile(request):
         user.last_name = last_name
         user.email = email
 
-        user.get_profile().location = location
-        user.get_profile().institution = institution
-        user.get_profile().url = url
+        user.profile.location = location
+        user.profile.institution = institution
+        user.profile.url = url
 
         user.save()
         messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')

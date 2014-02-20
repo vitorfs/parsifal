@@ -14,7 +14,6 @@ from pybtex.database.input import bibtex
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
 
-@login_required
 def reviews(request, username):
     user = get_object_or_404(User, username=username)
     user_reviews = Review.objects.filter(author__id=user.id).order_by('-last_update',)
@@ -72,7 +71,7 @@ def add_author_to_review(request):
         if user is not None and user.id != review.author.id:
             review.co_authors.add(user)
             review.save()
-            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.get_profile().get_screen_name() + '</a> <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button></li>')
+            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.profile.get_screen_name() + '</a> <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button></li>')
         else:
             return HttpResponseBadRequest()
     except:
