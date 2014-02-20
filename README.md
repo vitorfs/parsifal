@@ -12,6 +12,5 @@ There is no rule on how the researcher works during this process. He might want 
 Technology
 ----------
 * Python 2.7
-* Django 1.5
+* Django 1.6
 * jQuery 1.10
-* PostgreSQL 9.2
