@@ -30,14 +30,14 @@ class Review(models.Model):
             (u'P', u'Published'),
         )
 
-    name = models.CharField(max_length=50)
-    title = models.CharField(max_length=200)
+    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     author = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True, blank=True)
     last_update = models.DateTimeField()
     co_authors = models.ManyToManyField(User, related_name="+")
-    objective = models.TextField(max_length=1000, null=True, blank=True)
+    objective = models.TextField(max_length=1000)
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=STATUS, default='U')
 
@@ -134,7 +134,7 @@ class SelectionCriteria(models.Model):
 class SearchSession(models.Model):
     review = models.ForeignKey(Review)
     source = models.ForeignKey(Source, null=True)
-    search_string = models.TextField(max_length=2000, null=True)
+    search_string = models.TextField(max_length=2000)
 
     def __unicode__(self):
         return self.search_string

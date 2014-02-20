@@ -15,7 +15,7 @@ class Entry(models.Model):
     slug = models.SlugField(max_length=255, null=True, blank=True)
     content = models.TextField(max_length=2000)
     status = models.CharField(max_length=10, choices=ENTRY_STATUS)
-    start_publication = models.DateTimeField(blank=True, null=True)
+    start_publication = models.DateTimeField()
     created_by = models.ForeignKey(User)
     creation_date = models.DateTimeField(default=timezone.now)
     last_update = models.DateTimeField(blank=True, null=True)
