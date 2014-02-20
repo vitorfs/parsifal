@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
+from activities.models import Activity
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
@@ -13,6 +14,13 @@ class Profile(models.Model):
             return self.user.get_full_name()
         else:
             return self.user.username
+
+    def get_followers(self):
+        activities = Activity.objects.filter(from_user__pk=self.pk, activity_type=Activity.FOLLOW)
+        followers = []
+        for activity in activities:
+            followers.append(activity.to_user)
+        return followers
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

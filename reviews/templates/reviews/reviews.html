@@ -51,7 +51,7 @@
         {% if user.id == page_user.id %}
           <a href="/reviews/new/" class="btn btn-success">New review</a>
         {% else %}
-          <button type="button" class="btn">Follow {{ page_user.username }}</button>
+          <a href="{% url 'activities:follow' page_user.username %}" class="btn">Follow {{ page_user.username }}</a>
         {% endif %}
       {% endif %}
       <div class="review-list">

@@ -6,11 +6,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Entry(models.Model):
+    DRAFT = 'D'
+    HIDDEN = 'H'
+    PUBLISHED = 'P'
     ENTRY_STATUS = (
-        (u'D', u'Draft'),
-        (u'H', u'Hidden'),
-        (u'P', u'Published'),
+        (DRAFT, 'Draft'),
+        (HIDDEN, 'Hidden'),
+        (PUBLISHED, 'Published'),
     )
+
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     content = models.TextField(max_length=2000)
@@ -21,9 +25,9 @@ class Entry(models.Model):
     last_update = models.DateTimeField(blank=True, null=True)
     edited_by = models.ForeignKey(User, null=True, blank=True, related_name="+")
 
-    def __unicode__(self):
-        return self.title
-
     class Meta:
         verbose_name = "Entry"
         verbose_name_plural = "Entries"
+
+    def __unicode__(self):
+        return self.title

@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'south',
+    'activities',
     'auth',
     'core',
     'blog',

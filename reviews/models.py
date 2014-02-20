@@ -10,6 +10,11 @@ class Source(models.Model):
     url = models.CharField(max_length=200)
     is_default = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = "Source"
+        verbose_name_plural = "Sources"
+        ordering = ("name",)
+
     def __unicode__(self):
         return self.name
 
@@ -19,27 +24,29 @@ class Source(models.Model):
         else:
             self.url = value
 
-    class Meta:
-        verbose_name = "Source"
-        verbose_name_plural = "Sources"
-        ordering = ("name",)
 
 class Review(models.Model):
-    STATUS = (
-            (u'U', u'Unpublished'),
-            (u'P', u'Published'),
-        )
+    UNPUBLISHED = 'U'
+    PUBLISHED = 'P'
+    REVIEW_STATUS = (
+        (UNPUBLISHED, 'Unpublished'),
+        (PUBLISHED, 'Published'),
+    )
 
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     author = models.ForeignKey(User)
-    create_date = models.DateTimeField(auto_now_add=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField()
     co_authors = models.ManyToManyField(User, related_name="+")
     objective = models.TextField(max_length=1000)
     sources = models.ManyToManyField(Source)
-    status = models.CharField(max_length=1, choices=STATUS, default='U')
+    status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
+
+    class Meta:
+        verbose_name = "Review"
+        verbose_name_plural = "Reviews"
 
     def __unicode__(self):
         return self.name
@@ -89,15 +96,15 @@ class Review(models.Model):
     def get_source_articles(self, source_id):
         return Article.objects.filter(review__id=self.id, source__id=source_id)
 
-    class Meta:
-        verbose_name = "Review"
-        verbose_name_plural = "Reviews"
 
 class Question(models.Model):
+    MAIN = 'M'
+    SECONDARY = 'S'
     QUESTION_TYPES = (
-            (u'M', u'Main'),
-            (u'S', u'Secondary'),
-        )
+        (MAIN, 'Main'),
+        (SECONDARY, 'Secondary'),
+    )
+
     review = models.ForeignKey(Review)
     question = models.CharField(max_length=500)
     population = models.CharField(max_length=200)
@@ -106,30 +113,34 @@ class Question(models.Model):
     outcome = models.CharField(max_length=200)
     question_type = models.CharField(max_length=1, choices=QUESTION_TYPES)
 
-    def __unicode__(self):
-        return self.question
-
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
 
+    def __unicode__(self):
+        return self.question
+
+
 class SelectionCriteria(models.Model):
+    INCLUSION = 'I'
+    EXCLUSION = 'E'
     SELECTION_TYPES = (
-            (u'I', u'Inclusion'),
-            (u'E', u'Exclusion'),
-        )
+        (INCLUSION, 'Inclusion'),
+        (EXCLUSION, 'Exclusion'),
+    )
 
     review = models.ForeignKey(Review)
     criteria_type = models.CharField(max_length=1, choices=SELECTION_TYPES)
     description = models.CharField(max_length=200)
-    
-    def __unicode__(self):
-        return self.description
 
     class Meta:
         verbose_name = "Selection Criteria"
         verbose_name_plural = "Selection Criterias"
         ordering = ("description",)
+
+    def __unicode__(self):
+        return self.description
+
 
 class SearchSession(models.Model):
     review = models.ForeignKey(Review)
@@ -139,12 +150,17 @@ class SearchSession(models.Model):
     def __unicode__(self):
         return self.search_string
 
+
 class Article(models.Model):
-    STATUS = (
-            (u'U', u'Unclassified'),
-            (u'R', u'Rejected'),
-            (u'A', u'Accepted'),
+    UNCLASSIFIED = 'U'
+    REJECTED = 'R'
+    ACCEPTED = 'A'
+    ARTICLE_STATUS = (
+            (UNCLASSIFIED, 'Unclassified'),
+            (REJECTED, 'Rejected'),
+            (ACCEPTED, 'Accepted'),
         )
+
     review = models.ForeignKey(Review)
     bibtex_key = models.CharField(max_length=50)
     title = models.CharField(max_length=500, null=True)
@@ -160,27 +176,28 @@ class Article(models.Model):
     author_keywords = models.CharField(max_length=500, null=True)
     note = models.CharField(max_length=500, null=True)
     search_session = models.ForeignKey(SearchSession, null=True)
-    status = models.CharField(max_length=1, choices=STATUS, default='U')
-
-    def __unicode__(self):
-        return self.title
+    status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default='U')
 
     class Meta:
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
+    def __unicode__(self):
+        return self.title
+
+
 class Keyword(models.Model):
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=200)
     synonym_of = models.ForeignKey("self", null=True)
-    
-    def __unicode__(self):
-        return self.description
-
-    def get_synonyms(self):
-        return Keyword.objects.filter(review__id=self.review.id, synonym_of__id=self.id)
 
     class Meta:
         verbose_name = "Keyword"
         verbose_name_plural = "Keywords"
         ordering = ("description",)
+            
+    def __unicode__(self):
+        return self.description
+
+    def get_synonyms(self):
+        return Keyword.objects.filter(review__id=self.review.id, synonym_of__id=self.id)
