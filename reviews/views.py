@@ -654,7 +654,7 @@ def source_articles(request):
 def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
-    status = Article.STATUS
+    status = Article.ARTICLE_STATUS
     context = RequestContext(request, {'article': article, 'status': status,})
     return render_to_response('reviews/conducting_article_details.html', context)
 

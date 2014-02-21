@@ -185,4 +185,13 @@ $(function () {
     });
   });
 
+  $("#modal-article").on("click", "ul.tab a", function () {
+    var tab_id = $(this).attr("href");
+    $("#modal-article div.tabs > div").hide();
+    $("#modal-article ul.tab li").removeClass("active");
+    $(this).closest("li").addClass("active");
+    $(tab_id).show();
+    return false;
+  });
+
 });
