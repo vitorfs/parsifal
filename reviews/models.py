@@ -33,7 +33,7 @@ class Review(models.Model):
         (PUBLISHED, 'Published'),
     )
 
-    name = models.CharField(max_length=255)
+    name = models.SlugField(max_length=255)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     author = models.ForeignKey(User)
@@ -176,7 +176,7 @@ class Article(models.Model):
     author_keywords = models.CharField(max_length=500, null=True)
     note = models.CharField(max_length=500, null=True)
     search_session = models.ForeignKey(SearchSession, null=True)
-    status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default='U')
+    status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
 
     class Meta:
         verbose_name = "Article"

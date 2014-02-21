@@ -14,6 +14,7 @@ from parsifal.decorators import ajax_required
 from pybtex.database.input import bibtex
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
+from django.template.defaultfilters import slugify
 
 def reviews(request, username):
     user = get_object_or_404(User, username=username)
@@ -42,14 +43,14 @@ def new(request):
         title = request.POST['title']
         description = request.POST['description']
         author = request.user
-        name = '-'.join(title.split()).lower() # remove random spaces between words
 
+        name = slugify(title)
         unique_name = name
         i = 0
 
         while Review.objects.filter(name=unique_name, author__username=request.user.username):
             i = i + 1
-            unique_name = name + str(i)
+            unique_name = name + '-' + str(i)
 
         review = Review(name = unique_name, title = title, description = description, author=author)
         if title:
@@ -260,7 +261,7 @@ def save_question(request):
 
         question = Question()
 
-        if question_type == 'M':
+        if question_type == Question.MAIN:
             question = review.get_main_question()
         elif question_id != 'None':
             try:
@@ -310,7 +311,7 @@ def remove_question(request):
         review_id = request.POST['review-id']
         question_id = request.POST['question-id']
         question_type = request.POST['question-type']
-        if question_id != 'None' and question_type != 'M':
+        if question_id != 'None' and question_type != Question.MAIN:
             try:
                 question = Question.objects.get(pk=question_id)
                 question.delete()

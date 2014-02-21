@@ -4,13 +4,13 @@ from django.template import RequestContext
 from blog.models import Entry
 
 def entries(request):
-    entries = Entry.objects.filter(status='P').order_by('-start_publication',)
+    entries = Entry.objects.filter(status=Entry.PUBLISHED).order_by('-start_publication',)
     context = RequestContext(request, {'entries': entries})
     return render_to_response('blog/entries.html', context)
 
 def entry(request, slug):
     try:
-        blog_entry = Entry.objects.get(slug=slug, status='P')
+        blog_entry = Entry.objects.get(slug=slug, status=Entry.PUBLISHED)
     except Entry.DoesNotExist:
         raise Http404
     context = RequestContext(request, {'entry': blog_entry})
