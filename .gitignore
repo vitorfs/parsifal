@@ -42,3 +42,5 @@ reminder.md
 venv
 
 .env
+
+*.bib
