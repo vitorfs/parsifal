@@ -239,3 +239,7 @@ a.close:hover {
 .signup-signin .btn {
   margin-left: 0.5em;
 }
+
+.user-actions .btn {
+  width: 90px;
+}

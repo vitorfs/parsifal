@@ -4,6 +4,7 @@
 
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/reviews.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/activities.js"></script>
 {% endblock head_extra %}
 
 {% block content %}
@@ -34,7 +35,7 @@
       <div class="stats">
         <div>
           <h3>Following</h3>
-          <span>0</span>
+          <span>{{ following_count }}</span>
         </div>
         <div>
           <h3>Reviews</h3>
@@ -42,7 +43,7 @@
         </div>
         <div>
           <h3>Followers</h3>
-          <span>0</span>
+          <span>{{ followers_count }}</span>
         </div>
       </div>
     </div>
@@ -51,7 +52,15 @@
         {% if user.id == page_user.id %}
           <a href="/reviews/new/" class="btn btn-success">New review</a>
         {% else %}
-          <a href="{% url 'activities:follow' page_user.username %}" class="btn">Follow {{ page_user.username }}</a>
+          {% if is_following %}
+            <div class="user-actions following" data-user-id="{{ page_user.id }}">
+              <button class="btn btn-warning" type="button">Unfollow</button>
+            </div>
+          {% else %}
+            <div class="user-actions not-following" data-user-id="{{ page_user.id }}">
+              <button class="btn btn-success" type="button">Follow</button>
+            </div>
+          {% endif %}
         {% endif %}
       {% endif %}
       <div class="review-list">

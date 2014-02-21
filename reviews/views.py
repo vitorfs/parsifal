@@ -9,15 +9,30 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
 from reviews.models import Review, Source, Article, Question, SelectionCriteria, Keyword
-from reviews.decorators import main_author_required, author_required, ajax_required
+from reviews.decorators import main_author_required, author_required
+from parsifal.decorators import ajax_required
 from pybtex.database.input import bibtex
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
 
 def reviews(request, username):
     user = get_object_or_404(User, username=username)
+    followers = user.profile.get_followers()
+    is_following = False
+    if request.user in followers:
+        is_following = True
+
+    followers_count = user.profile.get_followers_count()
+    following_count = user.profile.get_following_count()
+
     user_reviews = Review.objects.filter(author__id=user.id).order_by('-last_update',)
-    context = RequestContext(request, {'user_reviews': user_reviews, 'page_user': user})
+    context = RequestContext(request, {
+        'user_reviews': user_reviews, 
+        'page_user': user, 
+        'is_following': is_following,
+        'following_count': following_count,
+        'followers_count': followers_count
+        })
     return render_to_response('reviews/reviews.html', context)
 
 @login_required

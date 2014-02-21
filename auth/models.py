@@ -16,11 +16,26 @@ class Profile(models.Model):
             return self.user.username
 
     def get_followers(self):
-        activities = Activity.objects.filter(from_user__pk=self.pk, activity_type=Activity.FOLLOW)
+        activities = Activity.objects.filter(to_user__pk=self.pk, activity_type=Activity.FOLLOW)
         followers = []
         for activity in activities:
-            followers.append(activity.to_user)
+            followers.append(activity.from_user)
         return followers
+
+    def get_followers_count(self):
+        followers_count = Activity.objects.filter(to_user__pk=self.pk, activity_type=Activity.FOLLOW).count()
+        return followers_count
+
+    def get_following(self):
+        activities = Activity.objects.filter(from_user__pk=self.pk, activity_type=Activity.FOLLOW)
+        following = []
+        for activity in activities:
+            following.append(activity.to_user)
+        return following
+
+    def get_following_count(self):
+        following_count = Activity.objects.filter(from_user__pk=self.pk, activity_type=Activity.FOLLOW).count()
+        return following_count
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
