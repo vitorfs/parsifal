@@ -29,11 +29,11 @@
             {% if follow_user.pk != user.pk %}
               {% if follow_user in user_following %}
                 <div class="user-actions following" data-user-id="{{ follow_user.id }}">
-                  <button class="btn btn-warning" type="button">Unfollow</button>
+                  <button class="btn btn-small btn-warning" type="button">Unfollow</button>
                 </div>
               {% else %}
                 <div class="user-actions not-following" data-user-id="{{ follow_user.id }}">
-                  <button class="btn btn-success" type="button">Follow</button>
+                  <button class="btn btn-small btn-success" type="button">Follow</button>
                 </div>
               {% endif %}
             {% endif %}

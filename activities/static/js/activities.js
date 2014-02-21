@@ -10,6 +10,9 @@ $(function () {
         data: {'user-id': user_id},
         type: 'get',
         cache: false,
+        beforeSend: function () {
+          $(btn).attr("disabled", true);
+        },
         success: function (data) {
           $(user_actions).removeClass("following");
           $(user_actions).addClass("not-following");
@@ -19,6 +22,9 @@ $(function () {
         },
         error: function (jqXHR, textStatus, errorThrown) {
           
+        },
+        complete: function () {
+          $(btn).attr("disabled", false);
         }
       });
     }
@@ -28,6 +34,9 @@ $(function () {
         data: {'user-id': user_id},
         type: 'get',
         cache: false,
+        beforeSend: function () {
+          $(btn).attr("disabled", true);
+        },
         success: function (data) {
           $(user_actions).removeClass("not-following");
           $(user_actions).addClass("following");
@@ -37,6 +46,9 @@ $(function () {
         },
         error: function (jqXHR, textStatus, errorThrown) {
           
+        },
+        complete: function () {
+          $(btn).attr("disabled", false);
         }
       });
     }
