@@ -1,0 +1,32 @@
+ul.follow-users {
+  margin: 0;
+}
+
+ul.follow-users li {
+  list-style: none;
+  border-bottom: 1px solid #DDDDDD;
+  padding: 1em 0;
+}
+
+ul.follow-users li:last-child {
+  border-bottom: none;
+}
+
+ul.follow-users li h3 {
+  font-size: 1.2em;
+}
+
+ul.follow-users li p {
+  font-size: 1.0em;
+}
+
+.follow-portrait {
+  float: left;
+  margin-right: 20px;
+}
+
+.no-follow {
+  text-align: center;
+  padding: 5em 0;
+  margin-top: 2em;
+}

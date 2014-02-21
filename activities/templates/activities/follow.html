@@ -1,0 +1,43 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Parsifal - {{ page_user.profile.get_screen_name }} {{ page_title }}{% endblock %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/follow.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/activities.js"></script>
+{% endblock head_extra %}
+
+{% block content %}
+  <h1 class="title"><a href="/{{ page_user.username }}/">{{ page_user.profile.get_screen_name }}</a></h1>
+  <h2>{{ page_title|capfirst }}</h2>
+  {% if follow_list %}
+    <ul class="follow-users">
+      {% for user in follow_list %}
+        <li class="clearfix">
+          <a href="/{{ user.username }}/">
+            <img src="{{ STATIC_URL }}img/user.png" width="90px" height="90px" class="follow-portrait">
+          </a>
+          <h3><a href="/{{ user.username }}/">{{ user.profile.get_screen_name }}</a></h3>
+          <p>
+            {% if user.profile.location %}
+              {{ user.profile.location }}
+            {% else %}
+              Joined on {{ user.date_joined|date:"d M Y" }}
+            {% endif %}
+          </p>
+          <div class="user-actions not-following" data-user-id="{{ page_user.id }}">
+            <button class="btn btn-small btn-success" type="button">Follow</button>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="container no-follow">
+      {% if page_title == 'followers' %}
+        <h3>{{ page_user.profile.get_screen_name }} have no followers.</h3>
+      {% else %}
+        <h3>{{ page_user.profile.get_screen_name }} isn't following anybody.</h3>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock content %}

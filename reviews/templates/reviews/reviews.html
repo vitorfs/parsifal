@@ -34,16 +34,20 @@
       </ul>
       <div class="stats">
         <div>
-          <h3>Following</h3>
-          <span>{{ following_count }}</span>
+          <a href="/{{ page_user.username }}/following/">
+            <h3>Following</h3>
+            <span>{{ following_count }}</span>
+          </a>
         </div>
         <div>
           <h3>Reviews</h3>
           <span>{{ user_reviews.count }}</span>
         </div>
         <div>
-          <h3>Followers</h3>
-          <span>{{ followers_count }}</span>
+          <a href="/{{ page_user.username }}/followers/">
+            <h3>Followers</h3>
+            <span>{{ followers_count }}</span>
+          </a>
         </div>
       </div>
     </div>
