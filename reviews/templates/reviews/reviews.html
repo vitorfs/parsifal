@@ -56,7 +56,9 @@
     <div class="reviews">
       {% if user.is_authenticated %}
         {% if user.id == page_user.id %}
-          <a href="/reviews/new/" class="btn btn-success">New review</a>
+          <div class="clearfix">
+            <a href="/reviews/new/" class="btn btn-success pull-right">New review</a>
+          </div>
         {% else %}
           {% if is_following %}
             <div class="user-actions following" data-user-id="{{ page_user.id }}">

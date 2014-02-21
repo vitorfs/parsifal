@@ -6,7 +6,6 @@ class Activity(models.Model):
     FOLLOW = 'F'
     COMMENT = 'C'
     STAR = 'S'
-    JOIN = 'J'
     ACTIVITY_TYPES = (
         (FOLLOW, 'Follow'),
         (COMMENT, 'Comment'),

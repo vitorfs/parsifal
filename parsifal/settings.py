@@ -12,7 +12,7 @@ TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
     'default': dj_database_url.config(
-      default = 'sqlite:///' + PROJECT_DIR.child('parsifal.sqlite3'))
+      default = config('DATABASE_URL'))
 }
 
 ALLOWED_HOSTS = ['*']
