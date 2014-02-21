@@ -12,22 +12,32 @@
   <h2>{{ page_title|capfirst }}</h2>
   {% if follow_list %}
     <ul class="follow-users">
-      {% for user in follow_list %}
+      {% for follow_user in follow_list %}
         <li class="clearfix">
-          <a href="/{{ user.username }}/">
+          <a href="/{{ follow_user.username }}/">
             <img src="{{ STATIC_URL }}img/user.png" width="90px" height="90px" class="follow-portrait">
           </a>
-          <h3><a href="/{{ user.username }}/">{{ user.profile.get_screen_name }}</a></h3>
+          <h3><a href="/{{ follow_user.username }}/">{{ follow_user.profile.get_screen_name }}</a></h3>
           <p>
-            {% if user.profile.location %}
-              {{ user.profile.location }}
+            {% if follow_user.profile.location %}
+              {{ follow_user.profile.location }}
             {% else %}
-              Joined on {{ user.date_joined|date:"d M Y" }}
+              Joined on {{ follow_user.date_joined|date:"d M Y" }}
             {% endif %}
           </p>
-          <div class="user-actions not-following" data-user-id="{{ page_user.id }}">
-            <button class="btn btn-small btn-success" type="button">Follow</button>
-          </div>
+          {% if user.is_authenticated %}
+            {% if follow_user.pk != user.pk %}
+              {% if follow_user in user_following %}
+                <div class="user-actions following" data-user-id="{{ follow_user.id }}">
+                  <button class="btn btn-warning" type="button">Unfollow</button>
+                </div>
+              {% else %}
+                <div class="user-actions not-following" data-user-id="{{ follow_user.id }}">
+                  <button class="btn btn-success" type="button">Follow</button>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

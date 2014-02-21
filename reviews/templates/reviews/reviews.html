@@ -40,8 +40,10 @@
           </a>
         </div>
         <div>
-          <h3>Reviews</h3>
-          <span>{{ user_reviews.count }}</span>
+          <a href="/{{ page_user.username }}/">
+            <h3>Reviews</h3>
+            <span>{{ user_reviews.count }}</span>
+          </a>
         </div>
         <div>
           <a href="/{{ page_user.username }}/followers/">

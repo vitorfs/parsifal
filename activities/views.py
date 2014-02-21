@@ -4,8 +4,10 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedire
 from activities.models import Activity
 from django.contrib.auth.models import User
 from parsifal.decorators import ajax_required
+from django.contrib.auth.decorators import login_required
 
 @ajax_required
+@login_required
 def follow(request):
     try:
         user_id = request.GET['user-id']
@@ -24,6 +26,7 @@ def follow(request):
         return HttpResponseBadRequest()
 
 @ajax_required
+@login_required
 def unfollow(request):
     try:
         user_id = request.GET['user-id']
@@ -42,15 +45,21 @@ def unfollow(request):
         return HttpResponseBadRequest()
 
 def following(request, username):
-    user = get_object_or_404(User, username=username)
+    page_user = get_object_or_404(User, username=username)
     page_title = 'following'
-    following = user.profile.get_following()
-    context = RequestContext(request, {'page_user': user, 'page_title': page_title, 'follow_list': following})
+    following = page_user.profile.get_following()
+    user_following = None
+    if request.user.is_authenticated():
+        user_following = request.user.profile.get_following()
+    context = RequestContext(request, {'page_user': page_user, 'page_title': page_title, 'follow_list': following, 'user_following': user_following })
     return render_to_response('activities/follow.html', context)
 
 def followers(request, username):
     user = get_object_or_404(User, username=username)
     page_title = 'followers'
     followers = user.profile.get_followers()
-    context = RequestContext(request, {'page_user': user, 'page_title': page_title, 'follow_list': followers })
+    user_following = None
+    if request.user.is_authenticated():
+        user_following = request.user.profile.get_following()
+    context = RequestContext(request, {'page_user': user, 'page_title': page_title, 'follow_list': followers, 'user_following': user_following })
     return render_to_response('activities/follow.html', context)
