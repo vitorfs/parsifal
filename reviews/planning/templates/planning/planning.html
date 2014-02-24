@@ -29,9 +29,9 @@
     <h2>Questions</h2>
     <button type="button" class="btn btn-small" id="btn-add-sec-question">Add Secondary Question</button>
     <div class="questions-containers">
-      {% include "reviews/planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
+      {% include "planning/planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
       {% for question in review.get_secondary_questions %}
-        {% include "reviews/planning_question.html" with prefix=question.id question_type="S" question=question %}
+        {% include "planning/planning_question.html" with prefix=question.id question_type="S" question=question %}
       {% endfor %}
     </div>
   </section>

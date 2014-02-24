@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'reviews.planning',
     'reviews.conducting',
     'reviews.reporting',
+    'reviews.settings',
     'settings',
     'utils',
 )
