@@ -141,6 +141,10 @@ class SelectionCriteria(models.Model):
     def __unicode__(self):
         return self.description
 
+    def save(self, *args, **kwargs):
+        self.description = self.description[:200]
+        super(SelectionCriteria, self).save(*args, **kwargs)
+
 
 class SearchSession(models.Model):
     review = models.ForeignKey(Review)
@@ -198,6 +202,45 @@ class Keyword(models.Model):
             
     def __unicode__(self):
         return self.description
+        
+    def save(self, *args, **kwargs):
+        self.description = self.description[:200]
+        super(Keyword, self).save(*args, **kwargs)
 
     def get_synonyms(self):
         return Keyword.objects.filter(review__id=self.review.id, synonym_of__id=self.id)
+
+
+class QualityAnswers(models.Model):
+    review = models.ForeignKey(Review)
+    description = models.CharField(max_length=255)
+    weight = models.FloatField()
+
+    class Meta:
+        verbose_name = "Quality Assessment Answer"
+        verbose_name_plural = "Quality Assessment Answers"
+
+    def __unicode__(self):
+        return self.description
+
+
+class QualityQuestions(models.Model):
+    review = models.ForeignKey(Review)
+    description = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = "Quality Assessment Question"
+        verbose_name_plural = "Quality Assessment Questions"
+
+    def __unicode__(self):
+        return self.description
+
+class QualityAssessmentAssignment(models.Model):
+    review = models.ForeignKey(Review)
+    user = models.ForeignKey(User)
+
+class QualityAssessmentForm(models.Model):
+    assignment = models.ForeignKey(QualityAssessmentAssignment)
+    question = models.ForeignKey(QualityQuestions)
+    answer = models.ForeignKey(QualityAnswers, null=True)
+    date = models.DateTimeField(auto_now_add=True)

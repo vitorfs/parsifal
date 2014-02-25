@@ -26,7 +26,7 @@ $(function () {
     $("#tbl-keywords td.keyword-row").unbind("click");
     var description = $(this).text();
     var keyword_id = $(this).closest("tr").attr("keyword-id");
-    $(this).html("<input type='text' value='" + description + "' class='edit-keyword'>");
+    $(this).html("<input type='text' value='" + description + "' class='edit-keyword' maxlength='200'>");
     $(".edit-keyword").focus();
 
     $(".edit-keyword").blur(function () {
@@ -95,7 +95,7 @@ $(function () {
     btn_add_synonym.hide();
     var description = $(this).text();
     var synonym_id = $(this).attr("synonym-id");
-    $(this).html("<input type='text' value='" + description + "' class='edit-synonym'>");
+    $(this).html("<input type='text' value='" + description + "' class='edit-synonym' maxlength='200'>");
     $(".edit-synonym").focus();
     $(".edit-synonym").blur(function () {
       if (description != $(".edit-synonym").val()) {
@@ -184,7 +184,7 @@ $(function () {
   };
 
   $("#add-keyword").click(function () {
-    $("#tbl-keywords tbody").prepend("<tr><td><input type='text' id='input-add-keyword'></td><td></td><td></td><td class='no-border'>Press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel.</td></tr>");
+    $("#tbl-keywords tbody").prepend("<tr><td><input type='text' id='input-add-keyword' maxlength='200'></td><td></td><td></td><td class='no-border'>Press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel.</td></tr>");
     $("#input-add-keyword").addKeywordSettings();
     $("#input-add-keyword").focus();
   });

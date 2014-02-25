@@ -29,15 +29,16 @@
     <h2>Questions</h2>
     <button type="button" class="btn btn-small" id="btn-add-sec-question">Add Secondary Question</button>
     <div class="questions-containers">
-      {% include "planning/planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
+      {% include "planning/partial_planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
       {% for question in review.get_secondary_questions %}
-        {% include "planning/planning_question.html" with prefix=question.id question_type="S" question=question %}
+        {% include "planning/partial_planning_question.html" with prefix=question.id question_type="S" question=question %}
       {% endfor %}
     </div>
   </section>
   <hr>
   <section id="keywords-section" class="clearfix">
     <h2>Keywords and Synonyms</h2>
+    <p>To edit or remove a certain keyword or synonym you may click on it's description to enable the field.</p>
     <button type="button" class="btn btn-small" id="add-keyword">Add Keyword</button>
     <button type="button" class="btn btn-small" id="import-pico-keywords">Import PICO Keywods</button>
     <table class="table" id="tbl-keywords">
@@ -59,7 +60,7 @@
                   <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
                 {% endfor %}
               </ul>
-              <input type="text" class="add-synonym">
+              <input type="text" class="add-synonym" maxlength="200">
             </td>
             <td>
               <button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button>
@@ -124,7 +125,8 @@
             </td>
             <td>
               <button type="button" class="btn btn-small btn-edit-source">edit</button>
-              <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td>
+              <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
@@ -136,7 +138,7 @@
     <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
     <div class="criteria-container-left">
       <h3>Inclusion Criteria:</h3>
-      <input type="text" id="input-inclusion">
+      <input type="text" id="input-inclusion" maxlength="200">
       <select multiple="multiple" size="6" id="inclusion-criteria">
         {% for criteria in review.get_inclusion_criterias %}
           <option value="{{ criteria.id }}">{{ criteria.description }}</option>
@@ -146,7 +148,7 @@
     </div>
     <div class="criteria-container-right">
       <h3>Exclusion Criteria:</h3>
-      <input type="text" id="input-exclusion">
+      <input type="text" id="input-exclusion" maxlength="200">
       <select multiple="multiple" size="6" id="exclusion-criteria">
         {% for criteria in review.get_exclusion_criterias %}
           <option value="{{ criteria.id }}">{{ criteria.description }}</option>
@@ -154,5 +156,86 @@
       </select>
       <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
     </div>
+  </section>
+  <hr>
+  <section id="quality-assessment-section" class="clearfix">
+    <h2>Quality Assessment Checklist</h2>
+    <p style="margin-bottom: 20px">The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
+
+    <h3>Questions</h3>
+    <button type="button" class="btn btn-small" id="btn-add-quality-question">Add Question</button>
+    <table class="table" style="width: auto; margin-bottom: 30px">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Are the research aims clearly specified?</td>
+          <td>
+            <button type="button" class="btn btn-small btn-edit-quality-question">edit</button>
+            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</a>
+          </td>
+        </tr>
+          <td>Was the study designed to achieve these aims?</td>
+          <td>
+            <button type="button" class="btn btn-small btn-edit-quality-question">edit</button>
+            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Are the prediction techniques used clearly described and their selection justified?</td>
+          <td>
+            <button type="button" class="btn btn-small btn-edit-quality-question">edit</button>
+            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Possible Answers</h3>
+    <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link">(Add Suggested Answers)</button></p>
+    <button type="button" class="btn btn-small" id="btn-add-quality-answer">Add Answer</button>
+    <table class="table" style="width: auto;">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Weight</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Yes</td>
+          <td>1.0</td>
+          <td>
+            <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
+            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Partially</td>
+          <td>0.5</td>
+          <td>
+            <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
+            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+          </td>
+        </tr>
+        <tr>
+          <td>No</td>
+          <td>0.0</td>
+          <td>
+            <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
+            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <hr>
+  <section id="data-extraction-section" class="clearfix">
+    <h2>Data Extraction Form</h2>
   </section>
 {% endblock content %}
