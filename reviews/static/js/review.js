@@ -69,7 +69,7 @@ $(function () {
     }
   });
 
-  $("#btn-save-objective").click(function () {
+  $("#btn-save-description").click(function () {
     var btn = $(this);
     $.ajax({
       url: '/reviews/save_description/',
@@ -79,7 +79,16 @@ $(function () {
       success: function (data) {
         var msg = btn.siblings('.form-status-message');
         msg.removeClass("text-error").addClass("text-success");
-        msg.text('Your review have been saved successfully!');
+        msg.text(data);
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        var msg = btn.siblings('.form-status-message');
+        msg.removeClass("text-success").addClass("text-error");
+        msg.text(jqXHR.responseText);
         msg.fadeIn();
         window.setTimeout(function () {
           msg.fadeOut();

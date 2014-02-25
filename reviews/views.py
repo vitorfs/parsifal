@@ -112,11 +112,11 @@ def save_description(request):
         review_id = request.POST['review-id']
         description = request.POST['description']
         review = Review.objects.get(pk=review_id)
-        if review.is_author_or_coauthor(request.user):
+        if len(description) > 500:
+            return HttpResponseBadRequest('The review description should not exceed 500 characters. The given description have %s characters.' % len(description))
+        else:
             review.description = description
             review.save()
-            return HttpResponse()
-        else:
-           return HttpResponseForbidden()
+            return HttpResponse('Your review have been saved successfully!')
     except:
         return HttpResponseBadRequest()
