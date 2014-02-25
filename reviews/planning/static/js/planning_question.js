@@ -8,17 +8,12 @@ $(function () {
       data: form.serialize(),
       type: 'post',
       cache: false,
-      beforeSend: function () {
-
-      },
-      error: function () {
-        displayFormMessage(btn, "text-error", "Something went wrong! Please contact the administrator.");
+      error: function (jqXHR, textStatus, errorThrown) {
+        displayFormMessage(btn, "text-error", jqXHR.responseText);
       },
       success: function(data) {
         $("input[name='question-id']", form).val(data);
-        displayFormMessage(btn, "text-success", "Your question have been saved successfully!");
-      },
-      complete: function () {
+        displayFormMessage(btn, "text-success", "Your question has been saved successfully!");
       }
     });
   }

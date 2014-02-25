@@ -9,16 +9,16 @@ $(function () {
       success: function (data) {
         var msg = btn.siblings('.form-status-message');
         msg.removeClass("text-error").addClass("text-success");
-        msg.text('Your review have been saved successfully!');
+        msg.text(data);
         msg.fadeIn();
         window.setTimeout(function () {
           msg.fadeOut();
         }, 2000);
       },
-      error: function () {
+      error: function (jqXHR, textStatus, errorThrown) {
         var msg = btn.siblings('.form-status-message');
         msg.removeClass("text-success").addClass("text-error");
-        msg.text('Something went wrong! Please contact the administrator.');
+        msg.text(jqXHR.responseText);
         msg.fadeIn();
         window.setTimeout(function () {
           msg.fadeOut();

@@ -9,7 +9,8 @@
         <label for="title">Title</label>
       </div>
       <div class="input-container">
-        <input type="text" id="title" name="title" placeholder="Systematic literature review's title" value="{{review.title}}">
+        <input type="text" id="title" name="title" placeholder="Systematic literature review's title" value="{{review.title}}" maxlength="250">
+        <span class="form-status-message">Teste</span>
       </div>
     </div>
     <div class="form-row clearfix">
@@ -17,7 +18,7 @@
         <label for="descripton">Description</label>
       </div>
       <div class="input-container">
-        <textarea rows="5" id="description" name="description" placeholder="Give a brief description of your systematic literature review" value="{{review.description}}"></textarea>
+        <textarea rows="5" id="description" name="description" placeholder="Give a brief description of your systematic literature review">{{review.description}}</textarea>
         <span class="help">Try to keep it short, max 500 characters :)</span>
       </div>
     </div>

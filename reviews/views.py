@@ -39,23 +39,31 @@ def new(request):
         title = request.POST['title']
         description = request.POST['description']
         author = request.user
-
         name = slugify(title)
         unique_name = name
         i = 0
-
         while Review.objects.filter(name=unique_name, author__username=request.user.username):
             i = i + 1
             unique_name = name + '-' + str(i)
-
+        
         review = Review(name = unique_name, title = title, description = description, author=author)
-        if title:
+
+        is_valid = True
+        if not title:
+            is_valid = False
+            messages.add_message(request, messages.ERROR, 'Title is a required field.')
+        elif len(title) > 250:
+            is_valid = False
+            messages.add_message(request, messages.ERROR, 'The title should not exceed 250 characters.')
+        if len(description) > 500:
+            is_valid = False
+            messages.add_message(request, messages.ERROR, 'The description should not exceed 500 characters.')
+
+        if is_valid:
             review.save()
             messages.add_message(request, messages.SUCCESS, 'Review created with success.')
             return redirect('/' + review.author.username + '/' + review.name + '/')
-        else:
-            message = 'Title is a required field.'
-            messages.add_message(request, messages.ERROR, message)
+
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/new.html', context)
 
@@ -117,6 +125,6 @@ def save_description(request):
         else:
             review.description = description
             review.save()
-            return HttpResponse('Your review have been saved successfully!')
+            return HttpResponse('Your review has been saved successfully!')
     except:
         return HttpResponseBadRequest()
