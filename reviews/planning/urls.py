@@ -18,4 +18,6 @@ urlpatterns = patterns('reviews.planning.views',
     url(r'^save_synonym/$', 'save_synonym', name='save_synonym'),
     url(r'^import_pico_keywords/$', 'import_pico_keywords', name='import_pico_keywords'),
     url(r'^remove_keyword/$', 'remove_keyword', name='remove_keyword'),
+    url(r'^add_new_data_extraction_field/$', 'add_new_data_extraction_field', name='add_new_data_extraction_field'),
+    url(r'^save_data_extraction_field/$', 'save_data_extraction_field', name='save_data_extraction_field'),
 )

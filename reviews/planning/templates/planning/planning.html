@@ -8,6 +8,7 @@
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_source.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_keyword.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_criteria.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_data_extraction.js"></script>
 {% endblock head_extra %}
 
 {% block content %}
@@ -125,7 +126,7 @@
             </td>
             <td>
               <button type="button" class="btn btn-small btn-edit-source">edit</button>
-              <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a>
+              <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</button>
             </td>
           </tr>
         {% endfor %}
@@ -176,20 +177,20 @@
           <td>Are the research aims clearly specified?</td>
           <td>
             <button type="button" class="btn btn-small btn-edit-quality-question">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</a>
+            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</button>
           </td>
         </tr>
           <td>Was the study designed to achieve these aims?</td>
           <td>
             <button type="button" class="btn btn-small btn-edit-quality-question">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</a>
+            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</button>
           </td>
         </tr>
         <tr>
           <td>Are the prediction techniques used clearly described and their selection justified?</td>
           <td>
             <button type="button" class="btn btn-small btn-edit-quality-question">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</a>
+            <button type="button" class="btn btn-warning btn-small btn-quality-question">remove</button>
           </td>
         </tr>
       </tbody>
@@ -212,7 +213,7 @@
           <td>1.0</td>
           <td>
             <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</button>
           </td>
         </tr>
         <tr>
@@ -220,7 +221,7 @@
           <td>0.5</td>
           <td>
             <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</button>
           </td>
         </tr>
         <tr>
@@ -228,7 +229,7 @@
           <td>0.0</td>
           <td>
             <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</button>
           </td>
         </tr>
       </tbody>
@@ -248,26 +249,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>
-            <input type="text" class="input-block" maxlength="255">
-          </td>
-          <td>
-            <select>
-              <option value="">Select...</option>
-              {% for field_type in data_extraction_field_types %}
-                <option value="{{ field_type.0 }}">{{ field_type.1 }}</option>
-              {% endfor %}
-            </select>
-          </td>
-          <td>
-            <input type="text" maxlength="255">
-          </td>
-          <td>
-            <button type="button" class="btn btn-small btn-success" id="btn-save-data-extraction-field">save</button>
-            <button type="button" class="btn btn-small btn-warning" id="btn-cancel-data-extraction-field">cancel</button>
-          </td>
-        </tr>
+        {% for field in review.get_data_extraction_fields %}
+          {% include "planning/partial_data_extraction_field.html" with field=field %}
+        {% endfor %}
       </tbody>
     </table>
   </section>

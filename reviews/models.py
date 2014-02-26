@@ -98,6 +98,9 @@ class Review(models.Model):
     def get_source_articles(self, source_id):
         return Article.objects.filter(review__id=self.id, source__id=source_id)
 
+    def get_data_extraction_fields(self):
+        return DataExtractionFields.objects.filter(review__id=self.id)
+
 
 class Question(models.Model):
     MAIN = 'M'

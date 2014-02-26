@@ -14,12 +14,13 @@ from parsifal.decorators import ajax_required
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES })
+    context = RequestContext(request, {'review': review })
     return render_to_response('planning/planning.html', context)
 
-'''
-    OBJECTIVE FUNCTIONS
-'''
+
+###############################################################################
+# OBJECTIVE FUNCTIONS 
+###############################################################################
 
 @ajax_required
 @author_required
@@ -427,5 +428,35 @@ def remove_criteria(request):
             criteria = SelectionCriteria.objects.get(pk=id)
             criteria.delete()
         return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+
+###############################################################################
+# DATA EXTRACTION FUNCTIONS 
+###############################################################################
+
+@ajax_required
+@author_required
+@login_required
+def add_new_data_extraction_field(request):
+    context = RequestContext(request, {'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
+    return render_to_response('planning/partial_new_data_extraction_field.html', context)
+
+@ajax_required
+@author_required
+@login_required
+def save_data_extraction_field(request):
+    try:
+        review_id = request.GET['review-id']
+        description = request.GET['description']
+        field_type = request.GET['field-type']
+
+        review = Review.objects.get(pk=review_id)
+        field = DataExtractionFields(description=description, field_type=field_type, review=review)
+        field.save()
+
+        context = RequestContext(request, {'field': field})
+        return render_to_response('planning/partial_data_extraction_field.html', context)
     except:
         return HttpResponseBadRequest()

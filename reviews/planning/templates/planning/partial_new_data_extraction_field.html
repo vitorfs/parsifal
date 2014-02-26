@@ -1,0 +1,20 @@
+<tr>
+  <td>
+    <input type="text" class="input-block" id="data-extraction-field-description" maxlength="255">
+  </td>
+  <td>
+    <select id="data-extraction-field-type">
+      <option value="">Select...</option>
+      {% for field_type in data_extraction_field_types %}
+        <option value="{{ field_type.0 }}">{{ field_type.1 }}</option>
+      {% endfor %}
+    </select>
+  </td>
+  <td>
+    <input type="text" maxlength="255">
+  </td>
+  <td>
+    <button type="button" class="btn btn-small btn-success" id="btn-save-data-extraction-field">save</button>
+    <button type="button" class="btn btn-small btn-warning" id="btn-cancel-data-extraction-field">cancel</button>
+  </td>
+</tr>
