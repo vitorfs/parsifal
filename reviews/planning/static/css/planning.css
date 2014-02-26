@@ -68,3 +68,12 @@ div[class^="criteria-container"] select {
 #tbl-data-extraction tbody tr td textarea {
   font-size: 1em;
 }
+
+#tbl-data-extraction tbody tr td ul li {
+  font-size: 1em;
+}
+
+.no-select-field p, .select-field p {
+  font-size: .8em;
+  margin: .7em 0;
+}

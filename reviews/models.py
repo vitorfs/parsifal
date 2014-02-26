@@ -272,10 +272,24 @@ class DataExtractionFields(models.Model):
     description = models.CharField(max_length=255)
     field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
 
+    def get_select_values(self):
+        if self.field_type in (self.SELECT_ONE_FIELD, self.SELECT_MANY_FIELD):
+            return DataExtractionLookups.objects.filter(field__id=self.id)
+        else:
+            return None
+
 
 class DataExtractionLookups(models.Model):
     field = models.ForeignKey(DataExtractionFields)
     value = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = "Lookup Value"
+        verbose_name_plural = "Lookup Values"
+        ordering = ("value",)
+
+    def __unicode__(self):
+        return self.value
 
 
 class DataExtractions(models.Model):

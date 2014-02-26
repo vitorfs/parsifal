@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionFields
+from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionFields, DataExtractionLookups
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 
@@ -451,10 +451,17 @@ def save_data_extraction_field(request):
         review_id = request.GET['review-id']
         description = request.GET['description']
         field_type = request.GET['field-type']
+        lookup_values = request.GET['lookup-values']
+
+        lookup_values = lookup_values.split('\n')
 
         review = Review.objects.get(pk=review_id)
         field = DataExtractionFields(description=description, field_type=field_type, review=review)
         field.save()
+
+        for value in lookup_values:
+            lookup_value = DataExtractionLookups(field=field, value=value)
+            lookup_value.save()
 
         context = RequestContext(request, {'field': field})
         return render_to_response('planning/partial_data_extraction_field.html', context)

@@ -19,10 +19,12 @@ $(function () {
   // Hide or show the textarea for lookup values (select one field and select many field)
   $("table#tbl-data-extraction").on("change", "#data-extraction-field-type", function () {
     if ($(this).val() == 'O' || $(this).val() == 'M') {
-      $("#data-extraction-lookup-values").show();
+      $(".no-select-field").hide();
+      $(".select-field").show();
     }
     else {
-      $("#data-extraction-lookup-values").hide(); 
+      $(".select-field").hide();
+      $(".no-select-field").show();
     }
   });
 
@@ -38,13 +40,14 @@ $(function () {
   $("table#tbl-data-extraction").on("click", "#btn-save-data-extraction-field", function () {
     var description = $("#data-extraction-field-description").val();
     var field_type = $("#data-extraction-field-type").val();
+    var lookup_values = $("#data-extraction-lookup-values").val();
     var review_id = $("#review-id").val();
 
     var row = $(this).closest("tr");
 
     $.ajax({
       url: '/reviews/planning/save_data_extraction_field/',
-      data: {'review-id': review_id, 'description': description, 'field-type': field_type},
+      data: {'review-id': review_id, 'description': description, 'field-type': field_type, 'lookup-values': lookup_values},
       type: 'get',
       cache: false,
       success: function (data) {

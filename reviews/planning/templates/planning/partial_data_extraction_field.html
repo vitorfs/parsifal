@@ -1,7 +1,17 @@
 <tr>
   <td>{{ field.description }}</td>
   <td>{{ field.get_field_type_display }}</td>
-  <td></td>
+  <td>
+    {% if field.field_type == 'M' or field.field_type == 'O' %}
+      <ul>
+        {% for value in field.get_select_values %}
+          <li>{{ value.value }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      N/A
+    {% endif %}
+  </td>
   <td>
     <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
     <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>

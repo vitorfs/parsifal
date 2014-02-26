@@ -11,7 +11,13 @@
     </select>
   </td>
   <td>
-    <textarea id="data-extraction-lookup-values" style="display: none"></textarea>
+    <div class="select-field hide">
+      <textarea id="data-extraction-lookup-values" style="width: 250px"></textarea>
+      <p>Add one value per line.</p>
+    </div>
+    <div class="no-select-field">
+      <p>Available only for <strong>select one</strong> or <strong>select many</strong> fields.</p>
+    </div>
   </td>
   <td>
     <button type="button" class="btn btn-small btn-success" id="btn-save-data-extraction-field">save</button>
