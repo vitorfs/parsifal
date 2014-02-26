@@ -16,6 +16,16 @@ $(function () {
     }
   });
 
+  // Hide or show the textarea for lookup values (select one field and select many field)
+  $("table#tbl-data-extraction").on("change", "#data-extraction-field-type", function () {
+    if ($(this).val() == 'O' || $(this).val() == 'M') {
+      $("#data-extraction-lookup-values").show();
+    }
+    else {
+      $("#data-extraction-lookup-values").hide(); 
+    }
+  });
+
   // Cancel the creation of a new data field
   $("table#tbl-data-extraction").on("click", "#btn-cancel-data-extraction-field", function () {
     IS_ADDING_NEW_FIELD = false;
