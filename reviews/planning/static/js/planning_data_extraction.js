@@ -28,7 +28,7 @@ $(function () {
     }
   });
 
-  // Cancel the creation of a new data field
+  // Cancel the creation of a new data extraction field
   $("table#tbl-data-extraction").on("click", "#btn-cancel-data-extraction-field", function () {
     IS_ADDING_NEW_FIELD = false;
     $(this).closest("tr").fadeOut(400, function () {
@@ -36,7 +36,7 @@ $(function () {
     });
   });
 
-  // Save a new data field
+  // Save a new data extraction field
   $("table#tbl-data-extraction").on("click", "#btn-save-data-extraction-field", function () {
     var description = $("#data-extraction-field-description").val();
     var field_type = $("#data-extraction-field-type").val();
@@ -61,6 +61,29 @@ $(function () {
       },
       complete: function () {
         IS_ADDING_NEW_FIELD = false;
+      }
+    });
+  });
+
+  // Remove a data extraction field
+  $("table#tbl-data-extraction").on("click", ".btn-remove-data-extraction-field", function () { 
+    var field_id = $(this).closest("tr").attr("oid");
+    var review_id = $("#review-id").val();
+
+    var row = $(this).closest("tr");
+    
+    $.ajax({
+      url: '/reviews/planning/remove_data_extraction_field/',
+      data: {'review-id': review_id, 'field-id': field_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(row).fadeOut(400, function () {
+          $(row).remove();
+        });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+
       }
     });
   });

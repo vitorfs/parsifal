@@ -273,10 +273,7 @@ class DataExtractionFields(models.Model):
     field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
 
     def get_select_values(self):
-        if self.field_type in (self.SELECT_ONE_FIELD, self.SELECT_MANY_FIELD):
-            return DataExtractionLookups.objects.filter(field__id=self.id)
-        else:
-            return None
+        return DataExtractionLookups.objects.filter(field__id=self.id)
 
 
 class DataExtractionLookups(models.Model):

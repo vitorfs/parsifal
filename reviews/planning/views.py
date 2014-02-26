@@ -467,3 +467,18 @@ def save_data_extraction_field(request):
         return render_to_response('planning/partial_data_extraction_field.html', context)
     except:
         return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def remove_data_extraction_field(request):
+    try:
+        field_id = request.GET['field-id']
+        field = DataExtractionFields.objects.get(pk=field_id)
+        select_values = field.get_select_values()
+        for select_value in select_values:
+            select_value.delete()
+        field.delete()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()

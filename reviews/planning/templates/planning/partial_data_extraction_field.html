@@ -1,4 +1,4 @@
-<tr>
+<tr oid="{{ field.id }}">
   <td>{{ field.description }}</td>
   <td>{{ field.get_field_type_display }}</td>
   <td>
@@ -9,11 +9,11 @@
         {% endfor %}
       </ul>
     {% else %}
-      N/A
+      n/a
     {% endif %}
   </td>
   <td>
-    <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-    <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</a>
+    <button type="button" class="btn btn-small btn-edit-data-extraction-field">edit</button>
+    <button type="button" class="btn btn-warning btn-small btn-remove-data-extraction-field">remove</a>
   </td>
 </tr>
