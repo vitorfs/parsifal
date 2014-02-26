@@ -237,5 +237,38 @@
   <hr>
   <section id="data-extraction-section" class="clearfix">
     <h2>Data Extraction Form</h2>
+    <button type="button" class="btn btn-small" id="btn-add-field">Add Field</button>
+    <table class="table" id="tbl-data-extraction">
+      <thead>
+        <tr>
+          <th style="width: 400px">Description</th>
+          <th style="width: 200px">Type</th>
+          <th style="width: 200px">Values</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="text" class="input-block" maxlength="255">
+          </td>
+          <td>
+            <select>
+              <option value="">Select...</option>
+              {% for field_type in data_extraction_field_types %}
+                <option value="{{ field_type.0 }}">{{ field_type.1 }}</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td>
+            <input type="text" maxlength="255">
+          </td>
+          <td>
+            <button type="button" class="btn btn-small btn-success" id="btn-save-data-extraction-field">save</button>
+            <button type="button" class="btn btn-small btn-warning" id="btn-cancel-data-extraction-field">cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 {% endblock content %}

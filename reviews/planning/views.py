@@ -7,14 +7,14 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Question, SelectionCriteria, Keyword
+from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionFields
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review })
+    context = RequestContext(request, {'review': review, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES })
     return render_to_response('planning/planning.html', context)
 
 '''

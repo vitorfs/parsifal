@@ -39,10 +39,12 @@ class Review(models.Model):
     author = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField()
-    co_authors = models.ManyToManyField(User, related_name="+")
     objective = models.TextField(max_length=1000)
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
+    co_authors = models.ManyToManyField(User, related_name="co_authors")
+    quality_assessment_assignment = models.ManyToManyField(User, related_name="quality_assessment_assignment")
+    data_extraction_assignment = models.ManyToManyField(User, related_name="data_extraction_assignment")
 
     class Meta:
         verbose_name = "Review"
@@ -212,6 +214,8 @@ class Keyword(models.Model):
 
 
 class QualityAnswers(models.Model):
+    SUGGESTED_ANSWERS = {'Yes': 1.0, 'Partially': 0.5, 'No': 0.0}
+
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=255)
     weight = models.FloatField()
@@ -235,12 +239,44 @@ class QualityQuestions(models.Model):
     def __unicode__(self):
         return self.description
 
-class QualityAssessmentAssignment(models.Model):
-    review = models.ForeignKey(Review)
-    user = models.ForeignKey(User)
 
-class QualityAssessmentForm(models.Model):
-    assignment = models.ForeignKey(QualityAssessmentAssignment)
+class QualityAssessments(models.Model):
+    user = models.ForeignKey(User, null=True)
     question = models.ForeignKey(QualityQuestions)
     answer = models.ForeignKey(QualityAnswers, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+class DataExtractionFields(models.Model):
+    BOOLEAN_FIELD = 'B'
+    STRING_FIELD = 'S'
+    FLOAT_FIELD = 'F'
+    INTEGER_FIELD = 'I'
+    DATE_FIELD = 'D'
+    SELECT_ONE_FIELD = 'O'
+    SELECT_MANY_FIELD = 'M'
+    FIELD_TYPES = (
+            (BOOLEAN_FIELD, 'Boolean Field'),
+            (STRING_FIELD, 'String Field'),
+            (FLOAT_FIELD, 'Float Field'),
+            (INTEGER_FIELD, 'Integer Field'),
+            (DATE_FIELD, 'Date Field'),
+            (SELECT_ONE_FIELD, 'Select One Field'),
+            (SELECT_MANY_FIELD, 'Select Many Field'),
+        )
+
+    review = models.ForeignKey(Review)
+    description = models.CharField(max_length=255)
+    field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
+
+
+class DataExtractionLookups(models.Model):
+    field = models.ForeignKey(DataExtractionFields)
+    value = models.CharField(max_length=255)
+
+
+class DataExtractions(models.Model):
+    user = models.ForeignKey(User, null=True)
+    field = models.ForeignKey(DataExtractionFields)
+    value = models.CharField(max_length=255, blank=True)
     date = models.DateTimeField(auto_now_add=True)

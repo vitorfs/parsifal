@@ -16,6 +16,10 @@ input, textarea, select {
   color: #3A3D40;
 }
 
+input.input-block {
+  width: 100%;
+}
+
 textarea {
   padding: 0.7em;
 }

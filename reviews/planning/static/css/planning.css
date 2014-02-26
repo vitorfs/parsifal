@@ -52,3 +52,15 @@ div[class^="criteria-container"] select {
   width: 100%; 
   margin: 10px 0;
 }
+
+#tbl-data-extraction {
+  width: auto;
+}
+
+#tbl-data-extraction tbody tr td input {
+  font-size: 1em;
+}
+
+#tbl-data-extraction tbody tr td select {
+  font-size: 1em;
+}
