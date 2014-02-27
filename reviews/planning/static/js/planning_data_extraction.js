@@ -11,6 +11,7 @@ $(function () {
         cache: false,
         success: function (data) {
           $("#tbl-data-extraction tbody").prepend(data);
+          $("#data-extraction-field-description").focus();
         }
       });
     }
@@ -33,6 +34,8 @@ $(function () {
     IS_ADDING_NEW_FIELD = false;
     $(this).closest("tr").fadeOut(400, function () {
       $(this).remove();
+      $("tr.hidden-for-edition").show();
+      $("tr.hidden-for-edition").removeClass("hidden-for-edition");
     });
   });
 
@@ -110,6 +113,7 @@ $(function () {
       success: function (data) {
         $(row).hide();
         $(row).after(data);
+        $(row).addClass("hidden-for-edition");
       }
     });
   });
