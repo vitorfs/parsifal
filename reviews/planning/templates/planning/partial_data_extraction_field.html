@@ -2,7 +2,7 @@
   <td>{{ field.description }}</td>
   <td>{{ field.get_field_type_display }}</td>
   <td>
-    {% if field.field_type == 'M' or field.field_type == 'O' %}
+    {% if field.is_select_field %}
       <ul>
         {% for value in field.get_select_values %}
           <li>{{ value.value }}</li>

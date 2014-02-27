@@ -1,21 +1,22 @@
-<tr>
+<tr oid="{{ field.id }}">
   <td>
-    <input type="text" class="input-block" id="data-extraction-field-description" maxlength="255">
+    <input type="text" class="input-block" id="data-extraction-field-description" maxlength="255" value="{{ field.description }}">
   </td>
   <td>
     <select id="data-extraction-field-type">
       <option value="">Select...</option>
       {% for field_type in data_extraction_field_types %}
-        <option value="{{ field_type.0 }}">{{ field_type.1 }}</option>
+        <option value="{{ field_type.0 }}" {% if field.field_type == field_type.0 %} selected{% endif %}>{{ field_type.1 }}</option>
       {% endfor %}
     </select>
   </td>
   <td>
-    <div class="select-field hide">
-      <textarea id="data-extraction-lookup-values" style="width: 250px"></textarea>
+    <div class="select-field {% if not field.is_select_field %}hide{% endif %}">
+      <textarea id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}
+{% endfor %}</textarea>
       <p>Add one value per line.</p>
     </div>
-    <div class="no-select-field">
+    <div class="no-select-field {% if field.is_select_field %}hide{% endif %}">
       <p>Available only for <strong>select one</strong> or <strong>select many</strong> fields.</p>
     </div>
   </td>

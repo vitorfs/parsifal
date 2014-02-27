@@ -275,6 +275,9 @@ class DataExtractionFields(models.Model):
     def get_select_values(self):
         return DataExtractionLookups.objects.filter(field__id=self.id)
 
+    def is_select_field(self):
+        return self.field_type in (self.SELECT_ONE_FIELD, self.SELECT_MANY_FIELD)
+
 
 class DataExtractionLookups(models.Model):
     field = models.ForeignKey(DataExtractionFields)

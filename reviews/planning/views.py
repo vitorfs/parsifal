@@ -440,7 +440,8 @@ def remove_criteria(request):
 @author_required
 @login_required
 def add_new_data_extraction_field(request):
-    context = RequestContext(request, {'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
+    field = DataExtractionFields()
+    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
     return render_to_response('planning/partial_new_data_extraction_field.html', context)
 
 @ajax_required
