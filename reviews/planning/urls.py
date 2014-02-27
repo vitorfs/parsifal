@@ -21,4 +21,5 @@ urlpatterns = patterns('reviews.planning.views',
     url(r'^add_new_data_extraction_field/$', 'add_new_data_extraction_field', name='add_new_data_extraction_field'),
     url(r'^save_data_extraction_field/$', 'save_data_extraction_field', name='save_data_extraction_field'),
     url(r'^remove_data_extraction_field/$', 'remove_data_extraction_field', name='remove_data_extraction_field'),
+    url(r'^edit_data_extraction_field/$', 'edit_data_extraction_field', name='edit_data_extraction_field'),
 )

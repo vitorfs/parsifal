@@ -94,4 +94,24 @@ $(function () {
     });
   });
 
+
+  // Enable data extraction field for edition
+  $("table#tbl-data-extraction").on("click", ".btn-edit-data-extraction-field", function () {
+    var field_id = $(this).closest("tr").attr("oid");
+    var review_id = $("#review-id").val();
+
+    var row = $(this).closest("tr");
+
+    $.ajax({
+      url: '/reviews/planning/edit_data_extraction_field/',
+      data: {'review-id': review_id, 'field-id': field_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(row).hide();
+        $(row).after(data);
+      }
+    });
+  });
+
 });
