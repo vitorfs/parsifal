@@ -44,6 +44,16 @@ def unfollow(request):
     except:
         return HttpResponseBadRequest()
 
+@ajax_required
+def update_followers_count(request):
+    try:
+        user_id = request.GET['user-id']
+        user = get_object_or_404(User, pk=user_id)
+        followers_count = user.profile.get_followers_count()
+        return HttpResponse(followers_count)
+    except:
+        return HttpResponseBadRequest()
+
 def following(request, username):
     page_user = get_object_or_404(User, username=username)
     page_title = 'following'

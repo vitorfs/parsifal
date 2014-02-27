@@ -1,9 +1,23 @@
 $(function () {
 
+  $.fn.updateFollowersCount = function (user_id) {
+    var container = $(this);
+    $.ajax({
+      url: '/activity/update_followers_count/',
+      data: {'user-id': user_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(container).text(data);
+      }
+    });
+  };
+
   $(".user-actions button").click(function() {
     var btn = $(this);
     var user_actions = $(this).closest(".user-actions");
     var user_id = $(user_actions).attr("data-user-id");
+    // Unfollow action
     if ($(user_actions).hasClass("following")) {
       $.ajax({
         url: '/activity/unfollow/',
@@ -19,6 +33,9 @@ $(function () {
           $(btn).removeClass("btn-warning");
           $(btn).addClass("btn-success");
           $(btn).text("Follow");
+          if ($(user_actions).hasClass("update-count")) {
+            $(".followers-count").updateFollowersCount(user_id);
+          }
         },
         error: function (jqXHR, textStatus, errorThrown) {
           
@@ -28,6 +45,7 @@ $(function () {
         }
       });
     }
+    // Follow action
     else {
       $.ajax({
         url: '/activity/follow/',
@@ -43,6 +61,9 @@ $(function () {
           $(btn).removeClass("btn-success");
           $(btn).addClass("btn-warning")
           $(btn).text("Unfollow");
+          if ($(user_actions).hasClass("update-count")) {
+            $(".followers-count").updateFollowersCount(user_id);
+          }
         },
         error: function (jqXHR, textStatus, errorThrown) {
           

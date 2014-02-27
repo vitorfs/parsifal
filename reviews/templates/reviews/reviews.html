@@ -36,7 +36,7 @@
         <div>
           <a href="/{{ page_user.username }}/following/">
             <h3>Following</h3>
-            <span>{{ following_count }}</span>
+            <span class="following-count">{{ following_count }}</span>
           </a>
         </div>
         <div>
@@ -48,7 +48,7 @@
         <div>
           <a href="/{{ page_user.username }}/followers/">
             <h3>Followers</h3>
-            <span>{{ followers_count }}</span>
+            <span class="followers-count">{{ followers_count }}</span>
           </a>
         </div>
       </div>
@@ -61,11 +61,11 @@
           </div>
         {% else %}
           {% if is_following %}
-            <div class="user-actions following" data-user-id="{{ page_user.id }}">
+            <div class="user-actions following update-count" data-user-id="{{ page_user.id }}">
               <button class="btn btn-warning" type="button">Unfollow</button>
             </div>
           {% else %}
-            <div class="user-actions not-following" data-user-id="{{ page_user.id }}">
+            <div class="user-actions not-following update-count" data-user-id="{{ page_user.id }}">
               <button class="btn btn-success" type="button">Follow</button>
             </div>
           {% endif %}
