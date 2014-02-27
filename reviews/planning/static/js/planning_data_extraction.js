@@ -59,13 +59,14 @@ $(function () {
         $(row).fadeOut(400, function () {
           $(this).remove();
           $("#tbl-data-extraction tbody").prepend(data);
+          IS_ADDING_NEW_FIELD = false;
         });
       },
       error: function (jqXHR, textStatus, errorThrown) {
 
       },
       complete: function () {
-        IS_ADDING_NEW_FIELD = false;
+        
       }
     });
   });

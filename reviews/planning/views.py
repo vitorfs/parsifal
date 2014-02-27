@@ -461,8 +461,9 @@ def save_data_extraction_field(request):
         field.save()
 
         for value in lookup_values:
-            lookup_value = DataExtractionLookups(field=field, value=value)
-            lookup_value.save()
+            if value.strip():
+                lookup_value = DataExtractionLookups(field=field, value=value.strip())
+                lookup_value.save()
 
         context = RequestContext(request, {'field': field})
         return render_to_response('planning/partial_data_extraction_field.html', context)
