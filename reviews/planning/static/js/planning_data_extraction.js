@@ -38,17 +38,22 @@ $(function () {
 
   // Save a new data extraction field
   $("table#tbl-data-extraction").on("click", "#btn-save-data-extraction-field", function () {
+    var row = $(this).closest("tr");
     var description = $("#data-extraction-field-description").val();
     var field_type = $("#data-extraction-field-type").val();
     var lookup_values = $("#data-extraction-lookup-values").val();
     var review_id = $("#review-id").val();
-
-    var row = $(this).closest("tr");
+    var csrf_token = $(row).attr("csrf-token");
 
     $.ajax({
       url: '/reviews/planning/save_data_extraction_field/',
-      data: {'review-id': review_id, 'description': description, 'field-type': field_type, 'lookup-values': lookup_values},
-      type: 'get',
+      data: {'review-id': review_id, 
+        'description': description, 
+        'field-type': field_type, 
+        'lookup-values': lookup_values,
+        'csrfmiddlewaretoken': csrf_token
+      },
+      type: 'post',
       cache: false,
       success: function (data) {
         $(row).fadeOut(400, function () {

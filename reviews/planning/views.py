@@ -449,10 +449,10 @@ def add_new_data_extraction_field(request):
 @login_required
 def save_data_extraction_field(request):
     try:
-        review_id = request.GET['review-id']
-        description = request.GET['description']
-        field_type = request.GET['field-type']
-        lookup_values = request.GET['lookup-values']
+        review_id = request.POST['review-id']
+        description = request.POST['description']
+        field_type = request.POST['field-type']
+        lookup_values = request.POST['lookup-values']
 
         lookup_values = lookup_values.split('\n')
 
