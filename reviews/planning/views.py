@@ -433,6 +433,47 @@ def remove_criteria(request):
 
 
 ###############################################################################
+# QUALITY ASSESSMENT FUNCTIONS 
+###############################################################################
+
+@ajax_required
+@author_required
+@login_required
+def add_quality_assessment_question(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def edit_quality_assessment_question(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def save_quality_assessment_question(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def remove_quality_assessment_question(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+
+###############################################################################
 # DATA EXTRACTION FUNCTIONS 
 ###############################################################################
 
@@ -441,6 +482,15 @@ def remove_criteria(request):
 @login_required
 def add_new_data_extraction_field(request):
     field = DataExtractionFields()
+    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
+    return render_to_response('planning/partial_data_extraction_field_form.html', context)
+
+@ajax_required
+@author_required
+@login_required
+def edit_data_extraction_field(request):
+    field_id = request.GET['field-id']
+    field = DataExtractionFields.objects.get(pk=field_id)
     context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
@@ -503,12 +553,3 @@ def remove_data_extraction_field(request):
         return HttpResponse()
     except:
         return HttpResponseBadRequest()
-
-@ajax_required
-@author_required
-@login_required
-def edit_data_extraction_field(request):
-    field_id = request.GET['field-id']
-    field = DataExtractionFields.objects.get(pk=field_id)
-    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
-    return render_to_response('planning/partial_data_extraction_field_form.html', context)
