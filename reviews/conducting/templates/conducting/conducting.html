@@ -11,73 +11,14 @@
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="conducting" %}
   
-  <ul class="tab">
+  <ul class="tab" id="conducting-tab">
     <li class="active"><a href="#">Search String</a></li>
     <li><a href="#">Study Selection</a></li>
     <li><a href="#">Quality Assessment</a></li>
     <li><a href="#">Data Extraction</a></li>
   </ul>
 
-  <section id="generic-search-string" class="clearfix">
-    <h2>Generic Search String</h2>
-    <form class="form-block form-normal">
-      {% csrf_token %}
-      <input type="hidden" name="review-id" value="{{ review.id }}">
-      <div class="form-row">
-        <button type="button" class="btn btn-suggested-search-string btn-small">Suggested Search String</button>
-      </div>
-      <div class="form-row">
-        <textarea style="width:100%" rows="4" name="search-string" class="search-string">{{ review.get_generic_search_string.search_string }}</textarea>
-      </div>
-      <div class="form-row">
-        <button type="button" class="btn btn-success btn-save-generic-search-string pull-left">Save</button>
-        <span class="form-status-message pull-left"></span>
-      </div>
-    </form>
-  </section>
-  <hr>
-  <section id="sources" class="clearfix">
-    <div class="modal" id="modal-article">
-      <div class="modal-header">
-        <a href="#" class="close close-modal">×</a>
-        <h2>Article Details</h2>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" id="btn-previous">Previous</button>
-        <button type="button" class="btn" id="btn-next">Next</button>
-        <button type="button" class="btn btn-warning close-modal">Cancel</button>
-        <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
-      </div>
-    </div>
-    <h2>Articles</h2>
-    {% if review.sources.all %}
-      <ul class="tab" id="source-tab">
-        {% for source in review.sources.all %}
-          <li><a href="#tab{{ source.id }}">{{ source.name }}</a></li>
-        {% endfor %}
-      </ul>
-      <div class="source-tab-content">
-        {% for source in review.sources.all %}
-          <div id="tab{{ source.id }}" class="articles clearfix hide">
-            <div class="source-buttons">
-              <form enctype="multipart/form-data" name="article-bib-{{ source.id }}" method="post" action="/reviews/conducting/import_bibtex/">
-                {% csrf_token %}
-                <input type="hidden" name="review-id" value="{{ review.id }}">
-                <input type="hidden" name="source-id" value="{{ source.id }}">
-                <input type="file" class="hide" name="bibtex">
-              </form>
-              <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
-              <button type="button" class="btn btn-add-manual btn-small">Add Manual</button>
-              <button type="button" class="btn btn-add-custom-search btn-small">Add Custom Search String</button>
-            </div>
-            <div class="source-articles"></div>
-          </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
-    {% endif %}
-  </section>
+  <div id="tab-contents">
+    {% include "conducting/conducting_search_string.html" with review=review %}
+  </div>
 {% endblock content %}
