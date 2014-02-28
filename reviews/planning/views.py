@@ -489,6 +489,42 @@ def remove_quality_assessment_question(request):
     except:
         return HttpResponseBadRequest()
 
+@ajax_required
+@author_required
+@login_required
+def add_quality_assessment_answer(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required        
+def edit_quality_assessment_answer(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required        
+def save_quality_assessment_answer(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required        
+def remove_quality_assessment_answer(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
 
 ###############################################################################
 # DATA EXTRACTION FUNCTIONS 
