@@ -39,13 +39,14 @@ $(function () {
     });
   });
 
-  // Save a new data extraction field
+  // Save a data extraction field
   $("table#tbl-data-extraction").on("click", "#btn-save-data-extraction-field", function () {
     var row = $(this).closest("tr");
     var description = $("#data-extraction-field-description").val();
     var field_type = $("#data-extraction-field-type").val();
     var lookup_values = $("#data-extraction-lookup-values").val();
     var review_id = $("#review-id").val();
+    var field_id = $(row).attr("oid");
     var csrf_token = $(row).attr("csrf-token");
 
     $.ajax({
@@ -54,6 +55,7 @@ $(function () {
         'description': description, 
         'field-type': field_type, 
         'lookup-values': lookup_values,
+        'field-id': field_id,
         'csrfmiddlewaretoken': csrf_token
       },
       type: 'post',

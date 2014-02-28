@@ -453,17 +453,36 @@ def save_data_extraction_field(request):
         description = request.POST['description']
         field_type = request.POST['field-type']
         lookup_values = request.POST['lookup-values']
+        field_id = request.POST['field-id']
 
         lookup_values = lookup_values.split('\n')
+        lookup_values = list(set(lookup_values))
+
+        for i in range(0, len(lookup_values)):
+            lookup_values[i] = lookup_values[i].strip()
 
         review = Review.objects.get(pk=review_id)
-        field = DataExtractionFields(description=description, field_type=field_type, review=review)
+
+        if field_id == 'None':
+            field = DataExtractionFields(review=review)
+        else:
+            field = DataExtractionFields.objects.get(pk=field_id)
+
+        field.description = description
+        field.field_type = field_type
         field.save()
 
-        for value in lookup_values:
-            if value.strip():
-                lookup_value = DataExtractionLookups(field=field, value=value.strip())
-                lookup_value.save()
+        if field.is_select_field():
+            for value in lookup_values:
+                if value:
+                    lookup_value, created = DataExtractionLookups.objects.get_or_create(field=field, value=value)
+
+            for select_value in field.get_select_values():
+                if select_value.value not in lookup_values:
+                    select_value.delete()
+        else:
+            for select_value in field.get_select_values():
+                select_value.delete()
 
         context = RequestContext(request, {'field': field})
         return render_to_response('planning/partial_data_extraction_field.html', context)
