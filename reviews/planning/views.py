@@ -482,6 +482,9 @@ def save_quality_assessment_question(request):
 @login_required
 def remove_quality_assessment_question(request):
     try:
+        quality_question_id = request.GET['quality-question-id']
+        quality_question = QualityQuestion.objects.get(pk=quality_question_id)
+        quality_question.delete()
         return HttpResponse()
     except:
         return HttpResponseBadRequest()

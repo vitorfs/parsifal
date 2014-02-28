@@ -16,6 +16,7 @@ $(function () {
         cache: false,
         success: function (data) {
           $("#tbl-quality-questions tbody").prepend(data);
+          $("#quality-question-description").focus();
         }
       });
 
@@ -91,7 +92,23 @@ $(function () {
   });
 
   $("table#tbl-quality-questions").on("click", ".btn-remove-quality-question", function () { 
+    var quality_question_id = $(this).closest("tr").attr("oid");
+    var review_id = $("#review-id").val();
+    var row = $(this).closest("tr");
     
+    $.ajax({
+      url: '/reviews/planning/remove_quality_assessment_question/',
+      data: {'review-id': review_id, 'quality-question-id': quality_question_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(row).remove();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+
+      }
+    });
+
   });
 
 });
