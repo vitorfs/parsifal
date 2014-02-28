@@ -101,6 +101,9 @@ class Review(models.Model):
     def get_data_extraction_fields(self):
         return DataExtractionField.objects.filter(review__id=self.id)
 
+    def get_quality_assessment_questions(self):
+        return QualityQuestion.objects.filter(review__id=self.id)
+
 
 class Question(models.Model):
     MAIN = 'M'

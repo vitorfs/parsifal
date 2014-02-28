@@ -1,9 +1,9 @@
 $(function () {
-  IS_ADDING_NEW_FIELD = false;
+  IS_ADDING_OR_EDITING_FIELD = false;
 
   $("#btn-add-field").click(function () {
-    if (!IS_ADDING_NEW_FIELD) {
-      IS_ADDING_NEW_FIELD = true;
+    if (!IS_ADDING_OR_EDITING_FIELD) {
+      IS_ADDING_OR_EDITING_FIELD = true;
       $.ajax({
         url: '/reviews/planning/add_new_data_extraction_field/',
         data: {'review-id': $('#review-id').val()},
@@ -31,7 +31,7 @@ $(function () {
 
   // Cancel the creation of a new data extraction field
   $("table#tbl-data-extraction").on("click", "#btn-cancel-data-extraction-field", function () {
-    IS_ADDING_NEW_FIELD = false;
+    IS_ADDING_OR_EDITING_FIELD = false;
     $(this).closest("tr").fadeOut(400, function () {
       $(this).remove();
       $("tr.data-extraction-field-hidden-for-edition").show();
@@ -61,11 +61,16 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        $(row).fadeOut(400, function () {
-          $(this).remove();
+        if (field_id == 'None') {
+          $(row).remove();
           $("#tbl-data-extraction tbody").prepend(data);
-          IS_ADDING_NEW_FIELD = false;
-        });
+        }
+        else {
+          $("tr.data-extraction-field-hidden-for-edition").after(data);
+          $("tr.data-extraction-field-hidden-for-edition").remove();
+          $(row).remove();
+        }
+        IS_ADDING_OR_EDITING_FIELD = false;
       },
       error: function (jqXHR, textStatus, errorThrown) {
 
@@ -102,22 +107,25 @@ $(function () {
 
   // Enable data extraction field for edition
   $("table#tbl-data-extraction").on("click", ".btn-edit-data-extraction-field", function () {
-    var field_id = $(this).closest("tr").attr("oid");
-    var review_id = $("#review-id").val();
+    if (!IS_ADDING_OR_EDITING_FIELD) {
+      IS_ADDING_OR_EDITING_FIELD = true;
+      var field_id = $(this).closest("tr").attr("oid");
+      var review_id = $("#review-id").val();
 
-    var row = $(this).closest("tr");
+      var row = $(this).closest("tr");
 
-    $.ajax({
-      url: '/reviews/planning/edit_data_extraction_field/',
-      data: {'review-id': review_id, 'field-id': field_id},
-      type: 'get',
-      cache: false,
-      success: function (data) {
-        $(row).hide();
-        $(row).after(data);
-        $(row).addClass("data-extraction-field-hidden-for-edition");
-      }
-    });
+      $.ajax({
+        url: '/reviews/planning/edit_data_extraction_field/',
+        data: {'review-id': review_id, 'field-id': field_id},
+        type: 'get',
+        cache: false,
+        success: function (data) {
+          $(row).hide();
+          $(row).after(data);
+          $(row).addClass("data-extraction-field-hidden-for-edition");
+        }
+      });
+    }
   });
 
 });

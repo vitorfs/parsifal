@@ -448,10 +448,10 @@ def add_quality_assessment_question(request):
 @author_required
 @login_required
 def edit_quality_assessment_question(request):
-    try:
-        return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
+    quality_question_id = request.GET['quality-question-id']
+    quality_question = QualityQuestion.objects.get(pk=quality_question_id)
+    context = RequestContext(request, {'quality_question': quality_question})
+    return render_to_response('planning/partial_quality_assessment_question_form.html', context)
 
 @ajax_required
 @author_required

@@ -169,12 +169,14 @@
     <table class="table" id="tbl-quality-questions">
       <thead>
         <tr>
-          <th>Description</th>
+          <th style="width: 400px">Description</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-
+        {% for quality_question in review.get_quality_assessment_questions %}
+          {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
+        {% endfor %}
       </tbody>
     </table>
 
