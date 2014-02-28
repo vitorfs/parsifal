@@ -245,8 +245,8 @@ class QualityQuestion(models.Model):
 
 class QualityAssessment(models.Model):
     user = models.ForeignKey(User, null=True)
-    question = models.ForeignKey(QualityQuestions)
-    answer = models.ForeignKey(QualityAnswers, null=True)
+    question = models.ForeignKey(QualityQuestion)
+    answer = models.ForeignKey(QualityAnswer, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
 
@@ -273,14 +273,14 @@ class DataExtractionField(models.Model):
     field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
 
     def get_select_values(self):
-        return DataExtractionLookups.objects.filter(field__id=self.id)
+        return DataExtractionLookup.objects.filter(field__id=self.id)
 
     def is_select_field(self):
         return self.field_type in (self.SELECT_ONE_FIELD, self.SELECT_MANY_FIELD)
 
 
 class DataExtractionLookup(models.Model):
-    field = models.ForeignKey(DataExtractionFields)
+    field = models.ForeignKey(DataExtractionField)
     value = models.CharField(max_length=255)
 
     class Meta:
@@ -294,6 +294,7 @@ class DataExtractionLookup(models.Model):
 
 class DataExtraction(models.Model):
     user = models.ForeignKey(User, null=True)
-    field = models.ForeignKey(DataExtractionFields)
+    field = models.ForeignKey(DataExtractionField)
     value = models.CharField(max_length=255, blank=True)
     date = models.DateTimeField(auto_now_add=True)
+    select_values = models.ManyToManyField(DataExtractionLookup)
