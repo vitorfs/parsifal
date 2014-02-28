@@ -216,7 +216,7 @@ class Keyword(models.Model):
         return Keyword.objects.filter(review__id=self.review.id, synonym_of__id=self.id)
 
 
-class QualityAnswers(models.Model):
+class QualityAnswer(models.Model):
     SUGGESTED_ANSWERS = {'Yes': 1.0, 'Partially': 0.5, 'No': 0.0}
 
     review = models.ForeignKey(Review)
@@ -231,7 +231,7 @@ class QualityAnswers(models.Model):
         return self.description
 
 
-class QualityQuestions(models.Model):
+class QualityQuestion(models.Model):
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=255)
 
@@ -243,14 +243,14 @@ class QualityQuestions(models.Model):
         return self.description
 
 
-class QualityAssessments(models.Model):
+class QualityAssessment(models.Model):
     user = models.ForeignKey(User, null=True)
     question = models.ForeignKey(QualityQuestions)
     answer = models.ForeignKey(QualityAnswers, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
 
-class DataExtractionFields(models.Model):
+class DataExtractionField(models.Model):
     BOOLEAN_FIELD = 'B'
     STRING_FIELD = 'S'
     FLOAT_FIELD = 'F'
@@ -279,7 +279,7 @@ class DataExtractionFields(models.Model):
         return self.field_type in (self.SELECT_ONE_FIELD, self.SELECT_MANY_FIELD)
 
 
-class DataExtractionLookups(models.Model):
+class DataExtractionLookup(models.Model):
     field = models.ForeignKey(DataExtractionFields)
     value = models.CharField(max_length=255)
 
@@ -292,7 +292,7 @@ class DataExtractionLookups(models.Model):
         return self.value
 
 
-class DataExtractions(models.Model):
+class DataExtraction(models.Model):
     user = models.ForeignKey(User, null=True)
     field = models.ForeignKey(DataExtractionFields)
     value = models.CharField(max_length=255, blank=True)

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionFields, DataExtractionLookups
+from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionField, DataExtractionLookup, QualityQuestion
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 
@@ -440,10 +440,9 @@ def remove_criteria(request):
 @author_required
 @login_required
 def add_quality_assessment_question(request):
-    try:
-        return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
+    quality_question = QualityQuestion()
+    context = RequestContext(request, {'quality_question': quality_question})
+    return render_to_response('planning/partial_quality_assessment_question_form.html', context)
 
 @ajax_required
 @author_required
@@ -481,8 +480,8 @@ def remove_quality_assessment_question(request):
 @author_required
 @login_required
 def add_new_data_extraction_field(request):
-    field = DataExtractionFields()
-    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
+    field = DataExtractionField()
+    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionField.FIELD_TYPES})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
 @ajax_required
@@ -490,8 +489,8 @@ def add_new_data_extraction_field(request):
 @login_required
 def edit_data_extraction_field(request):
     field_id = request.GET['field-id']
-    field = DataExtractionFields.objects.get(pk=field_id)
-    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionFields.FIELD_TYPES})
+    field = DataExtractionField.objects.get(pk=field_id)
+    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionField.FIELD_TYPES})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
 @ajax_required
@@ -514,9 +513,9 @@ def save_data_extraction_field(request):
         review = Review.objects.get(pk=review_id)
 
         if field_id == 'None':
-            field = DataExtractionFields(review=review)
+            field = DataExtractionField(review=review)
         else:
-            field = DataExtractionFields.objects.get(pk=field_id)
+            field = DataExtractionField.objects.get(pk=field_id)
 
         field.description = description
         field.field_type = field_type
@@ -525,7 +524,7 @@ def save_data_extraction_field(request):
         if field.is_select_field():
             for value in lookup_values:
                 if value:
-                    lookup_value, created = DataExtractionLookups.objects.get_or_create(field=field, value=value)
+                    lookup_value, created = DataExtractionLookup.objects.get_or_create(field=field, value=value)
 
             for select_value in field.get_select_values():
                 if select_value.value not in lookup_values:
@@ -545,7 +544,7 @@ def save_data_extraction_field(request):
 def remove_data_extraction_field(request):
     try:
         field_id = request.GET['field-id']
-        field = DataExtractionFields.objects.get(pk=field_id)
+        field = DataExtractionField.objects.get(pk=field_id)
         select_values = field.get_select_values()
         for select_value in select_values:
             select_value.delete()
