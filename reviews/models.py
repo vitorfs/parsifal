@@ -104,6 +104,9 @@ class Review(models.Model):
     def get_quality_assessment_questions(self):
         return QualityQuestion.objects.filter(review__id=self.id)
 
+    def get_quality_assessment_answers(self):
+        return QualityAnswer.objects.filter(review__id=self.id)
+
 
 class Question(models.Model):
     MAIN = 'M'

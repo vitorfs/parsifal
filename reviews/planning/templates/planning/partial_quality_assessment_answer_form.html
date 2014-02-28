@@ -1,0 +1,12 @@
+<tr oid="{{ quality_answer.id }}" csrf-token="{{csrf_token}}">
+  <td>
+    <input type="text" maxlength="255" id="quality-answer-description" value="{{ quality_answer.description }}" class="input-block">
+  </td>
+  <td>
+    <input type="text" maxlength="10" id="quality-answer-weight" value="{{ quality_answer.weight|default_if_none:'' }}">
+  </td>
+  <td>
+    <button type="button" class="btn btn-small btn-success" id="btn-save-quality-answer">save</button>
+    <button type="button" class="btn btn-small btn-warning" id="btn-cancel-quality-answer">cancel</button>
+  </td>
+</tr>

@@ -180,42 +180,21 @@
       </tbody>
     </table>
 
-    <h3>Possible Answers</h3>
-    <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link">(Add Suggested Answers)</button></p>
+    <h3>Answers</h3>
+    <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <!--button type="button" class="btn btn-small btn-link">(Add Suggested Answers)</button--></p>
     <button type="button" class="btn btn-small" id="btn-add-quality-answer">Add Answer</button>
-    <table class="table" style="width: auto;">
+    <table class="table" id="tbl-quality-answers">
       <thead>
         <tr>
-          <th>Description</th>
-          <th>Weight</th>
+          <th style="width:200px">Description</th>
+          <th style="width:200px">Weight</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Yes</td>
-          <td>1.0</td>
-          <td>
-            <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</button>
-          </td>
-        </tr>
-        <tr>
-          <td>Partially</td>
-          <td>0.5</td>
-          <td>
-            <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</button>
-          </td>
-        </tr>
-        <tr>
-          <td>No</td>
-          <td>0.0</td>
-          <td>
-            <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-            <button type="button" class="btn btn-warning btn-small btn-quality-answer">remove</button>
-          </td>
-        </tr>
+        {% for quality_answer in review.get_quality_assessment_answers %}
+          {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
+        {% endfor %}
       </tbody>
     </table>
   </section>

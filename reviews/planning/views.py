@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionField, DataExtractionLookup, QualityQuestion
+from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionField, DataExtractionLookup, QualityQuestion, QualityAnswer
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 
@@ -440,18 +440,24 @@ def remove_criteria(request):
 @author_required
 @login_required
 def add_quality_assessment_question(request):
-    quality_question = QualityQuestion()
-    context = RequestContext(request, {'quality_question': quality_question})
-    return render_to_response('planning/partial_quality_assessment_question_form.html', context)
+    try:
+        quality_question = QualityQuestion()
+        context = RequestContext(request, {'quality_question': quality_question})
+        return render_to_response('planning/partial_quality_assessment_question_form.html', context)
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
 @login_required
 def edit_quality_assessment_question(request):
-    quality_question_id = request.GET['quality-question-id']
-    quality_question = QualityQuestion.objects.get(pk=quality_question_id)
-    context = RequestContext(request, {'quality_question': quality_question})
-    return render_to_response('planning/partial_quality_assessment_question_form.html', context)
+    try:
+        quality_question_id = request.GET['quality-question-id']
+        quality_question = QualityQuestion.objects.get(pk=quality_question_id)
+        context = RequestContext(request, {'quality_question': quality_question})
+        return render_to_response('planning/partial_quality_assessment_question_form.html', context)
+    except:
+        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
@@ -494,7 +500,9 @@ def remove_quality_assessment_question(request):
 @login_required
 def add_quality_assessment_answer(request):
     try:
-        return HttpResponse()
+        quality_answer = QualityAnswer()
+        context = RequestContext(request, {'quality_answer': quality_answer})
+        return render_to_response('planning/partial_quality_assessment_answer_form.html', context)
     except:
         return HttpResponseBadRequest()
 
@@ -503,7 +511,10 @@ def add_quality_assessment_answer(request):
 @login_required        
 def edit_quality_assessment_answer(request):
     try:
-        return HttpResponse()
+        quality_answer_id = request.GET['quality-answer-id']
+        quality_answer = QualityAnswer.objects.get(pk=quality_answer_id)
+        context = RequestContext(request, {'quality_answer': quality_answer})
+        return render_to_response('planning/partial_quality_assessment_answer_form.html', context)
     except:
         return HttpResponseBadRequest()
 
@@ -512,7 +523,30 @@ def edit_quality_assessment_answer(request):
 @login_required        
 def save_quality_assessment_answer(request):
     try:
-        return HttpResponse()
+        description = request.POST['description']
+        weight = request.POST['weight']
+        review_id = request.POST['review-id']
+        quality_answer_id = request.POST['quality-answer-id']
+
+        weight = weight.replace(',', '.')
+        try:
+            weight = float(weight)
+        except:
+            weight = 0.0
+
+        review = Review.objects.get(pk=review_id)
+
+        if quality_answer_id == 'None':
+            quality_answer = QualityAnswer(review=review)
+        else:
+            quality_answer = QualityAnswer.objects.get(pk=quality_answer_id)
+
+        quality_answer.description = description
+        quality_answer.weight = weight
+        quality_answer.save()
+        
+        context = RequestContext(request, {'quality_answer': quality_answer})
+        return render_to_response('planning/partial_quality_assessment_answer.html', context)
     except:
         return HttpResponseBadRequest()
 
@@ -521,6 +555,9 @@ def save_quality_assessment_answer(request):
 @login_required        
 def remove_quality_assessment_answer(request):
     try:
+        quality_answer_id = request.GET['quality-answer-id']
+        quality_answer = QualityAnswer.objects.get(pk=quality_answer_id)
+        quality_answer.delete()
         return HttpResponse()
     except:
         return HttpResponseBadRequest()

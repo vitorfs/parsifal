@@ -69,8 +69,13 @@ div[class^="criteria-container"] select {
   font-size: 1em;
 }
 
+#tbl-data-extraction tbody tr td ul {
+  margin: 0;
+}
+
 #tbl-data-extraction tbody tr td ul li {
   font-size: 1em;
+  list-style: none;
 }
 
 .no-select-field p, .select-field p {
@@ -84,5 +89,13 @@ div[class^="criteria-container"] select {
 }
 
 #tbl-quality-questions input {
+  font-size: 1em;
+}
+
+#tbl-quality-answers {
+  width: auto;
+}
+
+#tbl-quality-answers input {
   font-size: 1em;
 }
