@@ -34,8 +34,8 @@ $(function () {
     IS_ADDING_NEW_FIELD = false;
     $(this).closest("tr").fadeOut(400, function () {
       $(this).remove();
-      $("tr.hidden-for-edition").show();
-      $("tr.hidden-for-edition").removeClass("hidden-for-edition");
+      $("tr.data-extraction-field-hidden-for-edition").show();
+      $("tr.data-extraction-field-hidden-for-edition").removeClass("data-extraction-field-hidden-for-edition");
     });
   });
 
@@ -115,7 +115,7 @@ $(function () {
       success: function (data) {
         $(row).hide();
         $(row).after(data);
-        $(row).addClass("hidden-for-edition");
+        $(row).addClass("data-extraction-field-hidden-for-edition");
       }
     });
   });

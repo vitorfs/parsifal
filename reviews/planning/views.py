@@ -458,7 +458,22 @@ def edit_quality_assessment_question(request):
 @login_required
 def save_quality_assessment_question(request):
     try:
-        return HttpResponse()
+        description = request.POST['description']
+        review_id = request.POST['review-id']
+        quality_question_id = request.POST['quality-question-id']
+
+        review = Review.objects.get(pk=review_id)
+
+        if quality_question_id == 'None':
+            quality_question = QualityQuestion(review=review)
+        else:
+            quality_question = QualityQuestion.objects.get(pk=quality_question_id)
+
+        quality_question.description = description
+        quality_question.save()
+        
+        context = RequestContext(request, {'quality_question': quality_question})
+        return render_to_response('planning/partial_quality_assessment_question.html', context)
     except:
         return HttpResponseBadRequest()
 
