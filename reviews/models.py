@@ -99,7 +99,7 @@ class Review(models.Model):
         return Article.objects.filter(review__id=self.id, source__id=source_id)
 
     def get_data_extraction_fields(self):
-        return DataExtractionFields.objects.filter(review__id=self.id)
+        return DataExtractionField.objects.filter(review__id=self.id)
 
 
 class Question(models.Model):
