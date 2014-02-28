@@ -156,7 +156,7 @@ def article_details(request):
     article = Article.objects.get(pk=article_id)
     status = Article.ARTICLE_STATUS
     context = RequestContext(request, {'article': article, 'status': status,})
-    return render_to_response('conducting/conducting_article_details.html', context)
+    return render_to_response('conducting/partial_conducting_article_details.html', context)
 
 @ajax_required
 @author_required
