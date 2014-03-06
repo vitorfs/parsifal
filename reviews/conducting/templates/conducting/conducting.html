@@ -10,15 +10,23 @@
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="conducting" %}
-  
+
   <ul class="tab" id="conducting-tab">
-    <li class="active"><a href="#">Search String</a></li>
-    <li><a href="#">Study Selection</a></li>
-    <li><a href="#">Quality Assessment</a></li>
-    <li><a href="#">Data Extraction</a></li>
+    <li{% if tab == 'search_string' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:search_string' %}">Search String</a></li>
+    <li{% if tab == 'study_selection' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:study_selection' %}">Study Selection</a></li>
+    <li{% if tab == 'quality_assessment' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:quality_assessment' %}">Quality Assessment</a></li>
+    <li{% if tab == 'data_extraction' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:data_extraction' %}">Data Extraction</a></li>
   </ul>
 
   <div id="tab-contents">
-    {% include "conducting/conducting_search_string.html" with review=review %}
+    {% if tab == 'search_string'%}
+      {% include "conducting/conducting_search_string.html" with review=review %}
+    {% elif tab == 'study_selection' %}
+      {% include "conducting/conducting_study_selection.html" with review=review %}
+    {% elif tab == 'quality_assessment' %}
+      {% include "conducting/conducting_quality_assessment.html" with review=review %}
+    {% elif tab == 'data_extraction' %}
+      {% include "conducting/conducting_data_extraction.html" with review=review %}
+    {% endif %}
   </div>
 {% endblock content %}
