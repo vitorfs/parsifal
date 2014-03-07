@@ -1,4 +1,11 @@
-<section id="sources" class="clearfix">
+{% extends 'conducting/conducting.html' %}
+
+{% block conducting_head_extra %}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_study_selection.js"></script>
+{% endblock conducting_head_extra %}
+
+{% block tab_content %}
+  {% include "conducting/conducting_header.html" with active_tab="studies" %}
   <h2>Study Selection</h2>
   <div class="modal" id="modal-article">
     <div class="modal-header">
@@ -40,5 +47,4 @@
   {% else %}
     <p>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
   {% endif %}
-</section>
-<script type="text/javascript" src="{{ STATIC_URL }}js/conducting_study_selection.js"></script>
+{% endblock tab_content %}

@@ -33,7 +33,3 @@ div.source-buttons {
 .source-articles table.table tbody tr.active:hover {
   background: rgba(149, 163, 142, .4);
 }
-
-#tab-contents {
-  margin-top: 30px;
-}

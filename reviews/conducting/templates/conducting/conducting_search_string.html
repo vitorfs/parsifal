@@ -1,4 +1,11 @@
-<section id="generic-search-string" class="clearfix">
+{% extends 'conducting/conducting.html' %}
+
+{% block conducting_head_extra %}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_search_string.js"></script>
+{% endblock conducting_head_extra %}
+
+{% block tab_content %}
+  {% include "conducting/conducting_header.html" with active_tab="search" %}
   <h2>Generic Search String</h2>
   <form class="form-block form-normal">
     {% csrf_token %}
@@ -14,5 +21,4 @@
       <span class="form-status-message pull-left"></span>
     </div>
   </form>
-</section>
-<script type="text/javascript" src="{{ STATIC_URL }}js/conducting_search_string.js"></script>
+{% endblock tab_content %}

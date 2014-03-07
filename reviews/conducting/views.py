@@ -14,14 +14,31 @@ from utils.viewhelper import Table
 
 @login_required
 def conducting(request, username, review_name):
-    try:
-        tab = request.GET['tab']
-    except Exception, e:
-        tab = 'search_string'
-
+    return search_string(request, username, review_name)
+    
+@login_required
+def search_string(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review, 'tab': tab,})
-    return render_to_response('conducting/conducting.html', context)
+    context = RequestContext(request, {'review': review})
+    return render_to_response('conducting/conducting_search_string.html', context)
+
+@login_required
+def study_selection(request, username, review_name):
+    review = Review.objects.get(name=review_name, author__username=username)
+    context = RequestContext(request, {'review': review})
+    return render_to_response('conducting/conducting_study_selection.html', context)
+
+@login_required
+def quality_assessment(request, username, review_name):
+    review = Review.objects.get(name=review_name, author__username=username)
+    context = RequestContext(request, {'review': review})
+    return render_to_response('conducting/conducting_quality_assessment.html', context)
+
+@login_required
+def data_extraction(request, username, review_name):
+    review = Review.objects.get(name=review_name, author__username=username)
+    context = RequestContext(request, {'review': review})
+    return render_to_response('conducting/conducting_data_extraction.html', context)
 
 def extract_keyword_to_search_string(term_list, query_list, keywords):
     for keyword in term_list:
@@ -176,35 +193,3 @@ def save_article_details(request):
         return HttpResponse()
     except:
         return HttpResponseBadRequest()
-
-@ajax_required
-@author_required
-@login_required
-def search_string(request):
-    review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
-    context = RequestContext(request, {'review': review})
-    return render_to_response('conducting/conducting_search_string.html', context)
-
-@ajax_required
-@author_required
-@login_required
-def study_selection(request):
-    review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
-    context = RequestContext(request, {'review': review})
-    return render_to_response('conducting/conducting_study_selection.html', context)
-
-@ajax_required
-@author_required
-@login_required
-def quality_assessment(request):
-    context = RequestContext(request)
-    return render_to_response('conducting/conducting_quality_assessment.html', context)
-
-@ajax_required
-@author_required
-@login_required
-def data_extraction(request):
-    context = RequestContext(request)
-    return render_to_response('conducting/conducting_data_extraction.html', context)

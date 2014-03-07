@@ -6,27 +6,14 @@
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
   <link href="{{ STATIC_URL }}css/conducting.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/conducting.js"></script>
+  {% block conducting_head_extra %}
+  {% endblock conducting_head_extra %}
 {% endblock head_extra %}
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="conducting" %}
 
-  <ul class="tab" id="conducting-tab">
-    <li{% if tab == 'search_string' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:search_string' %}">Search String</a></li>
-    <li{% if tab == 'study_selection' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:study_selection' %}">Study Selection</a></li>
-    <li{% if tab == 'quality_assessment' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:quality_assessment' %}">Quality Assessment</a></li>
-    <li{% if tab == 'data_extraction' %} class="active"{% endif %}><a href="{% url 'reviews:conducting:data_extraction' %}">Data Extraction</a></li>
-  </ul>
+  {% block tab_content %}
+  {% endblock tab_content %}
 
-  <div id="tab-contents">
-    {% if tab == 'search_string'%}
-      {% include "conducting/conducting_search_string.html" with review=review %}
-    {% elif tab == 'study_selection' %}
-      {% include "conducting/conducting_study_selection.html" with review=review %}
-    {% elif tab == 'quality_assessment' %}
-      {% include "conducting/conducting_quality_assessment.html" with review=review %}
-    {% elif tab == 'data_extraction' %}
-      {% include "conducting/conducting_data_extraction.html" with review=review %}
-    {% endif %}
-  </div>
 {% endblock content %}

@@ -1,3 +1,9 @@
-<section id="data-extraction" class="clearfix">
+{% extends 'conducting/conducting.html' %}
+
+{% block conducting_head_extra %}
+{% endblock conducting_head_extra %}
+
+{% block tab_content %}
+  {% include "conducting/conducting_header.html" with active_tab="extraction" %}
   <h2>Data Extraction</h2>
-</section>
+{% endblock tab_content %}
