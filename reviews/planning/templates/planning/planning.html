@@ -140,32 +140,38 @@
   <section id="selection-section" class="clearfix">
     <h2>Selection Criteria</h2>
     <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
-    <div class="criteria-container-left">
-      <h3>Inclusion Criteria:</h3>
-      <input type="text" id="input-inclusion" maxlength="200">
-      <select multiple="multiple" size="6" id="inclusion-criteria">
-        {% for criteria in review.get_inclusion_criterias %}
-          <option value="{{ criteria.id }}">{{ criteria.description }}</option>
-        {% endfor %}
-      </select>
-      <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
+    <div class="clearfix">
+      <div class="criteria-container-left">
+        <h3>Inclusion Criteria:</h3>
+        <input type="text" id="input-inclusion" maxlength="200">
+        <select multiple="multiple" size="6" id="inclusion-criteria">
+          {% for criteria in review.get_inclusion_criterias %}
+            <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+          {% endfor %}
+        </select>
+        <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
+      </div>
+      <div class="criteria-container-right">
+        <h3>Exclusion Criteria:</h3>
+        <input type="text" id="input-exclusion" maxlength="200">
+        <select multiple="multiple" size="6" id="exclusion-criteria">
+          {% for criteria in review.get_exclusion_criterias %}
+            <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+          {% endfor %}
+        </select>
+        <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
+      </div>
     </div>
-    <div class="criteria-container-right">
-      <h3>Exclusion Criteria:</h3>
-      <input type="text" id="input-exclusion" maxlength="200">
-      <select multiple="multiple" size="6" id="exclusion-criteria">
-        {% for criteria in review.get_exclusion_criterias %}
-          <option value="{{ criteria.id }}">{{ criteria.description }}</option>
-        {% endfor %}
-      </select>
-      <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
+    <div class="authors-assignment clearfix">
+      <h3>Study selection strategy:</h3>
+      <p><input type="radio" name="study-selection-strategy"> Everyone will work together on the same form</p>
+      <p><input type="radio" name="study-selection-strategy"> Create separate form for each author so we can compare the results later</p>
     </div>
   </section>
   <hr>
   <section id="quality-assessment-section" class="clearfix">
     <h2>Quality Assessment Checklist</h2>
     <p style="margin-bottom: 20px">The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
-
     <h3>Questions</h3>
     <button type="button" class="btn btn-small" id="btn-add-quality-question">Add Question</button>
     <table class="table" id="tbl-quality-questions">
@@ -181,7 +187,6 @@
         {% endfor %}
       </tbody>
     </table>
-
     <h3>Answers</h3>
     <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <!--button type="button" class="btn btn-small btn-link">(Add Suggested Answers)</button--></p>
     <button type="button" class="btn btn-small" id="btn-add-quality-answer">Add Answer</button>
@@ -199,6 +204,11 @@
         {% endfor %}
       </tbody>
     </table>
+    <div class="authors-assignment clearfix">
+      <h3>Quality assessment strategy:</h3>
+      <p><input type="radio" name="quality-assessment-strategy"> Everyone will work together on the same quality assessment checklist</p>
+      <p><input type="radio" name="quality-assessment-strategy"> Create a separate quality assessment checklist for each author so we can compare the results later</p>
+    </div>
   </section>
   <hr>
   <section id="data-extraction-section" class="clearfix">
@@ -219,5 +229,10 @@
         {% endfor %}
       </tbody>
     </table>
+    <div class="authors-assignment clearfix">
+      <h3>Data extraction strategy:</h3>
+      <p><input type="radio" name="data-extraction-strategy"> Everyone will work together on the same data extraction form</p>
+      <p><input type="radio" name="data-extraction-strategy"> Create a separate data extraction form for each author so we can compare the results later</p>
+    </div>
   </section>
 {% endblock content %}

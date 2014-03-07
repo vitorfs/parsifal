@@ -99,3 +99,7 @@ div[class^="criteria-container"] select {
 #tbl-quality-answers input {
   font-size: 1em;
 }
+
+.authors-assignment {
+  margin-top: 20px;
+}
