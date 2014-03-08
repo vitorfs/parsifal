@@ -31,7 +31,16 @@ def study_selection(request, username, review_name):
 @login_required
 def quality_assessment(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review})
+
+    selected_studies = review.get_source_articles()
+    quality_questions = review.get_quality_assessment_questions()
+    quality_answers = review.get_quality_assessment_answers()    
+
+    context = RequestContext(request, {'review': review, 
+        'selected_studies': selected_studies,
+        'quality_questions': quality_questions,
+        'quality_answers': quality_answers,
+    })
     return render_to_response('conducting/conducting_quality_assessment.html', context)
 
 @login_required

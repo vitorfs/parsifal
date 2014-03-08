@@ -84,7 +84,7 @@ div[class^="criteria-container"] select {
 }
 
 #tbl-quality-questions {
-  width: auto; 
+  width: 600px; 
   margin-bottom: 30px;
 }
 

@@ -95,8 +95,11 @@ class Review(models.Model):
             search_string = SearchSession(review=self)
         return search_string
 
-    def get_source_articles(self, source_id):
-        return Article.objects.filter(review__id=self.id, source__id=source_id)
+    def get_source_articles(self, source_id=None):
+        if source_id is None:
+            return Article.objects.filter(review__id=self.id)
+        else:
+            return Article.objects.filter(review__id=self.id, source__id=source_id)
 
     def get_data_extraction_fields(self):
         return DataExtractionField.objects.filter(review__id=self.id)

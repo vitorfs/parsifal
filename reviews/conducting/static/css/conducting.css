@@ -33,3 +33,11 @@ div.source-buttons {
 .source-articles table.table tbody tr.active:hover {
   background: rgba(149, 163, 142, .4);
 }
+
+table tbody tr td select {
+  font-size: 1em;
+}
+
+table tbody tr td input {
+  font-size: 1em;
+}

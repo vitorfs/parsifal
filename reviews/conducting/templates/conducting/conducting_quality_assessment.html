@@ -6,4 +6,32 @@
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="quality" %}
   <h2>Quality Assessment</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Study Title</th>
+        {% for question in quality_questions %}
+          <th>{{ question.description }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for study in selected_studies %}
+        <tr>
+          <td>{{ study.title }}</td>
+          {% for question in quality_questions %}
+            <td>
+              <select>
+                <option>Select...</option>
+                {% for answer in quality_answers %}
+                  <option value="{{ answer.id }}">{{ answer.description }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock tab_content %}
