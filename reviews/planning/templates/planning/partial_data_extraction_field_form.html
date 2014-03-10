@@ -1,11 +1,11 @@
-<tr oid="{{ field.id }}" csrf-token="{{csrf_token}}">
+<tr oid="{{ field.id|default:'None' }}" csrf-token="{{csrf_token}}">
   <td>
     <input type="text" class="input-block" id="data-extraction-field-description" maxlength="255" value="{{ field.description }}">
   </td>
   <td>
     <select id="data-extraction-field-type">
       <option value="">Select...</option>
-      {% for field_type in data_extraction_field_types %}
+      {% for field_type in field.FIELD_TYPES %}
         <option value="{{ field_type.0 }}" {% if field.field_type == field_type.0 %} selected{% endif %}>{{ field_type.1 }}</option>
       {% endfor %}
     </select>

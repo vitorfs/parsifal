@@ -14,7 +14,8 @@ from parsifal.decorators import ajax_required
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review })
+    empty_field = DataExtractionField()
+    context = RequestContext(request, {'review': review, 'empty_field': empty_field})
     return render_to_response('planning/planning.html', context)
 
 
@@ -572,7 +573,7 @@ def remove_quality_assessment_answer(request):
 @login_required
 def add_new_data_extraction_field(request):
     field = DataExtractionField()
-    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionField.FIELD_TYPES})
+    context = RequestContext(request, {'field': field})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
 @ajax_required
@@ -581,7 +582,7 @@ def add_new_data_extraction_field(request):
 def edit_data_extraction_field(request):
     field_id = request.GET['field-id']
     field = DataExtractionField.objects.get(pk=field_id)
-    context = RequestContext(request, {'field': field, 'data_extraction_field_types': DataExtractionField.FIELD_TYPES})
+    context = RequestContext(request, {'field': field})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
 @ajax_required

@@ -227,5 +227,9 @@ $(function () {
       }
     });
   });
+
+  $("#add-suggested-answers").click(function () {
+    alert('');
+  });
   
 });

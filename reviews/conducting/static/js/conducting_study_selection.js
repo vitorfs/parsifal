@@ -24,10 +24,12 @@ $(function () {
     });
   };
 
-  $("ul#source-tab li:eq(0)").addClass("active");
-  var div = $("div.source-tab-content div.articles:eq(0)");
-  $(div).show();
-  $(div).loadArticles();
+  if($("ul#source-tab li.active").length == 0) {
+    $("ul#source-tab li:eq(0)").addClass("active");
+    var div = $("div.source-tab-content div.articles:eq(0)");
+    $(div).show();
+    $(div).loadArticles();
+  }
 
   $("#source-tab a").click(function () {
     var tab_id = $(this).attr("href");

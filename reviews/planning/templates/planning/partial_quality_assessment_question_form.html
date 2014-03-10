@@ -1,4 +1,4 @@
-<tr oid="{{ quality_question.id }}" csrf-token="{{csrf_token}}">
+<tr oid="{{ quality_question.id|default:'None' }}" csrf-token="{{csrf_token}}">
   <td>
     <input type="text" maxlength="255" id="quality-question-description" value="{{ quality_question.description }}" class="input-block">
   </td>

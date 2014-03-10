@@ -25,7 +25,12 @@ def search_string(request, username, review_name):
 @login_required
 def study_selection(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review})
+    try:
+        active_tab = int(request.GET['source'])
+    except Exception, e:
+        active_tab = -1
+
+    context = RequestContext(request, {'review': review, 'active_tab': active_tab})
     return render_to_response('conducting/conducting_study_selection.html', context)
 
 @login_required
@@ -159,7 +164,7 @@ def import_bibtex(request):
     for article in articles:
         print article
         article.save()
-    return redirect('/' + review.author.username + '/' + review.name + '/conducting/?tab=study_selection')
+    return redirect('/' + review.author.username + '/' + review.name + '/conducting/studies/?source=' + source_id)
 
 @ajax_required
 @author_required

@@ -21,10 +21,11 @@
       <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
     </div>
   </div>
+
   {% if review.sources.all %}
     <ul class="tab" id="source-tab">
       {% for source in review.sources.all %}
-        <li><a href="#tab{{ source.id }}">{{ source.name }}</a></li>
+        <li{% if source.id == active_tab %} class="active"{% endif %}><a href="#tab{{ source.id }}">{{ source.name }}</a></li>
       {% endfor %}
     </ul>
     <div class="source-tab-content">

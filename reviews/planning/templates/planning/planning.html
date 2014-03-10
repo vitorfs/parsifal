@@ -162,11 +162,11 @@
         <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
       </div>
     </div>
-    <div class="authors-assignment clearfix">
+    <!--div class="authors-assignment clearfix">
       <h3>Study selection strategy:</h3>
       <p><input type="radio" name="study-selection-strategy"> Everyone will work together on the same form</p>
       <p><input type="radio" name="study-selection-strategy"> Create separate form for each author so we can compare the results later</p>
-    </div>
+    </div-->
   </section>
   <hr>
   <section id="quality-assessment-section" class="clearfix">
@@ -182,13 +182,17 @@
         </tr>
       </thead>
       <tbody>
-        {% for quality_question in review.get_quality_assessment_questions %}
-          {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
-        {% endfor %}
+        {% if review.get_quality_assessment_questions %}
+          {% for quality_question in review.get_quality_assessment_questions %}
+            {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
+          {% endfor %}
+        {% else %}
+          {% include "planning/partial_quality_assessment_question_form.html" %}
+        {% endif %}
       </tbody>
     </table>
     <h3>Answers</h3>
-    <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <!--button type="button" class="btn btn-small btn-link">(Add Suggested Answers)</button--></p>
+    <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></p>
     <button type="button" class="btn btn-small" id="btn-add-quality-answer">Add Answer</button>
     <table class="table" id="tbl-quality-answers">
       <thead>
@@ -199,16 +203,20 @@
         </tr>
       </thead>
       <tbody>
-        {% for quality_answer in review.get_quality_assessment_answers %}
-          {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
-        {% endfor %}
+        {% if review.get_quality_assessment_answers %}
+          {% for quality_answer in review.get_quality_assessment_answers %}
+            {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
+          {% endfor %}
+        {% else %}
+          {% include "planning/partial_quality_assessment_answer_form.html" %}
+        {% endif %}
       </tbody>
     </table>
-    <div class="authors-assignment clearfix">
+    <!--div class="authors-assignment clearfix">
       <h3>Quality assessment strategy:</h3>
       <p><input type="radio" name="quality-assessment-strategy"> Everyone will work together on the same quality assessment checklist</p>
       <p><input type="radio" name="quality-assessment-strategy"> Create a separate quality assessment checklist for each author so we can compare the results later</p>
-    </div>
+    </div-->
   </section>
   <hr>
   <section id="data-extraction-section" class="clearfix">
@@ -224,15 +232,19 @@
         </tr>
       </thead>
       <tbody>
-        {% for field in review.get_data_extraction_fields %}
-          {% include "planning/partial_data_extraction_field.html" with field=field %}
-        {% endfor %}
+        {% if review.get_data_extraction_fields %}
+          {% for field in review.get_data_extraction_fields %}
+            {% include "planning/partial_data_extraction_field.html" with field=field %}
+          {% endfor %}
+        {% else %}
+          {% include "planning/partial_data_extraction_field_form.html" with field=empty_field %}
+        {% endif %}
       </tbody>
     </table>
-    <div class="authors-assignment clearfix">
+    <!--div class="authors-assignment clearfix">
       <h3>Data extraction strategy:</h3>
       <p><input type="radio" name="data-extraction-strategy"> Everyone will work together on the same data extraction form</p>
       <p><input type="radio" name="data-extraction-strategy"> Create a separate data extraction form for each author so we can compare the results later</p>
-    </div>
+    </div-->
   </section>
 {% endblock content %}

@@ -31,7 +31,14 @@ class Review(models.Model):
     REVIEW_STATUS = (
         (UNPUBLISHED, 'Unpublished'),
         (PUBLISHED, 'Published'),
-    )
+        )
+
+    SINGLE_FORM = 'S'
+    MULTIPLE_FORMS = 'M'
+    CONDUCTING_STRATEGY = (
+        (SINGLE_FORM, 'Single Form'),
+        (MULTIPLE_FORMS, 'Multiple Forms'),
+        )
 
     name = models.SlugField(max_length=255)
     title = models.CharField(max_length=255)
@@ -43,8 +50,10 @@ class Review(models.Model):
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
     co_authors = models.ManyToManyField(User, related_name="co_authors")
-    quality_assessment_assignment = models.ManyToManyField(User, related_name="quality_assessment_assignment")
-    data_extraction_assignment = models.ManyToManyField(User, related_name="data_extraction_assignment")
+    quality_assessment_minimum_score = models.FloatField(null=True)
+    study_selection_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
+    quality_assessment_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
+    data_extraction_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
 
     class Meta:
         verbose_name = "Review"
@@ -117,7 +126,7 @@ class Question(models.Model):
     QUESTION_TYPES = (
         (MAIN, 'Main'),
         (SECONDARY, 'Secondary'),
-    )
+        )
 
     review = models.ForeignKey(Review)
     question = models.CharField(max_length=500)
@@ -141,7 +150,7 @@ class SelectionCriteria(models.Model):
     SELECTION_TYPES = (
         (INCLUSION, 'Inclusion'),
         (EXCLUSION, 'Exclusion'),
-    )
+        )
 
     review = models.ForeignKey(Review)
     criteria_type = models.CharField(max_length=1, choices=SELECTION_TYPES)
@@ -174,9 +183,9 @@ class Article(models.Model):
     REJECTED = 'R'
     ACCEPTED = 'A'
     ARTICLE_STATUS = (
-            (UNCLASSIFIED, 'Unclassified'),
-            (REJECTED, 'Rejected'),
-            (ACCEPTED, 'Accepted'),
+        (UNCLASSIFIED, 'Unclassified'),
+        (REJECTED, 'Rejected'),
+        (ACCEPTED, 'Accepted'),
         )
 
     review = models.ForeignKey(Review)
@@ -269,13 +278,13 @@ class DataExtractionField(models.Model):
     SELECT_ONE_FIELD = 'O'
     SELECT_MANY_FIELD = 'M'
     FIELD_TYPES = (
-            (BOOLEAN_FIELD, 'Boolean Field'),
-            (STRING_FIELD, 'String Field'),
-            (FLOAT_FIELD, 'Float Field'),
-            (INTEGER_FIELD, 'Integer Field'),
-            (DATE_FIELD, 'Date Field'),
-            (SELECT_ONE_FIELD, 'Select One Field'),
-            (SELECT_MANY_FIELD, 'Select Many Field'),
+        (BOOLEAN_FIELD, 'Boolean Field'),
+        (STRING_FIELD, 'String Field'),
+        (FLOAT_FIELD, 'Float Field'),
+        (INTEGER_FIELD, 'Integer Field'),
+        (DATE_FIELD, 'Date Field'),
+        (SELECT_ONE_FIELD, 'Select One Field'),
+        (SELECT_MANY_FIELD, 'Select Many Field'),
         )
 
     review = models.ForeignKey(Review)
