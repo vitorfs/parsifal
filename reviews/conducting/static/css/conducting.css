@@ -41,3 +41,31 @@ table tbody tr td select {
 table tbody tr td input {
   font-size: 1em;
 }
+
+#conducting-tab {
+  margin-bottom: 20px;
+}
+
+#tbl-quality {
+  margin: 20px 0 30px;
+}
+
+#tbl-quality th {
+  text-align: center;
+  font-weight: 600;
+}
+
+#tbl-quality td, #tbl-quality th {
+  border: 1px solid #c2c2c2;
+}
+
+#tbl-quality td.answer {
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#tbl-quality td.selected-answer {
+  background: rgba(149, 163, 142, .6);
+  font-weight: 600;
+}

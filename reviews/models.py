@@ -235,6 +235,7 @@ class QualityAnswer(models.Model):
     class Meta:
         verbose_name = "Quality Assessment Answer"
         verbose_name_plural = "Quality Assessment Answers"
+        ordering = ("-weight",)
 
     def __unicode__(self):
         return self.description

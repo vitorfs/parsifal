@@ -7,31 +7,49 @@
   {% include "conducting/conducting_header.html" with active_tab="quality" %}
   <h2>Quality Assessment</h2>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Study Title</th>
-        {% for question in quality_questions %}
-          <th>{{ question.description }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for study in selected_studies %}
+  <ul class="nav nav-pills">
+    <li class="active"><a href="">Detailed</a></li>
+    <li><a href="">Summary</a></li>
+  </ul>
+
+  <script type="text/javascript">
+    $(function () {
+      $("td.answer").click(function () {
+        if ($(this).hasClass("selected-answer")) {
+          $(this).removeClass("selected-answer");
+        }
+        else {
+          $(this).siblings().removeClass("selected-answer");
+          $(this).addClass("selected-answer");
+        }
+      });
+    });
+  </script>
+
+  {% for study in selected_studies %}
+    <table class="table" id="tbl-quality">
+      <thead>
         <tr>
-          <td>{{ study.title }}</td>
-          {% for question in quality_questions %}
-            <td>
-              <select>
-                <option>Select...</option>
-                {% for answer in quality_answers %}
-                  <option value="{{ answer.id }}">{{ answer.description }}</option>
-                {% endfor %}
-              </select>
-            </td>
-          {% endfor %}
+          <th colspan="{{ quality_answers|length|add:'1' }}">{{ study.title }}</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th colspan="{{ quality_answers|length }}">Quality Score: <span class="score">0</span></th>
+        </tr>
+      </tfoot>
+      <tbody>
+        {% for question in quality_questions %}
+          <tr>
+            <td>{{ question.description }}</td>
+            {% for answer in quality_answers %}
+              <td class="answer" oid="{{ answer.id }}">{{ answer.description }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+
 {% endblock tab_content %}
