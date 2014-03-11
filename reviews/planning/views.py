@@ -583,9 +583,9 @@ def save_cutoff_score(request):
         review_id = request.GET['review-id']
         cutoff_score = request.GET['cutoff-score']
         review = Review.objects.get(pk=review_id)
-        review.quality_assessment_minimum_score = float(cutoff_score)
+        review.quality_assessment_cutoff_score = float(cutoff_score)
         review.save()
-        return HttpResponse('Cutoff Score saved successfully!')
+        return HttpResponse('Cutoff score saved successfully!')
     except:
         return HttpResponseBadRequest('Invalid value.')
 

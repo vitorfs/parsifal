@@ -50,7 +50,7 @@ class Review(models.Model):
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
     co_authors = models.ManyToManyField(User, related_name="co_authors")
-    quality_assessment_minimum_score = models.FloatField(null=True)
+    quality_assessment_cutoff_score = models.FloatField(default=0.0)
     study_selection_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
     quality_assessment_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
     data_extraction_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
@@ -272,6 +272,7 @@ class QualityQuestion(models.Model):
 
 class QualityAssessment(models.Model):
     user = models.ForeignKey(User, null=True)
+    article = models.ForeignKey(Article)
     question = models.ForeignKey(QualityQuestion)
     answer = models.ForeignKey(QualityAnswer, null=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -321,6 +322,7 @@ class DataExtractionLookup(models.Model):
 
 class DataExtraction(models.Model):
     user = models.ForeignKey(User, null=True)
+    article = models.ForeignKey(Article)
     field = models.ForeignKey(DataExtractionField)
     value = models.CharField(max_length=255, blank=True)
     date = models.DateTimeField(auto_now_add=True)

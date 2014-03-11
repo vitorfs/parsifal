@@ -207,3 +207,12 @@ def save_article_details(request):
         return HttpResponse()
     except:
         return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def save_quality_assessment(request):
+    try:
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()

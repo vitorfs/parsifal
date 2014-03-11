@@ -8,4 +8,5 @@ urlpatterns = patterns('reviews.conducting.views',
     url(r'^source_articles/$', 'source_articles', name='source_articles'),
     url(r'^article_details/$', 'article_details', name='article_details'),
     url(r'^save_article_details/$', 'save_article_details', name='save_article_details'),
+    url(r'^save_quality_assessment/$', 'save_quality_assessment', name='save_quality_assessment'),
 )

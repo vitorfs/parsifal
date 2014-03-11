@@ -1,6 +1,7 @@
 {% extends 'conducting/conducting.html' %}
 
 {% block conducting_head_extra %}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_quality_assessment.js"></script>
 {% endblock conducting_head_extra %}
 
 {% block tab_content %}
@@ -17,26 +18,12 @@
     <input type="checkbox"> All 
     <input type="checkbox"> Done 
     <input type="checkbox"> Pending
-    <input type="checkbox"> Score higher than 3.25
-    <input type="checkbox"> Score lower or equal to 3.25
+    <input type="checkbox"> Score higher than {{ review.quality_assessment_cutoff_score }}
+    <input type="checkbox"> Score lower or equal to {{ review.quality_assessment_cutoff_score }}
   </p>
 
-  <script type="text/javascript">
-    $(function () {
-      $("td.answer").click(function () {
-        if ($(this).hasClass("selected-answer")) {
-          $(this).removeClass("selected-answer");
-        }
-        else {
-          $(this).siblings().removeClass("selected-answer");
-          $(this).addClass("selected-answer");
-        }
-      });
-    });
-  </script>
-
   {% for study in selected_studies %}
-    <table class="table" id="tbl-quality">
+    <table class="table" id="tbl-quality" article-id="study.id">
       <thead>
         <tr>
           <th colspan="{{ quality_answers|length|add:'1' }}">{{ study.title }}</th>
@@ -50,10 +37,10 @@
       </tfoot>
       <tbody>
         {% for question in quality_questions %}
-          <tr>
+          <tr question-id="{{ question.id }}">
             <td>{{ question.description }}</td>
             {% for answer in quality_answers %}
-              <td class="answer" oid="{{ answer.id }}">{{ answer.description }}</td>
+              <td class="answer" answer-id="{{ answer.id }}">{{ answer.description }}</td>
             {% endfor %}
           </tr>
         {% endfor %}
