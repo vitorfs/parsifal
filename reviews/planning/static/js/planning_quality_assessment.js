@@ -1,3 +1,7 @@
+function update_max_score() {
+  var questions_count = $("#tbl-quality-questions tbody tr").length;
+}
+
 $(function () {
 
   //===========================================================================

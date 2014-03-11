@@ -24,13 +24,6 @@ $(function () {
     });
   };
 
-  if($("ul#source-tab li.active").length == 0) {
-    $("ul#source-tab li:eq(0)").addClass("active");
-    var div = $("div.source-tab-content div.articles:eq(0)");
-    $(div).show();
-    $(div).loadArticles();
-  }
-
   $("#source-tab a").click(function () {
     var tab_id = $(this).attr("href");
     $("div.source-tab-content div.articles").hide();
@@ -144,5 +137,20 @@ $(function () {
     $(tab_id).show();
     return false;
   });
-  
+
+  // On page load
+
+  if($("ul#source-tab li.active").length == 0) {
+    $("ul#source-tab li:eq(0)").addClass("active");
+    var div = $("div.source-tab-content div.articles:eq(0)");
+    $(div).show();
+    $(div).loadArticles();
+  }
+
+  else {
+    var tab_id = $("ul#source-tab li.active a").attr("href");
+    $(tab_id).show();
+    $(tab_id).loadArticles();
+  }
+
 });

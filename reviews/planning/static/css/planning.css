@@ -94,6 +94,7 @@ div[class^="criteria-container"] select {
 
 #tbl-quality-answers {
   width: auto;
+  margin-bottom: 30px;
 }
 
 #tbl-quality-answers input {
@@ -102,4 +103,13 @@ div[class^="criteria-container"] select {
 
 .authors-assignment {
   margin-top: 20px;
+}
+
+#tbl-cutoff-score {
+  width: auto;
+  border-top: 1px solid #AAAAAA;
+}
+
+#tbl-cutoff-score input {
+  font-size: 1em;
 }
