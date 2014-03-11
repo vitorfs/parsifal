@@ -218,13 +218,18 @@
       <tbody>
         <tr>
           <td><strong>Max Score</strong></td>
-          <td><input type="text" id="max-score" readonly></td>
-          <td></td>
+          <td><input type="text" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}"></td>
+          <td class="no-border" style="border-top: 1px solid #f6f6f6">
+            Calculated based on the number of questions and on the answer of greater weight
+          </td>
         </tr>
         <tr>
           <td><strong>Cutoff Score</strong></td>
-          <td><input type="text" id="cutoff-score"></td>
-          <td><button type="button" class="btn btn-success btn-small">save</button></td>
+          <td><input type="text" id="cutoff-score" value="{{ review.quality_assessment_minimum_score }}"></td>
+          <td class="no-border">
+            <button type="button" class="btn btn-success btn-small" id="save-cutoff-score">save</button>
+            <span class="form-status-message" style="font-size:1em"></span>
+          </td>
         </tr>
       </tbody>
     </table>

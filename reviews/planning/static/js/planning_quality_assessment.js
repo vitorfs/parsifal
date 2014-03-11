@@ -1,5 +1,16 @@
 function update_max_score() {
-  var questions_count = $("#tbl-quality-questions tbody tr").length;
+  $.ajax({
+    url: '/reviews/planning/calculate_max_score/',
+    data: {'review-id': $('#review-id').val()},
+    type: 'get',
+    cache: false,
+    success: function (data) {
+      $("#max-score").val(data);
+    },
+    error: function () {
+      $("#max-score").val("0.0");
+    }
+  });
 }
 
 $(function () {
@@ -70,6 +81,7 @@ $(function () {
           $(row).remove();
         }
         IS_ADDING_OR_EDITING_QUALITY_QUESTION = false;
+        update_max_score();
       }
     });
   });
@@ -111,6 +123,7 @@ $(function () {
       cache: false,
       success: function (data) {
         $(row).remove();
+        update_max_score();
       },
       error: function (jqXHR, textStatus, errorThrown) {
 
@@ -176,6 +189,7 @@ $(function () {
           $(row).remove();
         }
         IS_ADDING_OR_EDITING_QUALITY_ANSWER = false;
+        update_max_score();
       }
     });
   });
@@ -225,6 +239,7 @@ $(function () {
       cache: false,
       success: function (data) {
         $(row).remove();
+        update_max_score();
       },
       error: function (jqXHR, textStatus, errorThrown) {
 
@@ -233,7 +248,39 @@ $(function () {
   });
 
   $("#add-suggested-answers").click(function () {
-    alert('');
+    
+  });
+
+  $("#save-cutoff-score").click(function () {
+    var btn = $(this);
+    var review_id = $("#review-id").val();
+    var cutoff_score = $("#cutoff-score").val();
+
+    $.ajax({
+      url: '/reviews/planning/save_cutoff_score/',
+      data: {'review-id': review_id, 'cutoff-score': cutoff_score},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        var msg = btn.siblings('.form-status-message');
+        msg.removeClass("text-error").addClass("text-success");
+        msg.text(data);
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        var msg = btn.siblings('.form-status-message');
+        msg.removeClass("text-success").addClass("text-error");
+        msg.text(jqXHR.responseText);
+        msg.fadeIn();
+        window.setTimeout(function () {
+          msg.fadeOut();
+        }, 2000);
+      }
+    });
+
   });
   
 });

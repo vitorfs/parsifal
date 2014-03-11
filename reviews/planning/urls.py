@@ -30,4 +30,6 @@ urlpatterns = patterns('reviews.planning.views',
     url(r'^edit_data_extraction_field/$', 'edit_data_extraction_field', name='edit_data_extraction_field'),
     url(r'^save_data_extraction_field/$', 'save_data_extraction_field', name='save_data_extraction_field'),
     url(r'^remove_data_extraction_field/$', 'remove_data_extraction_field', name='remove_data_extraction_field'),
+    url(r'^calculate_max_score/$', 'calculate_max_score', name='calculate_max_score'),
+    url(r'^save_cutoff_score/$', 'save_cutoff_score', name='save_cutoff_score'),
 )

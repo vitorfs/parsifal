@@ -563,6 +563,32 @@ def remove_quality_assessment_answer(request):
     except:
         return HttpResponseBadRequest()
 
+@ajax_required
+@author_required
+@login_required
+def calculate_max_score(request):
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        max_score = review.calculate_quality_assessment_max_score()
+        return HttpResponse(max_score)
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def save_cutoff_score(request):
+    try:
+        review_id = request.GET['review-id']
+        cutoff_score = request.GET['cutoff-score']
+        review = Review.objects.get(pk=review_id)
+        review.quality_assessment_minimum_score = float(cutoff_score)
+        review.save()
+        return HttpResponse('Cutoff Score saved successfully!')
+    except:
+        return HttpResponseBadRequest('Invalid value.')
+
 
 ###############################################################################
 # DATA EXTRACTION FUNCTIONS 
