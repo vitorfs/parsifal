@@ -11,6 +11,7 @@ from parsifal.decorators import ajax_required
 from pybtex.database.input import bibtex
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
+from django.core.context_processors import csrf
 
 @login_required
 def conducting(request, username, review_name):
@@ -33,19 +34,54 @@ def study_selection(request, username, review_name):
     context = RequestContext(request, {'review': review, 'active_tab': active_tab})
     return render_to_response('conducting/conducting_study_selection.html', context)
 
+def build_quality_assessment_table(request, review):
+    selected_studies = review.get_source_articles()
+    quality_questions = review.get_quality_assessment_questions()
+    quality_answers = review.get_quality_assessment_answers()
+
+    if quality_questions and quality_answers:
+        str_table = ''
+        for study in selected_studies:
+            str_table += '''<table class="table" id="tbl-quality" article-id="''' + str(study.id) + '''" csrf-token="''' + unicode(csrf(request)['csrf_token']) +'''">
+                <thead>
+                <tr>
+                  <th colspan="'''+ str(quality_answers.count() + 1) + '''">''' + study.title + '''</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                  <th></th>
+                  <th colspan="'''+ str(quality_answers.count()) + '''">Quality Score: <span class="score">'''+ str(study.get_score()) + '''</span></th>
+                </tr>
+                </tfoot>
+                <tbody>'''
+            quality_assessment = study.get_quality_assesment()
+            for question in quality_questions:
+                str_table += '''<tr question-id="''' + str(question.id) + '''">
+                <td>''' + question.description + '''</td>'''
+                
+                try:
+                    question_answer = quality_assessment.filter(question__id=question.id).get()
+                except:
+                    question_answer = None
+
+                for answer in quality_answers:
+                    selected_answer = ''
+                    if question_answer is not None:
+                        if answer.id == question_answer.answer.id:
+                            selected_answer = ' selected-answer'
+                    str_table += '''<td class="answer'''+ selected_answer +'''" answer-id="''' + str(answer.id) + '''">''' + answer.description + '''</td>'''
+                str_table += '''</tr>'''
+            str_table += '''</tbody></table>'''
+        return str_table
+    else:
+        return '<h3>You may use the planning tab to create questions and answers to assess the quality of the selected studies.</h3>'
+
 @login_required
 def quality_assessment(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-
-    selected_studies = review.get_source_articles()
-    quality_questions = review.get_quality_assessment_questions()
-    quality_answers = review.get_quality_assessment_answers()    
-
-    context = RequestContext(request, {'review': review, 
-        'selected_studies': selected_studies,
-        'quality_questions': quality_questions,
-        'quality_answers': quality_answers,
-    })
+    quality_assessment_table = build_quality_assessment_table(request, review)
+    context = RequestContext(request, {'review': review, 'quality_assessment_table': quality_assessment_table})
     return render_to_response('conducting/conducting_quality_assessment.html', context)
 
 @login_required
@@ -229,4 +265,3 @@ def save_quality_assessment(request):
         return HttpResponse(article.get_score())
     except:
         return HttpResponseBadRequest()
-        
