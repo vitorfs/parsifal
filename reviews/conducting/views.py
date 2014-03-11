@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
-from reviews.models import Review, Source, Article, Question, Keyword
+from reviews.models import Review, Source, Article, Question, Keyword, QualityQuestion, QualityAnswer, QualityAssessment
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 from pybtex.database.input import bibtex
@@ -208,11 +208,25 @@ def save_article_details(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
 @author_required
 @login_required
 def save_quality_assessment(request):
     try:
-        return HttpResponse()
+        article_id = request.POST['article-id']
+        question_id = request.POST['question-id']
+        answer_id = request.POST['answer-id']
+
+        article = Article.objects.get(pk=article_id)
+        question = QualityQuestion.objects.get(pk=question_id)
+        answer = QualityAnswer.objects.get(pk=answer_id)
+
+        quality_assessment, created = QualityAssessment.objects.get_or_create(article=article, question=question)
+        quality_assessment.answer = answer
+        quality_assessment.save()
+
+        article = Article.objects.get(pk=article_id)
+
+        return HttpResponse(article.get_score())
     except:
         return HttpResponseBadRequest()
+        

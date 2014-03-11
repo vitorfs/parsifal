@@ -23,7 +23,7 @@
   </p>
 
   {% for study in selected_studies %}
-    <table class="table" id="tbl-quality" article-id="study.id">
+    <table class="table" id="tbl-quality" article-id="{{ study.id }}" csrf-token="{{ csrf_token }}">
       <thead>
         <tr>
           <th colspan="{{ quality_answers|length|add:'1' }}">{{ study.title }}</th>
@@ -32,7 +32,7 @@
       <tfoot>
         <tr>
           <th></th>
-          <th colspan="{{ quality_answers|length }}">Quality Score: <span class="score">0</span></th>
+          <th colspan="{{ quality_answers|length }}">Quality Score: <span class="score">{{ study.get_score }}</span></th>
         </tr>
       </tfoot>
       <tbody>

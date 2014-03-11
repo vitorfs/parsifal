@@ -220,6 +220,17 @@ class Article(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_score(self):
+        score = 0.0
+        quality_assessments = QualityAssessment.objects.filter(article__id=self.id)
+        for quality_assessment in quality_assessments:
+            score += quality_assessment.answer.weight
+        return score
+
+    def get_quality_assesment(self):
+        quality_assessments = QualityAssessment.objects.filter(article__id=self.id)
+        return quality_assessments
+
 
 class Keyword(models.Model):
     review = models.ForeignKey(Review)
@@ -277,6 +288,8 @@ class QualityAssessment(models.Model):
     answer = models.ForeignKey(QualityAnswer, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return str(self.article.id) + ' ' + str(self.question.id)
 
 class DataExtractionField(models.Model):
     BOOLEAN_FIELD = 'B'
