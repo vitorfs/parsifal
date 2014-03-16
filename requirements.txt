@@ -9,3 +9,4 @@ Unipath==1.0
 pybtex
 south==0.8.4
 pytz
+django-decouple
