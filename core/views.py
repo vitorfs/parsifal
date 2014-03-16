@@ -19,3 +19,11 @@ def about(request):
 def help(request):
     context = RequestContext(request)
     return render_to_response('core/help.html', context)
+
+def support(request):
+    context = RequestContext(request)
+    return render_to_response('core/support.html', context)
+
+def explore(request):
+    context = RequestContext(request)
+    return render_to_response('core/explore.html', context)
