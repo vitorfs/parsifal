@@ -31,3 +31,9 @@ class Entry(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def format_content(self):
+        formatted_content = ''
+        for content in self.content.split('\n'):
+            formatted_content += '<p>' + content + '</p>'
+        return formatted_content

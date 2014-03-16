@@ -17,7 +17,7 @@
           <li><a href="/{{ entry.created_by.username }}/">{{ entry.created_by.profile.get_screen_name }}</a></li>
         </ul>
         <div class="content">
-          <p>{{ entry.content }}</p>
+          {{ entry.format_content|safe }}
         </div>
       </article>
     {% endfor %}
