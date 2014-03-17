@@ -69,3 +69,21 @@ table tbody tr td input {
   background: rgba(149, 163, 142, .6);
   font-weight: 600;
 }
+
+tr.higher-than-cutoff {
+  background: rgba(147, 163, 146, .6);
+}
+
+span.higher-than-cutoff-label {
+  color: rgba(147, 163, 146, 1.0);
+  font-weight: 600;
+}
+
+tr.lower-than-cutoff {
+  background: rgba(118, 42, 36, .6);
+}
+
+span.lower-than-cutoff-label {
+  color: rgba(118, 42, 36, 1.0);
+  font-weight: 600;
+}

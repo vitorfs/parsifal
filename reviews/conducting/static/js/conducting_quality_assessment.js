@@ -1,5 +1,28 @@
 $(function () {
-  $("td.answer").click(function () {
+
+  $("#quality-menu li a").click(function () {
+    var a = $(this);
+    $.ajax({
+      url: $(a).attr("href"),
+      data: { 'review-id': $('#review-id').val() },
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $(".quality-container").loading();
+      },
+      success: function (data) {
+        $(".quality-container").html(data);
+      },
+      complete: function () {
+        $(".quality-container").stopLoading();
+        $("#quality-menu li").removeClass("active");
+        $(a).closest("li").addClass("active");
+      }
+    });
+    return false;
+  });
+
+  $(".quality-container").on("click", "td.answer", function () {
     if ($(this).hasClass("selected-answer")) {
       $(this).removeClass("selected-answer");
     }
@@ -13,6 +36,8 @@ $(function () {
       var tbl = $(this).closest("table");
       var td = $(this);
 
+      var old_text = $(td).text();
+
       $.ajax({
         url: '/reviews/conducting/save_quality_assessment/',
         data: {'review-id': review_id, 
@@ -23,21 +48,26 @@ $(function () {
         },
         type: 'post',
         cache: false,
+        beforeSend: function () {
+          $(td).text("Processing...");
+        },
         success: function (data) {
           $('.score', tbl).text(data);
           $(td).siblings().removeClass("selected-answer");
           $(td).addClass("selected-answer");
+        },
+        complete: function () {
+          $(td).text(old_text);
         }
       });
     }
   });
 
-  $("#all-filter").click(function () {
+  $(".quality-container").on("click", "#all-filter", function () {
     $(".quality-assessment table").show();
   });
 
-
-  $("#done-filter").click(function () {
+  $(".quality-container").on("click", "#done-filter", function () {
     var questions_count = parseInt($("#questions-count").val());
     $(".quality-assessment table").each(function () {
       if ($("td.selected-answer", this).length != questions_count) {
@@ -49,8 +79,7 @@ $(function () {
     });
   });
 
-
-  $("#pending-filter").click(function () {
+  $(".quality-container").on("click", "#pending-filter", function () {
     var questions_count = parseInt($("#questions-count").val());
     $(".quality-assessment table").each(function () {
       if ($("td.selected-answer", this).length != questions_count) {
@@ -62,8 +91,7 @@ $(function () {
     });
   });
 
-
-  $("#score-higher-filter").click(function () {
+  $(".quality-container").on("click", "#score-higher-filter", function () {
     var cutoff_score = parseFloat($("#cutoff-score").val());
     $(".quality-assessment table").each(function () {
       var score = parseFloat($("span.score", this).text());
@@ -76,7 +104,7 @@ $(function () {
     });
   });
 
-  $("#score-lower-filter").click(function () {
+  $(".quality-container").on("click", "#score-lower-filter", function () {
     var cutoff_score = parseFloat($("#cutoff-score").val());
     $(".quality-assessment table").each(function () {
       var score = parseFloat($("span.score", this).text());

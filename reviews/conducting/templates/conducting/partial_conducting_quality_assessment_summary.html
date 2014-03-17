@@ -1,0 +1,25 @@
+<p><span class="higher-than-cutoff-label">Green</span> means higher than cutoff score. <span class="lower-than-cutoff-label">Red</span> means lower or equal to the cutoff score.</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Quality Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in review.get_source_articles %}
+      {% if article.get_score > review.quality_assessment_cutoff_score %} 
+        <tr class="higher-than-cutoff">
+      {% else %}
+        <tr class="lower-than-cutoff">
+      {% endif%}
+        <td>{{ article.title }}</td>
+        <td>{{ article.get_score }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="2">You haven't imported any study yet. Please visit the Study Selection tab and import the references.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

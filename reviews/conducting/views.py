@@ -265,3 +265,28 @@ def save_quality_assessment(request):
         return HttpResponse(article.get_score())
     except:
         return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def quality_assessment_detailed(request):
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        quality_assessment_table = build_quality_assessment_table(request, review)
+        context = RequestContext(request, {'review': review, 'quality_assessment_table': quality_assessment_table})
+        return render_to_response('conducting/partial_conducting_quality_assessment_detailed.html', context)
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def quality_assessment_summary(request):
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        context = RequestContext(request, {'review': review, })
+        return render_to_response('conducting/partial_conducting_quality_assessment_summary.html', context)
+    except:
+        return HttpResponseBadRequest()
