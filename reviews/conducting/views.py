@@ -8,7 +8,7 @@ from django.template import RequestContext
 from reviews.models import Review, Source, Article, Question, Keyword, QualityQuestion, QualityAnswer, QualityAssessment
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
-from pybtex.database.input import bibtex
+from bibtexparser.bparser import BibTexParser
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
 from django.core.context_processors import csrf
@@ -190,19 +190,20 @@ def save_generic_search_string(request):
         return HttpResponseBadRequest()
 
 def bibtex_to_article_object(filename, review_id, source_id):
-    parser = bibtex.Parser()
-    bibdata = parser.parse_file(filename)
+    filehandler = open(filename, 'r')
+    parser = BibTexParser(filehandler)
+    record_list = parser.get_entry_list()
+
     articles = []
-    for bib_id in bibdata.entries:
-        b = bibdata.entries[bib_id].fields
+    for record in record_list:
         article = Article()
         try:
-            article.title = b["title"]
-            article.journal = b["journal"]
-            article.year = b["year"]
-            article.author = b["author"]
-            article.abstract = b["abstract"]
-            article.bibtex_key = bib_id
+            if 'id' in record: article.bibtex_key = record['id']
+            if 'title' in record: article.title = record['title']
+            if 'journal' in record: article.journal = record['journal']
+            if 'year' in record: article.year = record['year']
+            if 'author' in record: article.author = record['author']
+            if 'abstract' in record: article.abstract = record['abstract']
             article.review = Review(id=review_id)
             article.source = Source(id=source_id)
         except(KeyError):

@@ -60,7 +60,7 @@ $(function () {
     });
   };
 
-  $(".source-articles").on("click", "tr", function () {
+  $(".source-articles").on("click", "tbody tr", function () {
     $(".source-articles tbody tr").removeClass("active");
     $(this).addClass("active");
     $("#modal-article .modal-body").loadActiveArticle();
