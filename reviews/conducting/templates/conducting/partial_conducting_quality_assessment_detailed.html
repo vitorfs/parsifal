@@ -7,6 +7,8 @@
   <input type="radio" name="filter" id="score-lower-filter"> Score lower or equal to {{ review.quality_assessment_cutoff_score }}
 </p>
 
+<p>To answer the form you may click on the desired answer on the following tables.</p>
+
 <input type="hidden" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}">
 <input type="hidden" id="questions-count" value="{{ review.get_quality_assessment_questions|length }}">
 
