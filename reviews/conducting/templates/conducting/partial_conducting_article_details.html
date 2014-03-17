@@ -1,4 +1,3 @@
-<h2>{{ article.title }}</h2>
 <ul class="tab">
     <li class="active"><a href="#tab-details">Details</a></li>
     <li><a href="#tab-criteria">Criteria</a></li>
@@ -11,23 +10,49 @@
       <input type="hidden" name="review-id" value="{{ article.review.id }}">
       <input type="hidden" name="article-id" value="{{ article.id }}">
       <div class="form-row">
-        <h3>Authors</h3>
-        <input value="{{ article.author }}">
+        <h3>{{ form.title.label }}</h3>
+        {{ form.title }}
+        {{ form.title.errors }}
       </div>
       <div class="form-row">
-        <h3>Abstract</h3>
-        <textarea rows="5">{{ article.abstract }}</textarea>
+        <h3>{{ form.abstract.label }}</h3>
+        {{ form.abstract }}
+        {{ form.abstract.errors }}
       </div>
       <div class="form-row">
-        <h3>Journal</h3>
-        <input value="{{ article.journal }}">
+        <h3>{{ form.bibtex_key.label }}</h3>
+        {{ form.bibtex_key }}
+        {{ form.bibtex_key.errors }}
       </div>
       <div class="form-row">
-        <select class="pull-left" name="article-status">
-        {% for s in status %}
-          <option value="{{ s.0 }}" {% if article.status == s.0 %} selected {% endif %}>{{ s.1 }}</option>
-        {% endfor %}
-        </select>
+        <h3>{{ form.author.label }}</h3>
+        {{ form.author }}
+        {{ form.author.errors }}
+      </div>
+      <div class="form-row">
+        <h3>{{ form.journal.label }}</h3>
+        {{ form.journal }}
+        {{ form.journal.errors }}
+      </div>
+      <div class="form-row">
+        <h3>{{ form.year.label }}</h3>
+        {{ form.year }}
+        {{ form.year.errors }}
+      </div>
+      <div class="form-row">
+        <h3>{{ form.document_type.label }}</h3>
+        {{ form.document_type }}
+        {{ form.document_type.errors }}
+      </div>
+      <div class="form-row">
+        <h3>{{ form.pages.label }}</h3>
+        {{ form.pages }}
+        {{ form.pages.errors }}
+      </div>
+      <div class="form-row">
+        <h3>{{ form.volume.label }}</h3>
+        {{ form.volume }}
+        {{ form.volume.errors }}
       </div>
     </form>
   </div>

@@ -12,6 +12,7 @@ from bibtexparser.bparser import BibTexParser
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
 from django.core.context_processors import csrf
+from reviews.conducting.forms import ArticleForm
 
 @login_required
 def conducting(request, username, review_name):
@@ -204,9 +205,12 @@ def bibtex_to_article_object(filename, review_id, source_id):
             if 'year' in record: article.year = record['year']
             if 'author' in record: article.author = record['author']
             if 'abstract' in record: article.abstract = record['abstract']
+            if 'pages' in record: article.pages = record['pages']
+            if 'volume' in record: article.volume = record['volume']
+            if 'document_type' in record: article.document_type = record['document_type']
             article.review = Review(id=review_id)
             article.source = Source(id=source_id)
-        except(KeyError):
+        except:
             continue
         articles.append(article)
     return articles
@@ -224,7 +228,6 @@ def import_bibtex(request):
             destination.write(chunk)
     articles = bibtex_to_article_object(filename, review_id, source_id)
     for article in articles:
-        print article
         article.save()
     return redirect('/' + review.author.username + '/' + review.name + '/conducting/studies/?source=' + source_id)
 
@@ -253,7 +256,8 @@ def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
     status = Article.ARTICLE_STATUS
-    context = RequestContext(request, {'article': article, 'status': status,})
+    form = ArticleForm(instance=article)
+    context = RequestContext(request, {'article': article, 'status': status, 'form': form})
     return render_to_response('conducting/partial_conducting_article_details.html', context)
 
 @ajax_required
