@@ -71,7 +71,7 @@ table tbody tr td input {
 }
 
 tr.higher-than-cutoff {
-  background: rgba(147, 163, 146, .6);
+  background: rgba(147, 163, 146, .2);
 }
 
 span.higher-than-cutoff-label {
@@ -80,7 +80,7 @@ span.higher-than-cutoff-label {
 }
 
 tr.lower-than-cutoff {
-  background: rgba(118, 42, 36, .6);
+  background: rgba(118, 42, 36, .2);
 }
 
 span.lower-than-cutoff-label {

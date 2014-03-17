@@ -75,13 +75,38 @@ def build_quality_assessment_table(request, review):
             str_table += '''</tbody></table>'''
         return str_table
     else:
-        return '<h3>You may use the planning tab to create questions and answers to assess the quality of the selected studies.</h3>'
+        return ''
 
 @login_required
 def quality_assessment(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
+
+    add_sources = review.sources.count()
+    import_articles = review.get_source_articles().count()
+    select_articles = review.get_accepted_articles().count()
+    create_questions = review.get_quality_assessment_questions().count()
+    create_answers = review.get_quality_assessment_answers().count()
+
+    steps = {
+        'add_sources': add_sources,
+        'import_articles': import_articles,
+        'select_articles': select_articles,
+        'create_questions': create_questions,
+        'create_answers': create_answers
+    }
+
+    steps_messages = []
+
+    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
+    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
+    #if not select_articles: steps_messages.append('Classify the imported studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
+    if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+    if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+
+    finished_all_steps = len(steps_messages) == 0
+
     quality_assessment_table = build_quality_assessment_table(request, review)
-    context = RequestContext(request, {'review': review, 'quality_assessment_table': quality_assessment_table})
+    context = RequestContext(request, {'review': review, 'steps': steps, 'steps_messages': steps_messages, 'quality_assessment_table': quality_assessment_table, 'finished_all_steps': finished_all_steps})
     return render_to_response('conducting/conducting_quality_assessment.html', context)
 
 @login_required

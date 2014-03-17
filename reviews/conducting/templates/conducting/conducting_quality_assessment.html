@@ -8,13 +8,22 @@
   {% include "conducting/conducting_header.html" with active_tab="quality" %}
   <h2>Quality Assessment</h2>
 
-  <ul class="nav nav-pills" id="quality-menu">
-    <li class="active"><a href="{% url 'reviews:conducting:quality_assessment_detailed' %}">Detailed</a></li>
-    <li><a href="{% url 'reviews:conducting:quality_assessment_summary' %}">Summary</a></li>
-  </ul>
+  {% if finished_all_steps %}
+    <ul class="nav nav-pills" id="quality-menu">
+      <li class="active"><a href="{% url 'reviews:conducting:quality_assessment_detailed' %}">Detailed</a></li>
+      <li><a href="{% url 'reviews:conducting:quality_assessment_summary' %}">Summary</a></li>
+    </ul>
 
-  <div class="quality-container">
-    {% include "conducting/partial_conducting_quality_assessment_detailed.html" with review=review quality_assessment_table=quality_assessment_table %}
-  </div>
+    <div class="quality-container">
+      {% include "conducting/partial_conducting_quality_assessment_detailed.html" with review=review quality_assessment_table=quality_assessment_table %}
+    </div>
+  {% else %}
+    <p>There is a few steps you have to finish before assess the quality of the studies:</p>
+    <ul>
+      {% for message in steps_messages %}
+        <li>{{ message|safe }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
 {% endblock tab_content %}

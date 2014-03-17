@@ -110,6 +110,9 @@ class Review(models.Model):
         else:
             return Article.objects.filter(review__id=self.id, source__id=source_id)
 
+    def get_accepted_articles(self):
+        return Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
+
     def get_data_extraction_fields(self):
         return DataExtractionField.objects.filter(review__id=self.id)
 

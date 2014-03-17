@@ -23,10 +23,7 @@ $(function () {
   });
 
   $(".quality-container").on("click", "td.answer", function () {
-    if ($(this).hasClass("selected-answer")) {
-      $(this).removeClass("selected-answer");
-    }
-    else {
+    if (!$(this).hasClass("selected-answer")) {
       var answer_id = $(this).attr("answer-id");
       var question_id = $(this).closest("tr").attr("question-id");
       var article_id = $(this).closest("table").attr("article-id");
