@@ -214,10 +214,8 @@ class Article(models.Model):
     author = models.CharField(max_length=1000, blank=True)
     abstract = models.TextField(max_length=4000, blank=True)
     document_type = models.CharField(max_length=100, blank=True)
-    author_keywords = models.CharField(max_length=1000, blank=True)
-    note = models.CharField(max_length=1000, blank=True)
-    search_session = models.ForeignKey(SearchSession, null=True)
     status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
+    comments = models.TextField(max_length=4000, blank=True)
 
     class Meta:
         verbose_name = "Article"
