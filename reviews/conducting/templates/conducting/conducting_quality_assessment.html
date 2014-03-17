@@ -15,11 +15,11 @@
 
   <p>
     <strong>Show:</strong>
-    <input type="checkbox"> All 
-    <input type="checkbox"> Done 
-    <input type="checkbox"> Pending
-    <input type="checkbox"> Score higher than {{ review.quality_assessment_cutoff_score }}
-    <input type="checkbox"> Score lower or equal to {{ review.quality_assessment_cutoff_score }}
+    <input type="radio" name="filter" id="all-filter" checked> All 
+    <input type="radio" name="filter" id="done-filter"> Done 
+    <input type="radio" name="filter" id="pending-filter"> Pending
+    <input type="radio" name="filter" id="score-higher-filter"> Score higher than {{ review.quality_assessment_cutoff_score }}
+    <input type="radio" name="filter" id="score-lower-filter"> Score lower or equal to {{ review.quality_assessment_cutoff_score }}
   </p>
 
   <input type="hidden" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}">

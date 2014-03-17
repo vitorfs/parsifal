@@ -31,4 +31,62 @@ $(function () {
       });
     }
   });
+
+  $("#all-filter").click(function () {
+    $(".quality-assessment table").show();
+  });
+
+
+  $("#done-filter").click(function () {
+    var questions_count = parseInt($("#questions-count").val());
+    $(".quality-assessment table").each(function () {
+      if ($("td.selected-answer", this).length != questions_count) {
+        $(this).hide();
+      }
+      else {
+        $(this).show();
+      }
+    });
+  });
+
+
+  $("#pending-filter").click(function () {
+    var questions_count = parseInt($("#questions-count").val());
+    $(".quality-assessment table").each(function () {
+      if ($("td.selected-answer", this).length != questions_count) {
+        $(this).show();
+      }
+      else {
+        $(this).hide();
+      }
+    });
+  });
+
+
+  $("#score-higher-filter").click(function () {
+    var cutoff_score = parseFloat($("#cutoff-score").val());
+    $(".quality-assessment table").each(function () {
+      var score = parseFloat($("span.score", this).text());
+      if (score > cutoff_score) {
+        $(this).show();
+      }
+      else {
+        $(this).hide();
+      }
+    });
+  });
+
+  $("#score-lower-filter").click(function () {
+    var cutoff_score = parseFloat($("#cutoff-score").val());
+    $(".quality-assessment table").each(function () {
+      var score = parseFloat($("span.score", this).text());
+      if (score <= cutoff_score) {
+        $(this).show();
+      }
+      else {
+        $(this).hide();
+      }
+    });
+  });
+      
 });
