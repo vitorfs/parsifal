@@ -120,11 +120,14 @@ class Review(models.Model):
         return QualityAnswer.objects.filter(review__id=self.id)
 
     def calculate_quality_assessment_max_score(self):
-        questions_count = QualityQuestion.objects.filter(review__id=self.id).count()
-        higher_weight_answer = QualityAnswer.objects.filter(review__id=self.id).order_by('-weight')[:1].get()
-        if questions_count and higher_weight_answer:
-            return questions_count * higher_weight_answer.weight
-        else:
+        try:
+            questions_count = QualityQuestion.objects.filter(review__id=self.id).count()
+            higher_weight_answer = QualityAnswer.objects.filter(review__id=self.id).order_by('-weight')[:1].get()
+            if questions_count and higher_weight_answer:
+                return questions_count * higher_weight_answer.weight
+            else:
+                return 0.0
+        except:
             return 0.0
 
 

@@ -140,17 +140,19 @@ $(function () {
 
   // On page load
 
-  if($("ul#source-tab li.active").length == 0) {
-    $("ul#source-tab li:eq(0)").addClass("active");
-    var div = $("div.source-tab-content div.articles:eq(0)");
-    $(div).show();
-    $(div).loadArticles();
-  }
+  if ($("ul#source-tab li").length > 0) {
+    if($("ul#source-tab li.active").length == 0) {
+      $("ul#source-tab li:eq(0)").addClass("active");
+      var div = $("div.source-tab-content div.articles:eq(0)");
+      $(div).show();
+      $(div).loadArticles();
+    }
 
-  else {
-    var tab_id = $("ul#source-tab li.active a").attr("href");
-    $(tab_id).show();
-    $(tab_id).loadArticles();
+    else {
+      var tab_id = $("ul#source-tab li.active a").attr("href");
+      $(tab_id).show();
+      $(tab_id).loadArticles();
+    }
   }
 
 });
