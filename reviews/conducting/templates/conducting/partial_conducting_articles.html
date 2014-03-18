@@ -8,6 +8,17 @@
     </form>
     <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
     <button type="button" class="btn btn-add-manual btn-small">Add Manual</button>
+    {% if not source.id %}
+    <div class="studies-action">
+      <strong>Action:</strong>
+      <select>
+        <option>Select...</option>
+        <option>Remove selected</option>
+        <option>Mark as Accepted</option>
+        <option>Mark as Rejected</option>
+      </select>
+    </div>
+    {% endif %}
   </div>
   <div class="source-articles"></div>
 </div>

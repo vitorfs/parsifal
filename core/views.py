@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from reviews.models import Review
+from django.core.mail import send_mail
 
 def home(request):
     if request.user.is_authenticated():

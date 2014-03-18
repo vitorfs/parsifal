@@ -15,7 +15,9 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.parsif.al']
+
+ADMINS = ('Vitor Freitas', 'support@parsif.al')
 
 TIME_ZONE = 'America/Sao_Paulo'
 LANGUAGE_CODE = 'en-us'
@@ -78,3 +80,10 @@ INSTALLED_APPS = (
 )
 
 LOGIN_URL = '/signin/'
+
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+DEFAULT_FROM_EMAIL = 'Parsifal <no-reply@parsif.al>'

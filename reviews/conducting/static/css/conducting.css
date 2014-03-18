@@ -91,3 +91,15 @@ span.lower-than-cutoff-label {
 #modal-article .tab {
   margin-top: 10px;
 }
+
+.studies-action {
+  margin-top: 20px;
+}
+.studies-action strong {
+  font-size: 1.4em;
+}
+
+.studies-action select {
+  font-size: 1.4em;
+  margin-left: 10px;
+}
