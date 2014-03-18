@@ -1,0 +1,26 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th><input type="checkbox"></th>
+      <th>Bibtex Key</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Journal</th>
+      <th>Year</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for article in articles %}
+      <tr oid="{{ article.id }}">
+        <td><input type="checkbox"></td>
+        <td>{{ article.bibtex_key }}</td>
+        <td>{{ article.title }}</td>
+        <td>{{ article.autdor }}</td>
+        <td>{{ article.journal }}</td>
+        <td>{{ article.year }}</td>
+        <td>{{ article.status }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

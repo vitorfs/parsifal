@@ -247,14 +247,9 @@ def source_articles(request):
         articles = review.get_source_articles()
 
     if articles:
-        html_table = Table()\
-            .columns('bibtex_key', 'title', 'author', 'journal', 'year')\
-            .data(articles)\
-            .css_class('table')\
-            .build()
-        return HttpResponse(html_table)
+        return render(request, 'conducting/partial_conducting_articles_table.html', {'articles':articles})
     else:
-        return HttpResponse("<h3>You haven't imported any article so far.</h3>")
+        return HttpResponse('<h3>You haven\'t imported any article so far.</h3>')
 
 @ajax_required
 @author_required
