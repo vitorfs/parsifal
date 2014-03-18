@@ -17,7 +17,7 @@
         {% if page_user.get_full_name %}
           <li class="full-name">{{ page_user.get_full_name }}</li>
         {% endif %}
-        <li class="username">{{ page_user.username }}</li>
+        <li class="username">{{ page_user.username }} {% if page_user.is_staff %}<span class="label">STAFF</span>{% endif %}</li>
         <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
         {% if page_user.profile.url %}
           <li><a href="{{ page_user.profile.url }}">{{ page_user.profile.url }}</a></li>
