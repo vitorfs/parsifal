@@ -87,3 +87,7 @@ span.lower-than-cutoff-label {
   color: rgba(118, 42, 36, 1.0);
   font-weight: 600;
 }
+
+#modal-article .tab {
+  margin-top: 10px;
+}

@@ -111,7 +111,7 @@ $(function () {
     $("#modal-article .modal-body").loadActiveArticle();
   });
   
-  $("#btn-save-suggested-sources").click(function () {
+  $("#btn-save-article").click(function () {
     $.ajax({
       url: '/reviews/conducting/save_article_details/',
       cache: false,
@@ -121,12 +121,13 @@ $(function () {
 
       },
       success: function (data) {
-
+        
       },
       error: function () {
 
       }
     });
+
   });
 
   $("#modal-article").on("click", "ul.tab a", function () {
@@ -136,6 +137,12 @@ $(function () {
     $(this).closest("li").addClass("active");
     $(tab_id).show();
     return false;
+  });
+
+  $("#modal-article").on("change", "#id_status", function () {
+    if ($("#save-and-move-next").is(":checked")) {
+      // TODO
+    }
   });
 
   // On page load

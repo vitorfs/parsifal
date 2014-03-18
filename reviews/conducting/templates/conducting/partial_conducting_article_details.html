@@ -7,8 +7,12 @@
   <div id="tab-details">
     <form name="article-details" id="article-details" method="post" action="." class="form-block form-normal">
       {% csrf_token %}
-      <input type="hidden" name="review-id" value="{{ article.review.id }}">
-      <input type="hidden" name="article-id" value="{{ article.id }}">
+      {{ form.review }}
+      <div class="form-row">
+        <h3>{{ form.status.label }}</h3>
+        {{ form.status }}
+        {{ form.status.errors }}
+      </div>
       <div class="form-row">
         <h3>{{ form.title.label }}</h3>
         {{ form.title }}
@@ -57,9 +61,13 @@
     </form>
   </div>
   <div id="tab-criteria" class="hide">
-    <h3>Criteria</h3>
+    <div class="form-row">
+      <h3>Criteria</h3>
+    </div>
   </div>
   <div id="tab-comments" class="hide">
-    <h3>Comments</h3>
+    <div class="form-row">
+      <h3>Comments</h3>
+    </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.template import RequestContext
 from reviews.models import Review, Source, Article, Question, Keyword, QualityQuestion, QualityAnswer, QualityAssessment
 from reviews.decorators import main_author_required, author_required
@@ -255,24 +255,22 @@ def source_articles(request):
 def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
-    status = Article.ARTICLE_STATUS
-    form = ArticleForm(instance=article)
-    context = RequestContext(request, {'article': article, 'status': status, 'form': form})
+    form = ArticleForm(instance=article, initial={'review':article.review})
+    context = RequestContext(request, {'form': form})
     return render_to_response('conducting/partial_conducting_article_details.html', context)
 
-@ajax_required
-@author_required
-@login_required
+
 def save_article_details(request):
-    try:
-        article_id = request.POST['article-id']
-        article = Article.objects.get(pk=article_id)
-        status = request.POST['article-status']
-        article.status = status
-        article.save()
-        return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
+    #if request.method == 'POST':
+        #review_id = request.POST['review-id']
+        form = ArticleForm(request.POST)
+        if not form.is_valid():
+            return render(request, 'conducting/partial_conducting_article_details.html', {'form': form})
+        else:
+            form.save()
+            return HttpResponse()
+    #else:
+     #   return HttpResponseBadRequest()
 
 @author_required
 @login_required
