@@ -12,7 +12,6 @@ from bibtexparser.bparser import BibTexParser
 from django.conf import settings as django_settings
 from utils.viewhelper import Table
 from django.core.context_processors import csrf
-from reviews.conducting.forms import ArticleForm
 
 @login_required
 def conducting(request, username, review_name):
@@ -199,15 +198,15 @@ def bibtex_to_article_object(filename, review_id, source_id):
     for record in record_list:
         article = Article()
         try:
-            if 'id' in record: article.bibtex_key = record['id']
-            if 'title' in record: article.title = record['title']
-            if 'journal' in record: article.journal = record['journal']
-            if 'year' in record: article.year = record['year']
-            if 'author' in record: article.author = record['author']
-            if 'abstract' in record: article.abstract = record['abstract']
-            if 'pages' in record: article.pages = record['pages']
-            if 'volume' in record: article.volume = record['volume']
-            if 'document_type' in record: article.document_type = record['document_type']
+            if 'id' in record: article.bibtex_key = record['id'][:100]
+            if 'title' in record: article.title = record['title'][:1000]
+            if 'journal' in record: article.journal = record['journal'][:1000]
+            if 'year' in record: article.year = record['year'][:10]
+            if 'author' in record: article.author = record['author'][:1000]
+            if 'abstract' in record: article.abstract = record['abstract'][:4000]
+            if 'pages' in record: article.pages = record['pages'][:20]
+            if 'volume' in record: article.volume = record['volume'][:100]
+            if 'document_type' in record: article.document_type = record['document_type'][:100]
             article.review = Review(id=review_id)
             article.source = Source(id=source_id)
         except:
@@ -236,9 +235,17 @@ def import_bibtex(request):
 @login_required
 def source_articles(request):
     review_id = request.GET['review-id']
-    source_id = request.GET['source-id']
+    source_id = ''
+    if 'source-id' in request.GET: 
+        source_id = request.GET['source-id']
+    
     review = Review.objects.get(pk=review_id)
-    articles = review.get_source_articles(source_id)
+
+    if source_id:
+        articles = review.get_source_articles(source_id)
+    else:
+        articles = review.get_source_articles()
+
     if articles:
         html_table = Table()\
             .columns('bibtex_key', 'title', 'author', 'journal', 'year')\
@@ -255,22 +262,47 @@ def source_articles(request):
 def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
-    form = ArticleForm(instance=article, initial={'review':article.review})
-    context = RequestContext(request, {'form': form})
+    context = RequestContext(request, {'article': article})
     return render_to_response('conducting/partial_conducting_article_details.html', context)
 
-
+@ajax_required
+@author_required
+@login_required
 def save_article_details(request):
-    #if request.method == 'POST':
-        #review_id = request.POST['review-id']
-        form = ArticleForm(request.POST)
-        if not form.is_valid():
-            return render(request, 'conducting/partial_conducting_article_details.html', {'form': form})
-        else:
-            form.save()
+    if request.method == 'POST':
+        try:
+            article_id = request.POST['article-id']
+
+            if article_id != 'None':
+                article = Article.objects.get(pk=article_id)
+            else:
+                review_id = request.POST['review-id']
+                source_id = request.POST['source-id']
+                review = Review.objects.get(pk=review_id)
+                source = Source.objects.get(pk=source_id)
+                article = Article(review=review, source=source)
+
+            article.bibtex_key = request.POST['bibtex-key'][:100]
+            article.title = request.POST['title'][:1000]
+            article.author = request.POST['author'][:1000]
+            article.journal = request.POST['journal'][:1000]
+            article.year = request.POST['year'][:10]
+            article.pages = request.POST['pages'][:20]
+            article.volume = request.POST['volume'][:100]
+            article.author = request.POST['author'][:1000]
+            article.abstract = request.POST['abstract'][:4000]
+            article.document_type = request.POST['document-type'][:100]
+            status = request.POST['status'][:1]
+            if status in (Article.UNCLASSIFIED, Article.REJECTED, Article.ACCEPTED):
+                article.status = status
+
+            article.save()
+
             return HttpResponse()
-    #else:
-     #   return HttpResponseBadRequest()
+        except:
+            return HttpResponseBadRequest()
+    else:
+        return HttpResponseBadRequest()
 
 @author_required
 @login_required

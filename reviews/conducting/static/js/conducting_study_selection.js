@@ -7,9 +7,10 @@ $(function () {
 
   $.fn.loadArticles = function () {
     var div = $(this);
+    var source_id = $("input[name='source-id']", div).val();
     $.ajax({
       url: '/reviews/conducting/source_articles/',
-      data: { 'review-id': $("#review-id").val(), 'source-id': $("input[name='source-id']", div).val() },
+      data: { 'review-id': $("#review-id").val(), 'source-id': source_id },
       type: 'get',
       cache: false,
       beforeSend: function () {
@@ -110,8 +111,8 @@ $(function () {
     move(FORWARD);
     $("#modal-article .modal-body").loadActiveArticle();
   });
-  
-  $("#btn-save-article").click(function () {
+
+  function save_article() {
     $.ajax({
       url: '/reviews/conducting/save_article_details/',
       cache: false,
@@ -127,8 +128,9 @@ $(function () {
 
       }
     });
-
-  });
+  }
+  
+  $("#btn-save-article").click(save_article);
 
   $("#modal-article").on("click", "ul.tab a", function () {
     var tab_id = $(this).attr("href");
@@ -139,9 +141,11 @@ $(function () {
     return false;
   });
 
-  $("#modal-article").on("change", "#id_status", function () {
+  $("#modal-article").on("change", "#status", function () {
     if ($("#save-and-move-next").is(":checked")) {
-      // TODO
+      save_article();
+      move(FORWARD);
+      $("#modal-article .modal-body").loadActiveArticle();
     }
   });
 
