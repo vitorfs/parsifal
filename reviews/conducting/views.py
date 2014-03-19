@@ -240,21 +240,17 @@ def import_bibtex(request):
 @login_required
 def source_articles(request):
     review_id = request.GET['review-id']
-    source_id = ''
-    if 'source-id' in request.GET: 
-        source_id = request.GET['source-id']
-    
-    review = Review.objects.get(pk=review_id)
+    source_id = source_id = request.GET['source-id']
 
-    if source_id:
+    review = Review.objects.get(pk=review_id)
+    if source_id != 'None':
         articles = review.get_source_articles(source_id)
+        source = Source.objects.get(pk=source_id)
     else:
         articles = review.get_source_articles()
-
-    if articles:
-        return render(request, 'conducting/partial_conducting_articles_table.html', {'articles':articles})
-    else:
-        return HttpResponse('<h3>You haven\'t imported any article so far.</h3>')
+        source = Source()
+        
+    return render(request, 'conducting/partial_conducting_articles.html', {'review': review, 'source': source, 'articles': articles})
 
 @ajax_required
 @author_required

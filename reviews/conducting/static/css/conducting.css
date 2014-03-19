@@ -17,8 +17,20 @@ div.source-buttons {
   height: 400px;
 }
 
-.source-articles {
+.source-tab-content {
   min-height: 300px;
+}
+
+.source-articles table.table tbody tr.no-data td {
+  font-size: 1.4em;
+  text-align: center;
+  height: 50px;
+  vertical-align: middle;
+}
+
+.source-articles table.table tbody tr.no-data:hover {
+  background: none;
+  cursor: default;
 }
 
 .source-articles table.table tbody tr:hover {
