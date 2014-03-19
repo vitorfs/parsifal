@@ -1,3 +1,13 @@
+function isScrolledIntoView(elem) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
 $(function () {
 
   $(".source-tab-content").on("click", ".btn-import-bibtex", function () {
@@ -104,7 +114,10 @@ $(function () {
   });
 
   function move(step) {
+    var row = $(".source-articles tbody tr.active");
+
     var active = $(".source-articles tbody tr.active").index();
+    var old_active = active;
     var size = $(".source-articles tbody tr").size();
     var next;
     do {
@@ -113,6 +126,13 @@ $(function () {
     } while($(next).is(":hidden"));
     $(".source-articles tbody tr").removeClass("active");
     $(next).addClass("active");
+
+    if (!isScrolledIntoView(row)) {
+      if (active > old_active)
+        $('html, body').animate({scrollTop: $(row).offset().top}, 2000);
+      else
+        $('html, body').animate({scrollTop: $(row).offset().top - $(window).height()}, 2000);
+    }
   }
 
   $("#btn-previous").click(function () {
@@ -125,7 +145,7 @@ $(function () {
     $("#modal-article .modal-body").loadActiveArticle();
   });
 
-  function save_article() {
+  function save_article(move_next) {
     var article_id = $("#modal-article #article-id").val();
     var row = $(".source-articles table tbody tr[oid=" + article_id + "]");
     $.ajax({
@@ -135,26 +155,33 @@ $(function () {
       type: 'post',
       beforeSend: function () {
         $("#btn-save-article").prop("disabled", true);
-        $("#btn-save-article").text('Saving...');
       },
       success: function (data) {
         $(row).replaceWith(data);
-        if ($("#save-and-move-next").is(":checked")) {
+        if (move_next) {
           move(FORWARD);
           $("#modal-article .modal-body").loadActiveArticle();
         }
+        else {
+          $("#modal-article .alert span").text("Article successfully saved!");
+          $("#modal-article .alert").removeClass("article-error").addClass("alert-success");
+          $("#modal-article .alert").show();
+        }
       },
       error: function () {
-
+          $("#modal-article .alert span").text("Something went wrong! That's all we know :(");
+          $("#modal-article .alert").removeClass("article-success").addClass("alert-error");
+          $("#modal-article .alert").show();
       },
       complete: function () {
         $("#btn-save-article").prop("disabled", false);
-        $("#btn-save-article").text('Save');
       }
     });
   }
   
-  $("#btn-save-article").click(save_article);
+  $("#btn-save-article").click(function () {
+    save_article(false);
+  });
 
   $("#modal-article").on("click", "ul.tab a", function () {
     var tab_id = $(this).attr("href");
@@ -167,7 +194,7 @@ $(function () {
 
   $("#modal-article").on("change", "#status", function () {
     if ($("#save-and-move-next").is(":checked")) {
-      save_article();
+      save_article(true);
     }
   });
 

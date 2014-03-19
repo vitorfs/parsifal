@@ -120,3 +120,11 @@ span.lower-than-cutoff-label {
   font-size: 1.4em;
   margin-left: 10px;
 }
+
+#modal-article .form-block {
+  margin-top: 0;
+}
+
+#modal-article .alert {
+  margin: 0;
+}
