@@ -23,10 +23,10 @@
     </div>
     <p>
       <strong>Show:</strong> 
-      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="all-filter" checked> All
-      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="unclassified-filter"> Unclassified
-      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="accepted-filter"> Accepted
-      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="rejected-filter"> Rejected
+      <input type="radio" name="filter" value="ALL" checked> All
+      <input type="radio" name="filter" value="U"> Unclassified
+      <input type="radio" name="filter" value="A"> Accepted
+      <input type="radio" name="filter" value="R"> Rejected
     </p>
   </div>
   <div class="source-articles">
@@ -44,7 +44,7 @@
       </thead>
       <tbody>
         {% for article in articles %}
-          <tr oid="{{ article.id }}">
+          <tr oid="{{ article.id }}" article-status="{{ article.status }}">
             <td><input type="checkbox"></td>
             <td>{{ article.bibtex_key }}</td>
             <td>{{ article.title }}</td>

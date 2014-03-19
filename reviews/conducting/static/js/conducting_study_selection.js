@@ -93,9 +93,13 @@ $(function () {
   function move(step) {
     var active = $(".source-articles tbody tr.active").index();
     var size = $(".source-articles tbody tr").size();
-    active = (active + step) % size;
+    var next;
+    do {
+      active = (active + step) % size;  
+      next = $(".source-articles tbody tr:eq("+active+")");
+    } while($(next).is(":hidden"));
     $(".source-articles tbody tr").removeClass("active");
-    $(".source-articles tbody tr:eq("+active+")").addClass("active");
+    $(next).addClass("active");
   }
 
   $("#btn-previous").click(function () {
@@ -143,6 +147,20 @@ $(function () {
       move(FORWARD);
       $("#modal-article .modal-body").loadActiveArticle();
     }
+  });
+
+  function filter_articles(status) {
+    if (status == "ALL") {
+      $(".source-articles table tbody tr").show();
+    }
+    else {
+      $(".source-articles table tbody tr").hide();
+      $(".source-articles table tbody tr[article-status=" + status + "]").show();
+    }
+  }
+
+  $(".source-tab-content").on("click", "input[name=filter]", function () {
+    filter_articles($(this).val());
   });
 
   // On page load
