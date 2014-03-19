@@ -240,7 +240,7 @@ def import_bibtex(request):
 @login_required
 def source_articles(request):
     review_id = request.GET['review-id']
-    source_id = source_id = request.GET['source-id']
+    source_id = request.GET['source-id']
 
     review = Review.objects.get(pk=review_id)
     if source_id != 'None':
@@ -270,7 +270,7 @@ def build_article_table_row(article):
     else:
         span_status += '<span>'
     span_status += article.get_status_display() + '</span>'
-    row = u'''<tr oid="{0}" article-status="{1}" class="active">
+    row = u'''<tr oid="{0}" article-status="{1}">
             <td><input type="checkbox"></td>
             <td>{2}</td>
             <td>{3}</td>
@@ -412,3 +412,28 @@ def multiple_articles_action_reject(request):
         return HttpResponse()
     except:
         return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def articles_order_by(request):
+    #try:
+        review_id = request.GET['review-id']
+        source_id = request.GET['source-id']
+        column = request.GET['column']
+
+        review = Review.objects.get(pk=review_id)
+        if source_id != 'None':
+            articles = review.get_source_articles(source_id).order_by(column)
+            source = Source.objects.get(pk=source_id)
+        else:
+            articles = review.get_source_articles().order_by(column)
+            source = Source()
+
+        str_return = u'<tbody>'
+        for article in articles:
+            str_return += build_article_table_row(article)
+        str_return += '</tbody>'
+        return HttpResponse(str_return)
+    #except:
+     #   return HttpResponseBadRequest()

@@ -219,6 +219,10 @@ a.close:hover {
   width: 100%;
 }
 
+.loading tr {
+  border: none!important;
+}
+
 .loading tr td {
   vertical-align: middle;
   text-align: center;

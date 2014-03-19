@@ -147,7 +147,6 @@ $(function () {
 
   function save_article(move_next) {
     var article_id = $("#modal-article #article-id").val();
-    var row = $(".source-articles table tbody tr[oid=" + article_id + "]");
     $.ajax({
       url: '/reviews/conducting/save_article_details/',
       cache: false,
@@ -157,7 +156,8 @@ $(function () {
         $("#btn-save-article").prop("disabled", true);
       },
       success: function (data) {
-        $(row).replaceWith(data);
+        $(".source-articles table tbody tr[oid=" + article_id + "]").replaceWith(data);
+        $(".source-articles table tbody tr[oid=" + article_id + "]").addClass("active");
         if (move_next) {
           move(FORWARD);
           $("#modal-article .modal-body").loadActiveArticle();
@@ -297,6 +297,37 @@ $(function () {
         }
       }
     }
+  });
+
+  $(".source-tab-content").on("click", ".source-articles table thead tr th a", function () {
+    var a = $(this);
+    var column = $(a).attr("col");
+    $.ajax({
+      url: '/reviews/conducting/articles/order_by/',
+      data: {
+        'review-id': $("#review-id").val(),
+        'source-id': $(".source-tab-content form input[name=source-id]").val(),
+        'column': column
+      },
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $(".source-articles table tbody").replaceWith("<tbody><tr><td colspan='7'></td></tr></tbody>");
+        $(".source-articles table tbody tr td").loading();
+      },
+      success: function (data) {
+        $(".source-articles table tbody").replaceWith(data);
+      },
+      complete: function () {
+        if ($(a).attr("col").indexOf("-") == 0) {
+          $(a).attr("col", $(a).attr("col").replace("-", ""));
+        }
+        else {
+          $(a).attr("col", "-" + $(a).attr("col"));
+        }
+      }
+    });
+    return false;
   });
 
   // On page load
