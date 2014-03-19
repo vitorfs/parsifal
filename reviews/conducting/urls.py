@@ -11,4 +11,7 @@ urlpatterns = patterns('reviews.conducting.views',
     url(r'^save_quality_assessment/$', 'save_quality_assessment', name='save_quality_assessment'),
     url(r'^quality_assessment_detailed/$', 'quality_assessment_detailed', name='quality_assessment_detailed'),
     url(r'^quality_assessment_summary/$', 'quality_assessment_summary', name='quality_assessment_summary'),
+    url(r'^multiple_articles_action/remove/$', 'multiple_articles_action_remove', name='multiple_articles_action_remove'),
+    url(r'^multiple_articles_action/accept/$', 'multiple_articles_action_accept', name='multiple_articles_action_accept'),
+    url(r'^multiple_articles_action/reject/$', 'multiple_articles_action_reject', name='multiple_articles_action_reject'),
 )

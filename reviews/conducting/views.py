@@ -293,7 +293,7 @@ def build_article_table_row(article):
 @login_required
 def save_article_details(request):
     if request.method == 'POST':
-        #try:
+        try:
             article_id = request.POST['article-id']
 
             if article_id != 'None':
@@ -322,8 +322,8 @@ def save_article_details(request):
             article.save()
 
             return HttpResponse(build_article_table_row(article))
-        #except:
-            #return HttpResponseBadRequest()
+        except:
+            return HttpResponseBadRequest()
     else:
         return HttpResponseBadRequest()
 
@@ -371,5 +371,44 @@ def quality_assessment_summary(request):
         review = Review.objects.get(pk=review_id)
         context = RequestContext(request, {'review': review, })
         return render_to_response('conducting/partial_conducting_quality_assessment_summary.html', context)
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def multiple_articles_action_remove(request):
+    try:
+        article_ids = request.POST['article_ids']
+        article_ids_list = article_ids.split('|')
+        if article_ids_list:
+            Article.objects.filter(pk__in=article_ids_list).delete()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def multiple_articles_action_accept(request):
+    try:
+        article_ids = request.POST['article_ids']
+        article_ids_list = article_ids.split('|')
+        if article_ids_list:
+            Article.objects.filter(pk__in=article_ids_list).update(status=Article.ACCEPTED)
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def multiple_articles_action_reject(request):
+    try:
+        article_ids = request.POST['article_ids']
+        article_ids_list = article_ids.split('|')
+        if article_ids_list:
+            Article.objects.filter(pk__in=article_ids_list).update(status=Article.REJECTED)
+        return HttpResponse()
     except:
         return HttpResponseBadRequest()

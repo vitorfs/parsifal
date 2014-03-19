@@ -118,7 +118,7 @@ span.lower-than-cutoff-label {
 
 .studies-action select {
   font-size: 1.4em;
-  margin-left: 10px;
+  margin: 0 10px;
 }
 
 #modal-article .form-block {

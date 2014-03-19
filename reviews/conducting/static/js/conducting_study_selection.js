@@ -225,6 +225,80 @@ $(function () {
     }
   });
 
+  function multiple_articles_actions(article_ids, action) {
+    var review_id = $("#review-id").val();
+    var csrf_token = $(".source-tab-content table").attr("csrf-token");
+
+    $.ajax({
+      url: '/reviews/conducting/multiple_articles_action/' + action + '/',
+      data: {
+        'review-id': review_id,
+        'article_ids': article_ids,
+        'csrfmiddlewaretoken': csrf_token
+      },
+      type: 'post',
+      cache: false,
+      beforeSend: function () {
+        $(".go-button").prop("disabled", true);
+        $(".go-button").text("Processing...");
+      },
+      success: function (data) {
+        switch (action) {
+          case "remove":
+            $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
+              $(this).closest("tr").remove();
+            });
+            break;
+          case "accept":
+            $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
+              var row = $(this).closest("tr");
+              $(row).attr("article-status", "A");
+              $("span", row).replaceWith("<span class='label label-success'>Accepted</span>");
+            });
+            break;
+          case "reject":
+            $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
+              var row = $(this).closest("tr");
+              $(row).attr("article-status", "R");
+              $("span", row).replaceWith("<span class='label label-warning'>Rejected</span>");
+            });
+            break;
+        }
+      },
+      error: function () {
+
+      },
+      complete: function () {
+        $(".go-button").prop("disabled", false);
+        $(".go-button").text("Go");
+      }
+    });
+  }
+
+  $(".source-tab-content").on("click", ".go-button", function () {
+    var article_ids = '';
+    var action = $(".source-tab-content .select-action").val();
+    if (action) {
+      $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
+        article_ids += $(this).val() + "|";
+      });
+      if (article_ids) {
+        article_ids = article_ids.substring(0, article_ids.length - 1);
+        switch (action) {
+          case "remove":
+            multiple_articles_actions(article_ids, action);
+            break;
+          case "accept":
+            multiple_articles_actions(article_ids, action);
+            break;
+          case "reject":
+            multiple_articles_actions(article_ids, action);
+            break;
+        }
+      }
+    }
+  });
+
   // On page load
 
   if ($("ul#source-tab li").length > 0) {
