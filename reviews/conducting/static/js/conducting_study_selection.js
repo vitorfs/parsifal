@@ -126,19 +126,30 @@ $(function () {
   });
 
   function save_article() {
+    var article_id = $("#modal-article #article-id").val();
+    var row = $(".source-articles table tbody tr[oid=" + article_id + "]");
     $.ajax({
       url: '/reviews/conducting/save_article_details/',
       cache: false,
       data: $("#article-details").serialize(),
       type: 'post',
       beforeSend: function () {
-
+        $("#btn-save-article").prop("disabled", true);
+        $("#btn-save-article").text('Saving...');
       },
       success: function (data) {
-        
+        $(row).replaceWith(data);
+        if ($("#save-and-move-next").is(":checked")) {
+          move(FORWARD);
+          $("#modal-article .modal-body").loadActiveArticle();
+        }
       },
       error: function () {
 
+      },
+      complete: function () {
+        $("#btn-save-article").prop("disabled", false);
+        $("#btn-save-article").text('Save');
       }
     });
   }
@@ -157,8 +168,6 @@ $(function () {
   $("#modal-article").on("change", "#status", function () {
     if ($("#save-and-move-next").is(":checked")) {
       save_article();
-      move(FORWARD);
-      $("#modal-article .modal-body").loadActiveArticle();
     }
   });
 

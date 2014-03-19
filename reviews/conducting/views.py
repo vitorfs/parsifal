@@ -249,7 +249,7 @@ def source_articles(request):
     else:
         articles = review.get_source_articles()
         source = Source()
-        
+
     return render(request, 'conducting/partial_conducting_articles.html', {'review': review, 'source': source, 'articles': articles})
 
 @ajax_required
@@ -261,12 +261,39 @@ def article_details(request):
     context = RequestContext(request, {'article': article})
     return render_to_response('conducting/partial_conducting_article_details.html', context)
 
+def build_article_table_row(article):
+    span_status = ''
+    if article.status == Article.ACCEPTED:
+        span_status += '<span class="label label-success">'
+    elif article.status == Article.REJECTED:
+        span_status += '<span class="label label-warning">'
+    else:
+        span_status += '<span>'
+    span_status += article.get_status_display() + '</span>'
+    row = u'''<tr oid="{0}" article-status="{1}" class="active">
+            <td><input type="checkbox"></td>
+            <td>{2}</td>
+            <td>{3}</td>
+            <td>{4}</td>
+            <td>{5}</td>
+            <td>{6}</td>
+            <td>{7}</td>
+          </tr>'''.format(article.id,
+            article.status,
+            article.bibtex_key,
+            article.title,
+            article.author,
+            article.journal,
+            article.year,
+            span_status)
+    return row
+
 @ajax_required
 @author_required
 @login_required
 def save_article_details(request):
     if request.method == 'POST':
-        try:
+        #try:
             article_id = request.POST['article-id']
 
             if article_id != 'None':
@@ -294,9 +321,9 @@ def save_article_details(request):
 
             article.save()
 
-            return HttpResponse()
-        except:
-            return HttpResponseBadRequest()
+            return HttpResponse(build_article_table_row(article))
+        #except:
+            #return HttpResponseBadRequest()
     else:
         return HttpResponseBadRequest()
 
