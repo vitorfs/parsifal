@@ -38,6 +38,19 @@ $(function () {
     var article_id = $(".source-articles tbody tr.active").attr("oid");
     var review_id = $("#review-id").val();
     var container = $(this);
+
+    var total_articles = $(".source-articles tbody tr:visible").length;
+    var current_article = 0;
+    $(".source-articles tbody tr:visible").each(function () {
+      current_article++;
+      if ($(this).attr("oid") == article_id) {
+        return false;
+      }
+    });
+
+    $("#modal-article span.current-article").text(current_article);
+    $("#modal-article span.total-articles").text(total_articles);
+
     $.ajax({
       url: '/reviews/conducting/article_details/',
       data: {'review-id': review_id, 'article-id': article_id},
@@ -157,10 +170,23 @@ $(function () {
       $(".source-articles table tbody tr").hide();
       $(".source-articles table tbody tr[article-status=" + status + "]").show();
     }
+    $(".source-tab-content input[type=checkbox]").prop("checked", false);
+    $(".source-articles tbody tr").removeClass("active");
   }
 
   $(".source-tab-content").on("click", "input[name=filter]", function () {
     filter_articles($(this).val());
+  });
+
+  $(".source-tab-content").on("click", "table tbody tr td input[type=checkbox]", function (event) {
+    event.stopPropagation();
+  });
+
+  $(".source-tab-content").on("click", "#ck-all-articles", function () {
+    $(".source-tab-content table tbody tr td input[type=checkbox]").prop("checked", false);
+    if ($(this).is(":checked")) {
+      $(".source-tab-content table tbody tr:visible td input[type=checkbox]").prop("checked", true);
+    }
   });
 
   // On page load
