@@ -11,6 +11,7 @@ from reviews.models import Review, Source, Question, SelectionCriteria, Keyword,
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 
+@author_required
 @login_required
 def planning(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)

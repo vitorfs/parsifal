@@ -1,7 +1,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th><input type="checkbox"></th>
+      <th><input type="checkbox" style="font-size:0.8em;" id="ck-all-articles"></th>
       <th>Bibtex Key</th>
       <th>Title</th>
       <th>Author</th>
@@ -19,7 +19,11 @@
         <td>{{ article.autdor }}</td>
         <td>{{ article.journal }}</td>
         <td>{{ article.year }}</td>
-        <td>{{ article.status }}</td>
+        <td>
+          <span class="{% if article.status == article.ACCEPTED %}label label-success{% elif article.status == article.REJECTED %}label label-warning{% endif %}">
+            {{ article.get_status_display }}
+          </span>
+        </td>
       </tr>
     {% endfor %}
   </tbody>

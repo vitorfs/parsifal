@@ -92,9 +92,14 @@ span.lower-than-cutoff-label {
   margin-top: 10px;
 }
 
-.studies-action {
-  margin-top: 20px;
+.studies-import {
+  margin-bottom: 20px;
 }
+
+.studies-action {
+  margin-bottom: 20px;
+}
+
 .studies-action strong {
   font-size: 1.4em;
 }

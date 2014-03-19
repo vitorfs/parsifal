@@ -9,7 +9,7 @@
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.5em;
-  font-size: 10px;
+  font-size: 0.8em;
 }
 
 .label-success {
@@ -18,4 +18,8 @@
 
 .label-warning {
   background: #C45A46;
+}
+
+.label-small {
+  font-size: 10px;
 }

@@ -6,19 +6,28 @@
       <input type="hidden" name="source-id" value="{{ source.id }}">
       <input type="file" class="hide" name="bibtex">
     </form>
-    <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
-    <button type="button" class="btn btn-add-manual btn-small">Add Manual</button>
-    {% if not source.id %}
+    {% if source.id %}
+      <div class="studies-import">
+        <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
+        <button type="button" class="btn btn-add-manual btn-small">Add Manual</button>
+      </div>
+    {% endif %}
     <div class="studies-action">
       <strong>Action:</strong>
       <select>
         <option>Select...</option>
         <option>Remove selected</option>
-        <option>Mark as Accepted</option>
-        <option>Mark as Rejected</option>
+        <option>Mark as accepted</option>
+        <option>Mark as rejected</option>
       </select>
     </div>
-    {% endif %}
+    <p>
+      <strong>Show:</strong> 
+      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="all-filter" checked> All
+      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="unclassified-filter"> Unclassified
+      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="accepted-filter"> Accepted
+      <input type="radio" name="filter-{{ source.id|default:'all' }}" id="rejected-filter"> Rejected
+    </p>
   </div>
   <div class="source-articles"></div>
 </div>

@@ -67,6 +67,7 @@ def new(request):
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/new.html', context)
 
+@author_required
 @login_required
 def review(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
