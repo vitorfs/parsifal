@@ -6,4 +6,49 @@
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="extraction" %}
   <h2>Data Extraction</h2>
+
+  {% for article in review.get_accepted_articles %}
+    {% if review.quality_assessment_cutoff_score > 0.0 and article.get_score > review.quality_assessment_cutoff_score %}
+      <div class="container data-extraction-container">
+        <table class="table tbl-data-extraction">
+          <thead>
+            <tr>
+              <th colspan="2">{{ article.title }} <span class="label label-success pull-right">{{ article.get_score }}</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in review.get_data_extraction_fields %}
+              <tr>
+                <td style="width: 25%; text-align: right; font-weight: bold;">{{ field.description }}</td>
+                <td style="width: 75%;">
+                  {% if field.field_type == field.BOOLEAN_FIELD %}
+                    <select>
+                      <option value="">Select...</option>
+                      <option value="1">True</option>
+                      <option value="0">False</option>
+                    </select>
+                  {% elif field.field_type == field.SELECT_ONE_FIELD %}
+                    <select>
+                      <option value="">Select...</option>
+                      {% for value in field.get_select_values %}
+                        <option value="{{ value.id }}">{{ value.value }}</option>
+                      {% endfor %}
+                    </select>
+                  {% elif field.field_type == field.SELECT_MANY_FIELD %}
+                    <ul>
+                      {% for value in field.get_select_values %}
+                        <li><input type="checkbox" value="{{ value.id }}">{{ value.value }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <input type="text">
+                  {% endif%}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+  {% endfor %}
 {% endblock tab_content %}

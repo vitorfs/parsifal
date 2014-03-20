@@ -132,3 +132,29 @@ span.lower-than-cutoff-label {
 a.active-order {
   text-decoration: underline;
 }
+
+.tbl-data-extraction tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tbl-data-extraction tbody tr td ul {
+  margin: 0;
+  padding: 0;
+}
+
+.tbl-data-extraction tbody tr td ul li {
+  font-size: 1em;
+  list-style: none;
+}
+
+.tbl-data-extraction tbody tr td ul li input {
+  margin-right: 5px;
+}
+
+.tbl-data-extraction tbody tr td input[type="text"] {
+  width: 100%;
+}
+
+.data-extraction-container {
+  margin-top: 30px;
+}
