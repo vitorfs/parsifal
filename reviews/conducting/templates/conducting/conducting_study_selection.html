@@ -36,6 +36,10 @@
     </ul>
     <div class="source-tab-content"></div>
   {% else %}
-    <p>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning</a> tab to add sources to your review and import the references.</p>
+    <p>There is a few steps you have to finish before assess the quality of the studies:</p>
+    <ul>
+      <li>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning tab</a> to add sources to your review.</li>
+    </ul>
+    <p></p>
   {% endif %}
 {% endblock tab_content %}

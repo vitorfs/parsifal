@@ -15,7 +15,7 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['.parsif.al']
+ALLOWED_HOSTS = ['.parsif.al', '127.0.0.1']
 
 ADMINS = ('Vitor Freitas', 'support@parsif.al')
 
@@ -87,3 +87,5 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = 'Parsifal <no-reply@parsif.al>'
+
+SESSION_COOKIE_DOMAIN = '.parsif.al'
