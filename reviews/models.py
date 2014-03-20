@@ -3,6 +3,7 @@
 import datetime
 from django.utils import timezone
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 
 class Source(models.Model):
@@ -225,11 +226,10 @@ class Article(models.Model):
         return self.title
 
     def get_score(self):
-        score = 0.0
-        quality_assessments = QualityAssessment.objects.filter(article__id=self.id)
-        for quality_assessment in quality_assessments:
-            score += quality_assessment.answer.weight
-        return score
+        score = QualityAssessment.objects.filter(article__id=self.id).aggregate(Sum('answer__weight'))
+        if score['answer__weight__sum'] == None:
+            return 0.0
+        return score['answer__weight__sum']
 
     def get_quality_assesment(self):
         quality_assessments = QualityAssessment.objects.filter(article__id=self.id)

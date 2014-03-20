@@ -38,7 +38,7 @@ def study_selection(request, username, review_name):
     return render_to_response('conducting/conducting_study_selection.html', context)
 
 def build_quality_assessment_table(request, review):
-    selected_studies = review.get_source_articles()
+    selected_studies = review.get_accepted_articles()
     quality_questions = review.get_quality_assessment_questions()
     quality_answers = review.get_quality_assessment_answers()
 

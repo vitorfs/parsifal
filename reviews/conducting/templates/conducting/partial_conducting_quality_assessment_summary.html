@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for article in review.get_source_articles %}
+    {% for article in review.get_accepted_articles %}
       {% if review.quality_assessment_cutoff_score > 0.0 %}
         {% if article.get_score > review.quality_assessment_cutoff_score %} 
           <tr class="higher-than-cutoff">
