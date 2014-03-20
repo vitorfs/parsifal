@@ -271,7 +271,7 @@ def build_article_table_row(article):
         span_status += '<span>'
     span_status += article.get_status_display() + '</span>'
     row = u'''<tr oid="{0}" article-status="{1}">
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" value="{0}""></td>
             <td>{2}</td>
             <td>{3}</td>
             <td>{4}</td>

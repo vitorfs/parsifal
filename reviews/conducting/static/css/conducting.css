@@ -128,3 +128,7 @@ span.lower-than-cutoff-label {
 #modal-article .alert {
   margin: 0;
 }
+
+a.active-order {
+  text-decoration: underline;
+}

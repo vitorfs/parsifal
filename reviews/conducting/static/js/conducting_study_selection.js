@@ -317,17 +317,29 @@ $(function () {
       },
       success: function (data) {
         $(".source-articles table tbody").replaceWith(data);
-      },
-      complete: function () {
         if ($(a).attr("col").indexOf("-") == 0) {
           $(a).attr("col", $(a).attr("col").replace("-", ""));
         }
         else {
           $(a).attr("col", "-" + $(a).attr("col"));
         }
+        $(".source-articles table thead tr th a").removeClass("active-order");
+        $(a).addClass("active-order");
+        $("#ck-all-articles").prop("checked", false);
       }
     });
     return false;
+  });
+
+  $(".source-tab-content").on("click", "table tbody tr td input[type=checkbox]", function () {
+    var total = $(".source-articles table tbody tr td input[type=checkbox]").length;
+    var checked = $(".source-articles table tbody tr td input[type=checkbox]:checked").length;
+    if (checked == total) {
+      $("#ck-all-articles").prop("checked", true);
+    }
+    else {
+      $("#ck-all-articles").prop("checked", false);
+    }
   });
 
   // On page load
