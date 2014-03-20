@@ -290,7 +290,6 @@ class QualityAssessment(models.Model):
     article = models.ForeignKey(Article)
     question = models.ForeignKey(QualityQuestion)
     answer = models.ForeignKey(QualityAnswer, null=True)
-    date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return str(self.article.id) + ' ' + str(self.question.id)
@@ -342,5 +341,4 @@ class DataExtraction(models.Model):
     article = models.ForeignKey(Article)
     field = models.ForeignKey(DataExtractionField)
     value = models.CharField(max_length=255, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
     select_values = models.ManyToManyField(DataExtractionLookup)

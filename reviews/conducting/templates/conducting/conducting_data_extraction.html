@@ -1,16 +1,17 @@
 {% extends 'conducting/conducting.html' %}
 
 {% block conducting_head_extra %}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_data_extraction.js"></script>
 {% endblock conducting_head_extra %}
 
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="extraction" %}
   <h2>Data Extraction</h2>
-
+  {% csrf_token %}
   {% for article in review.get_accepted_articles %}
     {% if review.quality_assessment_cutoff_score > 0.0 and article.get_score > review.quality_assessment_cutoff_score %}
       <div class="container data-extraction-container">
-        <table class="table tbl-data-extraction">
+        <table class="table tbl-data-extraction" article-id="{{ article.id }}">
           <thead>
             <tr>
               <th colspan="2">{{ article.title }} <span class="label label-success pull-right">{{ article.get_score }}</span></th>
@@ -18,17 +19,17 @@
           </thead>
           <tbody>
             {% for field in review.get_data_extraction_fields %}
-              <tr>
+              <tr field-id="{{ field.id }}">
                 <td style="width: 25%; text-align: right; font-weight: bold;">{{ field.description }}</td>
                 <td style="width: 75%;">
                   {% if field.field_type == field.BOOLEAN_FIELD %}
-                    <select>
+                    <select name="value">
                       <option value="">Select...</option>
                       <option value="1">True</option>
                       <option value="0">False</option>
                     </select>
                   {% elif field.field_type == field.SELECT_ONE_FIELD %}
-                    <select>
+                    <select name="{{ article.id }}-{{ field.id }}-value">
                       <option value="">Select...</option>
                       {% for value in field.get_select_values %}
                         <option value="{{ value.id }}">{{ value.value }}</option>
@@ -37,11 +38,11 @@
                   {% elif field.field_type == field.SELECT_MANY_FIELD %}
                     <ul>
                       {% for value in field.get_select_values %}
-                        <li><input type="checkbox" value="{{ value.id }}">{{ value.value }}</li>
+                        <li><input type="checkbox" name="{{ article.id }}-{{ field.id }}-value" value="{{ value.id }}">{{ value.value }}</li>
                       {% endfor %}
                     </ul>
                   {% else %}
-                    <input type="text">
+                    <input type="text" name="{{ article.id }}-{{ field.id }}-value" maxlength="255">
                   {% endif%}
                 </td>
               </tr>
