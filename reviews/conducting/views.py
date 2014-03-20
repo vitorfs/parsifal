@@ -10,7 +10,6 @@ from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 from bibtexparser.bparser import BibTexParser
 from django.conf import settings as django_settings
-from utils.viewhelper import Table
 from django.core.context_processors import csrf
 
 @author_required

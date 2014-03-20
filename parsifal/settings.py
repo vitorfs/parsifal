@@ -76,7 +76,6 @@ INSTALLED_APPS = (
     'reviews.reporting',
     'reviews.settings',
     'settings',
-    'utils',
 )
 
 LOGIN_URL = '/signin/'
@@ -88,4 +87,4 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = 'Parsifal <no-reply@parsif.al>'
 
-SESSION_COOKIE_DOMAIN = '.parsif.al'
+SESSION_COOKIE_DOMAIN = config('SESSION_COOKIE_DOMAIN')
