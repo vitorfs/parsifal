@@ -70,7 +70,7 @@ def reset(request):
 
 def reset_confirm(request, uidb64=None, token=None):
     return password_reset_confirm(request, template_name='auth/reset_confirm.html',
-        uidb64=uidb64, token=token, post_reset_redirect=reverse('success'))
+        uidb64=uidb64, token=token, post_reset_redirect=reverse('signin'))
 
 def success(request):
   return render(request, "auth/success.html")

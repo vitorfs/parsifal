@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Parsifal - Password reset{% endblock title %}
+{% block title %}Parsifal - Password Reset{% endblock title %}
 
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" media="screen">
@@ -9,7 +9,6 @@
 {% block content %}
   <form action="." method="post">
     {% csrf_token %}
-
     {% if form.non_field_errors %}
       {% for error in form.non_field_errors %}
         {{ error }}

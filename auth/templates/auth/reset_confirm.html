@@ -1,60 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Link to the Bootstrap CSS from a CDN -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"
-          rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h3 class="text-muted">Password reset confirm</h3>
-      </div>
-       <div class="row" style="padding:20px;">
-          {% if validlink %} <!-- If the link is valid, display a confirmation page, else display an error message -->
-          <form role="form" action="." method="post">
-           {% csrf_token %} <!-- CSRF token is rendered by Django in forms to avoid CSRF attacks -->
-           
-           <!-- If there are non-field errors in the form,
-                iterate over them one by one and display them.
-            -->
-           {% if form.non_field_errors %}
-            <p class="error">
-              {% for error in form.non_field_errors %}
-                {{ error }}
-              {% endfor %}
-            </p>
-           {% endif %}
-           <!-- Iterate over the fields in a form and render them  -->
-           {% for field in form %}
-            <div class="form-group">
-              <!-- Render the field label tag -->
-              {{ field.label_tag }}
-              <!-- If the field is required, display a * next to the field label -->
-              {% if field.field.required %}
-              *
-              {% endif %}
-              <br/>
-              <!-- Render the input field -->
-              {{ field }}
-            <!-- Iterate over the field's errors, if any and display
-                 them one by one in a error alert
-            -->
+{% extends 'base.html' %}
+
+{% block title %}Parsifal - Password Reset{% endblock title %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" media="screen">
+{% endblock head_extra %}
+
+{% block content %}
+  {% if validlink %} 
+    <form role="form" action="." method="post">
+      {% csrf_token %} 
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
+      <div class="form-container">
+        <div class="form-header">
+          <h1>Confirm Password Reset</h1>
+        </div>
+        <div class="form-body">
+          {% for field in form %}
+            {{ field.label_tag }}
+            {{ field }}
             {% if field.errors %}
-              <p class="error">
               {% for error in field.errors %}
-                {{ error }}
+                <p class="error">{{ error }}</p>
               {% endfor %}
-              </p>
             {% endif %}
-            </div>
           {% endfor %}
-        <input type="submit" class="btn btn-default" value="Submit" />
-      </form>
-       {% else %} <!-- Since the confirmatino link is invalid, display an error message -->
-       Invalid password reset link
-       {% endif %}
+          <button type="submit" class="btn btn-success btn-large" style="width: 100%">Submit</button>
+        </div>
       </div>
-    </div>
-  </body>
-</html>
+    </form>
+  {% else %}
+    <p class="error">Invalid password reset link.</p>
+  {% endif %}
+{% endblock content %}
