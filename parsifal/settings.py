@@ -48,6 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'parsifal.middleware.SecureRequiredMiddleware',
 )
 
 ROOT_URLCONF = 'parsifal.urls'
@@ -94,3 +95,13 @@ DEFAULT_FROM_EMAIL = 'Parsifal <support@parsif.al>'
 
 FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = '0644'
+
+HTTPS_SUPPORT = config('HTTPS_SUPPORT', default=True, cast=bool)
+SECURE_REQUIRED_PATHS = (
+    '/',
+    '/admin/',
+    '/signin/',
+    '/signup/',
+    '/reset/',
+    '/settings/password/',
+)

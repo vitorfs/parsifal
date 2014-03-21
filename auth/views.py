@@ -30,7 +30,6 @@ def signup(request):
         context = RequestContext(request,  {'form': SignUpForm() })
         return render_to_response('auth/signup.html', context)
 
-
 def signin(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
