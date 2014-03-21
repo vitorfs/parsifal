@@ -225,7 +225,7 @@ def import_bibtex(request):
     source_id = request.POST['source-id']
     review = Review.objects.get(pk=review_id)
     f = request.FILES['bibtex']
-    filename = django_settings.MEDIA_ROOT + '/temp_bibitex_upload/' + request.user.username + '.bib'
+    filename = django_settings.MEDIA_ROOT + '/temp/' + request.user.username + '.bib'
     with open(filename, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
