@@ -1,12 +1,13 @@
 # coding: utf-8
+from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response, get_object_or_404, render
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import password_reset, password_reset_confirm
 from reviews.models import Review
-from utils.string import remove_accents
 from auth.forms import SignUpForm
 
 def signup(request):
@@ -60,3 +61,16 @@ def signin(request):
 def signout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+def reset(request):
+    return password_reset(request, template_name='auth/reset.html',
+        email_template_name='auth/reset_email.html',
+        subject_template_name='auth/reset_subject.txt',
+        post_reset_redirect=reverse('success'))
+
+def reset_confirm(request, uidb64=None, token=None):
+    return password_reset_confirm(request, template_name='auth/reset_confirm.html',
+        uidb64=uidb64, token=token, post_reset_redirect=reverse('success'))
+
+def success(request):
+  return render(request, "auth/success.html")

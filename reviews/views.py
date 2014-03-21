@@ -9,7 +9,6 @@ from django.utils.html import escape
 from reviews.models import Review
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
-from utils.viewhelper import Table
 from django.template.defaultfilters import slugify
 
 def reviews(request, username):

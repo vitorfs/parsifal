@@ -3,11 +3,11 @@
 {% block title %}Parsifal - Sign in{% endblock title %}
 
 {% block head_extra %}
-  <link href="{{ STATIC_URL }}css/signin.css" rel="stylesheet" media="screen">
+  <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" media="screen">
 {% endblock head_extra %}
 
 {% block content %}
-  <div class="signin-form">
+  <div class="form-container">
     <div class="form-header">
       <h1>Sign in</h1>
     </div>
@@ -18,7 +18,7 @@
         <input type="text" id="username" name="username">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
-        <a href="#">Forgot your password?</a>
+        <a href="{% url 'reset' %}">Forgot your password?</a>
         <button type="submit" class="btn btn-success btn-large" style="width: 100%">Sign in</button>
       </form>
     </div>

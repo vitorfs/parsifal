@@ -17,7 +17,11 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['.parsif.al', '127.0.0.1']
 
-ADMINS = ('Vitor Freitas', 'support@parsif.al')
+ADMINS = (
+    ('Vitor Freitas', 'support@parsif.al'),
+)
+
+MANAGERS = ADMINS
 
 TIME_ZONE = 'America/Sao_Paulo'
 LANGUAGE_CODE = 'en-us'

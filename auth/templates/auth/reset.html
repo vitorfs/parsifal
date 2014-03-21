@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Parsifal - Password reset{% endblock title %}
+
+{% block head_extra %}
+  <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" media="screen">
+{% endblock head_extra %}
+
+{% block content %}
+  <form action="." method="post">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    {% endif %}
+    <div class="form-container">
+      <div class="form-header">
+        <h1>Password Reset</h1>
+      </div>
+      <div class="form-body">
+        {% for field in form %}
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <p class="error">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-success btn-large" style="width: 100%">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock content %}

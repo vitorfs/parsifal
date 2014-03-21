@@ -2,7 +2,7 @@ section.content {
   padding: 3em 0;
 }
 
-.signin-form {
+.form-container {
   width: 400px;
   margin: 0 auto;
   border-radius: 6px;
@@ -11,16 +11,16 @@ section.content {
   box-shadow: 0 0 6px 2px #D2D1D2 inset;
 }
 
-.signin-form button {
+.form-container button {
   margin-top: 1em;
 }
 
-.signin-form label {
+.form-container label {
   font-weight: 600;
   font-size: .8em;
 }
 
-.signin-form a {
+.form-container a {
   font-size: .7em;
   font-weight: 600;
   color: #728A8B;
@@ -28,7 +28,7 @@ section.content {
   border-bottom: 1px solid;
 }
 
-.signin-form .form-header {
+.form-container .form-header {
   background: #728A8B;
   padding: 0 1em;
   border-top-left-radius: 6px;
@@ -36,17 +36,52 @@ section.content {
   box-shadow: 0 3px 6px 0 #4C5D5E inset;
 }
 
-.signin-form .form-header h1 {
+.form-container .form-header h1 {
   font-size: .9em;
   font-weight: 600;
   padding: .7em 0;
   color: #FFF3D0;
 }
 
-.signin-form .form-body {
+.form-container .form-body {
   padding: .7em 1em;
 }
 
 .alert {
   width: 400px;
+}
+
+div.signup form input {
+  font-size: 0.8em;
+  width: 400px;
+  margin-left: 0;
+}
+
+div.signup div.form-row {
+  margin-bottom: 0.8em;
+}
+
+div.signup form label {
+  font-weight: 600;
+  font-size: 1.0em;
+}
+
+div.signup h1.join {
+  margin-bottom: 0.8em;
+  font-size: 1.8em;
+}
+
+ul.errorlist li {
+  font-size: 0.7em;
+  color: #A84635;
+}
+
+span.info {
+  color: #999999;
+  font-size: 0.7em;
+}
+
+p.error {
+  font-size: 0.8em;
+  color: #C45A46;
 }
