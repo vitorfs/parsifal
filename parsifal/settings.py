@@ -5,7 +5,7 @@ from decouple import config
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-PROJECT_DIR = Path(__file__).parent
+PROJECT_DIR = Path(__file__).parent.parent
 
 DEBUG = config('DEBUG', default=False, cast=bool) 
 TEMPLATE_DEBUG = DEBUG
@@ -33,10 +33,10 @@ USE_TZ = True
 MEDIA_ROOT = PROJECT_DIR.parent.child('media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = PROJECT_DIR.child('static')
+STATIC_ROOT = PROJECT_DIR.parent.child('static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    PROJECT_DIR.parent.child('static'),
+    PROJECT_DIR.child('static'),
 )
 
 SECRET_KEY = config('SECRET_KEY')
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'parsifal.urls'
 WSGI_APPLICATION = 'parsifal.wsgi.application'
 
 TEMPLATE_DIRS = (
-    PROJECT_DIR.parent.child('templates'),
+    PROJECT_DIR.child('templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
