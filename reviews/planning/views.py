@@ -346,7 +346,9 @@ def remove_source_from_review(request):
         source = Source.objects.get(pk=source_id)
         review = Review.objects.get(pk=review_id)
         review.sources.remove(source)
-        if not source.is_default:
+        if source.is_default:
+            review.get_source_articles(source.id).delete()
+        else:
             source.delete()
         review.save()
         return HttpResponse()
