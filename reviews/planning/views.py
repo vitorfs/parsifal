@@ -569,6 +569,32 @@ def remove_quality_assessment_answer(request):
 @ajax_required
 @author_required
 @login_required
+def add_suggested_answer(request):
+    try:
+        review_id = request.GET['review-id']
+        review = Review.objects.get(pk=review_id)
+        if not review.get_quality_assessment_answers():
+            html_answers = u''
+            for answer, value in QualityAnswer.SUGGESTED_ANSWERS:
+                quality_answer = QualityAnswer(review=review, description=answer, weight=value)
+                quality_answer.save()
+                html_answers += '''<tr oid="{0}">
+                  <td>{1}</td>
+                  <td>{2}</td>
+                  <td>
+                    <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
+                    <button type="button" class="btn btn-warning btn-small btn-remove-quality-answer">remove</button>
+                  </td>
+                </tr>'''.format(quality_answer.id, quality_answer.description, quality_answer.weight)
+            return HttpResponse(html_answers)
+        else:
+            return HttpResponseBadRequest()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
 def calculate_max_score(request):
     try:
         review_id = request.GET['review-id']

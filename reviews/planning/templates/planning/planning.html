@@ -190,7 +190,9 @@
       </tbody>
     </table>
     <h3>Answers</h3>
-    <p>No idea how to fill? How about <strong>yes</strong> (1.0), <strong>partially</strong> (0.5) and <strong>no</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></p>
+    {% if not review.get_quality_assessment_answers %}
+      <p class="no-answers">No idea how to fill? How about <strong>Yes</strong> (1.0), <strong>Partially</strong> (0.5) and <strong>No</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></p>
+    {% endif %}
     <button type="button" class="btn btn-small" id="btn-add-quality-answer">Add Answer</button>
     <table class="table" id="tbl-quality-answers">
       <thead>

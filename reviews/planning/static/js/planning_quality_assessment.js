@@ -137,34 +137,27 @@ $(function () {
   // QUALITY ASSESSMENT ANSWERS
   //===========================================================================
 
-  IS_ADDING_OR_EDITING_QUALITY_ANSWER = false;
+  var cancel_answer_edition_row = new Array();
 
   $("#btn-add-quality-answer").click(function () {
-    if (!IS_ADDING_OR_EDITING_QUALITY_ANSWER) {
-      
-      IS_ADDING_OR_EDITING_QUALITY_ANSWER = true;
-
-      var review_id = $("#review-id").val();
-
-      $.ajax({
-        url: '/reviews/planning/add_quality_assessment_answer/',
-        data: {'review-id': review_id},
-        type: 'get',
-        cache: false,
-        success: function (data) {
-          $("#tbl-quality-answers tbody").prepend(data);
-          $("#quality-answer-description").focus();
-        }
-      });
-
-    }
+    var review_id = $("#review-id").val();
+    $.ajax({
+      url: '/reviews/planning/add_quality_assessment_answer/',
+      data: {'review-id': review_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $("#tbl-quality-answers tbody").prepend(data);
+        $("#tbl-quality-answers tbody tr:first-child .quality-answer-description").focus();
+      }
+    });
   });
 
-  $("table#tbl-quality-answers").on("click", "#btn-save-quality-answer", function () {
+  $("table#tbl-quality-answers").on("click", ".btn-save-quality-answer", function () {
     var row = $(this).closest("tr");
     var review_id = $("#review-id").val();
-    var description = $("#quality-answer-description").val();
-    var weight = $("#quality-answer-weight").val();
+    var description = $(".quality-answer-description", row).val();
+    var weight = $(".quality-answer-weight", row).val();
     var quality_answer_id = $(row).attr("oid");
     var csrf_token = $(row).attr("csrf-token");
 
@@ -179,52 +172,40 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        if (quality_answer_id == 'None') {
-          $(row).remove();
-          $("#tbl-quality-answers tbody").prepend(data);
-        }
-        else {
-          $("tr.quality-answer-hidden-for-edition").after(data);
-          $("tr.quality-answer-hidden-for-edition").remove();
-          $(row).remove();
-        }
-        IS_ADDING_OR_EDITING_QUALITY_ANSWER = false;
+        $(row).replaceWith(data);
         update_max_score();
       }
     });
   });
 
-  $("table#tbl-quality-answers").on("click", "#btn-cancel-quality-answer", function () {
-    IS_ADDING_OR_EDITING_QUALITY_ANSWER = false;
-    $(this).closest("tr").fadeOut(400, function () {
-      $(this).remove();
-      $("tr.quality-answer-hidden-for-edition").show();
-      $("tr.quality-answer-hidden-for-edition").removeClass("quality-answer-hidden-for-edition");
-    });
+  $("table#tbl-quality-answers").on("click", ".btn-cancel-quality-answer", function () {
+    var row = $(this).closest("tr");
+    var quality_answer_id = $(row).attr("oid");
+    if (quality_answer_id == 'None') {
+      $(row).fadeOut(400, function () {
+        $(this).remove();
+      });
+    }
+    else {
+      $(row).replaceWith(cancel_answer_edition_row[quality_answer_id]);
+    }
   });
 
   $("table#tbl-quality-answers").on("click", ".btn-edit-quality-answer", function () {
-    if (!IS_ADDING_OR_EDITING_QUALITY_ANSWER) {
+    var row = $(this).closest("tr");
+    var quality_answer_id = $(row).attr("oid");
+    var review_id = $("#review-id").val();
+    cancel_answer_edition_row[quality_answer_id] = row;
 
-      IS_ADDING_OR_EDITING_QUALITY_ANSWER = true;
-
-      var quality_answer_id = $(this).closest("tr").attr("oid");
-      var review_id = $("#review-id").val();
-      var row = $(this).closest("tr");
-
-      $.ajax({
-        url: '/reviews/planning/edit_quality_assessment_answer/',
-        data: {'review-id': review_id, 'quality-answer-id': quality_answer_id},
-        type: 'get',
-        cache: false,
-        success: function (data) {
-          $(row).hide();
-          $(row).after(data);
-          $(row).addClass("quality-answer-hidden-for-edition");
-        }
-      });
-
-    }    
+    $.ajax({
+      url: '/reviews/planning/edit_quality_assessment_answer/',
+      data: {'review-id': review_id, 'quality-answer-id': quality_answer_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(row).replaceWith(data);
+      }
+    });
   });
 
   $("table#tbl-quality-answers").on("click", ".btn-remove-quality-answer", function () {
@@ -248,7 +229,16 @@ $(function () {
   });
 
   $("#add-suggested-answers").click(function () {
-    
+    $.ajax({
+      url: '/reviews/planning/add_suggested_answer/',
+      data: {'review-id': $("#review-id").val()},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $("#tbl-quality-answers tbody").replaceWith("<tbody>" + data + "</tbody>");
+        $(".no-answers").fadeOut();
+      }
+    });
   });
 
   $("#save-cutoff-score").click(function () {

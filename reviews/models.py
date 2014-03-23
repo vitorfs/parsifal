@@ -258,7 +258,11 @@ class Keyword(models.Model):
 
 
 class QualityAnswer(models.Model):
-    SUGGESTED_ANSWERS = {'Yes': 1.0, 'Partially': 0.5, 'No': 0.0}
+    SUGGESTED_ANSWERS = (
+        ('Yes', 1.0), 
+        ('Partially', 0.5), 
+        ('No', 0.0)
+        )
 
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=255)
