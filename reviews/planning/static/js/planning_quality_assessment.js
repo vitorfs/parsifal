@@ -18,44 +18,40 @@ $(function () {
   //===========================================================================
   // QUALITY ASSESSMENT QUESTIONS 
   //===========================================================================
-
-  IS_ADDING_OR_EDITING_QUALITY_QUESTION = false;
+  
+  var cancel_question_edition_row = new Array();
 
   $("#btn-add-quality-question").click(function () {
-    if (!IS_ADDING_OR_EDITING_QUALITY_QUESTION) {
-      
-      IS_ADDING_OR_EDITING_QUALITY_QUESTION = true;
-
-      var review_id = $("#review-id").val();
-
-      $.ajax({
-        url: '/reviews/planning/add_quality_assessment_question/',
-        data: {'review-id': review_id},
-        type: 'get',
-        cache: false,
-        success: function (data) {
-          $("#tbl-quality-questions tbody").prepend(data);
-          $("#quality-question-description").focus();
-        }
-      });
-
-    }
-
-  });
-
-  $("table#tbl-quality-questions").on("click", "#btn-cancel-quality_question", function () { 
-    IS_ADDING_OR_EDITING_QUALITY_QUESTION = false;
-    $(this).closest("tr").fadeOut(400, function () {
-      $(this).remove();
-      $("tr.quality-question-hidden-for-edition").show();
-      $("tr.quality-question-hidden-for-edition").removeClass("quality-question-hidden-for-edition");
+    var review_id = $("#review-id").val();
+    $.ajax({
+      url: '/reviews/planning/add_quality_assessment_question/',
+      data: {'review-id': review_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $("#tbl-quality-questions tbody").prepend(data);
+        $("#tbl-quality-questions tbody tr:first-child .quality-question-description").focus();
+      }
     });
   });
 
-  $("table#tbl-quality-questions").on("click", "#btn-save-quality_question", function () { 
+  $("table#tbl-quality-questions").on("click", ".btn-cancel-quality_question", function () { 
+    var row = $(this).closest("tr");
+    var quality_question_id = $(row).attr("oid");
+    if (quality_question_id == 'None') {
+      $(row).fadeOut(400, function () {
+        $(this).remove();
+      });
+    }
+    else {
+      $(row).replaceWith(cancel_question_edition_row[quality_question_id]);
+    }
+  });
+
+  $("table#tbl-quality-questions").on("click", ".btn-save-quality_question", function () { 
     var row = $(this).closest("tr");
     var review_id = $("#review-id").val();
-    var description = $("#quality-question-description").val();
+    var description = $(".quality-question-description", row).val();
     var quality_question_id = $(row).attr("oid");
     var csrf_token = $(row).attr("csrf-token");
 
@@ -69,46 +65,28 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        // It's a new question so it will be prepended on the table
-        if (quality_question_id == 'None') {
-          $(row).remove();
-          $("#tbl-quality-questions tbody").prepend(data);
-        }
-        // Saving an existing question, so it will have to appear on the same position as before
-        else {
-          $("tr.quality-question-hidden-for-edition").after(data);
-          $("tr.quality-question-hidden-for-edition").remove();
-          $(row).remove();
-        }
-        IS_ADDING_OR_EDITING_QUALITY_QUESTION = false;
+        $(row).replaceWith(data);
         update_max_score();
       }
     });
   });
 
   $("table#tbl-quality-questions").on("click", ".btn-edit-quality-question", function () { 
-    if (!IS_ADDING_OR_EDITING_QUALITY_QUESTION) {
+    var row = $(this).closest("tr");
+    var quality_question_id = $(row).attr("oid");
+    var review_id = $("#review-id").val();
 
-      IS_ADDING_OR_EDITING_QUALITY_QUESTION = true;
+    cancel_question_edition_row[quality_question_id] = row;
 
-      var quality_question_id = $(this).closest("tr").attr("oid");
-      var review_id = $("#review-id").val();
-      var row = $(this).closest("tr");
-
-      $.ajax({
-        url: '/reviews/planning/edit_quality_assessment_question/',
-        data: {'review-id': review_id, 'quality-question-id': quality_question_id},
-        type: 'get',
-        cache: false,
-        success: function (data) {
-          $(row).hide();
-          $(row).after(data);
-          $(row).addClass("quality-question-hidden-for-edition");
-        }
-      });
-
-    }
-
+    $.ajax({
+      url: '/reviews/planning/edit_quality_assessment_question/',
+      data: {'review-id': review_id, 'quality-question-id': quality_question_id},
+      type: 'get',
+      cache: false,
+      success: function (data) {
+        $(row).replaceWith(data);
+      }
+    });
   });
 
   $("table#tbl-quality-questions").on("click", ".btn-remove-quality-question", function () { 
