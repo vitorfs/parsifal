@@ -36,6 +36,9 @@ def study_selection(request, username, review_name):
     context = RequestContext(request, {'review': review, 'active_tab': active_tab})
     return render_to_response('conducting/conducting_study_selection.html', context)
 
+def get_workflow_steps(self, review):
+    pass
+
 def build_quality_assessment_table(request, review):
     selected_studies = review.get_accepted_articles()
     quality_questions = review.get_quality_assessment_questions()
@@ -79,9 +82,6 @@ def build_quality_assessment_table(request, review):
     else:
         return ''
 
-def get_workflow_steps(self, review):
-    pass
-
 @author_required
 @login_required
 def quality_assessment(request, username, review_name):
@@ -104,8 +104,92 @@ def quality_assessment(request, username, review_name):
     finished_all_steps = len(steps_messages) == 0
 
     quality_assessment_table = build_quality_assessment_table(request, review)
+
     context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'quality_assessment_table': quality_assessment_table, 'finished_all_steps': finished_all_steps})
     return render_to_response('conducting/conducting_quality_assessment.html', context)
+
+def build_data_extraction_field_row(article, field):
+    str_field = u''
+
+    try:
+        extraction = DataExtraction.objects.get(article=article, field=field)
+    except Exception, e:
+        extraction = None
+
+    if field.field_type == field.BOOLEAN_FIELD:
+        true = u''
+        false = u''
+        if extraction != None:
+            if extraction.get_value():
+                true = u' selected'
+            else:
+                false = u' selected'
+
+        str_field = u'''<select name="value">
+            <option value="">Select...</option>
+            <option value="True"{0}>True</option>
+            <option value="False"{1}>False</option>
+          </select>'''.format(true, false)
+
+    elif field.field_type == field.DATE_FIELD:
+        if extraction != None:
+            value = extraction.get_date_value_as_string()
+        else:
+            value = u''
+        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="255" value="{2}">'.format(article.id, field.id, value)
+
+    elif field.field_type == field.SELECT_ONE_FIELD:
+        str_field = u'''<select name="{0}-{1}-value">
+            <option value="">Select...</option>'''.format(article.id, field.id)
+        for value in field.get_select_values():
+            if extraction != None and extraction.get_value() != None and extraction.get_value().id == value.id:
+                selected = ' selected'
+            else:
+                selected = ''
+            str_field += u'''<option value="{0}"{1}>{2}</option>'''.format(value.id, selected, value.value)
+        str_field += u'</select>'
+
+    elif field.field_type == field.SELECT_MANY_FIELD:
+        str_field = u'<ul>'
+        for value in field.get_select_values():
+            if extraction != None and value in extraction.get_value():
+                checked = ' checked'
+            else:
+                checked = ''
+            str_field += u'<li><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</li>'.format(article.id, field.id, value.id, checked, value.value)
+        str_field += u'</ul>'
+
+    else:
+        if extraction != None:
+            value = extraction.get_value()
+        else:
+            value = u''
+        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="255" value="{2}">'.format(article.id, field.id, value)
+
+    return str_field
+
+def build_data_extraction_table(request, review):
+    selected_studies = review.get_final_selection_articles()
+    data_extraction_fields = review.get_data_extraction_fields()
+    if data_extraction_fields:
+        str_table = u''
+        for study in selected_studies:
+            str_table += u'''<div class="container data-extraction-container"><table class="table tbl-data-extraction" article-id="{0}">
+                <thead>
+                  <tr>
+                    <th colspan="2">{1} <span class="label label-success pull-right">{2}</span></th>
+                  </tr>
+                </thead>
+                <tbody>'''.format(study.id, study.title, study.get_score())
+            for field in data_extraction_fields:
+                str_table += u'''<tr field-id="{0}">
+                  <td style="width: 25%; text-align: right; font-weight: bold;">{1}</td>
+                  <td style="width: 75%;">{2}</td>
+                </tr>'''.format(field.id, field.description, build_data_extraction_field_row(study, field))
+            str_table += u'</tbody></table></div>'
+        return str_table
+    else:
+        return u''
 
 @author_required
 @login_required
@@ -130,7 +214,9 @@ def data_extraction(request, username, review_name):
 
     finished_all_steps = len(steps_messages) == 0
 
-    context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'finished_all_steps': finished_all_steps})
+    data_extraction_table = build_data_extraction_table(request, review)
+
+    context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'data_extraction_table': data_extraction_table, 'finished_all_steps': finished_all_steps })
     return render_to_response('conducting/conducting_data_extraction.html', context)
 
 def extract_keyword_to_search_string(term_list, query_list, keywords):
@@ -462,7 +548,7 @@ def save_data_extraction(request):
         field = DataExtractionField.objects.get(pk=field_id)
         if article.review.is_author_or_coauthor(request.user):
             data_extraction, created = DataExtraction.objects.get_or_create(article=article, field=field)
-            data_extraction.value = value
+            data_extraction.set_value(value)
             data_extraction.save()
             return HttpResponse()
         else:

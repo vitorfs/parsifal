@@ -114,6 +114,17 @@ class Review(models.Model):
     def get_accepted_articles(self):
         return Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
 
+    def get_final_selection_articles(self):
+        accepted_articles = Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
+        if self.quality_assessment_cutoff_score > 0.0:
+            articles = []
+            for article in accepted_articles:
+                if article.get_score() > self.quality_assessment_cutoff_score:
+                    articles.append(article)
+            return articles
+        else:
+            return accepted_articles
+
     def get_data_extraction_fields(self):
         return DataExtractionField.objects.filter(review__id=self.id)
 
@@ -298,6 +309,7 @@ class QualityAssessment(models.Model):
     def __unicode__(self):
         return str(self.article.id) + ' ' + str(self.question.id)
 
+
 class DataExtractionField(models.Model):
     BOOLEAN_FIELD = 'B'
     STRING_FIELD = 'S'
@@ -329,7 +341,7 @@ class DataExtractionField(models.Model):
 
 class DataExtractionLookup(models.Model):
     field = models.ForeignKey(DataExtractionField)
-    value = models.CharField(max_length=255)
+    value = models.CharField(max_length=1000)
 
     class Meta:
         verbose_name = "Lookup Value"
@@ -344,5 +356,137 @@ class DataExtraction(models.Model):
     user = models.ForeignKey(User, null=True)
     article = models.ForeignKey(Article)
     field = models.ForeignKey(DataExtractionField)
-    value = models.CharField(max_length=255, blank=True)
+    value = models.CharField(max_length=1000, blank=True)
     select_values = models.ManyToManyField(DataExtractionLookup)
+
+    def _set_boolean_value(self, value):
+        if value in ['True', 'False']:
+            self.value = value
+        else:
+            raise ValueError('Expected values: "True" or "False"')
+
+    def _set_string_value(self, value):
+        try:
+            self.value = value.strip()
+        except Exception, e:
+            raise e
+
+    def _set_float_value(self, value):
+        try:
+            _value = value.replace(',', '.')
+            self.value = float(_value)
+        except Exception, e:
+            raise e
+
+    def _set_integer_value(self, value):
+        try:
+            _value = value.replace(',', '.')
+            self.value = int(float(_value))
+        except Exception, e:
+            raise e
+
+    def _set_date_value(self, value):
+        try:
+            if value:
+                _value = datetime.datetime.strptime(value, '%m-%d-%Y').date()
+                self.value = str(_value)
+            else:
+                self.value = ''
+        except Exception, e:
+            raise e
+
+    def _set_select_one_value(self, value):
+        try:
+            self.value = ''
+            _value = DataExtractionLookup.objects.get(pk=value)
+            self.select_values.clear()
+            self.select_values.add(_value)
+        except Exception, e:
+            raise e
+
+    def _set_select_many_value(self, value):
+        try:
+            self.value = ''
+            _value = DataExtractionLookup.objects.get(pk=value)
+            if _value in self.select_values.all():
+                self.select_values.remove(_value)
+            else:
+                self.select_values.add(_value)
+        except Exception, e:
+            raise e
+
+    def set_value(self, value):
+        set_value_functions = {
+            DataExtractionField.BOOLEAN_FIELD: self._set_boolean_value,
+            DataExtractionField.STRING_FIELD: self._set_string_value,
+            DataExtractionField.FLOAT_FIELD: self._set_float_value,
+            DataExtractionField.INTEGER_FIELD: self._set_integer_value,
+            DataExtractionField.DATE_FIELD: self._set_date_value,
+            DataExtractionField.SELECT_ONE_FIELD: self._set_select_one_value,
+            DataExtractionField.SELECT_MANY_FIELD: self._set_select_many_value,
+        }
+        set_value_functions[self.field.field_type](value[:1000])
+
+    def _get_boolean_value(self):
+        try:
+            if self.value == 'True':
+                return True
+            elif self.value == 'False':
+                return False
+        except Exception, e:
+            return ''
+
+    def _get_string_value(self):
+        return self.value
+
+    def _get_float_value(self):
+        try:
+            return float(self.value)
+        except Exception, e:
+            return ''
+
+    def _get_integer_value(self):
+        try:
+            return int(self.value)
+        except Exception, e:
+            return ''
+
+    def _get_date_value(self):
+        try:
+            if self.value != '':
+                return datetime.datetime.strptime(self.value, '%Y-%m-%d').date()
+            else:
+                return ''
+        except Exception, e:
+            raise e
+
+    def _get_select_one_value(self):
+        try:
+            return self.select_values.all()[0]
+        except Exception, e:
+            return None
+
+    def _get_select_many_value(self):
+        try:
+            return self.select_values.all()
+        except Exception, e:
+            return []
+
+    def get_value(self):
+        get_value_functions = {
+            DataExtractionField.BOOLEAN_FIELD: self._get_boolean_value,
+            DataExtractionField.STRING_FIELD: self._get_string_value,
+            DataExtractionField.FLOAT_FIELD: self._get_float_value,
+            DataExtractionField.INTEGER_FIELD: self._get_integer_value,
+            DataExtractionField.DATE_FIELD: self._get_date_value,
+            DataExtractionField.SELECT_ONE_FIELD: self._get_select_one_value,
+            DataExtractionField.SELECT_MANY_FIELD: self._get_select_many_value,
+        }
+        return get_value_functions[self.field.field_type]()
+
+    def get_date_value_as_string(self):
+        try:
+            value = self.get_value()
+            return value.strftime('%m/%d/%Y')
+        except Exception, e:
+            return ''
