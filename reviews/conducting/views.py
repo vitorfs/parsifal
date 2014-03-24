@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.template import RequestContext
-from reviews.models import Review, Source, Article, Question, Keyword, QualityQuestion, QualityAnswer, QualityAssessment
+from reviews.models import *
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 from bibtexparser.bparser import BibTexParser
@@ -79,6 +79,9 @@ def build_quality_assessment_table(request, review):
     else:
         return ''
 
+def get_workflow_steps(self, review):
+    pass
+
 @author_required
 @login_required
 def quality_assessment(request, username, review_name):
@@ -89,14 +92,6 @@ def quality_assessment(request, username, review_name):
     select_articles = review.get_accepted_articles().count()
     create_questions = review.get_quality_assessment_questions().count()
     create_answers = review.get_quality_assessment_answers().count()
-
-    steps = {
-        'add_sources': add_sources,
-        'import_articles': import_articles,
-        'select_articles': select_articles,
-        'create_questions': create_questions,
-        'create_answers': create_answers
-    }
 
     steps_messages = []
 
@@ -109,14 +104,33 @@ def quality_assessment(request, username, review_name):
     finished_all_steps = len(steps_messages) == 0
 
     quality_assessment_table = build_quality_assessment_table(request, review)
-    context = RequestContext(request, {'review': review, 'steps': steps, 'steps_messages': steps_messages, 'quality_assessment_table': quality_assessment_table, 'finished_all_steps': finished_all_steps})
+    context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'quality_assessment_table': quality_assessment_table, 'finished_all_steps': finished_all_steps})
     return render_to_response('conducting/conducting_quality_assessment.html', context)
 
 @author_required
 @login_required
 def data_extraction(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username=username)
-    context = RequestContext(request, {'review': review})
+
+    add_sources = review.sources.count()
+    import_articles = review.get_source_articles().count()
+    select_articles = review.get_accepted_articles().count()
+    create_questions = review.get_quality_assessment_questions().count()
+    create_answers = review.get_quality_assessment_answers().count()
+    create_fields = review.get_data_extraction_fields().count()
+
+    steps_messages = []
+
+    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
+    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
+    if not select_articles: steps_messages.append('Classify the imported studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
+    if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+    if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+    if not create_fields: steps_messages.append('Create data extraction fields using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+
+    finished_all_steps = len(steps_messages) == 0
+
+    context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'finished_all_steps': finished_all_steps})
     return render_to_response('conducting/conducting_data_extraction.html', context)
 
 def extract_keyword_to_search_string(term_list, query_list, keywords):
@@ -342,8 +356,6 @@ def save_quality_assessment(request):
         quality_assessment.answer = answer
         quality_assessment.save()
 
-        article = Article.objects.get(pk=article_id)
-
         return HttpResponse(article.get_score())
     except:
         return HttpResponseBadRequest()
@@ -416,7 +428,7 @@ def multiple_articles_action_reject(request):
 @author_required
 @login_required
 def articles_order_by(request):
-    #try:
+    try:
         review_id = request.GET['review-id']
         source_id = request.GET['source-id']
         column = request.GET['column']
@@ -434,5 +446,26 @@ def articles_order_by(request):
             str_return += build_article_table_row(article)
         str_return += '</tbody>'
         return HttpResponse(str_return)
-    #except:
-     #   return HttpResponseBadRequest()
+    except:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def save_data_extraction(request):
+    try:
+        article_id = request.POST['article-id']
+        field_id = request.POST['field-id']
+        value = request.POST['value']
+
+        article = Article.objects.get(pk=article_id)
+        field = DataExtractionField.objects.get(pk=field_id)
+        if article.review.is_author_or_coauthor(request.user):
+            data_extraction, created = DataExtraction.objects.get_or_create(article=article, field=field)
+            data_extraction.value = value
+            data_extraction.save()
+            return HttpResponse()
+        else:
+            return HttpResponseBadRequest()
+    except Exception, e:
+        return HttpResponseBadRequest()
