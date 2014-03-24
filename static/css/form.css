@@ -24,7 +24,7 @@ textarea {
   padding: 0.7em;
 }
 
-input:focus, textarea:focus {
+input[type=text]:focus, textarea:focus {
   border-color: rgba(85, 137, 155, 0.8);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(85, 137, 155, 0.6);
   outline: 0 none;
@@ -61,7 +61,7 @@ input:focus, textarea:focus {
   padding-right: .8em;
 }
 
-.form-block input, .form-block textarea {
+.form-block input[type=text], .form-block textarea {
   display: block;
   border-radius: 5px;
   border: 1px solid #CCCCCC;
@@ -73,7 +73,7 @@ input:focus, textarea:focus {
   width: 100%;
 }
 
-.form-block input:focus, .form-block textarea:focus {
+.form-block input[type=text]:focus, .form-block textarea:focus {
   border-color: rgba(85, 137, 155, 0.8);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(85, 137, 155, 0.6);
   outline: 0 none;

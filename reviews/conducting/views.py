@@ -150,14 +150,12 @@ def build_data_extraction_field_row(article, field):
         str_field += u'</select>'
 
     elif field.field_type == field.SELECT_MANY_FIELD:
-        str_field = u'<ul>'
         for value in field.get_select_values():
             if extraction != None and value in extraction.get_value():
                 checked = ' checked'
             else:
                 checked = ''
-            str_field += u'<li><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</li>'.format(article.id, field.id, value.id, checked, value.value)
-        str_field += u'</ul>'
+            str_field += u'<input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4} '.format(article.id, field.id, value.id, checked, value.value)
 
     else:
         if extraction != None:
