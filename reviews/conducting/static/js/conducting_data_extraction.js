@@ -1,9 +1,10 @@
 $(function () {
 
   function save_data_extraction_field(ref) {
+    var row = $(ref).closest("tr");
     var review_id = $("#review-id").val();
     var article_id = $(ref).closest(".tbl-data-extraction").attr("article-id");
-    var field_id = $(ref).closest("tr").attr("field-id");
+    var field_id = $(row).attr("field-id");
     var value = $(ref).val();
     var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
     $.ajax({
@@ -18,12 +19,17 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-
+        $("p.error", row).text('').hide();
+        $("td.data-extraction-label", row).removeClass("error");
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("p.error", row).text(jqXHR.responseText).show();
+        $("td.data-extraction-label", row).addClass("error");
       }
     });
   }
 
-  $(".tbl-data-extraction input[type=text]").blur(function () {
+  $(".tbl-data-extraction input[type=text]").change(function () {
     save_data_extraction_field($(this));
   });
 

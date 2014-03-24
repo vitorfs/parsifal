@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
-from reviews.models import Review, Source, Question, SelectionCriteria, Keyword, DataExtractionField, DataExtractionLookup, QualityQuestion, QualityAnswer
+from reviews.models import *
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 
@@ -663,6 +663,15 @@ def save_data_extraction_field(request):
             field = DataExtractionField(review=review)
         else:
             field = DataExtractionField.objects.get(pk=field_id)
+            if field.field_type != field_type:
+                try:
+                    data_extractions = DataExtraction.objects.filter(field__id=field_id)
+                    for data_extraction in data_extractions:
+                        data_extraction.value = ''
+                        data_extraction.select_values.clear()
+                        data_extraction.save()
+                except Exception, e:
+                    pass
 
         field.description = description
         field.field_type = field_type

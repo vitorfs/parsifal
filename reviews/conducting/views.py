@@ -120,9 +120,9 @@ def build_data_extraction_field_row(article, field):
         true = u''
         false = u''
         if extraction != None:
-            if extraction.get_value():
+            if extraction.get_value() == True:
                 true = u' selected'
-            else:
+            elif extraction.get_value() == False:
                 false = u' selected'
 
         str_field = u'''<select name="value">
@@ -136,7 +136,7 @@ def build_data_extraction_field_row(article, field):
             value = extraction.get_date_value_as_string()
         else:
             value = u''
-        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="255" value="{2}">'.format(article.id, field.id, value)
+        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="10" value="{2}">'.format(article.id, field.id, value)
 
     elif field.field_type == field.SELECT_ONE_FIELD:
         str_field = u'''<select name="{0}-{1}-value">
@@ -162,11 +162,11 @@ def build_data_extraction_field_row(article, field):
             value = extraction.get_value()
         else:
             value = u''
-        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="255" value="{2}">'.format(article.id, field.id, value)
+        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="1000" value="{2}">'.format(article.id, field.id, value)
 
     return str_field
 
-def build_data_extraction_table(request, review):
+def build_data_extraction_table(review):
     selected_studies = review.get_final_selection_articles()
     data_extraction_fields = review.get_data_extraction_fields()
     if data_extraction_fields:
@@ -181,8 +181,8 @@ def build_data_extraction_table(request, review):
                 <tbody>'''.format(study.id, study.title, study.get_score())
             for field in data_extraction_fields:
                 str_table += u'''<tr field-id="{0}">
-                  <td style="width: 25%; text-align: right; font-weight: bold;">{1}</td>
-                  <td style="width: 75%;">{2}</td>
+                  <td style="width: 25%;" class="data-extraction-label">{1}</td>
+                  <td style="width: 75%;">{2}<p class="error hide"></p></td>
                 </tr>'''.format(field.id, field.description, build_data_extraction_field_row(study, field))
             str_table += u'</tbody></table></div>'
         return str_table
@@ -212,7 +212,10 @@ def data_extraction(request, username, review_name):
 
     finished_all_steps = len(steps_messages) == 0
 
-    data_extraction_table = build_data_extraction_table(request, review)
+    try:
+        data_extraction_table = build_data_extraction_table(review)
+    except Exception, e:
+        data_extraction_table = '<h3>Something went wrong while rendering the data extraction form.</h3>'
 
     context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'data_extraction_table': data_extraction_table, 'finished_all_steps': finished_all_steps })
     return render_to_response('conducting/conducting_data_extraction.html', context)
@@ -552,4 +555,4 @@ def save_data_extraction(request):
         else:
             return HttpResponseBadRequest()
     except Exception, e:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest(e)

@@ -158,3 +158,17 @@ a.active-order {
 .data-extraction-container {
   margin-top: 30px;
 }
+
+.error {
+  color: #C45A46;
+  font-weight: bold;
+}
+
+p.error {
+  margin: 10px 0 0 0;
+  font-size: 12px;
+}
+
+table.tbl-data-extraction tbody tr td.data-extraction-label {
+  text-align: right;
+}

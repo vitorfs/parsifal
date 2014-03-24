@@ -2,21 +2,22 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Parsifal - Page not found</title>
+  <title>Parsifal - 404</title>
   <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favico.png">
   <link href="{{ STATIC_URL }}css/style_app.css" rel="stylesheet" media="screen">
-  <link href="{{ STATIC_URL }}css/404.css" rel="stylesheet" media="screen">
+  <link href="{{ STATIC_URL }}css/error.css" rel="stylesheet" media="screen">
 </head>
 <body>
   <div class="details-wrapper">
     <h1>404</h1>
     <img src="{{ STATIC_URL }}/img/dark_grail.svg" class="grail">
     <h2>You managed to find the Holy Grail! But we guess that's not what you were looking for.</h2>
+    <h3>Actually, that's an error. The requested url was not found on this server.</h3>
   </div>
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Help</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/support/">Support</a></li>
   </ul>
   <p>© 2014 Parsifal Ltd.</p>
 </body>

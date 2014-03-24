@@ -360,10 +360,13 @@ class DataExtraction(models.Model):
     select_values = models.ManyToManyField(DataExtractionLookup)
 
     def _set_boolean_value(self, value):
-        if value in ['True', 'False']:
-            self.value = value
+        if value:
+            if value in ['True', 'False']:
+                self.value = value
+            else:
+                raise ValueError('Expected values: "True" or "False"')
         else:
-            raise ValueError('Expected values: "True" or "False"')
+            self.value = ''
 
     def _set_string_value(self, value):
         try:
@@ -373,34 +376,41 @@ class DataExtraction(models.Model):
 
     def _set_float_value(self, value):
         try:
-            _value = value.replace(',', '.')
-            self.value = float(_value)
-        except Exception, e:
-            raise e
+            if value:
+                _value = value.replace(',', '.')
+                self.value = float(_value)
+            else:
+                self.value = ''
+        except:
+            raise Exception('Invalid input for ' + self.field.description + ' field. Expected value: floating point number. Please use dot instead of comma.')
 
     def _set_integer_value(self, value):
         try:
-            _value = value.replace(',', '.')
-            self.value = int(float(_value))
-        except Exception, e:
-            raise e
+            if value:
+                _value = value.replace(',', '.')
+                self.value = int(float(_value))
+            else:
+                self.value = ''
+        except:
+            raise Exception('Invalid input for ' + self.field.description + ' field. Expected value: integer number.')
 
     def _set_date_value(self, value):
         try:
             if value:
-                _value = datetime.datetime.strptime(value, '%m-%d-%Y').date()
+                _value = datetime.datetime.strptime(value, '%m/%d/%Y').date()
                 self.value = str(_value)
             else:
                 self.value = ''
-        except Exception, e:
-            raise e
+        except:
+            raise Exception('Invalid input for ' + self.field.description + ' field. Expected value: date. Please use the format MM/DD/YYYY.')
 
     def _set_select_one_value(self, value):
         try:
             self.value = ''
-            _value = DataExtractionLookup.objects.get(pk=value)
             self.select_values.clear()
-            self.select_values.add(_value)
+            if value:
+                _value = DataExtractionLookup.objects.get(pk=value)
+                self.select_values.add(_value)
         except Exception, e:
             raise e
 
@@ -433,6 +443,8 @@ class DataExtraction(models.Model):
                 return True
             elif self.value == 'False':
                 return False
+            else:
+                return ''
         except Exception, e:
             return ''
 
@@ -458,7 +470,7 @@ class DataExtraction(models.Model):
             else:
                 return ''
         except Exception, e:
-            raise e
+            return ''
 
     def _get_select_one_value(self):
         try:
