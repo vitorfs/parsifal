@@ -10,6 +10,29 @@ function isScrolledIntoView(elem) {
 
 $(function () {
 
+  $(".source-tab-content").on("click", ".btn-add-manual", function () {
+    var container = $("#modal-add-article .modal-body");
+    var review_id = $("#review-id").val();
+    var div = $(this).closest(".source-buttons");
+    var source_id = $("input[name=source-id]", div).val();
+    $.ajax({
+      url: '/reviews/conducting/new_article/',
+      data: {'review-id': review_id, 'source-id': source_id},
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $(container).loading();
+      },
+      success: function (data) {
+        $(container).html(data);
+      },
+      complete: function () {
+        $(container).stopLoading();
+      }
+    });
+    $("#modal-add-article").open();
+  });
+
   $(".source-tab-content").on("click", ".btn-import-bibtex", function () {
     var container = $(this).closest(".articles");
     $("input[type=file]", container).click();

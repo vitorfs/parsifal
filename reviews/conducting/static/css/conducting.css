@@ -21,14 +21,14 @@ div.source-buttons {
   background: rgba(115, 138, 139, .2);
 }
 
-#modal-article {
+#modal-article, #modal-add-article {
   width: 850px;
   height: 500px;
   margin-left: -425px;
   margin-top: -250px;
 }
 
-#modal-article .modal-body {
+#modal-article .modal-body, #modal-add-article .modal-body {
   height: 400px;
 }
 

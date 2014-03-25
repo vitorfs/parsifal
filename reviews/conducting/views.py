@@ -605,3 +605,18 @@ def resolve_all(request):
         return HttpResponse(','.join(article_id_list))
     except Exception, e:
         return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def new_article(request):
+    review_id = request.GET['review-id']
+    source_id = request.GET['source-id']
+
+    review = Review.objects.get(pk=review_id)
+    source = Source.objects.get(pk=source_id)
+
+    article = Article(review=review, source=source)
+
+    context = RequestContext(request, {'article': article})
+    return render_to_response('conducting/partial_conducting_article_details.html', context)
