@@ -137,10 +137,10 @@ class Review(models.Model):
     def get_final_selection_articles(self):
         accepted_articles = Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
         if self.quality_assessment_cutoff_score > 0.0:
-            articles = []
+            articles = accepted_articles
             for article in accepted_articles:
-                if article.get_score() > self.quality_assessment_cutoff_score:
-                    articles.append(article)
+                if article.get_score() <= self.quality_assessment_cutoff_score:
+                    articles = articles.exclude(id=article.id)
             return articles
         else:
             return accepted_articles
