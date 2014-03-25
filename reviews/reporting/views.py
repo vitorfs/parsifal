@@ -16,9 +16,12 @@ def reporting(request, username, review_name):
 def articles_selection_chart(request):
     review_id = request.GET['review-id']
     review = Review.objects.get(pk=review_id)
-    articles_selection = []
+    selected_articles = review.get_accepted_articles()
+
+    articles = []
     for source in review.sources.all():
         count = review.get_source_articles(source.id).count()
-        articles_selection.append(source.name + ':' + str(count))
-    str_return = ','.join(articles_selection)
+        accepted_count = selected_articles.filter(source__id=source.id).count()
+        articles.append(source.name + ':' + str(count) + ':' + str(accepted_count))
+    str_return = ','.join(articles)
     return HttpResponse(str_return)
