@@ -35,6 +35,12 @@
   box-shadow: 0px 1px 0 0px #BBCEB7 inset;
 }
 
+.btn-success:disabled {
+  background-color: #758373;
+  box-shadow: 0px 1px 0 0px #99AB9A inset;
+  cursor: default;
+}
+
 .btn-success:hover {
   background-color: #758373;
   box-shadow: 0px 1px 0 0px #99AB9A inset;
@@ -44,6 +50,12 @@
   border-color: #732B22;
   background: #C45A46;
   box-shadow: 0px 1px 0 0px #FF6C5A inset;
+}
+
+.btn-warning:disabled {
+  background-color: #732B22;
+  box-shadow: 0px 1px 0 0px #C85446 inset;
+  cursor: default;
 }
 
 .btn-warning:hover {

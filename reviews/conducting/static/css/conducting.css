@@ -6,6 +6,21 @@ div.source-buttons {
   margin-top: 20px;
 }
 
+#modal-duplicates {
+  width: 950px;
+  height: 500px;
+  margin-left: -475px;
+  margin-top: -250px;
+}
+
+#modal-duplicates .modal-body {
+  height: 400px;
+}
+
+#modal-duplicates table tr.zebra {
+  background: rgba(115, 138, 139, .2);
+}
+
 #modal-article {
   width: 850px;
   height: 500px;

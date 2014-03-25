@@ -111,6 +111,26 @@ class Review(models.Model):
         else:
             return Article.objects.filter(review__id=self.id, source__id=source_id)
 
+    def get_duplicate_articles(self):
+        articles = Article.objects.filter(review__id=self.id).exclude(status=Article.DUPLICATED)
+
+        duplicates = []
+        duplicates_control_id = []
+
+        for i in range(0, len(articles)):
+            temp_duplicates = []
+            for j in range(0, len(articles)):
+                if i != j and articles[i].title.lower().strip() == articles[j].title.lower().strip():
+                    if articles[j].id not in duplicates_control_id:
+                        temp_duplicates.append(articles[j])
+                        duplicates_control_id.append(articles[j].id)
+            if len(temp_duplicates) > 0:
+                duplicates_control_id.append(articles[i].id)
+                temp_duplicates.append(articles[i])
+                duplicates.append(temp_duplicates)
+
+        return duplicates
+
     def get_accepted_articles(self):
         return Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
 
@@ -208,10 +228,12 @@ class Article(models.Model):
     UNCLASSIFIED = 'U'
     REJECTED = 'R'
     ACCEPTED = 'A'
+    DUPLICATED = 'D'
     ARTICLE_STATUS = (
         (UNCLASSIFIED, 'Unclassified'),
         (REJECTED, 'Rejected'),
         (ACCEPTED, 'Accepted'),
+        (DUPLICATED, 'Duplicated'),
         )
 
     review = models.ForeignKey(Review)

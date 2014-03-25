@@ -7,6 +7,19 @@
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="studies" %}
   <h2>Study Selection</h2>
+  <div class="modal" id="modal-duplicates">
+    <div class="modal-header">
+      <a href="#" class="close close-modal">×</a>
+      <h2>Duplicates</h2>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning close-modal">Cancel</button>
+      <button type="button" class="btn btn-success" id="btn-resolve-all">Resolve All</button>
+    </div>
+  </div>
+
   <div class="modal" id="modal-article">
     <div class="modal-header">
       <a href="#" class="close close-modal">×</a>

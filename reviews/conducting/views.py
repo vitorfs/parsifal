@@ -365,7 +365,7 @@ def build_article_table_row(article):
     span_status = ''
     if article.status == Article.ACCEPTED:
         span_status += '<span class="label label-success">'
-    elif article.status == Article.REJECTED:
+    elif article.status == Article.REJECTED or article.status == Article.DUPLICATED:
         span_status += '<span class="label label-warning">'
     else:
         span_status += '<span>'
@@ -416,7 +416,7 @@ def save_article_details(request):
             article.abstract = request.POST['abstract'][:4000]
             article.document_type = request.POST['document-type'][:100]
             status = request.POST['status'][:1]
-            if status in (Article.UNCLASSIFIED, Article.REJECTED, Article.ACCEPTED):
+            if status in (Article.UNCLASSIFIED, Article.REJECTED, Article.ACCEPTED, Article.DUPLICATED):
                 article.status = status
 
             article.save()
@@ -556,3 +556,47 @@ def save_data_extraction(request):
             return HttpResponseBadRequest()
     except Exception, e:
         return HttpResponseBadRequest(e)
+
+@ajax_required
+@author_required
+@login_required
+def find_duplicates(request):
+    review_id = request.GET['review-id']
+    review = Review.objects.get(pk=review_id)
+    duplicates = review.get_duplicate_articles()
+    context = RequestContext(request, {'duplicates': duplicates})
+    return render_to_response('conducting/partial_conducting_find_duplicates.html', context)
+
+@ajax_required
+@author_required
+@login_required
+def resolve_duplicated(request):
+    try:
+        article_id = request.POST['article-id']
+        article = Article.objects.get(pk=article_id)
+        if article.review.is_author_or_coauthor(request.user):
+            article.status = Article.DUPLICATED
+            article.save()
+            return HttpResponse()
+        else:
+            return HttpResponseBadRequest()
+    except Exception, e:
+        return HttpResponseBadRequest()
+
+@ajax_required
+@author_required
+@login_required
+def resolve_all(request):
+    try:
+        article_id_list = []
+        review_id = request.POST['review-id']
+        review = Review.objects.get(pk=review_id)
+        duplicates = review.get_duplicate_articles()
+        for duplicate in duplicates:
+            for i in range(1, len(duplicate)):
+                duplicate[i].status = Article.DUPLICATED
+                duplicate[i].save()
+                article_id_list.append(str(duplicate[i].id))
+        return HttpResponse(','.join(article_id_list))
+    except Exception, e:
+        return HttpResponseBadRequest()

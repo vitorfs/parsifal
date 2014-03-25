@@ -342,6 +342,105 @@ $(function () {
     }
   });
 
+  $(".source-tab-content").on("click", ".btn-find-duplicates", function () {
+    $.ajax({
+      url: '/reviews/conducting/find_duplicates/',
+      data: {'review-id': $("#review-id").val()},
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $("#modal-duplicates").open();
+        $("#modal-duplicates .modal-body").loading();
+      },
+      success: function (data) {
+        $("#modal-duplicates .modal-body").html(data);
+      },
+      complete: function () {
+        $("#modal-duplicates .modal-body").stopLoading();
+      }
+    });
+  });
+
+  $("#modal-duplicates").on("click", ".btn-resolve", function () {
+    var row = $(this).closest("tr");
+    var btn = $(this);
+    var review_id = $("#review-id").val();
+    var article_id = $(row).attr("article-id");
+    var duplicate = $(row).attr("duplicate");
+    var csrf_token = $("#modal-duplicates input[name=csrfmiddlewaretoken]").val();
+    $.ajax({
+      url: '/reviews/conducting/resolve_duplicated/',
+      data: {
+        'review-id': review_id,
+        'article-id': article_id,
+        'csrfmiddlewaretoken': csrf_token
+      },
+      type: 'post',
+      cache: false,
+      beforeSend: function () {
+        $(btn).prop("disabled", true);
+        $(btn).text("Resolving...");
+      },
+      success: function (data) {
+        $("span", row).replaceWith("<span class='label label-warning'>Duplicated</span>");
+        $(btn).text("Resolved");
+        $(row).attr("resolved", "true");
+        var duplicates = $("#modal-duplicates .modal-body tr[duplicate=" + duplicate + "]");
+        var duplicates_resolved = $("#modal-duplicates .modal-body tr[duplicate=" + duplicate + "][resolved=true]");
+
+        if (duplicates.length - duplicates_resolved.length == 1) {
+          var btn_resolved = $("#modal-duplicates .modal-body tr[duplicate=" + duplicate + "][resolved=false] button");
+          $(btn_resolved).text("Resolved");
+          $(btn_resolved).prop("disabled", true);
+        }
+
+        var article_row = $(".source-tab-content .source-articles tr[oid=" + article_id + "]");
+        $(article_row).attr("article-status", "D");
+        $("span", article_row).replaceWith("<span class=\"label label-warning\">Duplicated</span>");
+      },
+      error: function () {
+        $(btn).prop("disabled", false);
+        $(btn).text("Resolve");
+      }
+    });
+  });
+
+  $("#btn-resolve-all").click(function () {
+    var review_id = $("#review-id").val();
+    var csrf_token = $("#modal-duplicates input[name=csrfmiddlewaretoken]").val();
+    var btn = $(this);
+    $.ajax({
+      url: '/reviews/conducting/resolve_all/',
+      data: {
+        'review-id': review_id,
+        'csrfmiddlewaretoken': csrf_token
+      },
+      type: 'post',
+      cache: false,
+      beforeSend: function () {
+        $(btn).prop("disabled", true);
+        $(btn).text("Resolving...");
+      },
+      success: function (data) {
+        if (data != "") {
+          var btn_modal = $("#modal-duplicates table tbody tr td button");
+          $(btn_modal).prop("disabled", true);
+          $(btn_modal).text("Resolved");
+          var ids = data.split(",");
+          for (var i = ids.length - 1; i >= 0; i--) {
+            var article_row = $(".source-tab-content .source-articles tr[oid=" + ids[i] + "]");
+            $(article_row).attr("article-status", "D");
+            $("span", article_row).replaceWith("<span class=\"label label-warning\">Duplicated</span>");
+          };
+        }
+      },
+      complete: function () {
+        $(btn).prop("disabled", false);
+        $(btn).text("Resolve All");
+      }
+    });
+  });
+
   // On page load
 
   if ($("ul#source-tab li").length > 0) {

@@ -6,12 +6,14 @@
       <input type="hidden" name="source-id" value="{{ source.id }}">
       <input type="file" class="hide" name="bibtex">
     </form>
-    {% if source.id %}
-      <div class="studies-import">
-        <button type="button" class="btn btn-import-bibtex btn-small">Import Bibtex</button>
-        <button type="button" class="btn btn-add-manual btn-small">Add Manual</button>
-      </div>
-    {% endif %}
+    <div class="studies-import">
+      {% if source.id %}
+        <button type="button" class="btn btn-small btn-import-bibtex">Import Bibtex</button>
+        <button type="button" class="btn btn-small btn-add-manual">Add Manual</button>
+      {% else %}
+        <button type="button" class="btn btn-small btn-find-duplicates">Find Duplicates</button>
+      {% endif %}
+    </div>
     <div class="studies-action">
       <strong>Action:</strong>
       <select class="select-action">
@@ -25,9 +27,10 @@
     <p>
       <strong>Show:</strong> 
       <input type="radio" name="filter" value="ALL" checked> All
-      <input type="radio" name="filter" value="U"> Unclassified
       <input type="radio" name="filter" value="A"> Accepted
       <input type="radio" name="filter" value="R"> Rejected
+      <input type="radio" name="filter" value="U"> Unclassified
+      <input type="radio" name="filter" value="D"> Duplicated
     </p>
   </div>
   <div class="source-articles">
@@ -53,7 +56,7 @@
             <td>{{ article.journal }}</td>
             <td>{{ article.year }}</td>
             <td>
-              <span class="{% if article.status == article.ACCEPTED %}label label-success{% elif article.status == article.REJECTED %}label label-warning{% endif %}">
+              <span class="{% if article.status == article.ACCEPTED %}label label-success{% elif article.status == article.REJECTED or article.status == article.DUPLICATED %}label label-warning{% endif %}">
                 {{ article.get_status_display }}
               </span>
             </td>

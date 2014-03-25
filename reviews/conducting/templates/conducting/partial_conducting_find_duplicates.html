@@ -1,0 +1,37 @@
+<h2>Resolve Duplicates</h2>
+{% if duplicates %}
+  <p>Click on <strong>Resolve Button</strong> to change the article status to <span class="label label-warning">Duplicated</span></p>
+{% endif %}
+{% csrf_token %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Authors</th>
+      <th>Year</th>
+      <th>Source</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for articles in duplicates %}
+      {% with forloop.counter as loop_count %}
+        {% for article in articles %}
+          <tr{% if loop_count|divisibleby:2 %} class="zebra"{% endif %} duplicate="{{ loop_count }}" article-id="{{ article.id }}" resolved="false">
+            <td>{{ article.title }}</td>
+            <td>{{ article.author }}</td>
+            <td>{{ article.year }}</td>
+            <td>{{ article.source }}</td>
+            <td><span class="{% if article.status == article.ACCEPTED %}label label-success{% elif article.status == article.REJECTED or article.status == article.DUPLICATED %}label label-warning{% endif %}">{{ article.get_status_display }}</span></td>
+            <td width="120px"><button class="btn btn-small btn-warning btn-resolve">Resolve</button></td>
+          </tr>
+        {% endfor %}
+      {% endwith %}
+    {% empty %}
+      <tr>
+        <td colspan="6" style="text-align: center">No duplicate found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
