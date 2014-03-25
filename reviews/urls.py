@@ -8,4 +8,5 @@ urlpatterns = patterns('reviews.views',
     url(r'^save_description/$', 'save_description', name='save_description'),
     url(r'^planning/', include('reviews.planning.urls', namespace='planning')),
     url(r'^conducting/', include('reviews.conducting.urls', namespace='conducting')),
+    url(r'^reporting/', include('reviews.reporting.urls', namespace='reporting')),
 )

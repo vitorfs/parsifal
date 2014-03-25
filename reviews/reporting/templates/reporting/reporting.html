@@ -5,8 +5,43 @@
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 {% endblock head_extra %}
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="reporting" %}
+
+    <script type="text/javascript">
+      google.load('visualization', '1.0', {'packages':['corechart']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        $.ajax({
+          url: '/reviews/reporting/articles_selection_chart/',
+          data: {'review-id': $("#review-id").val()},
+          type: 'get',
+          cache: false,
+          beforeSend: function () {
+            $("#articles-selection").loading();
+          },
+          success: function (data) {
+            var source_data = data.split(',');
+            var rows = [];
+            for (var i = source_data.length - 1; i >= 0; i--) {
+              row = source_data[i].split(':');
+              rows.push([row[0], parseInt(row[1])]);
+            };
+            var chart_data = new google.visualization.DataTable();
+            chart_data.addColumn('string', 'Source');
+            chart_data.addColumn('number', 'Number of Aticles');
+            chart_data.addRows(rows);
+            var options = {'width':600, 'height':300, 'backgroundColor':'#F6F6F6'};
+            var chart = new google.visualization.PieChart(document.getElementById('articles-selection'));
+            chart.draw(chart_data, options);
+          }
+        });
+      }
+    </script>
+
+    <h2>Number of Articles per Source</h2>
+    <div id="articles-selection"></div>
 {% endblock content %}
