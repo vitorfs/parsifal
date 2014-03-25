@@ -94,7 +94,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = 'Parsifal <support@parsif.al>'
 
 FILE_UPLOAD_TEMP_DIR = '/tmp/'
-FILE_UPLOAD_PERMISSIONS = '0644'
+FILE_UPLOAD_PERMISSIONS = 0644
 
 HTTPS_SUPPORT = config('HTTPS_SUPPORT', default=True, cast=bool)
 SECURE_REQUIRED_PATHS = (
