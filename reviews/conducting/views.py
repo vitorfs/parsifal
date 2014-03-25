@@ -520,12 +520,17 @@ def articles_order_by(request):
         source_id = request.GET['source-id']
         column = request.GET['column']
 
+        asc = ''
+        if column[0] == '-':
+            asc = '-'
+        column = column.replace('-', '')
+
         review = Review.objects.get(pk=review_id)
         if source_id != 'None':
-            articles = review.get_source_articles(source_id).order_by(column)
+            articles = review.get_source_articles(source_id).extra(select={'lower_column': 'lower('+ column +')'}).order_by(asc + 'lower_column')
             source = Source.objects.get(pk=source_id)
         else:
-            articles = review.get_source_articles().order_by(column)
+            articles = review.get_source_articles().extra(select={'lower_column': 'lower('+ column +')'}).order_by(asc + 'lower_column')
             source = Source()
 
         str_return = u'<tbody>'
