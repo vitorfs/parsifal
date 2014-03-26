@@ -2,11 +2,11 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from reviews.models import Review
-from django.core.mail import send_mail
+from django.db.models import Q
 
 def home(request):
     if request.user.is_authenticated():
-        user_reviews = Review.objects.filter(author__id=request.user.id).order_by('-last_update',)
+        user_reviews = Review.objects.filter(Q(author=request.user) | Q(co_authors=request.user)).order_by('-last_update',)
         context = RequestContext(request, {'user_reviews': user_reviews})
         return render_to_response('core/home.html', context)
     else:

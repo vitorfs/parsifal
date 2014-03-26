@@ -10,6 +10,7 @@ from reviews.models import Review
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
 from django.template.defaultfilters import slugify
+from django.db.models import Q
 
 def reviews(request, username):
     user = get_object_or_404(User, username__iexact=username)
@@ -21,7 +22,7 @@ def reviews(request, username):
     followers_count = user.profile.get_followers_count()
     following_count = user.profile.get_following_count()
 
-    user_reviews = Review.objects.filter(author__id=user.id).order_by('-last_update',)
+    user_reviews = Review.objects.filter(Q(author=user) | Q(co_authors=user)).order_by('-last_update',)
     context = RequestContext(request, {
         'user_reviews': user_reviews, 
         'page_user': user, 
