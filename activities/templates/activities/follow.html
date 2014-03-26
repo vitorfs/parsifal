@@ -15,7 +15,7 @@
       {% for follow_user in follow_list %}
         <li class="clearfix">
           <a href="/{{ follow_user.username }}/">
-            <img src="{{ STATIC_URL }}img/user.png" width="90px" height="90px" class="follow-portrait">
+            <img src="{{ follow_user.profile.get_picture }}" width="90px" height="90px" class="follow-portrait">
           </a>
           <h3><a href="/{{ follow_user.username }}/">{{ follow_user.profile.get_screen_name }}</a></h3>
           <p>

@@ -12,7 +12,7 @@ from parsifal.decorators import ajax_required
 from django.template.defaultfilters import slugify
 
 def reviews(request, username):
-    user = get_object_or_404(User, username=username)
+    user = get_object_or_404(User, username__iexact=username)
     followers = user.profile.get_followers()
     is_following = False
     if request.user in followers:
@@ -69,7 +69,7 @@ def new(request):
 @author_required
 @login_required
 def review(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/review.html', context)
 
@@ -82,7 +82,7 @@ def add_author_to_review(request):
         review_id = request.GET['review-id']
         
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username__iexact=username)
         except User.DoesNotExist:
             user = None
 

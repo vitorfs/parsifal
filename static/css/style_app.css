@@ -197,7 +197,7 @@ a.close:hover {
 }
 
 .hide {
-  display: none;
+  display: none!important;
 }
 
 .shade {

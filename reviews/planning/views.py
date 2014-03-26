@@ -14,7 +14,7 @@ from parsifal.decorators import ajax_required
 @author_required
 @login_required
 def planning(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
     empty_field = DataExtractionField()
     context = RequestContext(request, {'review': review, 'empty_field': empty_field})
     return render_to_response('planning/planning.html', context)

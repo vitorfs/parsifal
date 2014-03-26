@@ -20,14 +20,14 @@ def conducting(request, username, review_name):
 @author_required
 @login_required
 def search_string(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
     context = RequestContext(request, {'review': review})
     return render_to_response('conducting/conducting_search_string.html', context)
 
 @author_required
 @login_required
 def study_selection(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
     try:
         active_tab = int(request.GET['source'])
     except Exception, e:
@@ -85,7 +85,7 @@ def build_quality_assessment_table(request, review):
 @author_required
 @login_required
 def quality_assessment(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
 
     add_sources = review.sources.count()
     import_articles = review.get_source_articles().count()
@@ -192,7 +192,7 @@ def build_data_extraction_table(review):
 @author_required
 @login_required
 def data_extraction(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
 
     add_sources = review.sources.count()
     import_articles = review.get_source_articles().count()

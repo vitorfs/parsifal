@@ -38,3 +38,18 @@
   width: calc(100% - 200px);
   padding-left: 20px;
 }
+
+.selected-picture {
+  margin-top: 20px;
+}
+
+#modal-upload-picture {
+  width: 600px;
+  height: 500px;
+  margin-left: -300px;
+  margin-top: -250px;
+}
+
+#modal-upload-picture .modal-body {
+  height: 400px;
+}

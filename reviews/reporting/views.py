@@ -10,7 +10,7 @@ from django.db.models import Count
 @author_required
 @login_required
 def reporting(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username=username)
+    review = Review.objects.get(name=review_name, author__username__iexact=username)
     context = RequestContext(request, {'review': review})
     return render_to_response('reporting/reporting.html', context)
 
