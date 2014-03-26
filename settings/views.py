@@ -26,13 +26,13 @@ def profile(request):
 
         user = request.user
 
-        user.first_name = first_name
-        user.last_name = last_name
-        user.email = email
+        user.first_name = first_name[:30]
+        user.last_name = last_name[:30]
+        user.email = email[:75]
 
-        user.profile.location = location
-        user.profile.institution = institution
-        user.profile.url = url
+        user.profile.location = location[:50]
+        user.profile.institution = institution[:50]
+        user.profile.url = url[:50]
 
         user.save()
         messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')

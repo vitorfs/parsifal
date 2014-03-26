@@ -23,7 +23,7 @@
             <label for="first-name">First Name</label>
           </div>
           <div class="input-container">
-            <input type="text" id="first-name" name="first-name" value="{{ user.first_name }}">
+            <input type="text" id="first-name" name="first-name" value="{{ user.first_name }}" maxlength="30">
           </div>
         </div>
         <div class="form-row">
@@ -31,7 +31,7 @@
             <label for="last-name">Last Name</label>
           </div>
           <div class="input-container">
-            <input type="text" id="last-name" name="last-name" value="{{ user.last_name }}">
+            <input type="text" id="last-name" name="last-name" value="{{ user.last_name }}" maxlength="30">
           </div>
         </div>
         <div class="form-row">
@@ -39,7 +39,7 @@
             <label for="email">Email</label>
           </div>
           <div class="input-container">
-            <input type="text" id="email" name="email" value="{{ user.email }}">
+            <input type="text" id="email" name="email" value="{{ user.email }}" maxlength="75">
           </div>
         </div>
         <div class="form-row">
@@ -47,7 +47,7 @@
             <label for="url">URL</label>
           </div>
           <div class="input-container">
-            <input type="text" id="url" name="url" value="{{ user.profile.url }}">
+            <input type="text" id="url" name="url" value="{{ user.profile.url }}" maxlength="50">
           </div>
         </div>
         <div class="form-row">
@@ -55,7 +55,7 @@
             <label for="institution">Institution</label>
           </div>
           <div class="input-container">
-            <input type="text" id="institution" name="institution" value="{{ user.profile.institution }}">
+            <input type="text" id="institution" name="institution" value="{{ user.profile.institution }}" maxlength="50">
           </div>
         </div>
         <div class="form-row">
@@ -63,7 +63,7 @@
             <label for="location">Location</label>
           </div>
           <div class="input-container">
-            <input type="text" id="location" name="location" value="{{ user.profile.location }}">
+            <input type="text" id="location" name="location" value="{{ user.profile.location }}" maxlength="50">
           </div>
         </div>
         <hr>
