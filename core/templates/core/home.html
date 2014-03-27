@@ -9,7 +9,11 @@
     <div class="last-updates">
       <h1>Last updates on Parsifal</h1>
       <ul>
-        <li>There is no recent update on your network.</li>
+        {% for feed in feeds %}
+          <li>{{ feed|safe }}</li>
+        {% empty %}
+          <li>There is no recent update on your network.</li>
+        {% endfor %}
       </ul>
     </div>
     <div class="user-reviews">
@@ -19,13 +23,11 @@
       <div class="container reviews" style="padding: 0">
         <nav>
           <h3>Your Reviews</h3>
-          {% if user_reviews%}
-            {% for review in user_reviews %}
-              <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
-            {% endfor %}
-          {% else %}
+          {% for review in user_reviews %}
+            <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
+          {% empty %}
             <p>You don't have any systematic literature review yet.</p>
-          {% endif %}
+          {% endfor %}
         </nav>
       </div>
     </div>

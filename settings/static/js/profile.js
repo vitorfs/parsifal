@@ -25,10 +25,6 @@ $(function () {
   };
 
   $("#btn-upload-picture").click(function () {
-    $("#modal-upload-picture").open();
-  });
-
-  $("#btn-choose-picture").click(function () {
     $("#picture-upload-form input[name='picture']").click();
   });
 
