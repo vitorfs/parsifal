@@ -11,12 +11,12 @@
     </select>
   </td>
   <td>
-    <div class="select-field {% if not field.is_select_field %}hide{% endif %}">
+    <div class="select-field" style="{% if not field.is_select_field %}display: none{% endif %}">
       <textarea id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}
 {% endfor %}</textarea>
       <p>Add one value per line.</p>
     </div>
-    <div class="no-select-field {% if field.is_select_field %}hide{% endif %}">
+    <div class="no-select-field" style="{% if field.is_select_field %}display: none{% endif %}">
       <p>Available only for <strong>select one</strong> or <strong>select many</strong> fields.</p>
     </div>
   </td>
