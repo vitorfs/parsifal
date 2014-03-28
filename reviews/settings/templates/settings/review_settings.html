@@ -5,6 +5,7 @@
 {% block head_extra %}
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/review_settings.js"></script>
 {% endblock head_extra %}
 
 {% block content %}
@@ -32,7 +33,7 @@
       </div>
       <div class="form-row">
         <div class="button-container">
-          <button type="button" class="btn btn-success pull-left">Save</button>
+          <button type="button" class="btn btn-success pull-left btn-save-settings">Save</button>
         </div>
       </div>
     </form>
@@ -43,14 +44,14 @@
           <label for="">Delete this review</label>
         </div>
         <div class="input-container">
-          <button type="button" class="btn btn-warning">Delete</button>
+          <button type="button" class="btn btn-warning" id="btn-delete-review">Delete</button>
         </div>
       </div>
         <div class="label-container">
           <label for="">Transfer ownership</label>
         </div>
         <div class="input-container">
-          <button type="button" class="btn btn-warning">Transfer</button>
+          <button type="button" class="btn btn-warning" id="btn-transfer-ownership">Transfer</button>
         </div>
       </div>
     </form>

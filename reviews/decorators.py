@@ -8,7 +8,7 @@ def main_author_required(f):
         if 'review_name' in kwargs and 'username' in kwargs:
             try:
                 review = Review.objects.get(name=kwargs['review_name'], author__username__iexact=kwargs['username'])
-                if review.is_author_or_coauthor(request.user):
+                if review.author.id == request.user.id:
                     return f(request, *args, **kwargs)
                 else:
                     raise Http404

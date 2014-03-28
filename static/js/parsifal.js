@@ -39,6 +39,8 @@ $.fn.close = function () {
   });
 };
 
+// Loading functions
+
 $.fn.loading = function () {
   $(this).addClass("loading-state");
   $(this).html(LOADING);
@@ -47,6 +49,21 @@ $.fn.loading = function () {
 $.fn.stopLoading = function () {
   $(this).removeClass("loading-state");
 };
+
+// Button functions
+
+$.fn.disable = function () {
+  $(this).prop("disabled", true);
+  $(this).attr("data-original", $(this).text());
+  $(this).text($(this).attr("data-loading"));
+};
+
+$.fn.enable = function () {
+  $(this).prop("disabled", false);
+  $(this).text($(this).attr("data-original"));
+};
+
+// On page load
 
 $(function () {
   $(".modal").on("click", ".close-modal", function () {

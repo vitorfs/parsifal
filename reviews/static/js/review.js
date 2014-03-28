@@ -76,6 +76,9 @@ $(function () {
       data: $("#form-description").serialize(),
       type: 'post',
       cache: false,
+      beforeSend: function () {
+        $(btn).disable();
+      },
       success: function (data) {
         var msg = btn.siblings('.form-status-message');
         msg.removeClass("text-error").addClass("text-success");
@@ -93,6 +96,9 @@ $(function () {
         window.setTimeout(function () {
           msg.fadeOut();
         }, 2000);
+      },
+      complete: function () {
+        $(btn).enable();
       }
     });
   });

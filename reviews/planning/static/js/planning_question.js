@@ -8,12 +8,18 @@ $(function () {
       data: form.serialize(),
       type: 'post',
       cache: false,
+      beforeSend: function () {
+        $(btn).disable();
+      },
       error: function (jqXHR, textStatus, errorThrown) {
         displayFormMessage(btn, "text-error", jqXHR.responseText);
       },
       success: function(data) {
         $("input[name='question-id']", form).val(data);
         displayFormMessage(btn, "text-success", "Your question has been saved successfully!");
+      },
+      complete: function () {
+        $(btn).enable();
       }
     });
   }
@@ -28,11 +34,17 @@ $(function () {
         data: form.serialize(),
         type: 'post',
         cache: false,
+        beforeSend: function () {
+          $(btn).disable();
+        },
         success: function (data) {
           $(form).closest("div.question").fadeOut();
         },
         error: function () {
           displayFormMessage(btn, "text-error", "Something went wrong! Please contact the administrator.");
+        },
+        complete: function () {
+          $(btn).enable();
         }
       });
     }

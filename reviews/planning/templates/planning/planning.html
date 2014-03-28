@@ -24,13 +24,13 @@
       <div class="form-row">
         <textarea rows="5" name="objective">{{ review.objective }}</textarea>
       </div>
-      <button type="button" class="btn btn-success pull-left btn-save-objective">Save</button>
+      <button type="button" class="btn btn-success pull-left btn-save-objective" data-loading="Saving...">Save</button>
       <span class="form-status-message pull-left"></span>
     </form>
   </section>
   <hr>
   <section id="question-section" class="clearfix">
-    <h2>Questions</h2>
+    <h2>Research Questions</h2>
     <button type="button" class="btn btn-small" id="btn-add-sec-question">Add Secondary Question</button>
     <div class="questions-containers">
       {% include "planning/partial_planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
@@ -39,6 +39,10 @@
       {% endfor %}
     </div>
   </section>
+  <!--hr>
+  <section class="picoc-section" class="clearfix">
+    <h2>PICOC</h2>
+  </section-->
   <hr>
   <section id="keywords-section" class="clearfix">
     <h2>Keywords and Synonyms</h2>

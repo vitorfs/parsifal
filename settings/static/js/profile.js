@@ -51,7 +51,7 @@ $(function () {
         $(".selected-picture").remove();
         $(".jcrop-holder").remove();
         var src = $(".new-profile-picture img").attr("src");
-        $(".profile-picture img").attr("src", src);
+        $("img.profile-picture").attr("src", src);
       }
     });
   });
