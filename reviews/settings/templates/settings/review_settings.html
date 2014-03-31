@@ -62,10 +62,23 @@
           <label for="">Transfer ownership</label>
         </div>
         <div class="input-container">
-          <button type="button" class="btn btn-warning" id="btn-transfer-ownership">Transfer</button>
+          <button type="button" class="btn btn-warning" id="btn-transfer-ownership" data-loading="Transfering...">Transfer</button>
         </div>
       </div>
       <div class="form-row">
+        <div class="modal" id="modal-delete">
+          <div class="modal-header">
+            <h2>Delete Review</h2>
+          </div>
+          <div class="modal-body">
+            <h3>Confirm the review deletion</h3>
+            <p style="margin: 1em 0">Are you sure you want to completly delete the <strong>{{ review.title }}</strong> review? This action cannot be undone.</p>
+            <button type="button" class="btn btn-warning btn-large" id="confirm-review-deletion" style="width: 100%" data-loading="Deleting...">Confirm Deletion</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning close-modal">Cancel</button>
+          </div>
+        </div>
         <div class="label-container">
           <label for="">Delete this review</label>
         </div>

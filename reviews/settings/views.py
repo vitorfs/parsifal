@@ -45,6 +45,7 @@ def save_settings(request):
     except Exception, e:
         return HttpResponseBadRequest()
 
+@ajax_required
 @main_author_required
 @login_required
 def transfer(request):
@@ -69,7 +70,24 @@ def transfer(request):
     except Exception, e:
         return HttpResponseBadRequest('Something went wrong.')
 
+@ajax_required
 @main_author_required
 @login_required
 def delete(request):
-    pass
+    try:
+        review_id = request.POST['review-id']
+        review = Review.objects.get(pk=review_id)
+        username = review.author.username
+
+        sources = review.sources.all()
+        
+        for source in sources:
+            if not source.is_default:
+                review.sources.remove(source)
+                source.delete()
+
+        review.delete()
+        messages.add_message(request, messages.SUCCESS, 'The review was deleted successfully.')
+        return HttpResponse('/' + username + '/')
+    except Exception, e:
+        return HttpResponseBadRequest('Something went wrong.')

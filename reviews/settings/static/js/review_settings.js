@@ -53,7 +53,35 @@ $(function () {
   });
   
   $("#btn-delete-review").click(function () {
+    $("#modal-delete").open();
+  });
 
+  $("#confirm-review-deletion").click(function () {
+    var btn = $(this);
+
+    $.ajax({
+      url: '/review_settings/delete/',
+      data: {
+        'review-id': $("#review-id").val(),
+        'csrfmiddlewaretoken': $("#danger-zone-form input[name='csrfmiddlewaretoken']").val()
+      },
+      type: 'post',
+      cache: false,
+      beforeSend: function () {
+        $(btn).disable();
+      },
+      success: function (data) {
+        if (data != "") {
+          location.href = data;
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#modal-delete p.text-error").text(jqXHR.responseText);
+      },
+      complete: function () {
+        $(btn).enable();
+      }
+    });
   });
 
 });

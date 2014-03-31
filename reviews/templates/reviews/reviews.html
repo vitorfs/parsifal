@@ -103,7 +103,7 @@
               <tbody>
                 {% for review in user_reviews %}
                   <tr>
-                    <td><a href="/{{ page_user.username }}/{{ review.name }}/">{{ review.title }}</a></td>
+                    <td><a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a></td>
                     <td>
                       <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>{% endfor %}
                     </td>
