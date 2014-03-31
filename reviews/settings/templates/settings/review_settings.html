@@ -12,13 +12,15 @@
   {% include "reviews/review_header.html" %}
   <section class="clearfix">
     <h2>Settings</h2>
-    <form class="form-block">
+    <form class="form-block" id="review-settings-form">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
       <div class="form-row">
         <div class="label-container">
           <label for="review-name">Name</label>
         </div>
         <div class="input-container">
-          <input value="{{ review.name }}">
+          <input value="{{ review.name }}" id="name" name="name" maxlength="250">
           <span class="help">The name will be used to create a unique url for your review. Make sure you choose something <strong>short</strong> and <strong>elegant</strong>.</span>
           <span class="help">It will look like http://parsif.al/{{user.username}}/<strong>example-review-name</strong>/</span>
         </div>
@@ -28,30 +30,47 @@
           <label for="review-title">Title</label>
         </div>
         <div class="input-container">
-          <input value="{{ review.title }}">
+          <input value="{{ review.title }}" id="title" name="title" maxlength="250">
         </div>
       </div>
       <div class="form-row">
         <div class="button-container">
-          <button type="button" class="btn btn-success pull-left btn-save-settings">Save</button>
+          <button type="button" class="btn btn-success pull-left btn-save-settings" data-loading="Saving...">Save</button>
         </div>
       </div>
     </form>
     <hr>
-    <form class="form-block">
+    <form class="form-block" id="danger-zone-form">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="modal" id="modal-transfer">
+          <div class="modal-header">
+            <h2>Transfer Ownership</h2>
+          </div>
+          <div class="modal-body">
+            <h3>Username</h3>
+            <input type="text" maxlength="30" id="transfer-user">
+            <p style="margin: 1em 0">Inform the username of the user you want to transfer to review to.</p>
+            <p style="margin: 1em 0" class="text-error"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning close-modal">Cancel</button>
+            <button type="button" class="btn" id="btn-save-transfer">Transfer</button>
+          </div>
+        </div>
+        <div class="label-container">
+          <label for="">Transfer ownership</label>
+        </div>
+        <div class="input-container">
+          <button type="button" class="btn btn-warning" id="btn-transfer-ownership">Transfer</button>
+        </div>
+      </div>
       <div class="form-row">
         <div class="label-container">
           <label for="">Delete this review</label>
         </div>
         <div class="input-container">
           <button type="button" class="btn btn-warning" id="btn-delete-review">Delete</button>
-        </div>
-      </div>
-        <div class="label-container">
-          <label for="">Transfer ownership</label>
-        </div>
-        <div class="input-container">
-          <button type="button" class="btn btn-warning" id="btn-transfer-ownership">Transfer</button>
         </div>
       </div>
     </form>

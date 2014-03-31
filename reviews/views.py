@@ -22,7 +22,8 @@ def reviews(request, username):
     followers_count = user.profile.get_followers_count()
     following_count = user.profile.get_following_count()
 
-    user_reviews = Review.objects.filter(Q(author=user) | Q(co_authors=user)).order_by('-last_update',)
+    user_reviews = user.profile.get_reviews()
+
     context = RequestContext(request, {
         'user_reviews': user_reviews, 
         'page_user': user, 

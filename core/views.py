@@ -3,7 +3,6 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from reviews.models import Review
 from activities.models import Activity
-from django.db.models import Q
 from datetime import datetime
 
 def get_following_feeds(user):
@@ -43,7 +42,7 @@ def get_following_feeds(user):
 
 def home(request):
     if request.user.is_authenticated():
-        user_reviews = Review.objects.filter(Q(author=request.user) | Q(co_authors=request.user)).order_by('-last_update',)
+        user_reviews = request.user.profile.get_reviews()
         feeds = get_following_feeds(request.user)
         context = RequestContext(request, {'user_reviews': user_reviews, 'feeds': feeds, })
         return render_to_response('core/home.html', context)
