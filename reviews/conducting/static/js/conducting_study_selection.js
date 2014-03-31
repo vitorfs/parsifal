@@ -176,7 +176,7 @@ $(function () {
       data: $("#article-details").serialize(),
       type: 'post',
       beforeSend: function () {
-        $("#btn-save-article").prop("disabled", true);
+        $(".btn-save-article").prop("disabled", true);
       },
       success: function (data) {
         $(".source-articles table tbody tr[oid=" + article_id + "]").replaceWith(data);
@@ -197,18 +197,18 @@ $(function () {
           $("#modal-article .alert").show();
       },
       complete: function () {
-        $("#btn-save-article").prop("disabled", false);
+        $(".btn-save-article").prop("disabled", false);
       }
     });
   }
   
-  $("#btn-save-article").click(function () {
+  $(".btn-save-article").click(function () {
     save_article(false);
   });
 
   $("#modal-article").on("click", "ul.tab a", function () {
     var tab_id = $(this).attr("href");
-    $("#modal-article div.tabs > div").hide();
+    $("#modal-article div.tabs form > div").hide();
     $("#modal-article ul.tab li").removeClass("active");
     $(this).closest("li").addClass("active");
     $(tab_id).show();

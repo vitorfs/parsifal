@@ -1,21 +1,20 @@
-<ul class="tab">
-    <li class="active"><a href="#tab-details">Details</a></li>
-    <li><a href="#tab-criteria">Criteria</a></li>
-    <li><a href="#tab-comments">Comments</a></li>
-</ul>
-
 <div class="alert hide">
   <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();return false;">×</a>
   <span class="modal-alert"></span>
 </div>
 
+<ul class="tab">
+    <li class="active"><a href="#tab-details">Details</a></li>
+    <li><a href="#tab-comments">Comments</a></li>
+</ul>
+
 <div class="tabs">
-  <div id="tab-details">
-    <form name="article-details" id="article-details" method="post" action="." class="form-block form-normal">
-      {% csrf_token %}
-      <input type="hidden" name="article-id" id="article-id" value="{{ article.id }}">
-      <input type="hidden" name="review-id" id="review-id" value="{{ article.review.id }}">
-      <input type="hidden" name="source-id" id="source-id" value="{{ article.source.id }}">
+  <form name="article-details" id="article-details" method="post" action="." class="form-block form-normal">
+    {% csrf_token %}
+    <input type="hidden" name="article-id" id="article-id" value="{{ article.id }}">
+    <input type="hidden" name="review-id" id="review-id" value="{{ article.review.id }}">
+    <input type="hidden" name="source-id" id="source-id" value="{{ article.source.id }}">
+    <div id="tab-details">
       <div class="form-row">
         <h3>Status</h3>
         <select name="status" id="status">
@@ -60,16 +59,12 @@
         <h3>Volume</h3>
         <input type="text" name="volume" id="volume" value="{{ article.volume }}">
       </div>
-    </form>
-  </div>
-  <div id="tab-criteria" class="hide">
-    <div class="form-row">
-      <h3>Criteria</h3>
     </div>
-  </div>
-  <div id="tab-comments" class="hide">
-    <div class="form-row">
-      <h3>Comments</h3>
+    <div id="tab-comments" class="hide">
+      <div class="form-row">
+        <h3>Comments</h3>
+        <textarea name="comments" id="comments" rows="5">{{ article.comments }}</textarea>
+      </div>
     </div>
-  </div>
+  </form>
 </div>

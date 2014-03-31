@@ -415,6 +415,7 @@ def save_article_details(request):
             article.author = request.POST['author'][:1000]
             article.abstract = request.POST['abstract'][:4000]
             article.document_type = request.POST['document-type'][:100]
+            article.comments = request.POST['comments'][:4000]
             status = request.POST['status'][:1]
             if status in (Article.UNCLASSIFIED, Article.REJECTED, Article.ACCEPTED, Article.DUPLICATED):
                 article.status = status
