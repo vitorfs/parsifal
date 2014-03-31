@@ -54,3 +54,11 @@
   box-shadow: 0 3px 6px 0 #4C5D5E inset;
   margin: 0;
 }
+
+.last-updates small {
+  font-size: 0.8em;
+}
+
+.last-updates ul li {
+  padding: 1.1em 0;
+}
