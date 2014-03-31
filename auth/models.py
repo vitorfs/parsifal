@@ -24,9 +24,12 @@ class Profile(models.Model):
             return no_picture
 
     def get_screen_name(self):
-        if self.user.get_full_name():
-            return self.user.get_full_name()
-        else:
+        try:
+            if self.user.get_full_name():
+                return self.user.get_full_name()
+            else:
+                return self.user.username
+        except:
             return self.user.username
 
     def get_followers(self):

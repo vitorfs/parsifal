@@ -23,22 +23,22 @@ def get_following_feeds(user):
         activities.sort(key=lambda a: a.date, reverse=True)
         for activity in activities:
             if activity.from_user == user:
-                activity.message = '<a href="/{0}/">You</a> are now following <a href="/{1}/">{2}</a>'.format(
+                activity.message = u'<a href="/{0}/">You</a> are now following <a href="/{1}/">{2}</a>'.format(
                     user.username,
                     activity.to_user.username,
                     activity.to_user.profile.get_screen_name())
             else:
                 is_following = activity.to_user.profile.get_screen_name()
                 if activity.to_user == user:
-                    is_following = 'you'
-                activity.message = '<a href="/{0}/">{1}</a> is now following <a href="/{2}/">{3}</a>'.format(
+                    is_following = u'you'
+                activity.message = u'<a href="/{0}/">{1}</a> is now following <a href="/{2}/">{3}</a>'.format(
                     activity.from_user.username,
                     activity.from_user.profile.get_screen_name(), 
                     activity.to_user.username,
                     is_following)
             feeds.append(activity)
     except Exception, e:
-        feeds.append('Something went wrong while retrieving your feeds.')
+        pass
     return feeds
 
 def home(request):
