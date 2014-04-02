@@ -55,6 +55,11 @@ class Review(models.Model):
     study_selection_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
     quality_assessment_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
     data_extraction_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
+    population = models.CharField(max_length=200, blank=True)
+    intervention = models.CharField(max_length=200, blank=True)
+    comparison = models.CharField(max_length=200, blank=True)
+    outcome = models.CharField(max_length=200, blank=True)
+    context = models.CharField(max_length=200, blank=True)
 
     class Meta:
         verbose_name = "Review"
@@ -70,13 +75,6 @@ class Review(models.Model):
     def get_questions(self):
         questions = Question.objects.filter(review__id=self.id)
         return questions
-
-    def get_main_question(self):
-        try:
-            question = Question.objects.filter(review__id=self.id, question_type='M')[:1].get()
-        except Question.DoesNotExist:
-            question = Question()
-        return question
 
     def get_secondary_questions(self):
         return Question.objects.filter(review__id=self.id, question_type='S')
@@ -167,20 +165,9 @@ class Review(models.Model):
 
 
 class Question(models.Model):
-    MAIN = 'M'
-    SECONDARY = 'S'
-    QUESTION_TYPES = (
-        (MAIN, 'Main'),
-        (SECONDARY, 'Secondary'),
-        )
-
     review = models.ForeignKey(Review)
     question = models.CharField(max_length=500)
-    population = models.CharField(max_length=200)
-    intervention = models.CharField(max_length=200)
-    comparison = models.CharField(max_length=200)
-    outcome = models.CharField(max_length=200)
-    question_type = models.CharField(max_length=1, choices=QUESTION_TYPES)
+    parent_question = models.ForeignKey('self', null=True, related_name='+')
 
     class Meta:
         verbose_name = "Question"
@@ -188,6 +175,9 @@ class Question(models.Model):
 
     def __unicode__(self):
         return self.question
+
+    def get_child_questions(self):
+        return Question.objects.filter(parent_question=self)
 
 
 class SelectionCriteria(models.Model):
@@ -270,18 +260,30 @@ class Article(models.Model):
 
 
 class Keyword(models.Model):
+    POPULATION = 'P'
+    INTERVENTION = 'I'
+    COMPARISON = 'C'
+    OUTCOME = 'O'
+    RELATED_TO = (
+        (POPULATION, 'Population'),
+        (INTERVENTION, 'Intervention'),
+        (COMPARISON, 'Comparison'),
+        (OUTCOME, 'Outcome'),
+        )
+
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=200)
-    synonym_of = models.ForeignKey("self", null=True)
+    synonym_of = models.ForeignKey('self', null=True)
+    related_to = models.CharField(max_length=1, choices=RELATED_TO, blank=True)
 
     class Meta:
         verbose_name = "Keyword"
         verbose_name_plural = "Keywords"
         ordering = ("description",)
-            
+
     def __unicode__(self):
         return self.description
-        
+
     def save(self, *args, **kwargs):
         self.description = self.description[:200]
         super(Keyword, self).save(*args, **kwargs)

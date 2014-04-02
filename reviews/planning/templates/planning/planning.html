@@ -31,18 +31,131 @@
   <hr>
   <section id="question-section" class="clearfix">
     <h2>Research Questions</h2>
-    <button type="button" class="btn btn-small" id="btn-add-sec-question">Add Secondary Question</button>
+    <button type="button" class="btn btn-small" id="btn-add-question">Add Question</button>
     <div class="questions-containers">
-      {% include "planning/partial_planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
-      {% for question in review.get_secondary_questions %}
-        {% include "planning/partial_planning_question.html" with prefix=question.id question_type="S" question=question %}
-      {% endfor %}
+      <form method="post" action="." class="" id="question-form">
+        {% csrf_token %}
+        <ul>
+          <li>
+            <span class="question-description">
+              <input type="text">
+            </span>
+            <span class="question-buttons">
+              <button type="button" class="btn btn-small btn-success">save</button>
+              <button type="button" class="btn btn-small btn-warning">cancel</button>
+            </span>
+          </li>
+          <li>
+            <span class="question-description">What methods/techniques have been used to estimate effort in GSD?</span>
+            <span class="question-buttons">
+              <button type="button" class="btn btn-small btn-success">add question</button>
+              <button type="button" class="btn btn-small">edit</button>
+              <button type="button" class="btn btn-small btn-warning">remove</button>
+            </span>
+            <ul>
+              <li>
+                <span>What metrics have been used to measure the accuracy of effort estimation methods/techniques in GSD projects?</span>
+                <span class="question-buttons">
+                  <button type="button" class="btn btn-small btn-success">add question</button>
+                  <button type="button" class="btn btn-small">edit</button>
+                  <button type="button" class="btn btn-small btn-warning">remove</button>
+                </span>
+              </li>
+              <li>
+                <span>What are the accuracy levels for the observed estimation methods?</span>
+                <span class="question-buttons">
+                  <button type="button" class="btn btn-small btn-success">add question</button>
+                  <button type="button" class="btn btn-small">edit</button>
+                  <button type="button" class="btn btn-small btn-warning">remove</button>
+                </span>
+                <ul>
+                  <li>
+                    <span class="question-description">What methods/techniques have been used to estimate effort in GSD?</span>
+                    <span class="question-buttons">
+                      <button type="button" class="btn btn-small btn-success">add question</button>
+                      <button type="button" class="btn btn-small">edit</button>
+                      <button type="button" class="btn btn-small btn-warning">remove</button>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span>What effort predictors (cost drivers and size metrics) have been used to estimate effort in GSD?</span>
+            <span class="question-buttons">
+              <button type="button" class="btn btn-small btn-success">add question</button>
+              <button type="button" class="btn btn-small">edit</button>
+              <button type="button" class="btn btn-small btn-warning">remove</button>
+            </span>
+          </li>
+          <li>
+            <span>What effort predictors (cost drivers and size metrics) have been used to estimate effort in GSD?</span>
+            <span class="question-buttons">
+              <button type="button" class="btn btn-small btn-success">add question</button>
+              <button type="button" class="btn btn-small">edit</button>
+              <button type="button" class="btn btn-small btn-warning">remove</button>
+            </span>
+          </li>
+        </ul>
+      </form>
     </div>
   </section>
-  <!--hr>
+  <hr>
   <section class="picoc-section" class="clearfix">
     <h2>PICOC</h2>
-  </section-->
+    <p>Separate the terms used in the PICO using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
+    <p>If any of the sections of PICO doesn't apply to your research, please leave it blank.</p>
+    <form method="post" action="." class="form-block form-normal" id="picoc-form">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="label-container">
+          <label for="question-population">Population</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="question-population" name="question-population" maxlength="200" value="{{ review.population }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="question-intervention">Intervention</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="question-intervention" name="question-intervention" maxlength="200" value="{{ review.intervention }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="question-comparison">Comparison</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="question-comparison" name="question-comparison" maxlength="200" value="{{ review.comparison }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="question-outcome">Outcome</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="question-outcome" name="question-outcome" maxlength="200" value="{{ review.outcome }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="question-context">Context</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="question-context" name="question-context" maxlength="200" value="{{ review.context }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="button-container">
+          <button type="button" class="btn btn-success pull-left btn-save-picoc" data-loading="Saving...">Save</button>
+          <span class="form-status-message pull-left"></span>
+        </div>
+      </div>
+    </form>
+  </section>
   <hr>
   <section id="keywords-section" class="clearfix">
     <h2>Keywords and Synonyms</h2>

@@ -50,95 +50,98 @@ def save_objective(request):
 @author_required
 @login_required
 def save_question(request):
-    '''
-        Function used via Ajax request only.
-        This function takes a review question form and save on the database
-    '''
-    try:
-        prefix = str(request.POST['prefix'])
-        review_id = request.POST['review-id']
-        question_id = request.POST['question-id']
-        question_type = request.POST['question-type']
-
-        description = request.POST[prefix + 'question-description']
-        population = request.POST[prefix + 'question-population']
-        intervention = request.POST[prefix + 'question-intervention']
-        comparison = request.POST[prefix + 'question-comparison']
-        outcome = request.POST[prefix + 'question-outcome']
-
-        review = Review.objects.get(pk=review_id)
-
-        question = Question()
-
-        if question_type == Question.MAIN:
-            question = review.get_main_question()
-        elif question_id != 'None':
-            try:
-                question = Question.objects.get(pk=question_id)
-            except Question.DoesNotExist:
-                pass
-
-        question.review = review
-
-        if len(description) <= 500:
-            question.question = description
-        else:
-            return HttpResponseBadRequest('The question description should not exceed 500 characters. The given description have %s characters.' % len(description))
-
-        question.population = population
-        question.intervention = intervention
-        question.comparison = comparison
-        question.outcome = outcome
-
-        if filter(lambda q: q[0] == question_type, Question.QUESTION_TYPES):
-            question.question_type = question_type
-        else:
-           return HttpResponseBadRequest('Invalid question type.') 
-
-        question.save()
-        return HttpResponse(question.id)
-    except:
-        return HttpResponseBadRequest()
+    pass
+#    '''
+#        Function used via Ajax request only.
+#        This function takes a review question form and save on the database
+#    '''
+#    try:
+#        prefix = str(request.POST['prefix'])
+#        review_id = request.POST['review-id']
+#        question_id = request.POST['question-id']
+#        question_type = request.POST['question-type']
+#
+#        description = request.POST[prefix + 'question-description']
+#        population = request.POST[prefix + 'question-population']
+#        intervention = request.POST[prefix + 'question-intervention']
+#        comparison = request.POST[prefix + 'question-comparison']
+#        outcome = request.POST[prefix + 'question-outcome']
+#
+#        review = Review.objects.get(pk=review_id)
+#
+#        question = Question()
+#
+#        if question_type == Question.MAIN:
+#            question = review.get_main_question()
+#        elif question_id != 'None':
+#            try:
+#                question = Question.objects.get(pk=question_id)
+#            except Question.DoesNotExist:
+#                pass
+#
+#        question.review = review
+#
+#        if len(description) <= 500:
+#            question.question = description
+#        else:
+#            return HttpResponseBadRequest('The question description should not exceed 500 characters. The given description have %s characters.' % len(description))
+#
+#        question.population = population
+#        question.intervention = intervention
+#        question.comparison = comparison
+#        question.outcome = outcome
+#
+#        if filter(lambda q: q[0] == question_type, Question.QUESTION_TYPES):
+#            question.question_type = question_type
+#        else:
+#           return HttpResponseBadRequest('Invalid question type.') 
+#
+#        question.save()
+#        return HttpResponse(question.id)
+#    except:
+#        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
 @login_required
 def add_question(request):
-    '''
-        Function used via Ajax request only.
-        This functions adds a new secondary question to the review.
-    '''
-    try:
-        review_id = request.GET['review-id']
-        review = Review.objects.get(pk=review_id)
-        question = Question()
-        prefix = int(time.time())
-        context = RequestContext(request, {'review': review, 'question': question, 'question_type':Question.SECONDARY, 'prefix':prefix})
-        return render_to_response('planning/partial_planning_question.html', context)
-    except:
-        return HttpResponseBadRequest()
+    pass
+#    '''
+#        Function used via Ajax request only.
+#        This functions adds a new secondary question to the review.
+#    '''
+#    try:
+#        review_id = request.GET['review-id']
+#        review = Review.objects.get(pk=review_id)
+#        question = Question()
+#        prefix = int(time.time())
+#        context = RequestContext(request, {'review': review, 'question': question, 'question_type':Question.SECONDARY, 'prefix':prefix})
+#        return render_to_response('planning/partial_planning_question.html', context)
+#    except:
+#        return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
 @login_required
 def remove_question(request):
-    '''
-        Function used via Ajax request only.
-        This function removes a secondary question from the review.
-    '''
-    try:
-        review_id = request.POST['review-id']
-        question_id = request.POST['question-id']
-        question_type = request.POST['question-type']
-        if question_id != 'None' and question_type != Question.MAIN:
-            try:
-                question = Question.objects.get(pk=question_id)
-                question.delete()
-            except Question.DoesNotExist:
-                return HttpResponseBadRequest()
-        return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
+    pass
+#    '''
+#        Function used via Ajax request only.
+#        This function removes a secondary question from the review.
+#    '''
+#    try:
+#        review_id = request.POST['review-id']
+#        question_id = request.POST['question-id']
+#        question_type = request.POST['question-type']
+#        if question_id != 'None' and question_type != Question.MAIN:
+#            try:
+#                question = Question.objects.get(pk=question_id)
+#                question.delete()
+#            except Question.DoesNotExist:
+#                return HttpResponseBadRequest()
+#        return HttpResponse()
+#    except:
+#        return HttpResponseBadRequest()
 
 
 ###############################################################################
