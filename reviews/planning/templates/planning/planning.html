@@ -36,67 +36,11 @@
       <form method="post" action="." class="" id="question-form">
         {% csrf_token %}
         <ul>
-          <li>
-            <span class="question-description">
-              <input type="text">
-            </span>
-            <span class="question-buttons">
-              <button type="button" class="btn btn-small btn-success">save</button>
-              <button type="button" class="btn btn-small btn-warning">cancel</button>
-            </span>
-          </li>
-          <li>
-            <span class="question-description">What methods/techniques have been used to estimate effort in GSD?</span>
-            <span class="question-buttons">
-              <button type="button" class="btn btn-small btn-success">add question</button>
-              <button type="button" class="btn btn-small">edit</button>
-              <button type="button" class="btn btn-small btn-warning">remove</button>
-            </span>
-            <ul>
-              <li>
-                <span>What metrics have been used to measure the accuracy of effort estimation methods/techniques in GSD projects?</span>
-                <span class="question-buttons">
-                  <button type="button" class="btn btn-small btn-success">add question</button>
-                  <button type="button" class="btn btn-small">edit</button>
-                  <button type="button" class="btn btn-small btn-warning">remove</button>
-                </span>
-              </li>
-              <li>
-                <span>What are the accuracy levels for the observed estimation methods?</span>
-                <span class="question-buttons">
-                  <button type="button" class="btn btn-small btn-success">add question</button>
-                  <button type="button" class="btn btn-small">edit</button>
-                  <button type="button" class="btn btn-small btn-warning">remove</button>
-                </span>
-                <ul>
-                  <li>
-                    <span class="question-description">What methods/techniques have been used to estimate effort in GSD?</span>
-                    <span class="question-buttons">
-                      <button type="button" class="btn btn-small btn-success">add question</button>
-                      <button type="button" class="btn btn-small">edit</button>
-                      <button type="button" class="btn btn-small btn-warning">remove</button>
-                    </span>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <span>What effort predictors (cost drivers and size metrics) have been used to estimate effort in GSD?</span>
-            <span class="question-buttons">
-              <button type="button" class="btn btn-small btn-success">add question</button>
-              <button type="button" class="btn btn-small">edit</button>
-              <button type="button" class="btn btn-small btn-warning">remove</button>
-            </span>
-          </li>
-          <li>
-            <span>What effort predictors (cost drivers and size metrics) have been used to estimate effort in GSD?</span>
-            <span class="question-buttons">
-              <button type="button" class="btn btn-small btn-success">add question</button>
-              <button type="button" class="btn btn-small">edit</button>
-              <button type="button" class="btn btn-small btn-warning">remove</button>
-            </span>
-          </li>
+          {% for question in review.get_questions %}
+            {% include "planning/partial_planning_question.html" with question=question %}
+          {% empty %}
+            {% include "planning/partial_planning_question_form.html" %}
+          {% endfor %}
         </ul>
       </form>
     </div>
