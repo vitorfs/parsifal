@@ -215,6 +215,7 @@ $(function () {
       success: function (data) {
         $("#tbl-quality-answers tbody").replaceWith("<tbody>" + data + "</tbody>");
         $(".no-answers").fadeOut();
+        update_max_score();
       }
     });
   });

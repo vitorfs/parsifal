@@ -114,6 +114,28 @@ def remove_question(request):
 
 
 ###############################################################################
+# PICOC FUNCTIONS 
+###############################################################################
+
+@ajax_required
+@author_required
+@login_required
+def save_picoc(request):
+    try:
+        review_id = request.POST['review-id']
+        review = Review.objects.get(pk=review_id)
+        review.population = request.POST['population'][:200]
+        review.intervention = request.POST['intervention'][:200]
+        review.comparison = request.POST['comparison'][:200]
+        review.outcome = request.POST['outcome'][:200]
+        review.context = request.POST['context'][:200]
+        review.save()
+        return HttpResponse()
+    except Exception, e:
+        return HttpResponseBadRequest()
+
+
+###############################################################################
 # KEYWORDS/SYNONYM FUNCTIONS 
 ###############################################################################
 
@@ -133,12 +155,16 @@ def add_synonym(request):
     except:
         return HttpResponseBadRequest()
 
-def extract_keywords(keywords, review):
+def extract_keywords(review, pico):
+    if pico == Keyword.POPULATION: keywords = review.population
+    elif pico == Keyword.INTERVENTION: keywords = review.intervention
+    elif pico == Keyword.COMPARISON: keywords = review.comparison
+    elif pico == Keyword.OUTCOME: keywords = review.outcome
     keyword_list = keywords.split(',')
     keyword_objects = []
     for term in keyword_list:
         if len(term) > 0:
-            keyword = Keyword(review=review, description=term.strip())
+            keyword = Keyword(review=review, description=term.strip(), related_to=pico)
             keyword.save()
             keyword_objects.append(keyword)
     return keyword_objects
@@ -150,14 +176,12 @@ def import_pico_keywords(request):
     try:
         review_id = request.GET['review-id']
         review = Review.objects.get(pk=review_id)
-        questions = review.get_questions()
         keywords = []
 
-        for question in questions:
-            keywords += extract_keywords(question.population, review)
-            keywords += extract_keywords(question.intervention, review)
-            keywords += extract_keywords(question.comparison, review)
-            keywords += extract_keywords(question.outcome, review)
+        keywords += extract_keywords(review, Keyword.POPULATION)
+        keywords += extract_keywords(review, Keyword.INTERVENTION)
+        keywords += extract_keywords(review, Keyword.COMPARISON)
+        keywords += extract_keywords(review, Keyword.OUTCOME)
 
         str_return = ""
 

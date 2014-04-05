@@ -115,12 +115,13 @@ div[class^="criteria-container"] select {
 }
 
 #question-form ul {
-  margin: 10px 20px 0;
+  margin: 10px 20px 0 0;
 }
 
 #question-form ul li {
   font-size: 16px;
   line-height: 30px;
+  list-style-type: none;
 }
 
 #question-form ul li label {
@@ -133,11 +134,10 @@ div[class^="criteria-container"] select {
 
 #question-form ul li ul li {
   border-bottom: none;
-  list-style-type: disc;
 }
 
 #question-form ul li ul li ul li {
-  list-style-type: circle;
+
 }
 
 #question-form span.question-buttons {
