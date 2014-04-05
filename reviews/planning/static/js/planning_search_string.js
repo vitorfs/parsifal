@@ -3,7 +3,7 @@ $(function () {
   $(".btn-suggested-search-string").click(function () {
     var form = $(this).closest("form");
     $.ajax({
-      url: '/reviews/conducting/generate_search_string/',
+      url: '/reviews/planning/generate_search_string/',
       data: { 'review-id': $("#review-id").val() },
       cache: false,
       type: 'get',
@@ -18,7 +18,7 @@ $(function () {
     var form = $(this).closest("form");
     var search_string = $(".search-string", form).val();
     $.ajax({
-      url: '/reviews/conducting/save_generic_search_string/',
+      url: '/reviews/planning/save_generic_search_string/',
       data: $(form).serialize(),
       cache: false,
       type: 'post',

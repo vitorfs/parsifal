@@ -15,14 +15,14 @@ from django.core.context_processors import csrf
 @author_required
 @login_required
 def conducting(request, username, review_name):
-    return redirect('/' + username + '/' + review_name + '/conducting/search/')
+    return redirect('/' + username + '/' + review_name + '/conducting/import/')
 
 @author_required
 @login_required
-def search_string(request, username, review_name):
+def import_studies(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username__iexact=username)
     context = RequestContext(request, {'review': review})
-    return render_to_response('conducting/conducting_search_string.html', context)
+    return render_to_response('conducting/conducting_import_studies.html', context)
 
 @author_required
 @login_required
@@ -220,80 +220,6 @@ def data_extraction(request, username, review_name):
     context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'data_extraction_table': data_extraction_table, 'finished_all_steps': finished_all_steps })
     return render_to_response('conducting/conducting_data_extraction.html', context)
 
-def extract_keyword_to_search_string(term_list, query_list, keywords):
-    for keyword in term_list:
-        if keyword:
-            query_list.append(keyword)
-            synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
-            for synonym in synonyms:
-                if synonym:
-                    query_list.append(synonym.description)
-    return query_list
-
-@ajax_required
-@author_required
-@login_required
-def generate_search_string(request):
-    '''
-        Function used via Ajax request only.
-        Still have to refactor this function. This is just a first approach.
-    '''
-    review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
-
-    questions = Question.objects.filter(review__id=review_id)
-    keywords = Keyword.objects.filter(review__id=review_id)
-
-    population_list = []
-    intervention_list = []
-    comparison_list = []
-    outcome_list = []
-
-    query_population = []
-    query_intervention = []
-    query_comparison = []
-    query_outcome = []
-
-    for question in questions:
-        population_list = question.population.split(',')
-        intervention_list = question.intervention.split(',')
-        comparison_list = question.comparison.split(',')
-        outcome_list = question.outcome.split(',')
-
-        query_population = extract_keyword_to_search_string(population_list, query_population, keywords)
-        query_intervention = extract_keyword_to_search_string(intervention_list, query_intervention, keywords)
-        query_comparison = extract_keyword_to_search_string(comparison_list, query_comparison, keywords)
-        query_outcome = extract_keyword_to_search_string(outcome_list, query_outcome, keywords)
-
-    str_population = ' OR '.join(query_population)
-    str_intervention = ' OR '.join(query_intervention)
-    str_comparison = ' OR '.join(query_comparison)
-    str_outcome = ' OR '.join(query_outcome)
-
-    search_string = []
-
-    if str_population: search_string.append('(' + str_population + ')')
-    if str_intervention: search_string.append('(' + str_intervention + ')')
-    if str_comparison: search_string.append('(' + str_comparison + ')')
-    if str_outcome: search_string.append('(' + str_outcome + ')')
-
-    return HttpResponse(' AND '.join(search_string))
-
-@ajax_required
-@author_required
-@login_required
-def save_generic_search_string(request):
-    try:
-        review_id = request.POST['review-id']
-        search_string = request.POST['search-string']
-        review = Review.objects.get(pk=review_id)
-        generic_search_string = review.get_generic_search_string()
-        generic_search_string.search_string = search_string
-        generic_search_string.save()
-        return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
-
 def bibtex_to_article_object(filename, review_id, source_id):
     filehandler = open(filename, 'r')
     parser = BibTexParser(filehandler)
@@ -333,7 +259,7 @@ def import_bibtex(request):
     articles = bibtex_to_article_object(filename, review_id, source_id)
     for article in articles:
         article.save()
-    return redirect('/' + review.author.username + '/' + review.name + '/conducting/studies/?source=' + source_id)
+    return redirect('/' + review.author.username + '/' + review.name + '/conducting/import/')
 
 @ajax_required
 @author_required

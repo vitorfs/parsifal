@@ -279,6 +279,83 @@ def save_synonym(request):
 
 
 ###############################################################################
+# SEARCH STRING FUNCTIONS 
+###############################################################################
+
+def extract_keyword_to_search_string(term_list, query_list, keywords):
+    for keyword in term_list:
+        if keyword:
+            query_list.append(keyword)
+            synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+            for synonym in synonyms:
+                if synonym:
+                    query_list.append(synonym.description)
+    return query_list
+
+@ajax_required
+@author_required
+@login_required
+def generate_search_string(request):
+    '''
+        Function used via Ajax request only.
+        Still have to refactor this function. This is just a first approach.
+    '''
+    review_id = request.GET['review-id']
+    review = Review.objects.get(pk=review_id)
+
+    keywords = Keyword.objects.filter(review__id=review_id)
+
+    population_list = []
+    intervention_list = []
+    comparison_list = []
+    outcome_list = []
+
+    query_population = []
+    query_intervention = []
+    query_comparison = []
+    query_outcome = []
+
+    population_list = review.population.split(',')
+    intervention_list = review.intervention.split(',')
+    comparison_list = review.comparison.split(',')
+    outcome_list = review.outcome.split(',')
+
+    query_population = extract_keyword_to_search_string(population_list, query_population, keywords)
+    query_intervention = extract_keyword_to_search_string(intervention_list, query_intervention, keywords)
+    query_comparison = extract_keyword_to_search_string(comparison_list, query_comparison, keywords)
+    query_outcome = extract_keyword_to_search_string(outcome_list, query_outcome, keywords)
+
+    str_population = ' OR '.join(query_population)
+    str_intervention = ' OR '.join(query_intervention)
+    str_comparison = ' OR '.join(query_comparison)
+    str_outcome = ' OR '.join(query_outcome)
+
+    search_string = []
+
+    if str_population: search_string.append('(' + str_population + ')')
+    if str_intervention: search_string.append('(' + str_intervention + ')')
+    if str_comparison: search_string.append('(' + str_comparison + ')')
+    if str_outcome: search_string.append('(' + str_outcome + ')')
+
+    return HttpResponse(' AND '.join(search_string))
+
+@ajax_required
+@author_required
+@login_required
+def save_generic_search_string(request):
+    try:
+        review_id = request.POST['review-id']
+        search_string = request.POST['search-string']
+        review = Review.objects.get(pk=review_id)
+        generic_search_string = review.get_generic_search_string()
+        generic_search_string.search_string = search_string
+        generic_search_string.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+
+###############################################################################
 # SOURCE FUNCTIONS 
 ###############################################################################
 

@@ -8,8 +8,9 @@
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_question.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_picoc.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_source.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_keyword.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_source.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_search_string.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_criteria.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_quality_assessment.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_data_extraction.js"></script>
@@ -137,6 +138,24 @@
         {% endfor %}
       </tbody>
     </table>
+  </section>
+  <hr>
+  <section id="search-string-section" class="clearfix">
+    <h2>Search String</h2>
+    <form class="form-block form-normal">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
+      <div class="form-row">
+        <button type="button" class="btn btn-suggested-search-string btn-small">Suggested Search String</button>
+      </div>
+      <div class="form-row">
+        <textarea style="width:100%" rows="4" name="search-string" class="search-string">{{ review.get_generic_search_string.search_string }}</textarea>
+      </div>
+      <div class="form-row">
+        <button type="button" class="btn btn-success btn-save-generic-search-string pull-left">Save</button>
+        <span class="form-status-message pull-left"></span>
+      </div>
+    </form>
   </section>
   <hr>
   <section id="sources-section" class="clearfix">
