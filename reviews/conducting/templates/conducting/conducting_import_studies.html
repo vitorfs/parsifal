@@ -7,30 +7,37 @@
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="import" %}
   <h2>Import Studies</h2>
-  <table class="table" style="width: auto" id="tbl-import-studies">
-    <thead>
-      <tr>
-        <th>Source</th>
-        <th>Imported Studies</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for source in review.sources.all %}
+  {% if review.sources.all %}
+    <table class="table" style="width: auto" id="tbl-import-studies">
+      <thead>
         <tr>
-          <td>{{ source.name }}</td>
-          <td style="text-align: center">{{ source.get_articles_count }}</td>
-          <td>
-            <form enctype="multipart/form-data" method="post" action="/reviews/conducting/import_bibtex/">
-              {% csrf_token %}
-              <input type="hidden" name="review-id" value="{{ review.id }}">
-              <input type="hidden" name="source-id" value="{{ source.id }}">
-              <input type="file" class="hide" name="bibtex">
-            </form>
-            <button type="button" class="btn btn-small btn-import-bibtex">Import Bibtex</button>
-          </td>
+          <th>Source</th>
+          <th>Imported Studies</th>
+          <th></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for source in review.sources.all %}
+          <tr>
+            <td>{{ source.name }}</td>
+            <td style="text-align: center">{{ source.get_articles_count }}</td>
+            <td>
+              <form enctype="multipart/form-data" method="post" action="/reviews/conducting/import_bibtex/">
+                {% csrf_token %}
+                <input type="hidden" name="review-id" value="{{ review.id }}">
+                <input type="hidden" name="source-id" value="{{ source.id }}">
+                <input type="file" class="hide" name="bibtex">
+              </form>
+              <button type="button" class="btn btn-small btn-import-bibtex">Import Bibtex</button>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There is a few steps you have to finish before you import the studies:</p>
+    <ul>
+      <li>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning tab</a> to add sources to your review.</li>
+    </ul>
+  {% endif %}
 {% endblock tab_content %}

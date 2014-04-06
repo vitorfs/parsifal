@@ -1,12 +1,11 @@
 <div class="articles clearfix">
   <div class="source-buttons">
-    <div class="studies-import">
-      {% if source.id %}
-        <!--button type="button" class="btn btn-small btn-add-manual">Add Manual</button-->
-      {% else %}
+    {% if not source.id %}
+      <div class="studies-import">
         <button type="button" class="btn btn-small btn-find-duplicates">Find Duplicates</button>
-      {% endif %}
-    </div>
+        <!--button type="button" class="btn btn-small btn-add-manual">Add Manual</button-->
+      </div>
+    {% endif %}
     <div class="studies-action">
       <strong>Action:</strong>
       <select class="select-action">
