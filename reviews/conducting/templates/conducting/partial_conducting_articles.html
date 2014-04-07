@@ -1,19 +1,11 @@
 <div class="articles clearfix">
   <div class="source-buttons">
-    <form enctype="multipart/form-data" method="post" action="/reviews/conducting/import_bibtex/">
-      {% csrf_token %}
-      <input type="hidden" name="review-id" value="{{ review.id }}">
-      <input type="hidden" name="source-id" value="{{ source.id }}">
-      <input type="file" class="hide" name="bibtex">
-    </form>
-    <div class="studies-import">
-      {% if source.id %}
-        <button type="button" class="btn btn-small btn-import-bibtex">Import Bibtex</button>
-        <!--button type="button" class="btn btn-small btn-add-manual">Add Manual</button-->
-      {% else %}
+    {% if not source.id %}
+      <div class="studies-import">
         <button type="button" class="btn btn-small btn-find-duplicates">Find Duplicates</button>
-      {% endif %}
-    </div>
+        <!--button type="button" class="btn btn-small btn-add-manual">Add Manual</button-->
+      </div>
+    {% endif %}
     <div class="studies-action">
       <strong>Action:</strong>
       <select class="select-action">

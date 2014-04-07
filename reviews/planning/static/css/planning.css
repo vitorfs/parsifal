@@ -113,3 +113,39 @@ div[class^="criteria-container"] select {
 #tbl-cutoff-score input {
   font-size: 1em;
 }
+
+#question-form ul {
+  margin: 10px 20px 0 0;
+}
+
+#question-form ul li {
+  font-size: 16px;
+  line-height: 30px;
+  list-style-type: none;
+}
+
+#question-form ul li label {
+  font-weight: 600;
+}
+
+#question-form ul li ul {
+  margin: 5px 0 0 25px;
+}
+
+#question-form ul li ul li {
+  border-bottom: none;
+}
+
+#question-form ul li ul li ul li {
+
+}
+
+#question-form span.question-buttons {
+  margin-left: 10px;
+  float: right;
+}
+
+#question-form input {
+  font-size: 14px;
+  width: 80%;
+}

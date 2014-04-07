@@ -55,66 +55,39 @@ def save_question(request):
         This function takes a review question form and save on the database
     '''
     try:
-        prefix = str(request.POST['prefix'])
         review_id = request.POST['review-id']
         question_id = request.POST['question-id']
-        question_type = request.POST['question-type']
-
-        description = request.POST[prefix + 'question-description']
-        population = request.POST[prefix + 'question-population']
-        intervention = request.POST[prefix + 'question-intervention']
-        comparison = request.POST[prefix + 'question-comparison']
-        outcome = request.POST[prefix + 'question-outcome']
-
+        description = request.POST['description']
         review = Review.objects.get(pk=review_id)
-
-        question = Question()
-
-        if question_type == Question.MAIN:
-            question = review.get_main_question()
-        elif question_id != 'None':
-            try:
-                question = Question.objects.get(pk=question_id)
-            except Question.DoesNotExist:
-                pass
-
-        question.review = review
-
-        if len(description) <= 500:
-            question.question = description
-        else:
-            return HttpResponseBadRequest('The question description should not exceed 500 characters. The given description have %s characters.' % len(description))
-
-        question.population = population
-        question.intervention = intervention
-        question.comparison = comparison
-        question.outcome = outcome
-
-        if filter(lambda q: q[0] == question_type, Question.QUESTION_TYPES):
-            question.question_type = question_type
-        else:
-           return HttpResponseBadRequest('Invalid question type.') 
-
+        try:
+            question = Question.objects.get(pk=question_id)
+        except:
+            question = Question(review=review)
+        question.question = description[:500]
         question.save()
-        return HttpResponse(question.id)
+        context = RequestContext(request, {'question':question})
+        return render_to_response('planning/partial_planning_question.html', context)
     except:
         return HttpResponseBadRequest()
 
 @ajax_required
 @author_required
 @login_required
-def add_question(request):
+def add_or_edit_question(request):
     '''
         Function used via Ajax request only.
         This functions adds a new secondary question to the review.
     '''
     try:
-        review_id = request.GET['review-id']
+        review_id = request.POST['review-id']
+        question_id = request.POST['question-id']
         review = Review.objects.get(pk=review_id)
-        question = Question()
-        prefix = int(time.time())
-        context = RequestContext(request, {'review': review, 'question': question, 'question_type':Question.SECONDARY, 'prefix':prefix})
-        return render_to_response('planning/partial_planning_question.html', context)
+        try:
+            question = Question.objects.get(pk=question_id)
+        except:
+            question = Question(review=review)
+        context = RequestContext(request, {'question':question})
+        return render_to_response('planning/partial_planning_question_form.html', context)
     except:
         return HttpResponseBadRequest()
 
@@ -129,8 +102,7 @@ def remove_question(request):
     try:
         review_id = request.POST['review-id']
         question_id = request.POST['question-id']
-        question_type = request.POST['question-type']
-        if question_id != 'None' and question_type != Question.MAIN:
+        if question_id != 'None':
             try:
                 question = Question.objects.get(pk=question_id)
                 question.delete()
@@ -138,6 +110,28 @@ def remove_question(request):
                 return HttpResponseBadRequest()
         return HttpResponse()
     except:
+        return HttpResponseBadRequest()
+
+
+###############################################################################
+# PICOC FUNCTIONS 
+###############################################################################
+
+@ajax_required
+@author_required
+@login_required
+def save_picoc(request):
+    try:
+        review_id = request.POST['review-id']
+        review = Review.objects.get(pk=review_id)
+        review.population = request.POST['population'][:200]
+        review.intervention = request.POST['intervention'][:200]
+        review.comparison = request.POST['comparison'][:200]
+        review.outcome = request.POST['outcome'][:200]
+        review.context = request.POST['context'][:200]
+        review.save()
+        return HttpResponse()
+    except Exception, e:
         return HttpResponseBadRequest()
 
 
@@ -161,12 +155,16 @@ def add_synonym(request):
     except:
         return HttpResponseBadRequest()
 
-def extract_keywords(keywords, review):
+def extract_keywords(review, pico):
+    if pico == Keyword.POPULATION: keywords = review.population
+    elif pico == Keyword.INTERVENTION: keywords = review.intervention
+    elif pico == Keyword.COMPARISON: keywords = review.comparison
+    elif pico == Keyword.OUTCOME: keywords = review.outcome
     keyword_list = keywords.split(',')
     keyword_objects = []
     for term in keyword_list:
         if len(term) > 0:
-            keyword = Keyword(review=review, description=term.strip())
+            keyword = Keyword(review=review, description=term.strip(), related_to=pico)
             keyword.save()
             keyword_objects.append(keyword)
     return keyword_objects
@@ -178,14 +176,12 @@ def import_pico_keywords(request):
     try:
         review_id = request.GET['review-id']
         review = Review.objects.get(pk=review_id)
-        questions = review.get_questions()
         keywords = []
 
-        for question in questions:
-            keywords += extract_keywords(question.population, review)
-            keywords += extract_keywords(question.intervention, review)
-            keywords += extract_keywords(question.comparison, review)
-            keywords += extract_keywords(question.outcome, review)
+        keywords += extract_keywords(review, Keyword.POPULATION)
+        keywords += extract_keywords(review, Keyword.INTERVENTION)
+        keywords += extract_keywords(review, Keyword.COMPARISON)
+        keywords += extract_keywords(review, Keyword.OUTCOME)
 
         str_return = ""
 
@@ -278,6 +274,83 @@ def save_synonym(request):
             synonym.description = description
             synonym.save()
             return HttpResponse(escape(synonym.description))
+    except:
+        return HttpResponseBadRequest()
+
+
+###############################################################################
+# SEARCH STRING FUNCTIONS 
+###############################################################################
+
+def extract_keyword_to_search_string(term_list, query_list, keywords):
+    for keyword in term_list:
+        if keyword:
+            query_list.append(keyword)
+            synonyms = filter(lambda s: s.synonym_of is not None and s.synonym_of.description == keyword, keywords)
+            for synonym in synonyms:
+                if synonym:
+                    query_list.append(synonym.description)
+    return query_list
+
+@ajax_required
+@author_required
+@login_required
+def generate_search_string(request):
+    '''
+        Function used via Ajax request only.
+        Still have to refactor this function. This is just a first approach.
+    '''
+    review_id = request.GET['review-id']
+    review = Review.objects.get(pk=review_id)
+
+    keywords = Keyword.objects.filter(review__id=review_id)
+
+    population_list = []
+    intervention_list = []
+    comparison_list = []
+    outcome_list = []
+
+    query_population = []
+    query_intervention = []
+    query_comparison = []
+    query_outcome = []
+
+    population_list = review.population.split(',')
+    intervention_list = review.intervention.split(',')
+    comparison_list = review.comparison.split(',')
+    outcome_list = review.outcome.split(',')
+
+    query_population = extract_keyword_to_search_string(population_list, query_population, keywords)
+    query_intervention = extract_keyword_to_search_string(intervention_list, query_intervention, keywords)
+    query_comparison = extract_keyword_to_search_string(comparison_list, query_comparison, keywords)
+    query_outcome = extract_keyword_to_search_string(outcome_list, query_outcome, keywords)
+
+    str_population = ' OR '.join(query_population)
+    str_intervention = ' OR '.join(query_intervention)
+    str_comparison = ' OR '.join(query_comparison)
+    str_outcome = ' OR '.join(query_outcome)
+
+    search_string = []
+
+    if str_population: search_string.append('(' + str_population + ')')
+    if str_intervention: search_string.append('(' + str_intervention + ')')
+    if str_comparison: search_string.append('(' + str_comparison + ')')
+    if str_outcome: search_string.append('(' + str_outcome + ')')
+
+    return HttpResponse(' AND '.join(search_string))
+
+@ajax_required
+@author_required
+@login_required
+def save_generic_search_string(request):
+    try:
+        review_id = request.POST['review-id']
+        search_string = request.POST['search-string']
+        review = Review.objects.get(pk=review_id)
+        generic_search_string = review.get_generic_search_string()
+        generic_search_string.search_string = search_string
+        generic_search_string.save()
+        return HttpResponse()
     except:
         return HttpResponseBadRequest()
 

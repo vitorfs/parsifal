@@ -33,16 +33,6 @@ $(function () {
     $("#modal-add-article").open();
   });
 
-  $(".source-tab-content").on("click", ".btn-import-bibtex", function () {
-    var container = $(this).closest(".articles");
-    $("input[type=file]", container).click();
-  });
-
-  $(".source-tab-content").on("change", "input[name='bibtex']", function () {
-    var form = $(this).closest("form");
-    $(form).submit();
-  });
-
   $("#source-tab a").click(function () {
     var source_id = $(this).attr("source-id");
     $("ul#source-tab li").removeClass("active");

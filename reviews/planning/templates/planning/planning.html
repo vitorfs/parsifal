@@ -7,8 +7,10 @@
   <link href="{{ STATIC_URL }}css/planning.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_question.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_source.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_picoc.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_keyword.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_source.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/planning_search_string.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_criteria.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_quality_assessment.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/planning_data_extraction.js"></script>
@@ -31,18 +33,76 @@
   <hr>
   <section id="question-section" class="clearfix">
     <h2>Research Questions</h2>
-    <button type="button" class="btn btn-small" id="btn-add-sec-question">Add Secondary Question</button>
+    <button type="button" class="btn btn-small" id="btn-add-question">Add Question</button>
     <div class="questions-containers">
-      {% include "planning/partial_planning_question.html" with prefix="main-" question_type="M" question=review.get_main_question %}
-      {% for question in review.get_secondary_questions %}
-        {% include "planning/partial_planning_question.html" with prefix=question.id question_type="S" question=question %}
-      {% endfor %}
+      <form method="post" action="." class="" id="question-form">
+        {% csrf_token %}
+        <ul>
+          {% for question in review.get_questions %}
+            {% include "planning/partial_planning_question.html" with question=question %}
+          {% empty %}
+            {% include "planning/partial_planning_question_form.html" %}
+          {% endfor %}
+        </ul>
+      </form>
     </div>
   </section>
-  <!--hr>
+  <hr>
   <section class="picoc-section" class="clearfix">
     <h2>PICOC</h2>
-  </section-->
+    <p>Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
+    <p>If any of the sections of PICOC doesn't apply to your research, please leave it blank.</p>
+    <form method="post" action="." class="form-block form-normal" id="picoc-form">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
+      <div class="form-row">
+        <div class="label-container">
+          <label for="population">Population</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="population" name="population" maxlength="200" value="{{ review.population }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="intervention">Intervention</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="intervention" name="intervention" maxlength="200" value="{{ review.intervention }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="comparison">Comparison</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="comparison" name="comparison" maxlength="200" value="{{ review.comparison }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="outcome">Outcome</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="outcome" name="outcome" maxlength="200" value="{{ review.outcome }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="label-container">
+          <label for="context">Context</label>
+        </div>
+        <div class="input-container">
+          <input type="text" id="context" name="context" maxlength="200" value="{{ review.context }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="button-container">
+          <button type="button" class="btn btn-success pull-left btn-save-picoc" data-loading="Saving...">Save</button>
+          <span class="form-status-message pull-left"></span>
+        </div>
+      </div>
+    </form>
+  </section>
   <hr>
   <section id="keywords-section" class="clearfix">
     <h2>Keywords and Synonyms</h2>
@@ -78,6 +138,24 @@
         {% endfor %}
       </tbody>
     </table>
+  </section>
+  <hr>
+  <section id="search-string-section" class="clearfix">
+    <h2>Search String</h2>
+    <form class="form-block form-normal">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
+      <div class="form-row">
+        <button type="button" class="btn btn-suggested-search-string btn-small">Suggested Search String</button>
+      </div>
+      <div class="form-row">
+        <textarea style="width:100%" rows="4" name="search-string" class="search-string">{{ review.get_generic_search_string.search_string }}</textarea>
+      </div>
+      <div class="form-row">
+        <button type="button" class="btn btn-success btn-save-generic-search-string pull-left">Save</button>
+        <span class="form-status-message pull-left"></span>
+      </div>
+    </form>
   </section>
   <hr>
   <section id="sources-section" class="clearfix">

@@ -1,66 +1,7 @@
-<div class="question">
-  <form method="post" action="." class="form-block form-normal" id="{{ prefix }}question-form">
-    <input type="hidden" name="prefix" value="{{ prefix }}">
-    <input type="hidden" name="review-id" value="{{ review.id }}">
-    <input type="hidden" name="question-id" value="{{ question.id }}">
-    <input type="hidden" name="question-type" value="{{ question_type }}">
-    {% csrf_token %}
-    <div class="form-row">
-      <div class="label-container">
-        <label for="{{ prefix }}question-description">{% if question_type == "M" %} Main {% else %} Secondary {% endif %} Question</label>
-      </div>
-      <div class="input-container">
-        <textarea rows="2" id="{{ prefix }}question-description" name="{{ prefix }}question-description">{{ question.question }}</textarea>
-      </div>
-    </div>
-    {% if question_type == "M" %}
-      <div class="form-row">
-        <div class="message-container">
-          <p>Separate the terms used in the PICO using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
-          <p>If any of the sections of PICO doesn't apply to your research, please leave it blank.</p>
-        </div>
-      </div>
-    {% endif %}
-    <div class="form-row">
-      <div class="label-container">
-        <label for="{{ prefix }}question-population">Population</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="{{ prefix }}question-population" name="{{ prefix }}question-population" maxlength="200" value="{{ question.population }}">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="{{ prefix }}question-intervention">Intervention</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="{{ prefix }}question-intervention" name="{{ prefix }}question-intervention" maxlength="200" value="{{ question.intervention }}">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="{{ prefix }}question-comparison">Comparison</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="{{ prefix }}question-comparison" name="{{ prefix }}question-comparison" maxlength="200" value="{{ question.comparison }}">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label-container">
-        <label for="{{ prefix }}question-outcome">Outcome</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="{{ prefix }}question-outcome" name="{{ prefix }}question-outcome" maxlength="200" value="{{ question.outcome }}">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="button-container">
-        <button type="button" class="btn btn-success pull-left btn-save-question" data-loading="Saving...">Save</button>
-        {% if question_type == "S" %}
-          <button type="button" class="btn btn-warning pull-left btn-remove-question" data-loading="Removing...">Remove</button>
-        {% endif %}
-        <span class="form-status-message pull-left"></span>
-      </div>
-    </div>
-  </form>
-</div>
+<li question-id="{{ question.id }}">
+  <span>{{ question.question }}</span>
+  <span class="question-buttons">
+    <button type="button" class="btn btn-small btn-edit-question" data-loading="editing...">edit</button>
+    <button type="button" class="btn btn-small btn-warning btn-remove-question" data-loading="removing...">remove</button>
+  </span>
+</li>
