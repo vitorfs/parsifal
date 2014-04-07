@@ -315,11 +315,12 @@ $(function () {
   $(".source-tab-content").on("click", ".source-articles table thead tr th a", function () {
     var a = $(this);
     var column = $(a).attr("col");
+    var source_id = $(a).closest("table").attr("source-id");
     $.ajax({
       url: '/reviews/conducting/articles/order_by/',
       data: {
         'review-id': $("#review-id").val(),
-        'source-id': $(".source-tab-content form input[name=source-id]").val(),
+        'source-id': source_id,
         'column': column
       },
       type: 'get',
