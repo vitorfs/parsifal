@@ -79,9 +79,6 @@ class Review(models.Model):
         questions = Question.objects.filter(review__id=self.id)
         return questions
 
-    def get_secondary_questions(self):
-        return Question.objects.filter(review__id=self.id, question_type='S')
-
     def get_inclusion_criterias(self):
         return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='I')
 
