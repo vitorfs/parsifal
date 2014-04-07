@@ -33,7 +33,17 @@ def study_selection(request, username, review_name):
     except Exception, e:
         active_tab = -1
 
-    context = RequestContext(request, {'review': review, 'active_tab': active_tab})
+    add_sources = review.sources.count()
+    import_articles = review.get_source_articles().count()
+
+    steps_messages = []
+
+    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
+    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/import/">import studies tab</a>.')
+
+    finished_all_steps = len(steps_messages) == 0
+
+    context = RequestContext(request, {'review': review, 'active_tab': active_tab, 'steps_messages': steps_messages, 'finished_all_steps': finished_all_steps})
     return render_to_response('conducting/conducting_study_selection.html', context)
 
 def get_workflow_steps(self, review):
@@ -96,7 +106,7 @@ def quality_assessment(request, username, review_name):
     steps_messages = []
 
     if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
-    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
+    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/import/">import studies tab</a>.')
     if not select_articles: steps_messages.append('Classify the imported studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
     if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
     if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
@@ -204,7 +214,7 @@ def data_extraction(request, username, review_name):
     steps_messages = []
 
     if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
-    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
+    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/import/">import studies tab</a>.')
     if not select_articles: steps_messages.append('Classify the imported studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
     if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
     if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')

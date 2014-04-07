@@ -53,7 +53,7 @@
     </div>
   </div>
 
-  {% if review.get_source_articles %}
+  {% if finished_all_steps %}
     <ul class="tab" id="source-tab">
       <li><a href="#" source-id="None">All Sources</a></li>
       {% for source in review.sources.all %}
@@ -62,14 +62,11 @@
     </ul>
     <div class="source-tab-content"></div>
   {% else %}
-    <p>There is a few steps you have to finish before you import the studies:</p>
+    <p>There is a few steps you have to finish before you select the studies:</p>
     <ul>
-      {% if not review.sources.all %}
-        <li>Use the <a href="/{{ review.author.username }}/{{ review.name }}/planning/">planning tab</a> to add sources to your review.</li>
-      {% endif %}
-      {% if not review.get_source_articles %}
-        <li>Use the <a href="/{{ review.author.username }}/{{ review.name }}/conducting/import/">import studies tab</a> to import studies to your review.</li>
-      {% endif %}
+      {% for message in steps_messages %}
+        <li>{{ message|safe }}</li>
+      {% endfor %}
     </ul>
   {% endif %}
 {% endblock tab_content %}

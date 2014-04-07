@@ -53,3 +53,7 @@
 #modal-upload-picture .modal-body {
   height: 400px;
 }
+
+.hidden-fields {
+  display:none!important;
+}

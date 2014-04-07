@@ -12,6 +12,12 @@ class Profile(models.Model):
     url = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
 
+    def get_url(self):
+        url = self.url
+        if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:
+            url = "http://" + str(self.url)
+        return url 
+
     def get_picture(self):
         no_picture = django_settings.STATIC_URL + 'img/user.png'
         try:

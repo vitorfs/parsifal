@@ -20,7 +20,7 @@
         <li class="username">{{ page_user.username }} {% if page_user.is_staff %}<span class="label label-small">STAFF</span>{% endif %}</li>
         <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
         {% if page_user.profile.url %}
-          <li><a href="{{ page_user.profile.url }}">{{ page_user.profile.url }}</a></li>
+          <li><a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.url }}</a></li>
         {% endif %}
         <li class="divider"></li>
         {% if page_user.profile.location %}
