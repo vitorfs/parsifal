@@ -442,7 +442,6 @@ $(function () {
           var ids = data.split(",");
           for (var i = ids.length - 1; i >= 0; i--) {
             var article_row = $(".source-tab-content .source-articles tr[oid=" + ids[i] + "]");
-            console.log(article_row);
             $(article_row).attr("article-status", "D");
             $("span", article_row).replaceWith("<span class=\"label label-warning\">Duplicated</span>");
           };
