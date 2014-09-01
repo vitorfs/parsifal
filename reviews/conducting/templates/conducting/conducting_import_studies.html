@@ -17,15 +17,15 @@
         </tr>
       </thead>
       <tbody>
-        {% for source in review.sources.all %}
+        {% for source in sources %}
           <tr>
-            <td>{{ source.name }}</td>
-            <td style="text-align: center">{{ source.get_articles_count }}</td>
+            <td>{{ source.source.name }}</td>
+            <td style="text-align: center">{{ source.count }}</td>
             <td>
               <form enctype="multipart/form-data" method="post" action="/reviews/conducting/import_bibtex/">
                 {% csrf_token %}
                 <input type="hidden" name="review-id" value="{{ review.id }}">
-                <input type="hidden" name="source-id" value="{{ source.id }}">
+                <input type="hidden" name="source-id" value="{{ source.source.id }}">
                 <input type="file" class="hide" name="bibtex">
               </form>
               <button type="button" class="btn btn-small btn-import-bibtex">Import Bibtex</button>

@@ -21,7 +21,14 @@ def conducting(request, username, review_name):
 @login_required
 def import_studies(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username__iexact=username)
-    context = RequestContext(request, {'review': review})
+    sources = []
+    for source in review.sources.all():
+        sources.append({
+            'source': source, 
+            'count': Article.objects.filter(source=source, review=review).count()
+            })
+    print sources
+    context = RequestContext(request, {'review': review, 'sources': sources})
     return render_to_response('conducting/conducting_import_studies.html', context)
 
 @author_required

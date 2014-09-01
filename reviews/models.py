@@ -25,9 +25,6 @@ class Source(models.Model):
         else:
             self.url = value
 
-    def get_articles_count(self):
-        return Article.objects.filter(source=self).count()
-
 
 class Review(models.Model):
     UNPUBLISHED = 'U'
