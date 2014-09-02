@@ -27,7 +27,6 @@ def import_studies(request, username, review_name):
             'source': source, 
             'count': Article.objects.filter(source=source, review=review).count()
             })
-    print sources
     context = RequestContext(request, {'review': review, 'sources': sources})
     return render_to_response('conducting/conducting_import_studies.html', context)
 
