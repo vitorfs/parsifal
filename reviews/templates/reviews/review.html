@@ -24,6 +24,12 @@
           <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>
           {% if user.id == review.author.id %}
             <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button>
+          {% elif user.id == author.id %}
+            <form method="post" action="{% url 'reviews:leave' %}" style="display: inline">
+              {% csrf_token %}
+              <input type="hidden" name="review-id" value="{{ review.id }}">
+              <button type="submit" class="btn btn-small btn-link text-error">(leave)</button>
+            </form>
           {% endif %}
         </li>
       {% endfor %}

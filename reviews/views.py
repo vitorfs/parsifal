@@ -130,3 +130,13 @@ def save_description(request):
             return HttpResponse('Your review has been saved successfully!')
     except:
         return HttpResponseBadRequest()
+
+@author_required
+@login_required
+def leave(request):
+    review_id = request.POST.get('review-id')
+    review = get_object_or_404(Review, pk=review_id)
+    review.co_authors.remove(request.user)
+    review.save()
+    messages.add_message(request, messages.SUCCESS, u'You successfully left the review {0}.'.format(review.title))
+    return redirect('/' + request.user.username + '/')
