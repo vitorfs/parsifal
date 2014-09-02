@@ -10,5 +10,6 @@
   <li{% if active_menu == "planning"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/planning/">Planning</a></li>
   <li{% if active_menu == "conducting"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/">Conducting</a></li>
   <li{% if active_menu == "reporting"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/reporting/">Reporting</a></li>
+  <li{% if active_menu == "publish"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/publish/">Publish</a></li>
 </ul>
 <input type="hidden" id="review-id" value="{{ review.id }}">

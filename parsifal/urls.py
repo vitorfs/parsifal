@@ -37,6 +37,7 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/conducting/quality/$', 'reviews.conducting.views.quality_assessment', name='quality_assessment'),
     url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/conducting/extraction/$', 'reviews.conducting.views.data_extraction', name='data_extraction'),
     url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/reporting/$', 'reviews.reporting.views.reporting', name='reporting'),
+    url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/publish/$', 'reviews.publish.views.publish', name='publish'),
     url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/settings/$', 'reviews.settings.views.settings', name='settings'),
     url(r'^(?P<username>[^/]+)/$', 'reviews.views.reviews', name='reviews'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

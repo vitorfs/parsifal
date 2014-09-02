@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'reviews.conducting',
     'reviews.reporting',
     'reviews.settings',
+    'reviews.publish',
     'settings',
 )
 
