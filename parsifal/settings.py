@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'south',
+    'rest_framework',
     'activities',
     'auth',
     'core',
@@ -107,3 +108,8 @@ SECURE_REQUIRED_PATHS = (
     '/reset/',
     '/settings/password/',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}

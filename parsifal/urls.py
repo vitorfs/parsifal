@@ -7,6 +7,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
+from rest_framework import routers
+from api import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+
 urlpatterns = patterns('',
     url(r'^$', 'core.views.home', name='home'),
     url(r'^about/$', 'core.views.about', name='about'),
@@ -26,6 +33,8 @@ urlpatterns = patterns('',
     url(r'^review_settings/save/$', 'reviews.settings.views.save_settings', name='save_settings'),
     url(r'^review_settings/transfer/$', 'reviews.settings.views.transfer', name='transfer_review'),
     url(r'^review_settings/delete/$', 'reviews.settings.views.delete', name='delete_review'),
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^(?P<username>[^/]+)/following/$', 'activities.views.following', name='following'),
     url(r'^(?P<username>[^/]+)/followers/$', 'activities.views.followers', name='followers'),

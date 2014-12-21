@@ -11,3 +11,6 @@ pytz
 django-decouple
 bibtexparser==0.5.2
 Pillow
+djangorestframework
+markdown
+django-filter
