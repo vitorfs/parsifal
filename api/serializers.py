@@ -1,39 +1,33 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from reviews.models import Review, Source, Question, SelectionCriteria, Article, Keyword
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'groups')
+        fields = ('url', 'username')
 
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ('url', 'name')
-
-class SourceSerializer(serializers.HyperlinkedModelSerializer):
+class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
 
-class ReviewSerializer(serializers.HyperlinkedModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
 
-class QuestionSerializer(serializers.HyperlinkedModelSerializer):
+class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
 
-class SelectionCriteriaSerializer(serializers.HyperlinkedModelSerializer):
+class SelectionCriteriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = SelectionCriteria
 
-class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
 
-class KeywordSerializer(serializers.HyperlinkedModelSerializer):
+class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Keyword

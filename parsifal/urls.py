@@ -12,12 +12,11 @@ from api import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
 router.register(r'sources', views.SourceViewSet)
 router.register(r'reviews', views.ReviewViewSet)
 router.register(r'questions', views.QuestionViewSet)
 router.register(r'selection_criterias', views.SelectionCriteriaViewSet)
-router.register(r'articles', views.ArticleViewSet)
+router.register(r'articles', views.ArticleList)
 router.register(r'keywords', views.KeywordViewSet)
 
 urlpatterns = patterns('',
