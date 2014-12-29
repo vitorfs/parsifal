@@ -19,10 +19,12 @@ class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
 class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    filter_fields = ('review',)
 
 class SelectionCriteriaViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SelectionCriteria.objects.all()
     serializer_class = SelectionCriteriaSerializer
+    filter_fields = ('review',)
 
 class ArticleList(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.all()
@@ -32,3 +34,4 @@ class ArticleList(viewsets.ReadOnlyModelViewSet):
 class KeywordViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Keyword.objects.all()
     serializer_class = KeywordSerializer
+    filter_fields = ('review',)
