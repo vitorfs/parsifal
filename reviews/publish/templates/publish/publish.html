@@ -1,11 +1,11 @@
-{% extends 'base_app.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Parsifal - Publish{% endblock %}
 
-{% block head_extra %}
+{% block stylesheet %}
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
   <link href="{{ STATIC_URL }}css/publish.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
+{% endblock stylesheet %}
 
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="publish" %}

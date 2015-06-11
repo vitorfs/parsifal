@@ -277,7 +277,7 @@ def import_bibtex(request):
         article.save()
     return redirect('/' + review.author.username + '/' + review.name + '/conducting/import/')
 
-@ajax_required
+
 @author_required
 @login_required
 def source_articles(request):
@@ -294,7 +294,7 @@ def source_articles(request):
 
     return render(request, 'conducting/partial_conducting_articles.html', {'review': review, 'source': source, 'articles': articles})
 
-@ajax_required
+
 @author_required
 @login_required
 def article_details(request):
@@ -330,7 +330,7 @@ def build_article_table_row(article):
             span_status)
     return row
 
-@ajax_required
+
 @author_required
 @login_required
 def save_article_details(request):
@@ -390,7 +390,7 @@ def save_quality_assessment(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def quality_assessment_detailed(request):
@@ -403,7 +403,7 @@ def quality_assessment_detailed(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def quality_assessment_summary(request):
@@ -415,7 +415,7 @@ def quality_assessment_summary(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def multiple_articles_action_remove(request):
@@ -428,7 +428,7 @@ def multiple_articles_action_remove(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def multiple_articles_action_accept(request):
@@ -441,7 +441,7 @@ def multiple_articles_action_accept(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def multiple_articles_action_reject(request):
@@ -454,7 +454,7 @@ def multiple_articles_action_reject(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def articles_order_by(request):
@@ -484,7 +484,7 @@ def articles_order_by(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def save_data_extraction(request):
@@ -505,7 +505,7 @@ def save_data_extraction(request):
     except Exception, e:
         return HttpResponseBadRequest(e)
 
-@ajax_required
+
 @author_required
 @login_required
 def find_duplicates(request):
@@ -515,7 +515,7 @@ def find_duplicates(request):
     context = RequestContext(request, {'duplicates': duplicates})
     return render_to_response('conducting/partial_conducting_find_duplicates.html', context)
 
-@ajax_required
+
 @author_required
 @login_required
 def resolve_duplicated(request):
@@ -531,7 +531,7 @@ def resolve_duplicated(request):
     except Exception, e:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def resolve_all(request):
@@ -549,7 +549,7 @@ def resolve_all(request):
     except Exception, e:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def new_article(request):

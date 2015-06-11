@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from parsifal.decorators import ajax_required
 from django.contrib.auth.decorators import login_required
 
-@ajax_required
+
 @login_required
 def follow(request):
     try:
@@ -25,7 +25,7 @@ def follow(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @login_required
 def unfollow(request):
     try:
@@ -44,7 +44,7 @@ def unfollow(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 def update_followers_count(request):
     try:
         user_id = request.GET['user-id']

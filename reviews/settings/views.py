@@ -17,7 +17,7 @@ def settings(request, username, review_name):
     context = RequestContext(request, {'review': review,})
     return render_to_response('settings/review_settings.html', context)
 
-@ajax_required
+
 @main_author_required
 @login_required
 def save_settings(request):
@@ -45,7 +45,7 @@ def save_settings(request):
     except Exception, e:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @main_author_required
 @login_required
 def transfer(request):
@@ -70,7 +70,7 @@ def transfer(request):
     except Exception, e:
         return HttpResponseBadRequest('Something went wrong.')
 
-@ajax_required
+
 @main_author_required
 @login_required
 def delete(request):

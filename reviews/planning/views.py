@@ -24,7 +24,7 @@ def planning(request, username, review_name):
 # OBJECTIVE FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def save_objective(request):
@@ -46,7 +46,7 @@ def save_objective(request):
 # QUESTION FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def save_question(request):
@@ -70,7 +70,7 @@ def save_question(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def add_or_edit_question(request):
@@ -91,7 +91,7 @@ def add_or_edit_question(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def remove_question(request):
@@ -117,7 +117,7 @@ def remove_question(request):
 # PICOC FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def save_picoc(request):
@@ -139,7 +139,7 @@ def save_picoc(request):
 # KEYWORDS/SYNONYM FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def add_synonym(request):
@@ -169,7 +169,7 @@ def extract_keywords(review, pico):
             keyword_objects.append(keyword)
     return keyword_objects
 
-@ajax_required
+
 @author_required
 @login_required
 def import_pico_keywords(request):
@@ -200,7 +200,7 @@ def import_pico_keywords(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def remove_keyword(request):
@@ -217,7 +217,7 @@ def remove_keyword(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def add_new_keyword(request):
@@ -241,7 +241,7 @@ def add_new_keyword(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def save_keyword(request):
@@ -257,7 +257,7 @@ def save_keyword(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def save_synonym(request):
@@ -292,7 +292,7 @@ def extract_keyword_to_search_string(term_list, query_list, keywords):
                     query_list.append(synonym.description)
     return query_list
 
-@ajax_required
+
 @author_required
 @login_required
 def generate_search_string(request):
@@ -339,7 +339,7 @@ def generate_search_string(request):
 
     return HttpResponse(' AND '.join(search_string))
 
-@ajax_required
+
 @author_required
 @login_required
 def save_generic_search_string(request):
@@ -368,7 +368,7 @@ def html_source(source):
     html += '<td><button type="button" class="btn btn-small btn-edit-source">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
     return html
 
-@ajax_required
+
 @author_required
 @login_required
 def save_source(request):
@@ -409,7 +409,7 @@ def save_source(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def remove_source_from_review(request):
@@ -428,7 +428,7 @@ def remove_source_from_review(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def suggested_sources(request):
@@ -454,7 +454,7 @@ def suggested_sources(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def add_suggested_sources(request):
@@ -477,7 +477,7 @@ def add_suggested_sources(request):
 # INCLUSION/EXCLUSION CRITERIA FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def add_criteria(request):
@@ -492,7 +492,7 @@ def add_criteria(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def remove_criteria(request):
@@ -513,7 +513,7 @@ def remove_criteria(request):
 # QUALITY ASSESSMENT FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def add_quality_assessment_question(request):
@@ -524,7 +524,7 @@ def add_quality_assessment_question(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def edit_quality_assessment_question(request):
@@ -536,7 +536,7 @@ def edit_quality_assessment_question(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def save_quality_assessment_question(request):
@@ -560,7 +560,7 @@ def save_quality_assessment_question(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def remove_quality_assessment_question(request):
@@ -572,7 +572,7 @@ def remove_quality_assessment_question(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def add_quality_assessment_answer(request):
@@ -583,7 +583,7 @@ def add_quality_assessment_answer(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required        
 def edit_quality_assessment_answer(request):
@@ -595,7 +595,7 @@ def edit_quality_assessment_answer(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required        
 def save_quality_assessment_answer(request):
@@ -627,7 +627,7 @@ def save_quality_assessment_answer(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required        
 def remove_quality_assessment_answer(request):
@@ -639,7 +639,7 @@ def remove_quality_assessment_answer(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def add_suggested_answer(request):
@@ -665,7 +665,7 @@ def add_suggested_answer(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def calculate_max_score(request):
@@ -677,7 +677,7 @@ def calculate_max_score(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def save_cutoff_score(request):
@@ -696,7 +696,7 @@ def save_cutoff_score(request):
 # DATA EXTRACTION FUNCTIONS 
 ###############################################################################
 
-@ajax_required
+
 @author_required
 @login_required
 def add_new_data_extraction_field(request):
@@ -704,7 +704,7 @@ def add_new_data_extraction_field(request):
     context = RequestContext(request, {'field': field})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
-@ajax_required
+
 @author_required
 @login_required
 def edit_data_extraction_field(request):
@@ -713,7 +713,7 @@ def edit_data_extraction_field(request):
     context = RequestContext(request, {'field': field})
     return render_to_response('planning/partial_data_extraction_field_form.html', context)
 
-@ajax_required
+
 @author_required
 @login_required
 def save_data_extraction_field(request):
@@ -767,7 +767,7 @@ def save_data_extraction_field(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def remove_data_extraction_field(request):

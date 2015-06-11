@@ -1,12 +1,12 @@
-{% extends 'base_app.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Parsifal - Review Settings{% endblock %}
 
-{% block head_extra %}
+{% block stylesheet %}
   <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/review_settings.js"></script>
-{% endblock head_extra %}
+{% endblock stylesheet %}
 
 {% block content %}
   {% include "reviews/review_header.html" %}

@@ -83,7 +83,7 @@ def upload_picture(request):
         im.save(filename)
     return redirect('/settings/profile/?upload_picture=uploaded')
 
-@ajax_required
+
 @login_required
 def save_uploaded_picture(request):
     try:

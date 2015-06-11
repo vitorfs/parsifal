@@ -15,7 +15,7 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['.parsif.al', '127.0.0.1']
+ALLOWED_HOSTS = ['parsif.al', '127.0.0.1']
 
 ADMINS = (
     ('Vitor Freitas', 'vitorfs@gmail.com'),
@@ -23,7 +23,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-TIME_ZONE = 'America/Sao_Paulo'
+TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
 USE_I18N = True
@@ -48,7 +48,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'parsifal.middleware.SecureRequiredMiddleware',
 )
 
 ROOT_URLCONF = 'parsifal.urls'
@@ -96,19 +95,3 @@ DEFAULT_FROM_EMAIL = 'Parsifal Team <noreply@parsif.al>'
 
 FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0644
-
-HTTPS_SUPPORT = config('HTTPS_SUPPORT', default=True, cast=bool)
-SECURE_REQUIRED_PATHS = (
-    '/',
-    '/admin/',
-    '/signin/',
-    '/signup/',
-    '/reset/',
-    '/settings/password/',
-)
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
-    'PAGINATE_BY': 50
-}

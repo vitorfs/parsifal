@@ -1,11 +1,11 @@
-{% extends 'base_app.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Parsifal - {{ page_user.profile.get_screen_name }} {{ page_title }}{% endblock %}
 
-{% block head_extra %}
+{% block stylesheet %}
   <link href="{{ STATIC_URL }}css/follow.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/activities.js"></script>
-{% endblock head_extra %}
+{% endblock stylesheet %}
 
 {% block content %}
   <h1 class="title"><a href="/{{ page_user.username }}/">{{ page_user.profile.get_screen_name }}</a></h1>

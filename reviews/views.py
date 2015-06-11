@@ -75,7 +75,7 @@ def review(request, username, review_name):
     context = RequestContext(request, {'review': review})
     return render_to_response('reviews/review.html', context)
 
-@ajax_required
+
 @main_author_required
 @login_required
 def add_author_to_review(request):
@@ -99,7 +99,7 @@ def add_author_to_review(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @main_author_required
 @login_required
 def remove_author_from_review(request):
@@ -114,7 +114,7 @@ def remove_author_from_review(request):
     except:
         return HttpResponseBadRequest()
 
-@ajax_required
+
 @author_required
 @login_required
 def save_description(request):
