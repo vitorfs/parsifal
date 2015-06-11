@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from reviews.models import Review
-from auth.forms import SignUpForm
+from parsifal_auth.forms import SignUpForm
 
 def signup(request):
     if request.method == 'POST':

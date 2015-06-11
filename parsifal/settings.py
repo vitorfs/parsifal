@@ -71,10 +71,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
-    'south',
-    'rest_framework',
     'activities',
-    'auth',
+    'parsifal_auth',
     'core',
     'blog',
     'reviews',
@@ -83,7 +81,7 @@ INSTALLED_APPS = (
     'reviews.reporting',
     'reviews.settings',
     'reviews.publish',
-    'settings',
+    'parsifal_settings',
 )
 
 LOGIN_URL = '/signin/'
