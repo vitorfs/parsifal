@@ -18,7 +18,7 @@ h3 {
 }
 
 a {
-  color: #55899B;
+  color: #1f8dd6;
   text-decoration: none;
 }
 
@@ -51,6 +51,10 @@ small {
 
 .text-error {
   color: #A84635;
+}
+
+.text-muted {
+  color: #aaa;
 }
 
 .title {

@@ -23,11 +23,9 @@
 .users-menu nav h3 {
   font-weight: 600;
   padding: .8em .6em;
-  background: #728A8B;
-  color: #FFF3D0;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  box-shadow: 0 3px 6px 0 #4C5D5E inset;
+  background: #eee;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
   margin: 0;
 }
 

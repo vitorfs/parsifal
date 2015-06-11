@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
   <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favico.png">
+  <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link href="{{ STATIC_URL }}css/style_app.css" rel="stylesheet" media="screen">
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/parsifal.js"></script>
@@ -12,11 +13,10 @@
 </head>
 <body>
   <div class="wrapper">
-    <div class="texture clearfix">
-      <header>
+    <header>
+      <div class="container">
         <h1><a href="/">Parsifal</a></h1>
         <nav class="menu">
-          <!--a href="/explore/">Explore</a-->
           <a href="/blog/">Blog</a>
           <a href="/about/">About</a>
           <a href="/support/">Support</a>
@@ -33,29 +33,33 @@
           <a href="/signin/" class="btn" style="text-decoration: none">Log in</a>
         </div>
         {% endif %}
-      </header>
-    </div>
+      </div>
+    </header>
     <section class="content">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();return false;">×</a>
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-      {% block content %}
-      {% endblock content %}
+      <div class="container">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();return false;">×</a>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock content %}
+      </div>
       <div class="push"></div>
     </section>
   </div>
   <footer>
-    <p>© 2014 Parsifal Ltd.</p>
-    <ul>
-      <li><a href="#">Terms of Use</a></li>
-      <li><a href="#">Privacy Policy</a></li>
-      <li><a href="#">Cookie Policy</a></li>
-    </ul>
+    <div class="container">
+      <p>© 2015 Parsifal Ltd.</p>
+      <ul>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
   </footer>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

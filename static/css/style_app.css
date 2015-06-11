@@ -24,9 +24,9 @@ html, body {
 }
 
 body {
-  background: #F6F6F6;
-  color: #3A3D40;
-  font-family: "Source Sans Pro", Tahoma, Arial, sans-serif;
+  background: #fff;
+  color: #333;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 62.5%;
 }
@@ -41,11 +41,17 @@ body {
 
 header {
   height: 65px;
-  background: #728A8B;
-  border-bottom: 1px solid #56696A;
+  background: #f6f6f6;
   width: 100%;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
   padding: 0 20px;
+  border-bottom: 1px solid #ececec;
+}
+
+header a {
+  -webkit-transition: all 0.2s ease 0s;
+     -moz-transition: all 0.2s ease 0s;
+       -o-transition: all 0.2s ease 0s;
+          transition: all 0.2s ease 0s;
 }
 
 header h1 {
@@ -55,56 +61,82 @@ header h1 {
   padding-top: .4em;
   font-weight: 400;
   margin: 0;
-  text-shadow: 1px 1px 0 #3A3D40;
 }
 
 header h1 a {
-  color: #E6D9B8;
+  color: #333;
   text-decoration: none;
 }
 
 header h1 a:hover {
-  color: #FFF3D0;
   text-decoration: none;
+}
+
+header nav {
+  padding-top: 2.5em;
 }
 
 header nav.menu {
   float: left;
-  padding-top: 2.2em;
   padding-left: 5em;
+  text-transform: uppercase;
+}
+
+header nav a {
+  font-size: 1.4em;
 }
 
 header nav.menu a {
   padding: 0 1.2em;
-  color: #E6D9B8;
+  color: #333;
   text-decoration: none;
-  font-size: 1.8em;
   font-weight: bold;
 }
 
 header nav.menu a:hover {
-  color: #FFF3D0;
+  color: #666;
 }
 
 header nav.signedin {
-  padding-top: 2.2em;
   float: right;
 }
 
 header nav.signedin a {
-  color: #E6D9B8;
+  color: #333;
   text-decoration: none;
-  font-size: 1.2em;
   padding: 0 .7em;
   font-weight: bold;
 }
 
 header nav.signedin a:hover {
-  color: #FFF3D0;
+  color: #666;
 }
 
 header nav.signedin a.user {
-  font-size: 1.6em;
+
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
 }
 
 .wrapper {
@@ -159,16 +191,6 @@ footer ul li a {
 
 .pull-left {
   float: left;
-}
-
-.container {
-  width: 100%;
-  border-radius: 5px;
-  box-shadow: 0 0 5px 0 #C2C2C2;
-  border: 1px solid #C2C2C2;
-  padding: 1em 1.5em;
-  margin: 0 0 2em 0;
-  background: #F9F9F9;
 }
 
 hr {

@@ -2,7 +2,8 @@
   <a href="/{{ review.author.username }}/{{ review.name }}/settings/" class="btn pull-right">Review Settings</a>
 {% endif %}
 <h1>
-  <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a> / 
+  <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a> 
+  <span class="text-muted" style="font-weight: normal;">/</span>
   <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
 </h1>
 <ul class="review-menu">

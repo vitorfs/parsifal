@@ -12,6 +12,9 @@ class Profile(models.Model):
     url = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
 
+    class Meta:
+        db_table = 'auth_profile'
+
     def get_url(self):
         url = self.url
         if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:

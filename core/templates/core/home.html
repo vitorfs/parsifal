@@ -7,8 +7,8 @@
 {% endblock head_extra %}
 
 {% block content %}
-  <div class="clearfix">
-    <div class="last-updates">
+  <div class="row">
+    <div class="col-md-8">
       <h1>Last updates on Parsifal</h1>
       <ul>
         {% for feed in feeds %}
@@ -18,19 +18,21 @@
         {% endfor %}
       </ul>
     </div>
-    <div class="user-reviews">
+    <div class="col-md-4">
       <div class="clearfix" style="margin-bottom: 1.5em">
         <a href="/reviews/new/" class="btn btn-success pull-right">New review</a>
       </div>
-      <div class="container reviews" style="padding: 0">
-        <nav>
-          <h3>Your Reviews</h3>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Your reviews</h3>
+        </div>
+        <div class="list-group">
           {% for review in user_reviews %}
-            <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
+            <a href="/{{ review.author.username }}/{{ review.name }}/" class="list-group-item">{{ review.title }}</a>
           {% empty %}
-            <p>You don't have any systematic literature review yet.</p>
+            <a href="#">You don't have any systematic literature review yet.</a>
           {% endfor %}
-        </nav>
+        </div>
       </div>
     </div>
   </div>

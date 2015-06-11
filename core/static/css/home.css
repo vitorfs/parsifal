@@ -25,7 +25,7 @@
 .reviews nav a {
   display: block;
   font-size: 1.4em;
-  padding: .5em .6em;
+  padding: .8em .6em;
   font-weight: 400;
   border-bottom: 1px solid #C2C2C2;
 }
@@ -47,11 +47,9 @@
 .reviews nav h3 {
   font-weight: 600;
   padding: .8em .6em;
-  background: #728A8B;
-  color: #FFF3D0;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  box-shadow: 0 3px 6px 0 #4C5D5E inset;
+  background: #eee;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
   margin: 0;
 }
 
