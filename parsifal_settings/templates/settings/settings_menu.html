@@ -1,7 +1,10 @@
-<div class="users-menu panel" style="padding: 0">
-  <nav>
-    <h3>Account Settings</h3>
-    <a href="/settings/profile/">Profile</a>
-    <a href="/settings/password/">Password</a>
-  </nav>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Account settings</h3>
+  </div>
+  <div class="list-group">
+    <a href="{% url 'settings:profile' %}" class="list-group-item">Profile</a>
+    <a href="{% url 'settings:picture' %}" class="list-group-item">Picture</a>
+    <a href="{% url 'settings:password' %}" class="list-group-item">Password</a>
+  </div>
 </div>

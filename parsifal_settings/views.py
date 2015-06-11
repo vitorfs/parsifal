@@ -1,14 +1,20 @@
 # coding: utf-8
+
+import os
+from PIL import Image
+
+from django.core.urlresolvers import reverse as r
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.conf import settings as django_settings
+
 from parsifal.decorators import ajax_required
-from PIL import Image
-import os
+from parsifal_settings.forms import ProfileForm
+
 
 @login_required
 def settings(request):
@@ -17,33 +23,25 @@ def settings(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        first_name = request.POST['first-name']
-        last_name = request.POST['last-name']
-        email = request.POST['email']
-        location = request.POST['location']
-        institution = request.POST['institution']
-        url = request.POST['url']
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, u'Your profile were successfully edited.')
+            return redirect(r('settings:profile'))
+    else:
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'settings/profile.html', { 'form': form })
 
-        user = request.user
-
-        user.first_name = first_name[:30]
-        user.last_name = last_name[:30]
-        user.email = email[:75]
-
-        user.profile.location = location[:50]
-        user.profile.institution = institution[:50]
-        user.profile.url = url[:50]
-
-        user.save()
-        messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')
+@login_required
+def picture(request):
     uploaded_picture = False
     try:
         if request.GET['upload_picture'] == 'uploaded':
             uploaded_picture = True
     except Exception, e:
         uploaded_picture = False
-    context = RequestContext(request, {'uploaded_picture': uploaded_picture})
-    return render_to_response('settings/profile.html', context)
+    return render(request, 'settings/picture.html', { 'uploaded_picture': uploaded_picture })
+
 
 @login_required
 def password(request):
@@ -66,6 +64,7 @@ def password(request):
     context = RequestContext(request)
     return render_to_response('settings/password.html', context)
 
+
 @login_required
 def upload_picture(request):
     f = request.FILES['picture']
@@ -81,7 +80,7 @@ def upload_picture(request):
         new_size = new_width, new_height
         im.thumbnail(new_size, Image.ANTIALIAS)
         im.save(filename)
-    return redirect('/settings/profile/?upload_picture=uploaded')
+    return redirect('/settings/picture/?upload_picture=uploaded')
 
 
 @login_required
