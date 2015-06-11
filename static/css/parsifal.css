@@ -1,13 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Playball);
 
+/* Parsifal base css */
+
 html, body {
   height: 100%;
-}
-
-.navbar-default .navbar-brand {
-  font-family: 'Playball', cursive;
-  font-weight: 400;
-  font-size: 2.6em;
 }
 
 .wrapper {
@@ -32,4 +28,16 @@ footer {
 footer ul li {
   display: inline;
   margin-right: 15px;
+}
+
+/* Bootstrap overrides */
+
+.navbar-default .navbar-brand {
+  font-family: 'Playball', cursive;
+  font-weight: 400;
+  font-size: 2.6em;
+}
+
+.page-header {
+  margin-top: 0;
 }

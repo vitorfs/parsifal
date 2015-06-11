@@ -8,8 +8,13 @@
 
 {% block content %}
   <div class="row">
+    <div class="col-md-12">
+      <a href="/reviews/new/" class="btn btn-success pull-right">New review</a>
+      <h2 class="page-header">Last updates on Parsifal</h2>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-8">
-      <h1>Last updates on Parsifal</h1>
       <ul>
         {% for feed in feeds %}
           <li>{{ feed.message|safe }} <small>{{ feed.date|naturaltime }}</small></li>
@@ -19,9 +24,6 @@
       </ul>
     </div>
     <div class="col-md-4">
-      <div class="clearfix" style="margin-bottom: 1.5em">
-        <a href="/reviews/new/" class="btn btn-success pull-right">New review</a>
-      </div>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Your reviews</h3>
@@ -30,7 +32,7 @@
           {% for review in user_reviews %}
             <a href="/{{ review.author.username }}/{{ review.name }}/" class="list-group-item">{{ review.title }}</a>
           {% empty %}
-            <a href="#">You don't have any systematic literature review yet.</a>
+            <p class="list-group-item">You don't have any systematic literature review yet.</p>
           {% endfor %}
         </div>
       </div>
