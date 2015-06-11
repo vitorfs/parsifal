@@ -13,7 +13,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404, re
 from django.conf import settings as django_settings
 
 from parsifal.decorators import ajax_required
-from parsifal_settings.forms import ProfileForm
+from parsifal_settings.forms import ProfileForm, PasswordForm
 
 
 @login_required
@@ -46,23 +46,16 @@ def picture(request):
 @login_required
 def password(request):
     if request.method == 'POST':
-        old_password = request.POST['old-password']
-        new_password = request.POST['new-password']
-        confirm_new_password = request.POST['confirm-new-password']
-        
-        user = request.user
-
-        if user.check_password(old_password):
-            if new_password == confirm_new_password:
-                user.set_password(new_password)
-                user.save()
-                messages.add_message(request, messages.SUCCESS, 'Your password were successfully changed.')
-            else:
-                messages.add_message(request, messages.ERROR, 'The new password didn\'t match.')
+        form = PasswordForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, u'Password changed successfully.')
+            update_session_auth_hash(request, form.user)
         else:
-            messages.add_message(request, messages.ERROR, 'The old password didn\'t match.')
-    context = RequestContext(request)
-    return render_to_response('settings/password.html', context)
+            messages.error(request, u'Please correct the error below.')
+    else:
+        form = PasswordForm(request.user)
+    return render(request, 'settings/password.html', { 'form' : form })
 
 
 @login_required
