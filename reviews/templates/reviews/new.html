@@ -1,30 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Create a New Review</h1>
-  <form action="." method="post" class="form-block">
+  <h2 class="page-header">Create a new review</h2>
+  <form method="post">
     {% csrf_token %}
-    <div class="form-row">
-      <div class="label-container">
-        <label for="title">Title</label>
-      </div>
-      <div class="input-container">
-        <input type="text" id="title" name="title" placeholder="Systematic literature review's title" value="{{review.title}}" maxlength="250">
-        <span class="form-status-message">Teste</span>
-      </div>
-    </div>
-    <div class="form-row clearfix">
-      <div class="label-container">
-        <label for="descripton">Description</label>
-      </div>
-      <div class="input-container">
-        <textarea rows="5" id="description" name="description" placeholder="Give a brief description of your systematic literature review">{{review.description}}</textarea>
-        <span class="help">Try to keep it short, max 500 characters :)</span>
-      </div>
-    </div>
-    <div class="button-container">
-      <button type="submit" class="btn btn-success btn-large">Create review</button>
-      <button type="button" class="btn btn-large" onclick="location.href = '/{{ user.username }}/'">Cancel</button>
+    {% include 'form_vertical.html' with form=form %}
+    <div class="form-group">
+      <button type="submit" class="btn btn-success">Create review</button>
+      <a href="{% url 'reviews' user.username %}" class="btn btn-default">Cancel</a>
     </div>
   </form>
 {% endblock content %}

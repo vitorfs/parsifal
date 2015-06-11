@@ -1,11 +1,11 @@
 {% if user == review.author %}
-  <a href="/{{ review.author.username }}/{{ review.name }}/settings/" class="btn pull-right">Review Settings</a>
+  <a href="/{{ review.author.username }}/{{ review.name }}/settings/" class="btn btn-primary pull-right">Review settings</a>
 {% endif %}
-<h1>
+<h2 style="margin-top: 0;">
   <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a> 
   <span class="text-muted" style="font-weight: normal;">/</span>
   <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
-</h1>
+</h2>
 <ul class="review-menu">
   <li{% if active_menu == "review"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/">Review</a></li>
   <li{% if active_menu == "planning"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/planning/">Planning</a></li>

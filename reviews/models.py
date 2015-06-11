@@ -64,6 +64,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
+        unique_together = (('name', 'author'),)
 
     def __unicode__(self):
         return self.name

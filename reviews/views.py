@@ -1,16 +1,21 @@
 # coding: utf-8
+
+from django.core.urlresolvers import reverse as r
+from django.template.defaultfilters import slugify
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.template import RequestContext
 from django.utils.html import escape
+
+from parsifal.decorators import ajax_required
 from reviews.models import Review
 from reviews.decorators import main_author_required, author_required
-from parsifal.decorators import ajax_required
-from django.template.defaultfilters import slugify
-from django.db.models import Q
+from reviews.forms import CreateReviewForm, ReviewForm
+
 
 def reviews(request, username):
     user = get_object_or_404(User, username__iexact=username)
@@ -35,45 +40,50 @@ def reviews(request, username):
 
 @login_required
 def new(request):
-    review = Review()
     if request.method == 'POST':
-        title = request.POST['title']
-        description = request.POST['description']
-        author = request.user
-        name = slugify(title)
-        unique_name = name
-        i = 0
-        while Review.objects.filter(name=unique_name, author__username=request.user.username):
-            i = i + 1
-            unique_name = name + '-' + str(i)
-        
-        review = Review(name = unique_name, title = title, description = description, author=author)
+        form = CreateReviewForm(request.POST)
+        if form.is_valid():
+            form.instance.author = request.user
 
-        is_valid = True
-        if not title:
-            is_valid = False
-            messages.add_message(request, messages.ERROR, 'Title is a required field.')
-        elif len(title) > 250:
-            is_valid = False
-            messages.add_message(request, messages.ERROR, 'The title should not exceed 250 characters.')
-        if len(description) > 500:
-            is_valid = False
-            messages.add_message(request, messages.ERROR, 'The description should not exceed 500 characters.')
+            name = slugify(form.instance.title)
+            unique_name = name
+            i = 0
+            while Review.objects.filter(name=unique_name, author__username=request.user.username):
+                i = i + 1
+                unique_name = u'{0}-{1}'.format(name, i)
+            form.instance.name = unique_name
+            review = form.save()
+            messages.success(request, u'Review created successfully.')
+            return redirect(r('review', args=(review.author.username, review.name)))
+    else:
+        form = CreateReviewForm()
+    return render(request, 'reviews/new.html', { 'form': form })
 
-        if is_valid:
-            review.save()
-            messages.add_message(request, messages.SUCCESS, 'Review created with success.')
-            return redirect('/' + review.author.username + '/' + review.name + '/')
 
-    context = RequestContext(request, {'review': review})
-    return render_to_response('reviews/new.html', context)
 
-@author_required
 @login_required
 def review(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username__iexact=username)
-    context = RequestContext(request, {'review': review})
-    return render_to_response('reviews/review.html', context)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            name = slugify(form.instance.name)
+            unique_name = name
+            if unique_name != review_name:
+                i = 0
+                while Review.objects.filter(name=unique_name, author__username=review.author.username):
+                    i = i + 1
+                    unique_name = u'{0}-{1}'.format(name, i)
+            form.instance.name = unique_name
+            review = form.save()
+            messages.success(request, u'Review was saved successfully.')
+            return redirect(r('review', args=(review.author.username, review.name)))
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'reviews/review.html', { 
+            'review': review,
+            'form': form
+            })
 
 
 @main_author_required
