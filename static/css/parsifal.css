@@ -150,3 +150,27 @@ ul.review-menu li.active {
 .page-header {
   margin-top: 0;
 }
+
+.affix-top {
+  position: relative;
+}
+
+.affix {
+  top: 20px;
+}
+
+.affix, 
+.affix-bottom {
+  width: 213px;
+}
+
+.affix-bottom {
+  position: absolute;
+}
+
+@media (min-width:1200px) {
+  .affix, 
+  .affix-bottom {
+    width: 263px;
+  }
+}

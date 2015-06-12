@@ -1,9 +1,13 @@
-<li question-id="{{ question.id|default:'None' }}">
-  <span class="question-description">
-    <input type="text" name="question-description" maxlength="500" value="{{ question.question }}">
-  </span>
-  <span class="question-buttons">
-    <button type="button" class="btn btn-small btn-success btn-save-question" data-loading="saving...">save</button>
-    <button type="button" class="btn btn-small btn-warning btn-cancel-question">cancel</button>
-  </span>
+<li class="list-group-item" question-id="{{ question.id|default:'None' }}">
+  <div class="row">
+    <div class="col-sm-10">
+      <span class="question-description">
+        <input class="form-control" type="text" name="question-description" maxlength="500" value="{{ question.question }}">
+      </span>
+    </div>
+    <div class="col-sm-2 text-right">
+      <button type="button" class="btn btn-sm btn-success btn-save-question" data-loading="saving...">save</button>
+      <button type="button" class="btn btn-sm btn-default btn-cancel-question">cancel</button>
+    </div>
+  </div>
 </li>

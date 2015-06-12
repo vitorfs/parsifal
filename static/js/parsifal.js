@@ -4,6 +4,18 @@
       $("[data-toggle='tooltip']").tooltip();
     }
   };
+
+  $.fn.disable = function () {
+    $(this).prop("disabled", true);
+    $(this).attr("data-original", $(this).text());
+    $(this).text($(this).attr("data-loading"));
+  };
+
+  $.fn.enable = function () {
+    $(this).prop("disabled", false);
+    $(this).text($(this).attr("data-original"));
+  };
+  
 })(jQuery);
 
 /*var FORWARD = 1;
