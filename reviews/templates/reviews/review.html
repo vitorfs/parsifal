@@ -45,7 +45,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">Authors</h3>
         </div>
-        <ul class="list-group authors">
+        <ul class="list-group authors" data-remove-url="{% url 'reviews:remove_author_from_review' %}">
           <li class="list-group-item" author-id="{{ review.author.id }}">
             <a href="/{{ review.author.username }}/">
               {{ review.author.profile.get_screen_name }}
@@ -53,17 +53,17 @@
             <span class="badge">main author</span>
           </li>
           {% for author in review.co_authors.all %}
-            <li  class="list-group-item" author-id="{{ author.id }}">
-              <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>
+            <li  class="list-group-item" data-user-id="{{ author.id }}">
+              <a href="{% url 'reviews' author.username %}">{{ author.profile.get_screen_name }}</a>
               {% if user.id == review.author.id %}
-                <a href="javascript:void(0);" class="remove-author text-danger pull-right">
+                <a href="javascript:void(0);" class="js-remove-author text-danger pull-right">
                   <span class="glyphicon glyphicon-remove"></span>
                 </a>
               {% elif user.id == author.id %}
                 <form method="post" action="{% url 'reviews:leave' %}" style="display: inline">
                   {% csrf_token %}
                   <input type="hidden" name="review-id" value="{{ review.id }}">
-                  <button type="submit" class="btn btn-small btn-link text-error">(leave)</button>
+                  <a href="javascript:void(0);" class="js-leave text-danger pull-right">(leave)</a>
                 </form>
               {% endif %}
             </li>

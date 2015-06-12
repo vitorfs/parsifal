@@ -136,10 +136,11 @@ def add_author_to_review(request):
 
 @main_author_required
 @login_required
+@require_POST
 def remove_author_from_review(request):
     try:
-        author_id = request.GET['author-id']
-        review_id = request.GET['review-id']
+        author_id = request.POST.get('user-id')
+        review_id = request.POST.get('review-id')
         author = User.objects.get(pk=author_id)
         review = Review.objects.get(pk=review_id)
         review.co_authors.remove(author)
