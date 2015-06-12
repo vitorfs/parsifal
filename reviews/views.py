@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import json
+
 from django.core.urlresolvers import reverse as r
 from django.template.defaultfilters import slugify
 from django.db.models import Q
@@ -10,6 +12,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.template import RequestContext
 from django.utils.html import escape
+from django.views.decorators.http import require_POST
+from django.core.mail import EmailMultiAlternatives
 
 from parsifal.decorators import ajax_required
 from reviews.models import Review
@@ -80,26 +84,54 @@ def review(request, username, review_name):
 
 @main_author_required
 @login_required
+@require_POST
 def add_author_to_review(request):
-    try:
-        username = request.GET['username']
-        review_id = request.GET['review-id']
-        
+    emails = request.POST.getlist('users')
+    review_id = request.POST.get('review-id')
+    review = get_object_or_404(Review, pk=review_id)
+    authors_added = []
+    authors_invited = []
+
+    inviter_name = request.user.profile.get_screen_name()
+
+    for email in emails:
         try:
-            user = User.objects.get(username__iexact=username)
+            user = User.objects.get(email__iexact=email)
+            if user.id != review.author.id:
+                authors_added.append(user.profile.get_screen_name())
+                review.co_authors.add(user)
         except User.DoesNotExist:
-            user = None
+            authors_invited.append(email)
 
-        review = Review.objects.get(pk=review_id)
+            subject = u'{0} wants to add you as co-author on the systematic literature review {1}'.format(inviter_name, review.title)
+            from_email = u'{0} via Parsifal <noreply@parsif.al>'.format(inviter_name)
+            
+            text_content = u'''Hi {0}, 
+            {1} invited you to a Parsifal Systematic Literature Review called "{2}". 
+            View the review at https://parsif.al/{3}/{4}/'''.format(email, inviter_name, review.title, request.user.username, review.name)
 
-        if user is not None and user.id != review.author.id:
-            review.co_authors.add(user)
-            review.save()
-            return HttpResponse('<li author-id="' + str(user.id) + '"><a href="/' + user.username +'/">' + user.profile.get_screen_name() + '</a> <button type="button" class="btn btn-small btn-link remove-author text-error">(remove)</button></li>')
-        else:
-            return HttpResponseBadRequest()
-    except:
-        return HttpResponseBadRequest()
+            html_content = u'''<p>Hi {0},</p>
+            <p>{1} invited you to a Parsifal Systematic Literature Review called "{2}".</p>
+            <p>View the review at https://parsif.al/{3}/{4}/</p>
+            <p>Sincerely,</p>
+            <p>The Parsifal Team</p>'''.format(email, inviter_name, review.title, request.user.username, review.name)
+
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
+            msg.attach_alternative(html_content, 'text/html')
+            msg.send()
+
+    review.save()
+
+    if not authors_added and not authors_invited:
+        messages.info(request, u'No author invited or added to the review. Nothing really changed.')
+    
+    if authors_added:
+        messages.success(request, u'The authors {0} were added successfully.'.format(u', '.join(authors_added)))
+
+    if authors_invited:
+        messages.success(request, u'{0} were invited successfully.'.format(u', '.join(authors_invited)))
+
+    return redirect(r('review', args=(review.author.username, review.name)))
 
 
 @main_author_required

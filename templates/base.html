@@ -5,6 +5,7 @@
   <title>{% block title %}Parsifal{% endblock %}</title>
   <link href="{% static 'img/favico.png' %}" rel="icon" type="image/png">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/selectize.bootstrap3.css' %}" rel="stylesheet">
   <link href="{% static 'css/parsifal.css' %}" rel="stylesheet">
   {% block stylesheet %}{% endblock %}
 </head>
@@ -22,6 +23,7 @@
   {% include 'footer.html' %}
   <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/selectize.min.js' %}"></script>
   <script src="{% static 'js/expanding.js' %}"></script>
   <script src="{% static 'js/parsifal.js' %}"></script>
   <script>

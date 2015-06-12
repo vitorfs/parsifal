@@ -17,11 +17,14 @@
           <li><a href="{% url 'support' %}">Support</a></li>
         </ul>
         {% if user.is_authenticated %}
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="{% url 'reviews' user.username %}">{{ user.profile.get_screen_name }}</a></li>
-          <li><a href="{% url 'settings:settings' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Account settings"><span class="glyphicon glyphicon-cog"></span></a></li>
-          <li><a href="{% url 'signout' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Log out"><span class="glyphicon glyphicon-log-out"></span></a></li>
-        </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'reviews' user.username %}">{{ user.profile.get_screen_name }}</a></li>
+            <li><a href="{% url 'settings:settings' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Account settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+            <li><a href="{% url 'signout' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Log out"><span class="glyphicon glyphicon-log-out"></span></a></li>
+          </ul>
+        {% else %}
+        <a href="{% url 'signin' %}" title="Sign in" class="btn btn-default navbar-btn navbar-right">Sign in</a>
+        <a href="{% url 'signup' %}" title="Sign up" class="btn btn-primary navbar-btn navbar-right" style="margin-right: 5px;">Sign up</a>
         {% endif %}
       </div>
     </div>
