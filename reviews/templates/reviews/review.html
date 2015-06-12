@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Parsifal - {{ review.title }}{% endblock %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet">
-{% endblock %}
-
 {% block javascript %}
-  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
+  <script src="{% static 'js/review.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,8 +13,23 @@
   {% include "reviews/review_header.html" with active_menu="review" %}
 
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-
+    <div class="col-sm-7 col-md-8 col-lg-9">
+      <form method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Review details</h3>
+          </div>
+          <div class="panel-body">
+            {% include 'form_vertical.html' with form=form %}
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success">Save changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-5 col-md-4 col-lg-3">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Authors</h3>
@@ -47,7 +60,7 @@
         </ul>
         {% if user.id == review.author.id %}
           <div class="panel-footer">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-author-modal">Add author</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-author-modal">Add author</button>
             <div class="modal fade" id="add-author-modal">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -68,29 +81,7 @@
           </div>
         {% endif %}
       </div>
-
-      <form method="post">
-        {% csrf_token %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Review details</h3>
-          </div>
-          <div class="panel-body">
-            {% include 'form_vertical.html' with form=form %}
-          </div>
-          <div class="panel-footer">
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </form>
-
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title">Danger zone</h3>
-        </div>
-        <div class="panel-body"></div>
-      </div>
-
+    </div>
   </div>
-</div>
+  
 {% endblock content %}

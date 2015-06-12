@@ -20,11 +20,6 @@ class ReviewForm(forms.ModelForm):
     title = forms.CharField(
             widget=forms.TextInput(attrs={ 'class': 'form-control' }), 
             max_length=255)
-    name = forms.SlugField(
-            widget=forms.TextInput(attrs={ 'class': 'form-control' }), 
-            label='URL',
-            help_text='Only letters, numbers, underscores or hyphens are allowed.',
-            max_length=255)
     description = forms.CharField(
             widget=forms.Textarea(attrs={ 'class': 'form-control expanding', 'rows': '1' }), 
             max_length=500, 
@@ -32,4 +27,4 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['title', 'name', 'description',]
+        fields = ['title', 'description',]

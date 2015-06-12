@@ -12,14 +12,14 @@ def main_author_required(f):
                     return f(request, *args, **kwargs)
                 else:
                     raise Http404
-            except:
+            except Review.DoesNotExist:
                 raise Http404
         else:
             try:
-                review_id = request.POST['review-id']
+                review_id = request.POST.get('review-id')
             except:
                 try:
-                    review_id = request.GET['review-id']
+                    review_id = request.GET.get('review-id')
                 except:
                     return HttpResponseBadRequest()
 
@@ -41,14 +41,14 @@ def author_required(f):
                     return f(request, *args, **kwargs)
                 else:
                     raise Http404
-            except:
+            except Review.DoesNotExist:
                 raise Http404
         else:
             try:
-                review_id = request.POST['review-id']
+                review_id = request.POST.get('review-id')
             except:
                 try:
-                    review_id = request.GET['review-id']
+                    review_id = request.GET.get('review-id')
                 except:
                     return HttpResponseBadRequest()
             review = Review.objects.get(pk=review_id)

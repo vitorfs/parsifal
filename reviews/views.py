@@ -67,14 +67,6 @@ def review(request, username, review_name):
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
-            name = slugify(form.instance.name)
-            unique_name = name
-            if unique_name != review_name:
-                i = 0
-                while Review.objects.filter(name=unique_name, author__username=review.author.username):
-                    i = i + 1
-                    unique_name = u'{0}-{1}'.format(name, i)
-            form.instance.name = unique_name
             review = form.save()
             messages.success(request, u'Review was saved successfully.')
             return redirect(r('review', args=(review.author.username, review.name)))

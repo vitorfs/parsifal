@@ -1,5 +1,5 @@
 {% if user == review.author %}
-  <a href="/{{ review.author.username }}/{{ review.name }}/settings/" class="btn btn-primary pull-right">Review settings</a>
+  <a href="/{{ review.author.username }}/{{ review.name }}/settings/" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-wrench"></span> Settings</a>
 {% endif %}
 <h2 style="margin-top: 0;">
   <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a> 

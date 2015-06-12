@@ -1,91 +1,114 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Parsifal - Review Settings{% endblock %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/review_settings.js"></script>
-{% endblock stylesheet %}
+{% block javascript %}
+  <script>
+    $(function () {
+      $("#id_user").change(function () {
+        if ($(this).val() !== "") {
+          $("#confirm-transfer").prop("disabled", false);
+        }
+        else {
+          $("#confirm-transfer").prop("disabled", true);
+        }        
+      });
+      $("#enable-confirm-deletion").click(function () {
+        if ($(this).is(":checked")) {
+          $("#confirm-deletion").prop("disabled", false);
+        }
+        else {
+          $("#confirm-deletion").prop("disabled", true);
+        }
+      });
+    });
+  </script>
+{% endblock javascript %}
 
 {% block content %}
-  {% include "reviews/review_header.html" %}
-  <section class="clearfix">
-    <h2>Settings</h2>
-    <form class="form-block" id="review-settings-form">
-      {% csrf_token %}
-      <input type="hidden" name="review-id" value="{{ review.id }}">
-      <div class="form-row">
-        <div class="label-container">
-          <label for="review-name">Name</label>
-        </div>
-        <div class="input-container">
-          <input value="{{ review.name }}" id="name" name="name" maxlength="250">
-          <span class="help">The name will be used to create a unique url for your review. Make sure you choose something <strong>short</strong> and <strong>elegant</strong>.</span>
-          <span class="help">It will look like http://parsif.al/{{user.username}}/<strong>example-review-name</strong>/</span>
-        </div>
+
+  {% include 'reviews/review_header.html' %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Review settings</h3>
       </div>
-      <div class="form-row">
-        <div class="label-container">
-          <label for="review-title">Title</label>
-        </div>
-        <div class="input-container">
-          <input value="{{ review.title }}" id="title" name="title" maxlength="250">
-        </div>
+      <div class="panel-body">
+        {% include 'form_vertical.html' with form=form %}
       </div>
-      <div class="form-row">
-        <div class="button-container">
-          <button type="button" class="btn btn-success pull-left btn-save-settings" data-loading="Saving...">Save</button>
-        </div>
+      <div class="panel-footer">
+        <button type="submit" class="btn btn-success">Save changes</button>
       </div>
-    </form>
-    <hr>
-    <form class="form-block" id="danger-zone-form">
-      {% csrf_token %}
-      <div class="form-row">
-        <div class="modal" id="modal-transfer">
+    </div>
+  </form>
+
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title">Danger zone</h3>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#transfer-review">Transfer</button>
+        <p><strong>Transfer ownership</strong></p>
+        <p style="margin-bottom: 0;">Transfer this review to another user.</p>
+      </li>
+      <li class="list-group-item">
+        <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#delete-review">Delete</button>
+        <p><strong>Delete this review</strong></p>
+        <p style="margin-bottom: 0;">Once you delete a review, there is no going back. Please be certain.</p>
+      </li>
+    </ul>
+  </div>
+
+  <form method="post" action="{% url 'transfer_review' %}">
+    {% csrf_token %}
+    <input type="hidden" name="review-id" value="{{ review.pk }}">
+    <div class="modal fade" id="transfer-review" tabindex="-1" role="dialog" aria-labelledby="transfer-review-title" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
           <div class="modal-header">
-            <h2>Transfer Ownership</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="transfer-review-title">Transfer ownership</h4>
           </div>
           <div class="modal-body">
-            <h3>Username</h3>
-            <input type="text" maxlength="30" id="transfer-user">
-            <p style="margin: 1em 0">Inform the username of the user you want to transfer to review to.</p>
-            <p style="margin: 1em 0" class="text-error"></p>
+            <label for="id_user" class="control-label">Select the new owner's name:</label>
+            <select id="id_user" name="user"></select>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-warning close-modal">Cancel</button>
-            <button type="button" class="btn" id="btn-save-transfer">Transfer</button>
+            <button type="submit" id="confirm-transfer" class="btn btn-danger btn-block" disabled>Transfer ownership</button>
           </div>
         </div>
-        <div class="label-container">
-          <label for="">Transfer ownership</label>
-        </div>
-        <div class="input-container">
-          <button type="button" class="btn btn-warning" id="btn-transfer-ownership" data-loading="Transfering...">Transfer</button>
-        </div>
       </div>
-      <div class="form-row">
-        <div class="modal" id="modal-delete">
+    </div>
+  </form>
+
+  <form method="post" action="{% url 'delete_review' %}">
+    {% csrf_token %}
+    <input type="hidden" name="review-id" value="{{ review.pk }}">
+    <div class="modal fade" id="delete-review" tabindex="-1" role="dialog" aria-labelledby="delete-review-title" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
           <div class="modal-header">
-            <h2>Delete Review</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="delete-review-title">Are you sure?</h4>
           </div>
           <div class="modal-body">
-            <h3>Confirm the review deletion</h3>
-            <p style="margin: 1em 0">Are you sure you want to completly delete the <strong>{{ review.title }}</strong> review? This action cannot be undone.</p>
-            <button type="button" class="btn btn-warning btn-large" id="confirm-review-deletion" style="width: 100%" data-loading="Deleting...">Confirm Deletion</button>
+            <p>This action <strong>CANNOT</strong> be undone. This will permanently delete the <strong>{{ review.title }}</strong> review and all associated data.</p>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="enable-confirm-deletion"> I understand the consequences.
+              </label>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-warning close-modal">Cancel</button>
+            <button type="submit" id="confirm-deletion" class="btn btn-danger btn-block" disabled>Delete this review</button>
           </div>
         </div>
-        <div class="label-container">
-          <label for="">Delete this review</label>
-        </div>
-        <div class="input-container">
-          <button type="button" class="btn btn-warning" id="btn-delete-review">Delete</button>
-        </div>
       </div>
-    </form>
-  </section>
+    </div>
+  </form>
 {% endblock content %}
