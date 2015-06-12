@@ -71,57 +71,63 @@
         </div>
       </div>
     </div>
-    
-    {% if user.is_authenticated and user.id == page_user.id %}
-      <div style="margin-bottom: 20px;">
-        <a href="{% url 'reviews:new' %}" class="btn btn-success">New review</a>
-      </div>
-    {% endif %}
   
-    {% if user.id == page_user.id %}
+    {% if user_reviews %}
+      {% if user.is_authenticated and user.id == page_user.id %}
+        <div style="margin-bottom: 20px;">
+          <a href="{% url 'reviews:new' %}" class="btn btn-success">New review</a>
+        </div>
+      {% endif %}
+      {% if user.id == page_user.id %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Work in progress</h3>
+          </div>
+          {% if user_reviews %}
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Authors</th>
+                  <th>Last update</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for review in user_reviews %}
+                  <tr>
+                    <td><a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a></td>
+                    <td>
+                      <a href="{% url 'reviews' review.author.username %}">{{ review.author.profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>{% endfor %}
+                    </td>
+                    <td>{{ review.last_update|date:"D d M Y" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div class="panel-body">You don't have any systematic literature review yet.</div>
+          {% endif %}
+        </div>
+      {% endif %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Work in progress</h3>
+          <h3 class="panel-title">Published reviews</h3>
         </div>
-        {% if user_reviews %}
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Authors</th>
-                <th>Last update</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for review in user_reviews %}
-                <tr>
-                  <td><a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a></td>
-                  <td>
-                    <a href="{% url 'reviews' review.author.username %}">{{ review.author.profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>{% endfor %}
-                  </td>
-                  <td>{{ review.last_update|date:"D d M Y" }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <div class="panel-body">You don't have any systematic literature review yet.</div>
-        {% endif %}
+        <div class="panel-body">
+          {% if user.id == page_user.id %}
+            You  
+          {% else %}
+            {{ page_user.profile.get_screen_name }}
+          {% endif %}
+          haven't published any systematic literature review yet.
+        </div>
+      </div>
+    {% else %}
+      <div class="well text-center" style="padding: 5em;">
+        <span class="glyphicon glyphicon-book" style="font-size: 2.6em; color: #aaa;"></span>
+        <h3 style="margin-top: 25px; margin-bottom: 25px;">You don't have any systematic literature review yet.</h3>
+        <a href="{% url 'reviews:new' %}" class="btn btn-success">Start a review</a>
       </div>
     {% endif %}
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Published reviews</h3>
-      </div>
-      <div class="panel-body">
-        {% if user.id == page_user.id %}
-          You  
-        {% else %}
-          {{ page_user.profile.get_screen_name }}
-        {% endif %}
-        haven't published any systematic literature review yet.
-      </div>
-    </div>
 
 {% endblock content %}
