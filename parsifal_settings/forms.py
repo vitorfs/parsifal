@@ -30,7 +30,3 @@ class PasswordForm(PasswordChangeForm):
     old_password = forms.CharField(label='Old password', widget=forms.PasswordInput(attrs={ 'class': 'form-control' }))
     new_password1 = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={ 'class': 'form-control' }))
     new_password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={ 'class': 'form-control' }))
-
-    class Meta:
-        fields = ['old_password', 'new_password1', 'new_password2',]
-        

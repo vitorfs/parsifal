@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.conf import settings as django_settings
+from django.contrib.auth import update_session_auth_hash
 
 from parsifal.decorators import ajax_required
 from parsifal_settings.forms import ProfileForm, PasswordForm

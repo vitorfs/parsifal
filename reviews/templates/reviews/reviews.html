@@ -1,128 +1,127 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Parsifal - {{ page_user.profile.get_screen_name }}{% endblock %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/reviews.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="{{ STATIC_URL }}js/activities.js"></script>
-{% endblock stylesheet %}
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/activities.js' %}"></script>
+{% endblock javascript %}
 
 {% block content %}
-  <div class="clearfix">
-    <div class="profile">
-      <div class="picture">
-        <img src="{{ page_user.profile.get_picture }}" width="200px" height="200px">
+    <div class="media" style="margin-bottom: 20px;">
+      <div class="media-left">
+        <a href="{% url 'reviews' page_user.username %}">
+          <img class="media-object img-circle" src="{{ page_user.profile.get_picture }}" alt="{{ page_user.profile.get_screen_name }}" style="width: 100px; height: 100px;">
+        </a>
       </div>
-      <ul>
-        {% if page_user.get_full_name %}
-          <li class="full-name">{{ page_user.get_full_name }}</li>
-        {% endif %}
-        <li class="username">{{ page_user.username }} {% if page_user.is_staff %}<span class="label label-small">STAFF</span>{% endif %}</li>
-        <li><a href="mailto:{{ page_user.email }}">{{ page_user.email }}</a></li>
-        {% if page_user.profile.url %}
-          <li><a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.url }}</a></li>
-        {% endif %}
-        <li class="divider"></li>
-        {% if page_user.profile.location %}
-          <li>{{ page_user.profile.location }}</li>
-        {% endif %}
-        {% if page_user.profile.institution %}
-          <li>{{ page_user.profile.institution }}</li>
-        {% endif %}
-        <li>Joined on {{ page_user.date_joined|date:"d M Y" }}</li>
-        <li class="divider"></li>
-      </ul>
-      <div class="stats">
-        <div>
-          <a href="/{{ page_user.username }}/following/">
-            <h3>Following</h3>
-            <span class="following-count">{{ following_count }}</span>
-          </a>
-        </div>
-        <div>
-          <a href="#" onclick="return false;">
-            <h3>Starred</h3>
-            <span>0</span>
-          </a>
-        </div>
-        <div>
-          <a href="/{{ page_user.username }}/followers/">
-            <h3>Followers</h3>
-            <span class="followers-count">{{ followers_count }}</span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="reviews">
-      {% if user.is_authenticated %}
-        {% if user.id == page_user.id %}
-          <div class="clearfix">
-            <a href="/reviews/new/" class="btn btn-success pull-right">New review</a>
-          </div>
-        {% else %}
-          {% if is_following %}
-            <div class="user-actions following update-count" data-user-id="{{ page_user.id }}">
-              <button class="btn btn-warning" type="button">Unfollow</button>
-            </div>
-          {% else %}
-            <div class="user-actions not-following update-count" data-user-id="{{ page_user.id }}">
-              <button class="btn btn-success" type="button">Follow</button>
-            </div>
-          {% endif %}
-        {% endif %}
-      {% endif %}
-      <div class="review-list">
-        <h2>Published Reviews</h2>
-        <table class="table no-data">
-          <tbody>
-            <tr>
-              <td>
-                {% if user.id == page_user.id %}
-                  You  
-                {% else %}
-                  {{ page_user.profile.get_screen_name }}
+      <div class="media-body media-middle">
+        <div class="row">
+          <div class="col-sm-12">
+              <h2 class="media-heading">
+                {{ page_user.get_full_name }}
+                {% if user.is_authenticated %}
+                  {% if user.id == page_user.id %}
+                    <a href="{% url 'settings:settings' %}" class="btn btn-default btn-xs">
+                      <span class="glyphicon glyphicon-pencil"></span>
+                      Edit profile
+                    </a>
+                  {% else %}
+                    {% if is_following %}
+                      <span class="user-actions following update-count" data-user-id="{{ page_user.id }}">
+                        <button class="btn btn-danger btn-xs" type="button"><span class="glyphicon glyphicon-remove"></span> Unfollow</button>
+                      </span>
+                    {% else %}
+                      <span class="user-actions not-following update-count" data-user-id="{{ page_user.id }}">
+                        <button class="btn btn-success btn-xs" type="button"><span class="glyphicon glyphicon-ok"></span> Follow</button>
+                      </span>
+                    {% endif %}
+                  {% endif %}
                 {% endif %}
-                haven't published any systematic literature review yet.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {% if user.id == page_user.id %}
-        <div class="review-list">
-          <h2>Work in Progress</h2>
-          {% if user_reviews %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Authors</th>
-                  <th>Last update</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for review in user_reviews %}
-                  <tr>
-                    <td><a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a></td>
-                    <td>
-                      <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>{% endfor %}
-                    </td>
-                    <td>{{ review.last_update|date:"D d M Y" }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% else %}
-            <table class="table no-data">
-              <tbody>
-                <tr>
-                  <td>You don't have any systematic literature review yet.</td>
-                </tr>
-              </tbody>
-            </table>
-          {% endif %}
+              </h2>
+          </div>
         </div>
-      {% endif %}
+        <div class="row">
+          <div class="col-sm-12">
+            <h5 style="margin-top: 5px;">
+            {% if page_user.is_staff %}<span class="label label-primary" style="margin-right: 10px;">STAFF</span>{% endif %}
+            <a href="{% url 'followers' page_user.username %}">
+              Followers
+              <span class="followers-count">{{ followers_count }}</span>
+            </a>
+            <span style="margin-left: 5px; margin-right: 5px; color: #aaa;">•</span>
+            <a href="{% url 'following' page_user.username %}">
+              Following
+              <span class="following-count">{{ following_count }}</span>
+            </a>
+            </h5>
+          </div>
+        </div>
+        <div class="row" style="color: #aaa;">
+          <div class="col-sm-6">
+            <span class="glyphicon glyphicon-user"></span> {{ page_user.username }} 
+            {% if page_user.email %}<span class="glyphicon glyphicon-envelope" style="margin-left: 10px;"></span> {{ page_user.email }}{% endif %}
+            {% if page_user.profile.url %}<span class="glyphicon glyphicon-globe" style="margin-left: 10px;"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a>{% endif %}
+          </div>
+          <div class="col-sm-6 text-right">
+            {% if page_user.profile.institution %}<span class="glyphicon glyphicon-education"></span> {{ page_user.profile.institution }}{% endif %}
+            {% if page_user.profile.location %}<span class="glyphicon glyphicon-map-marker" style="margin-left: 10px;"></span> {{ page_user.profile.location }}{% endif %}
+            <span class="glyphicon glyphicon-time" style="margin-left: 10px;"></span> Joined on {{ page_user.date_joined|date:"d M Y" }}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+    
+    {% if user.is_authenticated and user.id == page_user.id %}
+      <div style="margin-bottom: 20px;">
+        <a href="{% url 'reviews:new' %}" class="btn btn-success">New review</a>
+      </div>
+    {% endif %}
+  
+    {% if user.id == page_user.id %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Work in progress</h3>
+        </div>
+        {% if user_reviews %}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Last update</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for review in user_reviews %}
+                <tr>
+                  <td><a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a></td>
+                  <td>
+                    <a href="{% url 'reviews' review.author.username %}">{{ review.author.profile.get_screen_name }}</a>{% for author in review.co_authors.all %}, <a href="/{{ author.username }}/">{{ author.profile.get_screen_name }}</a>{% endfor %}
+                  </td>
+                  <td>{{ review.last_update|date:"D d M Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="panel-body">You don't have any systematic literature review yet.</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Published reviews</h3>
+      </div>
+      <div class="panel-body">
+        {% if user.id == page_user.id %}
+          You  
+        {% else %}
+          {{ page_user.profile.get_screen_name }}
+        {% endif %}
+        haven't published any systematic literature review yet.
+      </div>
+    </div>
+
 {% endblock content %}
