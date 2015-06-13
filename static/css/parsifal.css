@@ -85,6 +85,37 @@ ul.review-menu li.active {
   border-bottom: 3px solid #AC4539;
 }
 
+#protocol.affix-top {
+  position: relative;
+}
+
+#protocol.affix {
+  top: 20px;
+}
+
+#protocol.affix, 
+#protocol.affix-bottom {
+  width: 213px;
+}
+
+#protocol.affix-bottom {
+  position: absolute;
+}
+
+@media (min-width:992px) {
+  #protocol.affix, 
+  #protocol.affix-bottom {
+    width: 293px;
+  }
+}
+
+@media (min-width:1200px) {
+  #protocol.affix, 
+  #protocol.affix-bottom {
+    width: 263px;
+  }
+}
+
 /* Selectize options */
 
 .selectize-control.contacts .selectize-input > div {
@@ -149,28 +180,4 @@ ul.review-menu li.active {
 
 .page-header {
   margin-top: 0;
-}
-
-.affix-top {
-  position: relative;
-}
-
-.affix {
-  top: 20px;
-}
-
-.affix, 
-.affix-bottom {
-  width: 213px;
-}
-
-.affix-bottom {
-  position: absolute;
-}
-
-@media (min-width:1200px) {
-  .affix, 
-  .affix-bottom {
-    width: 263px;
-  }
 }

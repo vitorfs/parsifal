@@ -5,7 +5,7 @@
 {% block title %}Parsifal - Planning{% endblock %}
 
 {% block stylesheet %}
-<style>body, html, .wrapper { height: auto; }</style>
+  <style>body,html,.wrapper{height:auto;}</style>
 {% endblock stylesheet %}
 
 {% block javascript %}
@@ -19,14 +19,13 @@
   <script src="{% static 'js/planning_quality_assessment.js' %}"></script>
   <script src="{% static 'js/planning_data_extraction.js' %}"></script>
   <script>
-    /*$(function () {
-      $('#protocol').affix({
+    $(function () {
+      $("#protocol").affix({
         offset: {     
-          top: 150,
-          bottom: ($('#protocol').outerHeight(true) + $('footer').outerHeight(true)) + 40
+          top: $("#protocol").offset().top - 20
         }
       });
-    });*/
+    });
   </script>
 {% endblock javascript %}
 
@@ -34,370 +33,406 @@
 
   {% include "reviews/review_header.html" with active_menu="planning" %}
 
-<div class="row">
-  <div class="col-sm-4 col-md-3">
-    <div id="protocol" class="panel panel-default" data-spy="affix" data-offset-top="160">
-      <div class="panel-heading">
-        <h3 class="panel-title">Protocol</h3>
-      </div>
-      <div class="list-group">
-        <a href="#objective-section" class="list-group-item">Objectives</a>
-        <a href="#question-section" class="list-group-item">Research Questions</a>
-        <a href="#picoc-section" class="list-group-item">PICOC</a>
-        <a href="#keywords-section" class="list-group-item">Keywords and Synonyms</a>
-        <a href="#search-string-section" class="list-group-item">Search String</a>
-        <a href="#sources-section" class="list-group-item">Sources</a>
-        <a href="#selection-section" class="list-group-item">Selection Criteria</a>
-        <a href="#quality-assessment-section" class="list-group-item">Quality Assessment Checklist</a>
-        <a href="#data-extraction-section" class="list-group-item">Data Extraction Form</a>
+  <div class="row">
+    <div class="hidden-sm col-md-4 col-lg-3">
+      <div id="protocol" class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Protocol</h3>
+        </div>
+        <div class="list-group">
+          <a href="#objective-section" class="list-group-item">Objectives</a>
+          <a href="#question-section" class="list-group-item">Research Questions</a>
+          <a href="#picoc-section" class="list-group-item">PICOC</a>
+          <a href="#keywords-section" class="list-group-item">Keywords and Synonyms</a>
+          <a href="#search-string-section" class="list-group-item">Search String</a>
+          <a href="#sources-section" class="list-group-item">Sources</a>
+          <a href="#selection-section" class="list-group-item">Selection Criteria</a>
+          <a href="#quality-assessment-section" class="list-group-item">Quality Assessment Checklist</a>
+          <a href="#data-extraction-section" class="list-group-item">Data Extraction Form</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-8 col-md-9">
+    <div class="col-sm-12 col-md-8 col-lg-9">
 
-    <section id="objective-section">
-      <form method="post" id="form-objective">
-        {% csrf_token %}
-        <input type="hidden" name="review-id" value="{{ review.id }}">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Objectives</h3>
-          </div>
-          <div class="panel-body">
-            <div class="form-group">
-              <textarea rows="5" name="objective" class="form-control">{{ review.objective }}</textarea>
+      <section id="objective-section">
+        <form method="post" id="form-objective">
+          {% csrf_token %}
+          <input type="hidden" name="review-id" value="{{ review.id }}">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Objectives</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <textarea rows="5" name="objective" class="form-control">{{ review.objective }}</textarea>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <button type="button" class="btn btn-success btn-save-objective" data-loading="Saving...">Save</button>
+              <span class="form-status-message"></span>
             </div>
           </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-success btn-save-objective" data-loading="Saving...">Save</button>
-            <span class="form-status-message"></span>
-          </div>
-        </div>
-      </form>
-    </section>
+        </form>
+      </section>
 
-    <section id="question-section">
-      <form method="post" id="question-form">
-        {% csrf_token %}
+      <section id="question-section">
+        <form method="post" id="question-form">
+          {% csrf_token %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Research Questions</h3>
+            </div>
+            <ul class="list-group">
+              {% for question in review.get_questions %}
+                {% include "planning/partial_planning_question.html" with question=question %}
+              {% empty %}
+                {% include "planning/partial_planning_question_form.html" %}
+              {% endfor %}
+            </ul>
+            <div class="panel-footer">
+              <button type="button" class="btn btn-primary" id="btn-add-question">Add Question</button>
+            </div>
+          </div>
+        </form>
+      </section>
+      
+      <section id="picoc-section">
+        <form method="post" id="picoc-form" class="form-horizontal">
+          {% csrf_token %}
+          <input type="hidden" name="review-id" value="{{ review.id }}">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">PICOC</h3>
+            </div>
+            <div class="panel-body">
+              <p>Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
+              <p>If any of the sections of PICOC doesn't apply to your research, please leave it blank.</p>
+              <div class="form-group">
+                <label class="control-label col-md-2" for="population">Population</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="population" name="population" maxlength="200" value="{{ review.population }}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2" for="intervention">Intervention</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="intervention" name="intervention" maxlength="200" value="{{ review.intervention }}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2" for="comparison">Comparison</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="comparison" name="comparison" maxlength="200" value="{{ review.comparison }}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2" for="outcome">Outcome</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="outcome" name="outcome" maxlength="200" value="{{ review.outcome }}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2" for="context">Context</label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="context" name="context" maxlength="200" value="{{ review.context }}">
+                </div>
+              </div>              
+            </div>
+            <div class="panel-footer">
+              <button type="button" class="btn btn-success btn-save-picoc" data-loading="Saving...">Save</button>
+              <span class="form-status-message"></span>              
+            </div>
+          </div>
+        </form>
+      </section>
+      
+      <section id="keywords-section">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Research Questions</h3>
+            <h3 class="panel-title">Keywords and Synonyms</h3>
           </div>
-          <ul class="list-group">
-            {% for question in review.get_questions %}
-              {% include "planning/partial_planning_question.html" with question=question %}
-            {% empty %}
-              {% include "planning/partial_planning_question_form.html" %}
-            {% endfor %}
-          </ul>
+          <div class="panel-body">
+            To edit or remove a certain keyword or synonym you may click on it's description to enable the field.
+          </div>
+          <table class="table" id="tbl-keywords">
+            <thead>
+              <tr>
+                <th style="width:200px">Keyword</th>
+                <th>Synonyms</th>
+                <th></th>
+                <th class="no-border"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for keyword in review.get_keywords %}
+                <tr keyword-id="{{ keyword.id }}">
+                  <td class="keyword-row">{{ keyword.description }}</td>
+                  <td>
+                    <ul>
+                      {% for synonym in keyword.get_synonyms %}
+                        <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
+                      {% endfor %}
+                    </ul>
+                    <input type="text" class="add-synonym" maxlength="200">
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button>
+                  </td>
+                  <td class="no-border"></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary" id="btn-add-question">Add Question</button>
+            <button type="button" class="btn btn-primary" id="add-keyword">Add Keyword</button>
+            <button type="button" class="btn btn-primary" id="import-pico-keywords">Import PICO Keywods</button>
           </div>
         </div>
-      </form>
-    </section>
+      </section>
+      
+      <section id="search-string-section">
+        <form>
+          {% csrf_token %}
+          <input type="hidden" name="review-id" value="{{ review.id }}">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search String</h3>
+            </div>
+            <div class="panel-body">
+              <textarea style="width:100%" rows="4" name="search-string" class="form-control search-string">{{ review.get_generic_search_string.search_string }}</textarea>  
+            </div>
+            <div class="panel-footer">
+              <button type="button" class="btn btn-success btn-save-generic-search-string">Save</button>
+              <button type="button" class="btn btn-primary btn-suggested-search-string">Suggested Search String</button>
+              <span class="form-status-message"></span>
+            </div>
+          </div>
+        </form>
+      </section>
+      
+      <section id="sources-section">
 
-    
-    <section class="picoc-section" class="clearfix">
-      <h2>PICOC</h2>
-      <p>Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
-      <p>If any of the sections of PICOC doesn't apply to your research, please leave it blank.</p>
-      <form method="post" action="." class="form-block form-normal" id="picoc-form">
-        {% csrf_token %}
-        <input type="hidden" name="review-id" value="{{ review.id }}">
-        <div class="form-row">
-          <div class="label-container">
-            <label for="population">Population</label>
-          </div>
-          <div class="input-container">
-            <input type="text" id="population" name="population" maxlength="200" value="{{ review.population }}">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="label-container">
-            <label for="intervention">Intervention</label>
-          </div>
-          <div class="input-container">
-            <input type="text" id="intervention" name="intervention" maxlength="200" value="{{ review.intervention }}">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="label-container">
-            <label for="comparison">Comparison</label>
-          </div>
-          <div class="input-container">
-            <input type="text" id="comparison" name="comparison" maxlength="200" value="{{ review.comparison }}">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="label-container">
-            <label for="outcome">Outcome</label>
-          </div>
-          <div class="input-container">
-            <input type="text" id="outcome" name="outcome" maxlength="200" value="{{ review.outcome }}">
+        <div class="modal fade" id="modal-suggested-sources">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Suggested Sources</h4>
+              </div>
+              <div class="modal-body">
+                <form action="." method="post" id="form-suggested-sources">
+                  {% csrf_token %}
+                  <input type="hidden" name="review-id" value="{{ review.id }}">
+                  <table class="table" id="tbl-suggested-sources">
+                    <thead>
+                      <tr>
+                        <th>
+                          <input type="checkbox" id="checkbox-all-sources">
+                        </th>
+                        <th>Name</th>
+                        <th>URL</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="label-container">
-            <label for="context">Context</label>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Sources</h3>
           </div>
-          <div class="input-container">
-            <input type="text" id="context" name="context" maxlength="200" value="{{ review.context }}">
+          <table class="table" id="tbl-sources">
+            <thead>
+              <tr>
+                <th style="width: 200px">Name</th>
+                <th style="width: 300px">URL</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for source in review.sources.all %}
+                <tr source-id="{{ source.id }}">
+                  <td>{{ source.name }}</td>
+                  <td>
+                    {% if source.url %}
+                      <a href="{{ source.url }}" target="_blank">{{ source.url }}</a>
+                    {% else %}
+                      {{ source.url }}
+                    {% endif %}
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-warning btn-sm btn-edit-source">edit</button>
+                    <button type="button" class="btn btn-danger btn-sm btn-remove-source">remove</button>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="panel-footer">
+            <button type="button" class="btn btn-primary" id="btn-add-source">Add Source</button>
+            <button type="button" class="btn btn-primary" id="btn-suggested-sources" data-toggle="modal" data-target="#modal-suggested-sources">Suggested Sources</button>
           </div>
         </div>
-        <div class="form-row">
-          <div class="button-container">
-            <button type="button" class="btn btn-success pull-left btn-save-picoc" data-loading="Saving...">Save</button>
-            <span class="form-status-message pull-left"></span>
+      </section>
+      
+      <section id="selection-section">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Selection Criteria</h3>
           </div>
-        </div>
-      </form>
-    </section>
-    <hr>
-    <section id="keywords-section" class="clearfix">
-      <h2>Keywords and Synonyms</h2>
-      <p>To edit or remove a certain keyword or synonym you may click on it's description to enable the field.</p>
-      <button type="button" class="btn btn-small" id="add-keyword">Add Keyword</button>
-      <button type="button" class="btn btn-small" id="import-pico-keywords">Import PICO Keywods</button>
-      <table class="table" id="tbl-keywords">
-        <thead>
-          <tr>
-            <th style="width:200px">Keyword</th>
-            <th>Synonyms</th>
-            <th></th>
-            <th class="no-border"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for keyword in review.get_keywords %}
-            <tr keyword-id="{{ keyword.id }}">
-              <td class="keyword-row">{{ keyword.description }}</td>
-              <td>
-                <ul>
-                  {% for synonym in keyword.get_synonyms %}
-                    <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
-                  {% endfor %}
-                </ul>
-                <input type="text" class="add-synonym" maxlength="200">
-              </td>
-              <td>
-                <button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button>
-              </td>
-              <td class="no-border"></td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-    <hr>
-    <section id="search-string-section" class="clearfix">
-      <h2>Search String</h2>
-      <form class="form-block form-normal">
-        {% csrf_token %}
-        <input type="hidden" name="review-id" value="{{ review.id }}">
-        <div class="form-row">
-          <button type="button" class="btn btn-suggested-search-string btn-small">Suggested Search String</button>
-        </div>
-        <div class="form-row">
-          <textarea style="width:100%" rows="4" name="search-string" class="search-string">{{ review.get_generic_search_string.search_string }}</textarea>
-        </div>
-        <div class="form-row">
-          <button type="button" class="btn btn-success btn-save-generic-search-string pull-left">Save</button>
-          <span class="form-status-message pull-left"></span>
-        </div>
-      </form>
-    </section>
-    <hr>
-    <section id="sources-section" class="clearfix">
-      <h2>Sources</h2>
-      <div class="modal" id="modal-suggested-sources">
-        <div class="modal-header">
-          <a href="#" class="close close-modal">×</a>
-          <h2>Suggested Sources</h2>
-        </div>
-        <div class="modal-body">
-          <form action="." method="post" id="form-suggested-sources">
-            {% csrf_token %}
-            <input type="hidden" name="review-id" value="{{ review.id }}">
-            <table class="table" id="tbl-suggested-sources">
+          <div class="panel-body">
+            <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="input-inclusion" class="control-label">Inclusion Criteria</label>
+                  <input type="text" id="input-inclusion" maxlength="200" class="form-control">
+                </div>
+                <div class="form-group">
+                  <select multiple="multiple" size="6" id="inclusion-criteria" class="form-control">
+                    {% for criteria in review.get_inclusion_criterias %}
+                      <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+                    {% endfor %}
+                  </select>                  
+                </div>
+                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria">remove selected</button>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="input-exclusion" class="control-label">Exclusion Criteria</label>
+                  <input type="text" id="input-exclusion" maxlength="200" class="form-control">
+                </div>
+                <div class="form-group">
+                  <select multiple="multiple" size="6" id="exclusion-criteria" class="form-control">
+                    {% for criteria in review.get_exclusion_criterias %}
+                      <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria">remove selected</button>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </section>
+      
+      <section id="quality-assessment-section">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Quality Assessment Checklist</h3>
+          </div>
+          <div class="panel-body">
+            <div class="alert alert-info">
+              <p>The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
+            </div>
+            <div class="clearfix">
+              <button type="button" class="btn btn-primary btn-sm pull-right" id="btn-add-quality-question">Add Question</button>
+              <h4>Questions</h4>
+            </div>
+            <table class="table table-striped" id="tbl-quality-questions">
               <thead>
                 <tr>
-                  <th>
-                    <input type="checkbox" id="checkbox-all-sources">
-                  </th>
-                  <th>Name</th>
-                  <th>URL</th>
+                  <th>Description</th>
+                  <th style="width: 150px;"></th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                {% for quality_question in review.get_quality_assessment_questions %}
+                  {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
+                {% empty %}
+                  {% include "planning/partial_quality_assessment_question_form.html" %}
+                {% endfor %}
+              </tbody>
             </table>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
-          <button type="button" class="btn btn-warning close-modal">Cancel</button>
-        </div>
-      </div>
-      <button type="button" class="btn btn-small" id="btn-add-source">Add Source</button>
-      <button type="button" class="btn btn-link btn-small" style="margin-left: 8px;" id="btn-suggested-sources">(Suggested Sources)</button>
-      <table class="table" id="tbl-sources">
-        <thead>
-          <tr>
-            <th style="width: 200px">Name</th>
-            <th style="width: 300px">URL</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for source in review.sources.all %}
-            <tr source-id="{{ source.id }}">
-              <td>{{ source.name }}</td>
-              <td>
-                {% if source.url %}
-                  <a href="{{ source.url }}" target="_blank">{{ source.url }}</a>
-                {% else %}
-                  {{ source.url }}
-                {% endif %}
-              </td>
-              <td>
-                <button type="button" class="btn btn-small btn-edit-source">edit</button>
-                <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</button>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </section>
-    <hr>
-    <section id="selection-section" class="clearfix">
-      <h2>Selection Criteria</h2>
-      <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
-      <div class="clearfix">
-        <div class="criteria-container-left">
-          <h3>Inclusion Criteria:</h3>
-          <input type="text" id="input-inclusion" maxlength="200">
-          <select multiple="multiple" size="6" id="inclusion-criteria">
-            {% for criteria in review.get_inclusion_criterias %}
-              <option value="{{ criteria.id }}">{{ criteria.description }}</option>
-            {% endfor %}
-          </select>
-          <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
-        </div>
-        <div class="criteria-container-right">
-          <h3>Exclusion Criteria:</h3>
-          <input type="text" id="input-exclusion" maxlength="200">
-          <select multiple="multiple" size="6" id="exclusion-criteria">
-            {% for criteria in review.get_exclusion_criterias %}
-              <option value="{{ criteria.id }}">{{ criteria.description }}</option>
-            {% endfor %}
-          </select>
-          <button type="button" class="btn btn-warning btn-small btn-remove-criteria">remove selected</button>
-        </div>
-      </div>
-      <!--div class="authors-assignment clearfix">
-        <h3>Study selection strategy:</h3>
-        <p><input type="radio" name="study-selection-strategy"> Everyone will work together on the same form</p>
-        <p><input type="radio" name="study-selection-strategy"> Create separate form for each author so we can compare the results later</p>
-      </div-->
-    </section>
-    <hr>
-    <section id="quality-assessment-section" class="clearfix">
-      <h2>Quality Assessment Checklist</h2>
-      <p style="margin-bottom: 20px">The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
-      <h3>Questions</h3>
-      <button type="button" class="btn btn-small" id="btn-add-quality-question">Add Question</button>
-      <table class="table" id="tbl-quality-questions">
-        <thead>
-          <tr>
-            <th style="width: 400px">Description</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for quality_question in review.get_quality_assessment_questions %}
-            {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
-          {% empty %}
-            {% include "planning/partial_quality_assessment_question_form.html" %}
-          {% endfor %}
-        </tbody>
-      </table>
-      <h3>Answers</h3>
-      {% if not review.get_quality_assessment_answers %}
-        <p class="no-answers">No idea how to fill? How about <strong>Yes</strong> (1.0), <strong>Partially</strong> (0.5) and <strong>No</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></p>
-      {% endif %}
-      <button type="button" class="btn btn-small" id="btn-add-quality-answer">Add Answer</button>
-      <table class="table" id="tbl-quality-answers">
-        <thead>
-          <tr>
-            <th style="width:200px">Description</th>
-            <th style="width:200px">Weight</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for quality_answer in review.get_quality_assessment_answers %}
-            {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
-          {% empty %}
-            {% include "planning/partial_quality_assessment_answer_form.html" %}
-          {% endfor %}
-        </tbody>
-      </table>
 
-      <h3>Quality Assessment Scores</h3>
-      <table class="table" id="tbl-cutoff-score">
-        <tbody>
-          <tr>
-            <td><strong>Max Score</strong></td>
-            <td><input type="text" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}"></td>
-            <td class="no-border" style="border-top: 1px solid #f6f6f6">
-              Calculated based on the number of questions and on the answer of greater weight
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Cutoff Score</strong></td>
-            <td><input type="text" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}"></td>
-            <td class="no-border">
-              <button type="button" class="btn btn-success btn-small" id="save-cutoff-score">save</button>
-              <span class="form-status-message" style="font-size:1em"></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <div class="clearfix">
+              <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-add-quality-answer">Add Answer</button>
+              <h4>Answers</h4>
+            </div>
+            {% if not review.get_quality_assessment_answers %}
+              <p class="no-answers">No idea how to fill? How about <strong>Yes</strong> (1.0), <strong>Partially</strong> (0.5) and <strong>No</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></p>
+            {% endif %}
+            <table class="table table-striped" id="tbl-quality-answers">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Weight</th>
+                  <th style="width: 150px;"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for quality_answer in review.get_quality_assessment_answers %}
+                  {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
+                {% empty %}
+                  {% include "planning/partial_quality_assessment_answer_form.html" %}
+                {% endfor %}
+              </tbody>
+            </table>
 
-      <!--div class="authors-assignment clearfix">
-        <h3>Quality assessment strategy:</h3>
-        <p><input type="radio" name="quality-assessment-strategy"> Everyone will work together on the same quality assessment checklist</p>
-        <p><input type="radio" name="quality-assessment-strategy"> Create a separate quality assessment checklist for each author so we can compare the results later</p>
-      </div-->
-    </section>
-    <hr>
-    <section id="data-extraction-section" class="clearfix">
-      <h2>Data Extraction Form</h2>
-      <button type="button" class="btn btn-small" id="btn-add-field">Add Field</button>
-      <table class="table" id="tbl-data-extraction">
-        <thead>
-          <tr>
-            <th style="width: 400px">Description</th>
-            <th style="width: 200px">Type</th>
-            <th style="width: 300px">Values</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for field in review.get_data_extraction_fields %}
-            {% include "planning/partial_data_extraction_field.html" with field=field %}
-          {% empty %}
-            {% include "planning/partial_data_extraction_field_form.html" with field=empty_field %}
-          {% endfor %}
-        </tbody>
-      </table>
-      <!--div class="authors-assignment clearfix">
-        <h3>Data extraction strategy:</h3>
-        <p><input type="radio" name="data-extraction-strategy"> Everyone will work together on the same data extraction form</p>
-        <p><input type="radio" name="data-extraction-strategy"> Create a separate data extraction form for each author so we can compare the results later</p>
-      </div-->
-    </section>
+            <h4>Quality Assessment Scores</h4>
+            <table class="table" id="tbl-cutoff-score">
+              <tbody>
+                <tr>
+                  <td><strong>Max Score</strong></td>
+                  <td><input type="text" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}"></td>
+                  <td>
+                    <span class="help-block">Calculated based on the number of questions and on the answer of greater weight</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Cutoff Score</strong></td>
+                  <td><input type="text" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}"></td>
+                  <td>
+                    <button type="button" class="btn btn-success btn-small" id="save-cutoff-score">save</button>
+                    <span class="form-status-message" style="font-size:1em"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
+          </div>
+        </div>
+
+      </section>
+      
+      <section id="data-extraction-section">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Data Extraction Form</h3>
+          </div>
+          <table class="table" id="tbl-data-extraction">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Values</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for field in review.get_data_extraction_fields %}
+                {% include "planning/partial_data_extraction_field.html" with field=field %}
+              {% empty %}
+                {% include "planning/partial_data_extraction_field_form.html" with field=empty_field %}
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="panel-footer">
+            <button type="button" class="btn btn-primary" id="btn-add-field">Add Field</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
   </div>
-</div>
+
 {% endblock content %}

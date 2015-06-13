@@ -1,9 +1,9 @@
-<tr oid="{{ quality_question.id|default:'None' }}" csrf-token="{{csrf_token}}">
+<tr oid="{{ quality_question.id|default:'None' }}" csrf-token="{{ csrf_token }}">
   <td>
-    <input type="text" maxlength="255" class="input-block quality-question-description" value="{{ quality_question.description }}">
+    <input type="text" maxlength="255" class="form-control quality-question-description" value="{{ quality_question.description }}">
   </td>
   <td>
-    <button type="button" class="btn btn-small btn-success btn-save-quality_question">save</button>
-    <button type="button" class="btn btn-small btn-warning btn-cancel-quality_question">cancel</button>
+    <button type="button" class="btn btn-sm btn-success btn-save-quality_question">save</button>
+    <button type="button" class="btn btn-sm btn-default btn-cancel-quality_question">cancel</button>
   </td>
 </tr>

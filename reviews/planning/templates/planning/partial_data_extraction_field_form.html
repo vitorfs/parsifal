@@ -1,9 +1,9 @@
-<tr oid="{{ field.id|default:'None' }}" csrf-token="{{csrf_token}}">
+<tr oid="{{ field.id|default:'None' }}" csrf-token="{{ csrf_token }}">
   <td>
-    <input type="text" class="input-block" id="data-extraction-field-description" maxlength="255" value="{{ field.description }}">
+    <input type="text" class="form-control" id="data-extraction-field-description" maxlength="255" value="{{ field.description }}">
   </td>
   <td>
-    <select id="data-extraction-field-type">
+    <select id="data-extraction-field-type" class="form-control">
       <option value="">Select...</option>
       {% for field_type in field.FIELD_TYPES %}
         <option value="{{ field_type.0 }}" {% if field.field_type == field_type.0 %} selected{% endif %}>{{ field_type.1 }}</option>
@@ -12,7 +12,7 @@
   </td>
   <td>
     <div class="select-field" style="{% if not field.is_select_field %}display: none{% endif %}">
-      <textarea id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}
+      <textarea class="form-control" id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}
 {% endfor %}</textarea>
       <p>Add one value per line.</p>
     </div>
@@ -20,8 +20,8 @@
       <p>Available only for <strong>select one</strong> or <strong>select many</strong> fields.</p>
     </div>
   </td>
-  <td>
-    <button type="button" class="btn btn-small btn-success" id="btn-save-data-extraction-field">save</button>
-    <button type="button" class="btn btn-small btn-warning" id="btn-cancel-data-extraction-field">cancel</button>
+  <td style="width: 150px;">
+    <button type="button" class="btn btn-sm btn-success" id="btn-save-data-extraction-field">save</button>
+    <button type="button" class="btn btn-sm btn-default" id="btn-cancel-data-extraction-field">cancel</button>
   </td>
 </tr>

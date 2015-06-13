@@ -16,10 +16,10 @@ def main_author_required(f):
                 raise Http404
         else:
             try:
-                review_id = request.POST.get('review-id')
+                review_id = request.POST['review-id']
             except:
                 try:
-                    review_id = request.GET.get('review-id')
+                    review_id = request.GET['review-id']
                 except:
                     return HttpResponseBadRequest()
 
@@ -45,12 +45,15 @@ def author_required(f):
                 raise Http404
         else:
             try:
-                review_id = request.POST.get('review-id')
+                review_id = request.POST['review-id']
+                print review_id
             except:
                 try:
-                    review_id = request.GET.get('review-id')
+                    review_id = request.GET['review-id']
+                    print review_id
                 except:
                     return HttpResponseBadRequest()
+            print review_id
             review = Review.objects.get(pk=review_id)
             if review.is_author_or_coauthor(request.user):
                 return f(request, *args, **kwargs)

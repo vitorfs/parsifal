@@ -193,7 +193,7 @@ def import_pico_keywords(request):
                 <ul></ul>
                 <input type="text" class="add-synonym" maxlength="200">
               </td>
-              <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
+              <td><button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button></td>
               <td class="no-border"></td>
             </tr>'''
         return HttpResponse(str_return)
@@ -234,7 +234,7 @@ def add_new_keyword(request):
             <ul></ul>
             <input type="text" class="add-synonym" maxlength="200">
           </td>
-          <td><button type="button" class="btn btn-small btn-warning btn-remove-keyword">remove</button></td>
+          <td><button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button></td>
           <td class="no-border"></td>
         </tr>'''
         return HttpResponse(str_return)
@@ -365,7 +365,7 @@ def html_source(source):
         html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
     else:
         html += '<td>' + escape(source.url) + '</td>'
-    html += '<td><button type="button" class="btn btn-small btn-edit-source">edit</button> <button type="button" class="btn btn-warning btn-small btn-remove-source">remove</a></td></tr>'
+    html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source">edit</button> <button type="button" class="btn btn-danger btn-sm btn-remove-source">remove</a></td></tr>'
     return html
 
 
