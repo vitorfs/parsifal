@@ -33,7 +33,7 @@ function displayFormMessage(ref, type, message) {
   }, 2000);
 }
 
-/*var FORWARD = 1;
+var FORWARD = 1;
 var BACKWARD = -1;
 var UP_ARROW_KEY = 38;
 var DOWN_ARROW_KEY = 40;
@@ -41,6 +41,18 @@ var ENTER_KEY = 13;
 var ESCAPE_KEY = 27;
 var LOADING = "<table class='loading'><tr><td><img src='/static/img/loading.gif'></td></tr></table>";
 
+// Loading functions
+
+$.fn.loading = function () {
+  $(this).addClass("loading-state");
+  $(this).html(LOADING);
+};
+
+$.fn.stopLoading = function () {
+  $(this).removeClass("loading-state");
+};
+
+/*
 // Form functions
 
 function displayFormMessage(ref, type, message) {
@@ -72,17 +84,6 @@ $.fn.close = function () {
     $(".shade").remove();
     $("body").removeClass("modal-open");
   });
-};
-
-// Loading functions
-
-$.fn.loading = function () {
-  $(this).addClass("loading-state");
-  $(this).html(LOADING);
-};
-
-$.fn.stopLoading = function () {
-  $(this).removeClass("loading-state");
 };
 
 // Button functions

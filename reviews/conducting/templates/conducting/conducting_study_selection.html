@@ -1,22 +1,32 @@
 {% extends 'conducting/conducting.html' %}
 
-{% block conducting_stylesheet %}
-  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_study_selection.js"></script>
-{% endblock conducting_stylesheet %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/conducting_study_selection.js' %}"></script>
+{% endblock javascript %}
 
 {% block tab_content %}
+
   {% include "conducting/conducting_header.html" with active_tab="studies" %}
-  <h2>Study Selection</h2>
-  <div class="modal" id="modal-duplicates">
-    <div class="modal-header">
-      <a href="#" class="close close-modal">×</a>
-      <h2>Duplicates</h2>
-    </div>
-    <div class="modal-body">
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-warning close-modal">Cancel</button>
-      <button type="button" class="btn btn-success" id="btn-resolve-all">Resolve All</button>
+
+  <h3>Study Selection</h3>
+
+  <div class="modal fade" id="modal-duplicates">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Duplicates</h4>
+        </div>
+        <div class="modal-body" style="overflow-y: scroll;">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" id="btn-resolve-all">Resolve All</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -33,28 +43,35 @@
     </div>
   </div>
 
-  <div class="modal" id="modal-article">
-    <div class="modal-header">
-      <a href="#" class="close close-modal">×</a>
-      <h2>Article Details <span style="font-size: 0.8em">(<span class="current-article"></span>/<span class="total-articles"></span>)</span></h2>
-    </div>
-    <div class="modal-body">
-    </div>
-    <div class="modal-footer">
-      <div class="pull-left">
-        <p style="padding-top: 7px">
-          <input type="checkbox" id="save-and-move-next"> Automatically save the status on change and move next
-        </p>
+  <div class="modal fade" id="modal-article">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Article Details <small>(<span class="current-article"></span>/<span class="total-articles"></span>)</small></h4>
+        </div>
+        <div class="modal-body" style="overflow-y: scroll;">
+          
+        </div>
+        <div class="modal-footer">
+          <div class="pull-left">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="save-and-move-next"> Automatically save the status on change and move next
+              </label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-previous">Previous</button>
+          <button type="button" class="btn btn-primary" id="btn-next">Next</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success btn-save-article">Save</button>
+        </div>
       </div>
-      <button type="button" class="btn" id="btn-previous">Previous</button>
-      <button type="button" class="btn" id="btn-next">Next</button>
-      <button type="button" class="btn btn-warning close-modal">Cancel</button>
-      <button type="button" class="btn btn-success btn-save-article">Save</button>
     </div>
   </div>
 
   {% if finished_all_steps %}
-    <ul class="tab" id="source-tab">
+    <ul class="nav nav-tabs" id="source-tab">
       <li><a href="#" source-id="None">All Sources</a></li>
       {% for source in review.sources.all %}
         <li{% if source.id == active_tab %} class="active"{% endif %}><a href="#" source-id="{{ source.id }}">{{ source.name }}</a></li>

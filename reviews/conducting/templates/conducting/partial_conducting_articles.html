@@ -2,34 +2,43 @@
   <div class="source-buttons">
     {% if not source.id %}
       <div class="studies-import">
-        <button type="button" class="btn btn-small btn-find-duplicates">Find Duplicates</button>
-        <!--button type="button" class="btn btn-small btn-add-manual">Add Manual</button-->
+        <button type="button" class="btn btn-sm btn-primary btn-find-duplicates">Find Duplicates</button>
       </div>
     {% endif %}
-    <div class="studies-action">
+    <div class="studies-action" style="margin: 10px 0;">
       <strong>Action:</strong>
-      <select class="select-action">
+      <select class="select-action form-control" style="width: 200px; display: inline-block;">
         <option value="">Select...</option>
         <option value="remove">Remove selected</option>
         <option value="accept">Mark as accepted</option>
         <option value="reject">Mark as rejected</option>
       </select>
-      <button type="button" class="btn btn-small go-button">Go</button>
+      <button type="button" class="btn btn-default go-button">Go</button>
     </div>
     <p>
       <strong>Show:</strong> 
-      <input type="radio" name="filter" value="ALL" checked> All
-      <input type="radio" name="filter" value="A"> Accepted
-      <input type="radio" name="filter" value="R"> Rejected
-      <input type="radio" name="filter" value="U"> Unclassified
-      <input type="radio" name="filter" value="D"> Duplicated
+      <label class="radio-inline">
+        <input type="radio" name="filter" value="ALL" checked> All
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="filter" value="A"> Accepted
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="filter" value="R"> Rejected
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="filter" value="A"> Unclassified
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="filter" value="R"> Duplicated
+      </label>
     </p>
   </div>
   <div class="source-articles">
-    <table class="table" csrf-token="{{csrf_token}}" source-id="{{ source.id }}">
+    <table class="table table-hover" csrf-token="{{ csrf_token }}" source-id="{{ source.id }}">
       <thead>
         <tr>
-          <th><input type="checkbox" style="font-size:0.8em;" id="ck-all-articles"></th>
+          <th><input type="checkbox" id="ck-all-articles"></th>
           <th><a href="#" col="bibtex_key">Bibtex Key</a></th>
           <th><a href="#" col="title">Title</a></th>
           <th><a href="#" col="author">Author</a></th>
@@ -47,11 +56,7 @@
             <td>{{ article.author }}</td>
             <td>{{ article.journal }}</td>
             <td>{{ article.year }}</td>
-            <td>
-              <span class="{% if article.status == article.ACCEPTED %}label label-success{% elif article.status == article.REJECTED or article.status == article.DUPLICATED %}label label-warning{% endif %}">
-                {{ article.get_status_display }}
-              </span>
-            </td>
+            <td>{{ article.get_status_html|safe }}</td>
           </tr>
         {% empty %}
           <tr class="no-data">

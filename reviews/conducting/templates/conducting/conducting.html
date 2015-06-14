@@ -2,15 +2,8 @@
 
 {% block title %}Parsifal - Conducting{% endblock %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
-  <link href="{{ STATIC_URL }}css/conducting.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting.js"></script>
-  {% block conducting_stylesheet %}
-  {% endblock conducting_stylesheet %}
-{% endblock stylesheet %}
-
 {% block content %}
+
   {% include "reviews/review_header.html" with active_menu="conducting" %}
 
   {% block tab_content %}

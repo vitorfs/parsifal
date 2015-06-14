@@ -181,3 +181,17 @@ ul.review-menu li.active {
 .page-header {
   margin-top: 0;
 }
+
+.nav-tabs {
+  margin-bottom: 20px;
+}
+
+.table-hover {
+  cursor: pointer;
+}
+
+/* Bootstrap extension */
+table.table-v-align-middle thead tr th, 
+table.table-v-align-middle tbody tr td {
+  vertical-align: middle;
+}

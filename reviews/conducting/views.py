@@ -304,14 +304,6 @@ def article_details(request):
     return render_to_response('conducting/partial_conducting_article_details.html', context)
 
 def build_article_table_row(article):
-    span_status = ''
-    if article.status == Article.ACCEPTED:
-        span_status += '<span class="label label-success">'
-    elif article.status == Article.REJECTED or article.status == Article.DUPLICATED:
-        span_status += '<span class="label label-warning">'
-    else:
-        span_status += '<span>'
-    span_status += article.get_status_display() + '</span>'
     row = u'''<tr oid="{0}" article-status="{1}">
             <td><input type="checkbox" value="{0}""></td>
             <td>{2}</td>
@@ -327,7 +319,7 @@ def build_article_table_row(article):
             article.author,
             article.journal,
             article.year,
-            span_status)
+            article.get_status_html())
     return row
 
 
@@ -563,3 +555,4 @@ def new_article(request):
 
     context = RequestContext(request, {'article': article})
     return render_to_response('conducting/partial_conducting_article_details.html', context)
+    

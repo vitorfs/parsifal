@@ -1,4 +1,4 @@
-<h2>Resolve Duplicates</h2>
+<h3>Resolve Duplicates</h3>
 {% if duplicates %}
   <p>Click on <strong>Resolve Button</strong> to change the article status to <span class="label label-warning">Duplicated</span></p>
 {% endif %}
@@ -23,8 +23,8 @@
             <td>{{ article.author }}</td>
             <td>{{ article.year }}</td>
             <td>{{ article.source }}</td>
-            <td><span class="{% if article.status == article.ACCEPTED %}label label-success{% elif article.status == article.REJECTED or article.status == article.DUPLICATED %}label label-warning{% endif %}">{{ article.get_status_display }}</span></td>
-            <td width="120px"><button class="btn btn-small btn-warning btn-resolve">Resolve</button></td>
+            <td>{{ article.get_status_html|safe }}</td>
+            <td width="120px"><button class="btn btn-sm btn-danger btn-resolve">Resolve</button></td>
           </tr>
         {% endfor %}
       {% endwith %}
