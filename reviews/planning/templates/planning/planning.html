@@ -103,7 +103,7 @@
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">PICOC</h3>
+              <h3 class="panel-title">PICOC <!--a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What is this? Click to get help" data-placement="top" data-container="body"><span class="glyphicon glyphicon-question-sign"></span></a--></h3>
             </div>
             <div class="panel-body">
               <p>Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
@@ -174,7 +174,7 @@
                         <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
                       {% endfor %}
                     </ul>
-                    <input type="text" class="add-synonym" maxlength="200">
+                    <input type="text" class="add-synonym form-control" maxlength="200">
                   </td>
                   <td>
                     <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button>
@@ -304,7 +304,7 @@
                     {% endfor %}
                   </select>                  
                 </div>
-                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria">remove selected</button>
+                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#inclusion-criteria">remove selected</button>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
@@ -318,7 +318,7 @@
                     {% endfor %}
                   </select>
                 </div>
-                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria">remove selected</button>
+                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#exclusion-criteria">remove selected</button>
               </div>
             </div>
           </div>
@@ -334,74 +334,79 @@
             <div class="alert alert-info">
               <p>The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
             </div>
-            <div class="clearfix">
-              <button type="button" class="btn btn-primary btn-sm pull-right" id="btn-add-quality-question">Add Question</button>
-              <h4>Questions</h4>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">Questions</div>
+              <table class="table" id="tbl-quality-questions">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th style="width: 150px;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for quality_question in review.get_quality_assessment_questions %}
+                    {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
+                  {% empty %}
+                    {% include "planning/partial_quality_assessment_question_form.html" %}
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="panel-footer">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-add-quality-question">Add Question</button>
+              </div>
             </div>
-            <table class="table table-striped" id="tbl-quality-questions">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th style="width: 150px;"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for quality_question in review.get_quality_assessment_questions %}
-                  {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
-                {% empty %}
-                  {% include "planning/partial_quality_assessment_question_form.html" %}
-                {% endfor %}
-              </tbody>
-            </table>
 
-            <div class="clearfix">
-              <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-add-quality-answer">Add Answer</button>
-              <h4>Answers</h4>
+            <div class="panel panel-default">
+              <div class="panel-heading">Answers</div>
+              <table class="table" id="tbl-quality-answers">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Weight</th>
+                    <th style="width: 150px;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for quality_answer in review.get_quality_assessment_answers %}
+                    {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
+                  {% empty %}
+                    {% include "planning/partial_quality_assessment_answer_form.html" %}
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="panel-footer">
+                <button type="button" class="btn btn-sm btn-primary" id="btn-add-quality-answer">Add Answer</button>
+                {% if not review.get_quality_assessment_answers %}
+                  <soan class="help-block">No idea how to fill? How about <strong>Yes</strong> (1.0), <strong>Partially</strong> (0.5) and <strong>No</strong> (0.0)? :) <button type="button" class="btn btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></span>
+                {% endif %}                
+              </div>
             </div>
-            {% if not review.get_quality_assessment_answers %}
-              <p class="no-answers">No idea how to fill? How about <strong>Yes</strong> (1.0), <strong>Partially</strong> (0.5) and <strong>No</strong> (0.0)? :) <button type="button" class="btn btn-small btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></p>
-            {% endif %}
-            <table class="table table-striped" id="tbl-quality-answers">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Weight</th>
-                  <th style="width: 150px;"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for quality_answer in review.get_quality_assessment_answers %}
-                  {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
-                {% empty %}
-                  {% include "planning/partial_quality_assessment_answer_form.html" %}
-                {% endfor %}
-              </tbody>
-            </table>
 
-            <h4>Quality Assessment Scores</h4>
-            <table class="table" id="tbl-cutoff-score">
-              <tbody>
-                <tr>
-                  <td><strong>Max Score</strong></td>
-                  <td><input type="text" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}"></td>
-                  <td>
-                    <span class="help-block">Calculated based on the number of questions and on the answer of greater weight</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>Cutoff Score</strong></td>
-                  <td><input type="text" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}"></td>
-                  <td>
-                    <button type="button" class="btn btn-success btn-small" id="save-cutoff-score">save</button>
-                    <span class="form-status-message" style="font-size:1em"></span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
+            <div class="panel panel-default">
+              <div class="panel-heading">Quality Assessment Scores</div>
+              <table class="table" id="tbl-cutoff-score">
+                <tbody>
+                  <tr>
+                    <td style="white-space: nowrap; vertical-align: middle;"><strong>Max Score</strong></td>
+                    <td><input type="text" class="form-control" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}" style="width: 70px; text-align: right;"></td>
+                    <td>
+                      <span class="help-block">Calculated based on the number of questions and on the answer of greater weight</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="white-space: nowrap; vertical-align: middle;"><strong>Cutoff Score</strong></td>
+                    <td><input type="text" class="form-control" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}" style="width: 70px; text-align: right;"></td>
+                    <td>
+                      <button type="button" class="btn btn-success btn-sm" id="save-cutoff-score">save</button>
+                      <span class="form-status-message" style="font-size:1em"></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-
       </section>
       
       <section id="data-extraction-section">
