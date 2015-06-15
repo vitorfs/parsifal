@@ -1,15 +1,17 @@
 {% extends 'conducting/conducting.html' %}
 
-{% block conducting_head_extra %}
-  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_quality_assessment.js"></script>
-{% endblock conducting_head_extra %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/conducting_quality_assessment.js' %}?_=1"></script>
+{% endblock javascript %}
 
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="quality" %}
-  <h2>Quality Assessment</h2>
+  <h3>Quality Assessment</h3>
 
   {% if finished_all_steps %}
-    <ul class="nav nav-pills" id="quality-menu">
+    <ul class="nav nav-pills" id="quality-menu" style="margin-bottom: 20px;">
       <li class="active"><a href="{% url 'reviews:conducting:quality_assessment_detailed' %}">Detailed</a></li>
       <li><a href="{% url 'reviews:conducting:quality_assessment_summary' %}">Summary</a></li>
     </ul>

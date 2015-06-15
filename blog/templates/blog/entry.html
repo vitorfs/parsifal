@@ -2,21 +2,15 @@
 
 {% block title %}Parsifal - {{ entry.title }}{% endblock %}
 
-{% block head_extra %}
-  <link href="{{ STATIC_URL }}css/blog.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
-
 {% block content %}
-  <div class="blog">
-    <article class="single-entry">
-      <h1>{{ entry.title }}</h1>
-      <ul>
-        <li>{{ entry.start_publication|date:"D d M Y" }}</li>
-        <li><a href="/{{ entry.created_by.username }}/">{{ entry.created_by.profile.get_screen_name }}</a></li>
-      </ul>
-      <div class="content">
-        {{ entry.format_content|safe }}
-      </div>
-    </article>
-  </div>
+  <article class="single-entry">
+    <h2 class="page-header">{{ entry.title }}</h2>
+    <p class="text-muted">
+      Posted by <a href="{% url 'reviews' entry.created_by.username %}">{{ entry.created_by.profile.get_screen_name }}</a> at
+      {{ entry.start_publication|date:"D d M Y" }}
+    </p>
+    <div class="content">
+      {{ entry.format_content|safe }}
+    </div>
+  </article>
 {% endblock content %}

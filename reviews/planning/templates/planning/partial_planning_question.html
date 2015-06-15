@@ -1,7 +1,11 @@
-<li question-id="{{ question.id }}">
-  <span>{{ question.question }}</span>
-  <span class="question-buttons">
-    <button type="button" class="btn btn-small btn-edit-question" data-loading="editing...">edit</button>
-    <button type="button" class="btn btn-small btn-warning btn-remove-question" data-loading="removing...">remove</button>
-  </span>
+<li class="list-group-item" question-id="{{ question.id }}">
+  <div class="row">
+    <div class="col-xs-7 col-sm-8 col-md-9">
+      <span style="vertical-align: middle;">{{ question.question }}</span>
+    </div>
+    <div class="col-xs-5 col-sm-4 col-md-3 text-right">
+      <button type="button" class="btn btn-sm btn-warning btn-edit-question" data-loading="editing...">edit</button>
+      <button type="button" class="btn btn-sm btn-danger btn-remove-question" data-loading="removing...">remove</button>
+    </div>
+  </div>
 </li>

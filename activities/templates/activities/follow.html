@@ -1,53 +1,64 @@
-{% extends 'base_app.html' %}
+{% extends 'base.html' %}
+
+{% load staticfiles %}
 
 {% block title %}Parsifal - {{ page_user.profile.get_screen_name }} {{ page_title }}{% endblock %}
 
-{% block head_extra %}
-  <link href="{{ STATIC_URL }}css/follow.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="{{ STATIC_URL }}js/activities.js"></script>
-{% endblock head_extra %}
+{% block javascript %}
+  <script src="{% static 'js/activities.js' %}?_=1"></script>
+{% endblock javascript %}
 
 {% block content %}
-  <h1 class="title"><a href="/{{ page_user.username }}/">{{ page_user.profile.get_screen_name }}</a></h1>
-  <h2>{{ page_title|capfirst }}</h2>
+  <h2 class="page-header"><a href="/{{ page_user.username }}/">{{ page_user.profile.get_screen_name }}</a></h2>
+  <h3 style="margin-bottom: 20px;">{{ page_title|capfirst }}</h3>
+
   {% if follow_list %}
-    <ul class="follow-users">
+    <div class="row">
       {% for follow_user in follow_list %}
-        <li class="clearfix">
-          <a href="/{{ follow_user.username }}/">
-            <img src="{{ follow_user.profile.get_picture }}" width="90px" height="90px" class="follow-portrait">
-          </a>
-          <h3><a href="/{{ follow_user.username }}/">{{ follow_user.profile.get_screen_name }}</a></h3>
-          <p>
-            {% if follow_user.profile.location %}
-              {{ follow_user.profile.location }}
-            {% else %}
-              Joined on {{ follow_user.date_joined|date:"d M Y" }}
-            {% endif %}
-          </p>
-          {% if user.is_authenticated %}
-            {% if follow_user.pk != user.pk %}
-              {% if follow_user in user_following %}
-                <div class="user-actions following" data-user-id="{{ follow_user.id }}">
-                  <button class="btn btn-small btn-warning" type="button">Unfollow</button>
-                </div>
-              {% else %}
-                <div class="user-actions not-following" data-user-id="{{ follow_user.id }}">
-                  <button class="btn btn-small btn-success" type="button">Follow</button>
-                </div>
+        <div class="col-sm-4">
+          <div class="media">
+            <div class="media-left media-middle">
+              <a href="{% url 'reviews' follow_user.username %}">
+                <img class="media-object img-circle" src="{{ follow_user.profile.get_picture }}" alt="{{ follow_user.profile.get_screen_name }}" style="width: 90px; height: 90px;">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading"><a href="/{{ follow_user.username }}/">{{ follow_user.profile.get_screen_name }}</a></h4>
+              <p>
+                {% if follow_user.profile.location %}
+                  <span class="glyphicon glyphicon-map-marker"></span> {{ follow_user.profile.location }}
+                {% else %}
+                  <span class="glyphicon glyphicon-time"></span> Joined on {{ follow_user.date_joined|date:"d M Y" }}
+                {% endif %}
+              </p>
+              {% if user.is_authenticated %}
+                {% if follow_user.pk != user.pk %}
+                  {% if follow_user in user_following %}
+                    <div class="user-actions following" data-user-id="{{ follow_user.id }}">
+                      <button class="btn btn-small btn-danger" type="button"><span class="glyphicon glyphicon-remove"></span> Unfollow</button>
+                    </div>
+                  {% else %}
+                    <div class="user-actions not-following" data-user-id="{{ follow_user.id }}">
+                      <button class="btn btn-small btn-success" type="button"><span class="glyphicon glyphicon-ok"></span> Follow</button>
+                    </div>
+                  {% endif %}
+                {% endif %}
               {% endif %}
-            {% endif %}
-          {% endif %}
-        </li>
+            </div>
+          </div>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
-    <div class="container no-follow">
-      {% if page_title == 'followers' %}
-        <h3>{{ page_user.profile.get_screen_name }} have no followers.</h3>
-      {% else %}
-        <h3>{{ page_user.profile.get_screen_name }} isn't following anybody.</h3>
-      {% endif %}
+    <div class="well text-center" style="padding: 5em;">
+      <span class="glyphicon glyphicon-education" style="font-size: 2.6em; color: #aaa;"></span>
+      <div style="margin-top: 25px; margin-bottom: 25px;">
+        {% if page_title == 'followers' %}
+          <h3>{{ page_user.profile.get_screen_name }} have no followers.</h3>
+        {% else %}
+          <h3>{{ page_user.profile.get_screen_name }} isn't following anybody.</h3>
+        {% endif %}
+      </div>
     </div>
   {% endif %}
 {% endblock content %}

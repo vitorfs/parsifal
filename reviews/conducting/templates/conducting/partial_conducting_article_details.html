@@ -1,70 +1,73 @@
-<div class="alert hide">
-  <a href="#" class="pull-right close" onclick="$(this).closest('div').fadeOut();return false;">×</a>
+<div class="alert hide" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
   <span class="modal-alert"></span>
 </div>
 
-<ul class="tab">
-    <li class="active"><a href="#tab-details">Details</a></li>
-    <li><a href="#tab-comments">Comments</a></li>
-</ul>
-
-<div class="tabs">
-  <form name="article-details" id="article-details" method="post" action="." class="form-block form-normal">
-    {% csrf_token %}
-    <input type="hidden" name="article-id" id="article-id" value="{{ article.id }}">
-    <input type="hidden" name="review-id" id="review-id" value="{{ article.review.id }}">
-    <input type="hidden" name="source-id" id="source-id" value="{{ article.source.id }}">
-    <div id="tab-details">
-      <div class="form-row">
-        <h3>Status</h3>
-        <select name="status" id="status">
-          {% for status in article.ARTICLE_STATUS %}
-            <option value="{{ status.0 }}"{% if article.status == status.0 %} selected{% endif %}>{{ status.1 }}</option>
-          {% endfor %}
-        </select>
+<form name="article-details" id="article-details" method="post" action=".">
+  {% csrf_token %}
+  <input type="hidden" name="article-id" id="article-id" value="{{ article.id }}">
+  <input type="hidden" name="review-id" id="review-id" value="{{ article.review.id }}">
+  <input type="hidden" name="source-id" id="source-id" value="{{ article.source.id }}">
+  <div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#tab-details" aria-controls="tab-details" role="tab" data-toggle="tab">Details</a></li>
+      <li role="presentation"><a href="#tab-comments" aria-controls="tab-comments" role="tab" data-toggle="tab">Comments</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="tab-details">
+        <div class="form-group">
+          <label class="control-label">Status</label>
+          <select name="status" id="status">
+            {% for status in article.ARTICLE_STATUS %}
+              <option value="{{ status.0 }}"{% if article.status == status.0 %} selected{% endif %}>{{ status.1 }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Title</label>
+          <input type="text" class="form-control" name="title" id="title" value="{{ article.title }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Abstract</label>
+          <textarea name="abstract" id="abstract" rows="5" class="form-control">{{ article.abstract }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label">BibTex Key</label>
+          <input type="text" class="form-control" name="bibtex-key" id="bibtex-key" value="{{ article.bibtex_key }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Author</label>
+          <input type="text" class="form-control" name="author" id="author" value="{{ article.author }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Journal</label>
+          <input type="text" class="form-control" name="journal" id="journal" value="{{ article.journal }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Year</label>
+          <input type="text" class="form-control" name="year" id="year" value="{{ article.year }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Document Type</label>
+          <input type="text" class="form-control" name="document-type" id="document-type" value="{{ article.document_type }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Pages</label>
+          <input type="text" class="form-control" name="pages" id="pages" value="{{ article.pages }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Volume</label>
+          <input type="text" class="form-control" name="volume" id="volume" value="{{ article.volume }}">
+        </div>
       </div>
-      <div class="form-row">
-        <h3>Title</h3>
-        <input type="text" name="title" id="title" value="{{ article.title }}">
-      </div>
-      <div class="form-row">
-        <h3>Abstract</h3>
-        <textarea name="abstract" id="abstract" rows="5">{{ article.abstract }}</textarea>
-      </div>
-      <div class="form-row">
-        <h3>BibTex Key</h3>
-        <input type="text" name="bibtex-key" id="bibtex-key" value="{{ article.bibtex_key }}">
-      </div>
-      <div class="form-row">
-        <h3>Author</h3>
-        <input type="text" name="author" id="author" value="{{ article.author }}">
-      </div>
-      <div class="form-row">
-        <h3>Journal</h3>
-        <input type="text" name="journal" id="journal" value="{{ article.journal }}">
-      </div>
-      <div class="form-row">
-        <h3>Year</h3>
-        <input type="text" name="year" id="year" value="{{ article.year }}">
-      </div>
-      <div class="form-row">
-        <h3>Document Type</h3>
-        <input type="text" name="document-type" id="document-type" value="{{ article.document_type }}">
-      </div>
-      <div class="form-row">
-        <h3>Pages</h3>
-        <input type="text" name="pages" id="pages" value="{{ article.pages }}">
-      </div>
-      <div class="form-row">
-        <h3>Volume</h3>
-        <input type="text" name="volume" id="volume" value="{{ article.volume }}">
+      <div role="tabpanel" class="tab-pane" id="tab-comments">
+        <div class="form-group">
+          <label class="control-label">Comments</label>
+          <textarea name="comments" class="form-control" id="comments" rows="5">{{ article.comments }}</textarea>
+        </div>
       </div>
     </div>
-    <div id="tab-comments" class="hide">
-      <div class="form-row">
-        <h3>Comments</h3>
-        <textarea name="comments" id="comments" rows="5">{{ article.comments }}</textarea>
-      </div>
-    </div>
-  </form>
-</div>
+  </div>
+</form>

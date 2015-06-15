@@ -1,25 +1,6 @@
 {% extends 'base.html' %}
 
-{% block head_extra %}
-  <link href="{{ STATIC_URL }}css/cover.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
-
-{% block content %}
-  <div class="content-left">
-    <h1>Perform Systematic Literature Reviews</h1>
-    <p class="slogan">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
-  </div>
-  <div class="content-right">
-    <h2>Sign up for Parsifal</h2>
-    <form action="/signup/" method="post" id="new-account">
-      {% csrf_token %}
-      <input type="text" placeholder="Username" name="username">
-      <input type="password" placeholder="Password" name="password">
-      <input type="hidden" name="confirm_password" value="">
-      <input type="text" placeholder="Email" name="email">
-      <button type="submit" class="btn btn-success btn-large" style="width:100%">Create a new account</button>
-    </form>
-  </div>
+{% block javascript %}
   <script type="text/javascript">
     $(function() {
       $("#new-account").submit(function () {
@@ -27,23 +8,59 @@
       });
     });
   </script>
+{% endblock javascript %}
+
+{% block content %}
+
+  <div class="row cover">
+    <div class="col-md-7">
+      <h1>Perform Systematic Literature Reviews</h1>
+      <p class="lead">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
+    </div>
+    <div class="col-md-5">
+      <h2>Sign up for Parsifal</h2>
+      <form action="/signup/" method="post" id="new-account">
+        {% csrf_token %}
+        <div class="form-group">
+          <input class="form-control input-lg" type="text" placeholder="Username" name="username">
+        </div>
+        <div class="form-group">
+          <input class="form-control input-lg" type="password" placeholder="Password" name="password">
+          <input type="password" name="confirm_password" value="" style="display: none;">
+        </div>
+        <div class="form-group">
+          <input class="form-control input-lg" type="email" placeholder="Email" name="email">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success btn-lg btn-block">Create a new account</button>
+        </div>
+      </form>      
+    </div>
+  </div>
+
 {% endblock content %}
 
-{% block footer %}
+{% block fullwidthfooter %}
   <section class="features">
-    <div class="wrapper">
+    <div class="container">
       <article>
+        <span class="glyphicon glyphicon-globe"></span>
         <h2>Support for geographically distributed researchers</h2>
-        <p>Parsifal is a powerful platform that provides full support for researchers geographically distributed to work on the same Systematic Literature Review. There is no limit of authors per review.</p>
+        
+        <p class="lead">Parsifal is a powerful platform that provides full support for researchers geographically distributed to work on the same Systematic Literature Review. There is no limit of authors per review.</p>
       </article>
       <article>
+        <span class="glyphicon glyphicon-book"></span>
         <h2>Publish extra information</h2>
-        <p>Normally you can't publish all relevant information about the research as frequently there is a limit amount of pages to publish your article on a certain conference or journal. Parsifal provides you a beautiful interface to publish any extra information like the whole result from the search string, all modifications of the search string, more details about the protocol, etc.</p>
+
+        <p class="lead">Normally you can't publish all relevant information about the research as frequently there is a limit amount of pages to publish your article on a certain conference or journal. Parsifal provides you a beautiful interface to publish any extra information like the whole result from the search string, all modifications of the search string, more details about the protocol, etc.</p>
       </article>
       <article>
+        <span class="glyphicon glyphicon-duplicate"></span>
         <h2>Support for tertiary studies</h2>
-        <p>Having a huge amount of Systematic Literature Reviews in the platform, it will provide a powerful support for tertiary studies, that is, systematic literature review of secondary studies.</p>
+        
+        <p class="lead">Having a huge amount of Systematic Literature Reviews in the platform, it will provide a powerful support for tertiary studies, that is, systematic literature review of secondary studies.</p>
       </article>
     </div>
   </section>
-{% endblock footer %}
+{% endblock fullwidthfooter %}

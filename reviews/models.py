@@ -43,7 +43,7 @@ class Review(models.Model):
 
     name = models.SlugField(max_length=255)
     title = models.CharField(max_length=255)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=500, null=True, blank=True)
     author = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField()
@@ -64,6 +64,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
+        unique_together = (('name', 'author'),)
 
     def __unicode__(self):
         return self.name
@@ -254,6 +255,10 @@ class Article(models.Model):
     def get_quality_assesment(self):
         quality_assessments = QualityAssessment.objects.filter(article__id=self.id)
         return quality_assessments
+
+    def get_status_html(self):
+        label = { Article.UNCLASSIFIED: 'default', Article.REJECTED: 'danger', Article.ACCEPTED: 'success', Article.DUPLICATED: 'warning' }
+        return u'<span class="label label-{0}">{1}</span>'.format(label[self.status], self.get_status_display())
 
 
 class Keyword(models.Model):

@@ -30,7 +30,7 @@ $(function () {
         $(container).stopLoading();
       }
     });
-    $("#modal-add-article").open();
+    $("#modal-add-article").modal('show');
   });
 
   $("#source-tab a").click(function () {
@@ -96,7 +96,8 @@ $(function () {
       $(".source-articles tbody tr").removeClass("active");
       $(this).addClass("active");
       $("#modal-article .modal-body").loadActiveArticle();
-      $("#modal-article").open();
+      $("#modal-article .modal-body").css("height", $(window).height() * 0.7);
+      $("#modal-article").modal('show');
     }
   });
 
@@ -105,7 +106,7 @@ $(function () {
 
     if (keyCode == ESCAPE_KEY) {
       if ($("body").hasClass("modal-open")) {
-        $(".modal").close();  
+        $(".modal").modal('hide');  
       }
       else {
         $(".source-articles tbody tr").removeClass("active");    
@@ -176,15 +177,15 @@ $(function () {
           $("#modal-article .modal-body").loadActiveArticle();
         }
         else {
-          $("#modal-article .alert span").text("Article successfully saved!");
-          $("#modal-article .alert").removeClass("article-error").addClass("alert-success");
-          $("#modal-article .alert").show();
+          $("#modal-article .alert .modal-alert").text("Article successfully saved!");
+          $("#modal-article .alert").removeClass("alert-error").addClass("alert-success");
+          $("#modal-article .alert").removeClass("hide");
         }
       },
       error: function () {
-          $("#modal-article .alert span").text("Something went wrong! That's all we know :(");
-          $("#modal-article .alert").removeClass("article-success").addClass("alert-error");
-          $("#modal-article .alert").show();
+          $("#modal-article .alert .modal-alert").text("Something went wrong! That's all we know :(");
+          $("#modal-article .alert").removeClass("alert-success").addClass("alert-error");
+          $("#modal-article .alert").removeClass("hide");
       },
       complete: function () {
         $(".btn-save-article").prop("disabled", false);
@@ -363,7 +364,8 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $("#modal-duplicates").open();
+        $("#modal-duplicates .modal-body").css("max-height", $(window).height() * 0.7);
+        $("#modal-duplicates").modal('show');
         $("#modal-duplicates .modal-body").loading();
       },
       success: function (data) {

@@ -30,9 +30,9 @@ $(function () {
         success: function (data) {
           $(user_actions).removeClass("following");
           $(user_actions).addClass("not-following");
-          $(btn).removeClass("btn-warning");
+          $(btn).removeClass("btn-danger");
           $(btn).addClass("btn-success");
-          $(btn).text("Follow");
+          $(btn).html("<span class='glyphicon glyphicon-ok'></span> Follow");
           if ($(user_actions).hasClass("update-count")) {
             $(".followers-count").updateFollowersCount(user_id);
           }
@@ -59,8 +59,8 @@ $(function () {
           $(user_actions).removeClass("not-following");
           $(user_actions).addClass("following");
           $(btn).removeClass("btn-success");
-          $(btn).addClass("btn-warning")
-          $(btn).text("Unfollow");
+          $(btn).addClass("btn-danger")
+          $(btn).html("<span class='glyphicon glyphicon-remove'></span> Unfollow");
           if ($(user_actions).hasClass("update-count")) {
             $(".followers-count").updateFollowersCount(user_id);
           }

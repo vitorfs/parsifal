@@ -7,39 +7,24 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
-from rest_framework import routers
-from api import views
-
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'sources', views.SourceViewSet)
-router.register(r'reviews', views.ReviewViewSet)
-router.register(r'questions', views.QuestionViewSet)
-router.register(r'selection_criterias', views.SelectionCriteriaViewSet)
-router.register(r'articles', views.ArticleList)
-router.register(r'keywords', views.KeywordViewSet)
-
 urlpatterns = patterns('',
     url(r'^$', 'core.views.home', name='home'),
     url(r'^about/$', 'core.views.about', name='about'),
     url(r'^help/$', 'core.views.help', name='help'),
     url(r'^support/$', 'core.views.support', name='support'),
     url(r'^explore/$', 'core.views.explore', name='explore'),
-    url(r'^signup/$', 'auth.views.signup', name='signup'),
-    url(r'^signin/$', 'auth.views.signin', name='signin'),
-    url(r'^signout/$', 'auth.views.signout', name='signout'),
-    url(r'^reset/$', 'auth.views.reset', name='reset'),
-    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 'auth.views.reset_confirm', name='password_reset_confirm'),
-    url(r'^success/$', 'auth.views.success', name='success'),
+    url(r'^signup/$', 'parsifal_auth.views.signup', name='signup'),
+    url(r'^signin/$', 'parsifal_auth.views.signin', name='signin'),
+    url(r'^signout/$', 'parsifal_auth.views.signout', name='signout'),
+    url(r'^reset/$', 'parsifal_auth.views.reset', name='reset'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 'parsifal_auth.views.reset_confirm', name='password_reset_confirm'),
+    url(r'^success/$', 'parsifal_auth.views.success', name='success'),
     url(r'^reviews/', include('reviews.urls', namespace='reviews')),
     url(r'^activity/', include('activities.urls', namespace='activities')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
-    url(r'^settings/', include('settings.urls', namespace='settings')),
-    url(r'^review_settings/save/$', 'reviews.settings.views.save_settings', name='save_settings'),
+    url(r'^settings/', include('parsifal_settings.urls', namespace='settings')),
     url(r'^review_settings/transfer/$', 'reviews.settings.views.transfer', name='transfer_review'),
     url(r'^review_settings/delete/$', 'reviews.settings.views.delete', name='delete_review'),
-    url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^(?P<username>[^/]+)/following/$', 'activities.views.following', name='following'),
     url(r'^(?P<username>[^/]+)/followers/$', 'activities.views.followers', name='followers'),

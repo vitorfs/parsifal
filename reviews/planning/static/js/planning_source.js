@@ -92,7 +92,7 @@ $(function () {
 
       var str_row = '<td><input value="' + name + '" id="name"></td>';
       str_row += '<td><input value="' + url + '" id="url"></td>';
-      str_row += '<td><button type="button" class="btn btn-success btn-small btn-save-source">save</button> <button type="button" class="btn btn-warning btn-small btn-cancel-source">cancel</button></td>';
+      str_row += '<td><button type="button" class="btn btn-success btn-sm btn-save-source">save</button> <button type="button" class="btn btn-default btn-sm btn-cancel-source">cancel</button></td>';
       
       row.html(str_row);
 
@@ -103,7 +103,7 @@ $(function () {
   $("#btn-add-source").click(function () {
     if (!is_adding_or_editing_source) {
       is_adding_or_editing_source = true;
-      $("#tbl-sources tbody").prepend('<tr><td><input type="text" id="name"></td><td><input type="text" id="url"></td><td><button type="button" class="btn btn-success btn-small btn-save-source">save</button> <button type="button" class="btn btn-warning btn-small btn-cancel-source">cancel</button></td></tr>');
+      $("#tbl-sources tbody").prepend('<tr><td><input type="text" id="name"></td><td><input type="text" id="url"></td><td><button type="button" class="btn btn-success btn-sm btn-save-source">save</button> <button type="button" class="btn btn-default btn-sm btn-cancel-source">cancel</button></td></tr>');
       $("#tbl-sources tbody tr:first-child td:first-child input").focus();
     }
   });  
@@ -130,7 +130,6 @@ $(function () {
   });
 
   $("#btn-save-suggested-sources").click(function () {
-    var modal = $(this).closest('div.modal');
     $.ajax({
       url: '/reviews/planning/add_suggested_sources/',
       data: $('#form-suggested-sources').serialize(),
@@ -138,11 +137,8 @@ $(function () {
       cache: false,
       success: function (data) {
         $("#tbl-sources tbody").append(data);
-        modal.slideUp(400, function () {
-          $("#tbl-suggested-sources input").prop("checked", false);
-          $(".shade").remove();
-          $("body").removeClass("modal-open");
-        });
+        $("#modal-suggested-sources").modal("hide");
+        $("#tbl-suggested-sources input").prop("checked", false);
       }
     });
   });

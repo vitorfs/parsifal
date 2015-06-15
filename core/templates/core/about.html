@@ -2,16 +2,12 @@
 
 {% block title %}Parsifal - About{% endblock %}
 
-{% block head_extra %}
-  <link href="{{ STATIC_URL }}css/site.css" rel="stylesheet" media="screen">
-{% endblock head_extra %}
-
 {% block content %}
-  <h1>About Parsifal</h1>
-  <p>Parsifal is a tool to support researchers to perform systematic literature reviews.</p>
+  <h2 class="page-header">About Parsifal</h2>
+  <p class="lead">Parsifal is a tool to support researchers to perform systematic literature reviews.</p>
   <p>A systematic literature review is a secondary study with the objective to identify, analyze and interpret all available evidences from primary studies related to a specific research question. As suggested by Kitchenham and Charters, the activity to perform a systematic literature review involves planning, conducting and reporting the review.</p>
   <p>Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher, designing the protocol, adjusting the search string, filtering the results, sometimes more than a thousand of articles, selecting those articles that attends the include criteria and removing those articles that attends the exclude criteria. After that, the researcher might start to analyze the relevant result one by one.</p>
   <p>Parsifal was designed to help you through all those steps.</p>
   <br>
-  <p><a href="/vitorfs/">Vitor Freitas</a>, Founder and Core Developer</p>
+  <p><a href="{% url 'reviews' 'vitorfs' %}">Vitor Freitas</a>, Founder and Core Developer</p>
 {% endblock content %}

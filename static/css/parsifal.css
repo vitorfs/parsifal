@@ -1,0 +1,245 @@
+@import url(https://fonts.googleapis.com/css?family=Playball);
+
+/* Parsifal base */
+
+html, body {
+  height: 100%;
+}
+
+.wrapper {
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+}
+
+.push {
+  height: 50px;
+}
+
+footer {
+  border-top: 1px solid #E7E7E7;
+  height: 50px;
+  padding-top: 14px;
+  background-color: #fff;
+}
+
+footer ul li {
+  display: inline;
+  margin-right: 15px;
+}
+
+/* Parsifal cover */
+
+.cover {
+  padding-top: 60px; 
+  padding-bottom: 80px;
+}
+
+.cover h1 {
+  font-size: 64px; 
+  margin-bottom: 30px;
+}
+
+section.features {
+  background-color: #e7e7e7;
+  text-align: center;
+}
+
+section.features article {
+  padding: 20px 0;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+section.features article:last-child {
+  border-bottom: none;
+}
+
+section.features article span.glyphicon {
+  font-size: 44px;
+  color: #ccc;
+  margin: 10px 0;
+}
+
+/* Parsifal reviews app */
+
+ul.review-menu {
+  width: 100%;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
+  border: 1px solid #C2C2C2;
+  background: #F5F5F5;
+  border-radius: 5px;
+  background: -moz-linear-gradient(top, #F5F5F5 0%, #D9D9D9 100%);
+  background: -webkit-linear-gradient(top, #F5F5F5 0%, #D9D9D9 100%);
+  background: -o-linear-gradient(top, #F5F5F5 0%, #D9D9D9 100%);
+  font-size: 0;
+}
+
+ul.review-menu li {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  font-size: 14px;
+  border-bottom: 3px solid #CCCCCC;
+  border-right: 1px solid #C2C2C2;
+}
+
+ul.review-menu li:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+ul.review-menu li a {
+  display: block;
+  padding: .8em 1.6em;
+  font-weight: 600;
+  color: #3A3D40;
+}
+
+ul.review-menu li a:hover {
+  text-decoration: none;
+}
+
+ul.review-menu li:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+ul.review-menu li:hover {
+  background: #F5F5F5;
+}
+
+ul.review-menu li.active {
+  background: #F5F5F5;
+  color: #666B71;
+  border-bottom: 3px solid #AC4539;
+}
+
+#protocol.affix-top {
+  position: relative;
+}
+
+#protocol.affix {
+  top: 20px;
+}
+
+#protocol.affix, 
+#protocol.affix-bottom {
+  width: 213px;
+}
+
+#protocol.affix-bottom {
+  position: absolute;
+}
+
+@media (min-width:992px) {
+  #protocol.affix, 
+  #protocol.affix-bottom {
+    width: 293px;
+  }
+}
+
+@media (min-width:1200px) {
+  #protocol.affix, 
+  #protocol.affix-bottom {
+    width: 263px;
+  }
+}
+
+#tbl-quality td.answer {
+  cursor: pointer;
+  text-align: center;
+  width: 100px;
+  transition: all 0.2s ease 0s;
+}
+
+#tbl-quality td.answer:hover {
+  background-color: #f5f5f5;
+}
+
+#tbl-quality td.selected-answer {
+  background-color: #337ab7!important;
+  color: #fff;
+}
+
+/* Selectize options */
+
+.selectize-control.contacts .selectize-input > div {
+  padding: 1px 10px;
+  font-size: 13px;
+  font-weight: normal;
+  -webkit-font-smoothing: auto;
+  color: #f7fbff;
+  text-shadow: 0 1px 0 rgba(8,32,65,0.2);
+  background: #337AB7;
+  background: -moz-linear-gradient(top, #2183f5 0%, #1d77f3 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2183f5), color-stop(100%,#1d77f3));
+  background: -webkit-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
+  background: -o-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
+  background: -ms-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
+  background: linear-gradient(to bottom,  #2183f5 0%,#1d77f3 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2183f5', endColorstr='#1d77f3',GradientType=0 );
+  border: 1px solid #0f65d2;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+}
+.selectize-control.contacts .selectize-input > div.active {
+  background: #0059c7;
+  background: -moz-linear-gradient(top, #0059c7 0%, #0051c1 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0059c7), color-stop(100%,#0051c1));
+  background: -webkit-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
+  background: -o-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
+  background: -ms-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
+  background: linear-gradient(to bottom,  #0059c7 0%,#0051c1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0059c7', endColorstr='#0051c1',GradientType=0 );
+  border-color: #0051c1;
+}
+.selectize-control.contacts .selectize-input > div .email {
+  opacity: 0.8;
+}
+.selectize-control.contacts .selectize-input > div .name + .email {
+  margin-left: 5px;
+}
+.selectize-control.contacts .selectize-input > div .email:before {
+  content: '<';
+}
+.selectize-control.contacts .selectize-input > div .email:after {
+  content: '>';
+}
+.selectize-control.contacts .selectize-dropdown .caption {
+  font-size: 12px;
+  display: block;
+  color: #a0a0a0;
+}
+
+/* Bootstrap overrides */
+
+.navbar-default .navbar-brand {
+  font-family: 'Playball', cursive;
+  font-weight: 400;
+  font-size: 2.4em;
+}
+
+.page-header {
+  margin-top: 0;
+}
+
+.nav-tabs {
+  margin-bottom: 20px;
+}
+
+.table-hover {
+  cursor: pointer;
+}
+
+/* Bootstrap extension */
+table.table-v-align-middle thead tr th, 
+table.table-v-align-middle tbody tr td {
+  vertical-align: middle;
+}

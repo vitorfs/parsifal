@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Parsifal - Password Reset{% endblock title %}
+
+{% block content %}
+  {% if validlink %} 
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Confirm Password Reset</h3>
+          </div>
+          <div class="panel-body">
+            <form role="form" action="." method="post">
+              {% csrf_token %} 
+              <div class="form-group{% if form.new_password1.errors %} has-error{% endif %}">
+                <label for="{{ form.new_password1.id_for_label }}" class="control-label">{{ form.new_password1.label }}</label>
+                <input type="password" class="form-control" id="{{ form.new_password1.id_for_label }}" name="{{ form.new_password1.html_name }}">
+                {% for error in form.new_password1.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+              <div class="form-group{% if form.new_password2.errors %} has-error{% endif %}">
+                <label for="{{ form.new_password2.id_for_label }}" class="control-label">{{ form.new_password2.label }}</label>
+                <input type="password" class="form-control" id="{{ form.new_password2.id_for_label }}" name="{{ form.new_password2.html_name }}">
+                {% for error in form.new_password2.errors %}
+                  <span class="help-block">{{ error }}</span>
+                {% endfor %}
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p class="lead text-danger">Invalid password reset link.</p>
+  {% endif %}
+{% endblock content %}

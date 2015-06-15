@@ -37,8 +37,8 @@ $(function () {
   });
 
   $(".btn-remove-criteria").click(function () {
-    var select = $(this).siblings("select");
-    var ids = select.val();
+    var select = $(this).attr("data-target");
+    var ids = $(select).val();
     if (ids != null) {
       var review_id = $('#review-id').val();
       var str_ids = "";

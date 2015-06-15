@@ -26,7 +26,7 @@ $(function () {
     $("#tbl-keywords td.keyword-row").unbind("click");
     var description = $(this).text();
     var keyword_id = $(this).closest("tr").attr("keyword-id");
-    $(this).html("<input type='text' value='" + description + "' class='edit-keyword' maxlength='200'>");
+    $(this).html("<input type='text' value='" + description + "' class='edit-keyword form-control' maxlength='200'>");
     $(".edit-keyword").focus();
 
     $(".edit-keyword").blur(function () {
@@ -95,7 +95,7 @@ $(function () {
     btn_add_synonym.hide();
     var description = $(this).text();
     var synonym_id = $(this).attr("synonym-id");
-    $(this).html("<input type='text' value='" + description + "' class='edit-synonym' maxlength='200'>");
+    $(this).html("<input type='text' value='" + description + "' class='edit-synonym form-control' maxlength='200'>");
     $(".edit-synonym").focus();
     $(".edit-synonym").blur(function () {
       if (description != $(".edit-synonym").val()) {

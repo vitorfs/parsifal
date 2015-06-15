@@ -5,16 +5,16 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Quality Score</th>
+      <th style="white-space: nowrap;">Quality Score</th>
     </tr>
   </thead>
   <tbody>
     {% for article in review.get_accepted_articles %}
       {% if review.quality_assessment_cutoff_score > 0.0 %}
         {% if article.get_score > review.quality_assessment_cutoff_score %} 
-          <tr class="higher-than-cutoff">
+          <tr class="bg-success">
         {% else %}
-          <tr class="lower-than-cutoff">
+          <tr class="bg-danger">
         {% endif%}
       {% else %}
         <tr>

@@ -1,6 +1,6 @@
-<ul class="tab" id="conducting-tab">
-  <li{% if active_tab == 'import' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/import/">Import Studies</a></li>
-  <li{% if active_tab == 'studies' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/studies/">Study Selection</a></li>
-  <li{% if active_tab == 'quality' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/quality/">Quality Assessment</a></li>
-  <li{% if active_tab == 'extraction' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/extraction/">Data Extraction</a></li>
+<ul class="nav nav-tabs" id="conducting-tab">
+  <li role="presentation"{% if active_tab == 'import' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/import/">Import Studies</a></li>
+  <li role="presentation"{% if active_tab == 'studies' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/studies/">Study Selection</a></li>
+  <li role="presentation"{% if active_tab == 'quality' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/quality/">Quality Assessment</a></li>
+  <li role="presentation"{% if active_tab == 'extraction' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/extraction/">Data Extraction</a></li>
 </ul>

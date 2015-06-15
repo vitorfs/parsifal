@@ -1,16 +1,9 @@
-{% extends 'base_app.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Parsifal - Conducting{% endblock %}
 
-{% block head_extra %}
-  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
-  <link href="{{ STATIC_URL }}css/conducting.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting.js"></script>
-  {% block conducting_head_extra %}
-  {% endblock conducting_head_extra %}
-{% endblock head_extra %}
-
 {% block content %}
+
   {% include "reviews/review_header.html" with active_menu="conducting" %}
 
   {% block tab_content %}
