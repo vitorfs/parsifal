@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'reviews.settings',
     'reviews.publish',
     'parsifal_settings',
+    'django_extensions',
 )
 
 LOGIN_URL = '/signin/'
