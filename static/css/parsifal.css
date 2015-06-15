@@ -30,6 +30,38 @@ footer ul li {
   margin-right: 15px;
 }
 
+/* Parsifal cover */
+
+.cover {
+  padding-top: 60px; 
+  padding-bottom: 80px;
+}
+
+.cover h1 {
+  font-size: 64px; 
+  margin-bottom: 30px;
+}
+
+section.features {
+  background-color: #e7e7e7;
+  text-align: center;
+}
+
+section.features article {
+  padding: 20px 0;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+section.features article:last-child {
+  border-bottom: none;
+}
+
+section.features article span.glyphicon {
+  font-size: 44px;
+  color: #ccc;
+  margin: 10px 0;
+}
+
 /* Parsifal reviews app */
 
 ul.review-menu {

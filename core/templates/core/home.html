@@ -15,13 +15,11 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-      <ul>
-        {% for feed in feeds %}
-          <li>{{ feed.message|safe }} <small>{{ feed.date|naturaltime }}</small></li>
-        {% empty %}
-          <li>There is no recent update on your network.</li>
-        {% endfor %}
-      </ul>
+      {% for feed in feeds %}
+        <p>{{ feed.message|safe }} <small>{{ feed.date|naturaltime }}</small></p>
+      {% empty %}
+        <p>There is no recent update on your network.</p>
+      {% endfor %}
     </div>
     <div class="col-md-4">
       <div class="panel panel-default">

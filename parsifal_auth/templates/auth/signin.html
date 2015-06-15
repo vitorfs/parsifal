@@ -2,25 +2,31 @@
 
 {% block title %}Parsifal - Sign in{% endblock title %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" media="screen">
-{% endblock stylesheet %}
-
 {% block content %}
-  <div class="form-container">
-    <div class="form-header">
-      <h1>Sign in</h1>
-    </div>
-    <div class="form-body">
-      <form method="post" action=".">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-        <a href="{% url 'reset' %}">Forgot your password?</a>
-        <button type="submit" class="btn btn-success btn-large" style="width: 100%">Sign in</button>
-      </form>
+
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sign in</h3>
+      </div>
+      <div class="panel-body">
+        <form method="post" action=".">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="control-label" for="username">Username:</label>
+            <input class="form-control" type="text" id="username" name="username">
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+          <a href="{% url 'reset' %}" class="btn btn-link">Forgot your password?</a>
+        </form>    
+      </div>
     </div>
   </div>
+</div>
+
 {% endblock content %}
