@@ -13,7 +13,7 @@
   <h3 style="margin-bottom: 20px;">{{ page_title|capfirst }}</h3>
 
   {% if follow_list %}
-    <div class="row">
+    <div class="row" style="margin-bottom: 20px;">
       {% for follow_user in follow_list %}
         <div class="col-sm-4">
           <div class="media">
@@ -47,6 +47,7 @@
             </div>
           </div>
         </div>
+        {% if forloop.counter|divisibleby:3 %}</div><div class="row" style="margin-bottom: 20px;">{% endif %}
       {% endfor %}
     </div>
   {% else %}
