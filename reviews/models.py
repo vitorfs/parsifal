@@ -43,7 +43,7 @@ class Review(models.Model):
 
     name = models.SlugField(max_length=255)
     title = models.CharField(max_length=255)
-    description = models.CharField(max_length=500, null=True)
+    description = models.CharField(max_length=500, null=True, blank=True)
     author = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField()
@@ -64,7 +64,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
-        #unique_together = (('name', 'author'),)
+        unique_together = (('name', 'author'),)
 
     def __unicode__(self):
         return self.name
