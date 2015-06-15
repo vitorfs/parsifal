@@ -2,12 +2,7 @@
 
 {% block title %}Parsifal - Publish{% endblock %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
-  <link href="{{ STATIC_URL }}css/publish.css" rel="stylesheet" media="screen">
-{% endblock stylesheet %}
-
 {% block content %}
   {% include "reviews/review_header.html" with active_menu="publish" %}
-  <section class="clearfix"></section>
+  
 {% endblock content %}
