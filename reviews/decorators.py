@@ -46,14 +46,12 @@ def author_required(f):
         else:
             try:
                 review_id = request.POST['review-id']
-                print review_id
             except:
                 try:
                     review_id = request.GET['review-id']
                     print review_id
                 except:
                     return HttpResponseBadRequest()
-            print review_id
             review = Review.objects.get(pk=review_id)
             if review.is_author_or_coauthor(request.user):
                 return f(request, *args, **kwargs)

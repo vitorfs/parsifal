@@ -191,7 +191,7 @@ def import_pico_keywords(request):
               <td class="keyword-row">''' + escape(keyword.description) + '''</td>
               <td>
                 <ul></ul>
-                <input type="text" class="add-synonym" maxlength="200">
+                <input type="text" class="form-control add-synonym" maxlength="200">
               </td>
               <td><button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button></td>
               <td class="no-border"></td>
@@ -655,8 +655,8 @@ def add_suggested_answer(request):
                   <td>{1}</td>
                   <td>{2}</td>
                   <td>
-                    <button type="button" class="btn btn-small btn-edit-quality-answer">edit</button>
-                    <button type="button" class="btn btn-warning btn-small btn-remove-quality-answer">remove</button>
+                    <button type="button" class="btn btn-warning btn-sm btn-edit-quality-answer">edit</button>
+                    <button type="button" class="btn btn-danger btn-sm btn-remove-quality-answer">remove</button>
                   </td>
                 </tr>'''.format(quality_answer.id, quality_answer.description, quality_answer.weight)
             return HttpResponse(html_answers)

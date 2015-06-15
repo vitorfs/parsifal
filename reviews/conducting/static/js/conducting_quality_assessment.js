@@ -30,7 +30,7 @@ $(function () {
       var csrf_token = $(this).closest("table").attr("csrf-token");
       var review_id = $("#review-id").val();
 
-      var tbl = $(this).closest("table");
+      var tbl = $(this).closest(".panel");
       var td = $(this);
 
       var old_text = $(td).text();
