@@ -12,8 +12,8 @@
 {% endblock stylesheet %}
 
 {% block javascript %}
-  <script type="text/javascript" src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.Jcrop.min.js' %}?_=1"></script>
+  <script type="text/javascript" src="{% static 'js/profile.js' %}?_=1"></script>
   <script>
     {% if uploaded_picture %}
       $(function () {
