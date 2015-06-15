@@ -1,28 +1,44 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Parsifal - Reporting{% endblock %}
 
-{% block stylesheet %}
-  <link href="{{ STATIC_URL }}css/review.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/review.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/reporting.js"></script>
-{% endblock stylesheet %}
+{% block javascript %}
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="{% static 'js/review.js' %}"></script>
+  <script src="{% static 'js/reporting.js' %}"></script>
+{% endblock javascript %}
 
 {% block content %}
+
   {% include "reviews/review_header.html" with active_menu="reporting" %}
-    <section>
-      <h2>Articles Per Source</h2>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Articles Per Source</h3>
+    </div>
+    <div class="panel-body">
       <div id="articles-selection-pie"></div>
-    </section>
-    <hr>
-    <section>
-      <h2>Accepted Articles Per Source</h2>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Accepted Articles Per Source</h3>
+    </div>
+    <div class="panel-body">
       <div id="articles-selection-column"></div>
-    </section>
-    <hr>
-    <section>
-      <h2>Final Articles Per Year <small>(After study selection and quality assessment)</small></h2>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Final Articles Per Year <small>(After study selection and quality assessment)</small></h3>
+    </div>
+    <div class="panel-body">
       <div id="articles-selection-line"></div>
-    </section>
+    </div>
+  </div>
+
 {% endblock content %}

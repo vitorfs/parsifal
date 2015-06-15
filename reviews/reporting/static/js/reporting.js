@@ -11,7 +11,7 @@ function drawPieChart(rows) {
   data.addColumn('string', 'Source');
   data.addColumn('number', 'Number of Aticles');
   data.addRows(rows);
-  var options = {'height': 400, 'backgroundColor': '#F6F6F6'};
+  var options = {'height': 400};
   var chart = new google.visualization.PieChart(document.getElementById('articles-selection-pie'));
   chart.draw(data, options);
 }
@@ -20,7 +20,6 @@ function drawColumnChart(rows) {
   var data = google.visualization.arrayToDataTable(rows);
   var options = {
     vAxis: {title: 'Number of Articles',  titleTextStyle: {color: '#3A3D40'}},
-    'backgroundColor': '#F6F6F6',
     'height': 400
   };
   var chart = new google.visualization.ColumnChart(document.getElementById('articles-selection-column'));
@@ -31,8 +30,7 @@ function drawLineChart(rows) {
   var data = google.visualization.arrayToDataTable(rows);
   var options = {
     vAxis: {title: 'Number of Articles',  titleTextStyle: {color: '#3A3D40'}},
-    'height': 400,
-    'backgroundColor': '#F6F6F6'
+    'height': 400
   };
   var chart = new google.visualization.LineChart(document.getElementById('articles-selection-line'));
   chart.draw(data, options);

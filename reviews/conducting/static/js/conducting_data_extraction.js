@@ -1,10 +1,10 @@
 $(function () {
 
   function save_data_extraction_field(ref) {
-    var row = $(ref).closest("tr");
+    var row = $(ref).closest(".form-group");
     var review_id = $("#review-id").val();
-    var article_id = $(ref).closest(".tbl-data-extraction").attr("article-id");
-    var field_id = $(row).attr("field-id");
+    var article_id = $(ref).closest(".panel-body").attr("data-article-id");
+    var field_id = $(row).attr("data-field-id");
     var value = $(ref).val();
     var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
     $.ajax({
@@ -19,25 +19,27 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        $("p.error", row).text('').hide();
-        $("td.data-extraction-label", row).removeClass("error");
+        $("span.error", row).text('');
+        $("span.error", row).hide();
+        $(row).removeClass("has-error");
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        $("p.error", row).text(jqXHR.responseText).show();
-        $("td.data-extraction-label", row).addClass("error");
+        $("span.error", row).text(jqXHR.responseText);
+        $("span.error", row).show();
+        $(row).addClass("has-error");
       }
     });
   }
 
-  $(".tbl-data-extraction input[type=text]").change(function () {
+  $(".data-extraction-panel input[type=text]").change(function () {
     save_data_extraction_field($(this));
   });
 
-  $(".tbl-data-extraction select").change(function () {
+  $(".data-extraction-panel select").change(function () {
     save_data_extraction_field($(this));
   });
 
-  $(".tbl-data-extraction input[type=checkbox]").click(function () {
+  $(".data-extraction-panel input[type=checkbox]").click(function () {
     save_data_extraction_field($(this));
   });
 

@@ -116,6 +116,22 @@ ul.review-menu li.active {
   }
 }
 
+#tbl-quality td.answer {
+  cursor: pointer;
+  text-align: center;
+  width: 100px;
+  transition: all 0.2s ease 0s;
+}
+
+#tbl-quality td.answer:hover {
+  background-color: #f5f5f5;
+}
+
+#tbl-quality td.selected-answer {
+  background-color: #337ab7!important;
+  color: #fff;
+}
+
 /* Selectize options */
 
 .selectize-control.contacts .selectize-input > div {

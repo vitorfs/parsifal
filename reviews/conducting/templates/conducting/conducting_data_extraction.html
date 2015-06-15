@@ -1,8 +1,10 @@
 {% extends 'conducting/conducting.html' %}
 
-{% block conducting_stylesheet %}
-  <script type="text/javascript" src="{{ STATIC_URL }}js/conducting_data_extraction.js"></script>
-{% endblock conducting_stylesheet %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/conducting_data_extraction.js' %}"></script>
+{% endblock javascript %}
 
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="extraction" %}

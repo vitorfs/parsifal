@@ -60,23 +60,20 @@ def build_quality_assessment_table(request, review):
     quality_questions = review.get_quality_assessment_questions()
     quality_answers = review.get_quality_assessment_answers()
 
-    if quality_questions and quality_answers:
-        str_table = ''
+    if quality_questions and quality_answers:   
+        str_table = '' 
         for study in selected_studies:
-            str_table += '''<table class="table" id="tbl-quality" article-id="''' + str(study.id) + '''" csrf-token="''' + unicode(csrf(request)['csrf_token']) +'''">
-                <thead>
-                <tr>
-                  <th colspan="'''+ str(quality_answers.count() + 1) + '''">''' + study.title + '''</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                  <th></th>
-                  <th colspan="'''+ str(quality_answers.count()) + '''">Quality Score: <span class="score">'''+ str(study.get_score()) + '''</span></th>
-                </tr>
-                </tfoot>
+            str_table += '''
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">''' + str(study.title) + '''<span class="badge score pull-right">''' + str(study.get_score()) + '''</span></h3>
+              </div>
+
+            <table class="table" id="tbl-quality" article-id="''' + str(study.id) + '''" csrf-token="''' + unicode(csrf(request)['csrf_token']) +'''">
                 <tbody>'''
+
             quality_assessment = study.get_quality_assesment()
+
             for question in quality_questions:
                 str_table += '''<tr question-id="''' + str(question.id) + '''">
                 <td>''' + question.description + '''</td>'''
@@ -93,7 +90,8 @@ def build_quality_assessment_table(request, review):
                             selected_answer = ' selected-answer'
                     str_table += '''<td class="answer'''+ selected_answer +'''" answer-id="''' + str(answer.id) + '''">''' + answer.description + '''</td>'''
                 str_table += '''</tr>'''
-            str_table += '''</tbody></table>'''
+
+            str_table += '''</tbody></table></div>'''
         return str_table
     else:
         return ''
@@ -141,7 +139,7 @@ def build_data_extraction_field_row(article, field):
             elif extraction.get_value() == False:
                 false = u' selected'
 
-        str_field = u'''<select name="value">
+        str_field = u'''<select name="value" class="form-control">
             <option value="">Select...</option>
             <option value="True"{0}>True</option>
             <option value="False"{1}>False</option>
@@ -152,10 +150,10 @@ def build_data_extraction_field_row(article, field):
             value = extraction.get_date_value_as_string()
         else:
             value = u''
-        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="10" value="{2}">'.format(article.id, field.id, value)
+        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="10" value="{2}">'.format(article.id, field.id, value)
 
     elif field.field_type == field.SELECT_ONE_FIELD:
-        str_field = u'''<select name="{0}-{1}-value">
+        str_field = u'''<select name="{0}-{1}-value" class="form-control">
             <option value="">Select...</option>'''.format(article.id, field.id)
         for value in field.get_select_values():
             if extraction != None and extraction.get_value() != None and extraction.get_value().id == value.id:
@@ -171,14 +169,14 @@ def build_data_extraction_field_row(article, field):
                 checked = ' checked'
             else:
                 checked = ''
-            str_field += u'<input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4} '.format(article.id, field.id, value.id, checked, value.value)
+            str_field += u'<label class="checkbox-inline"><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</label> '.format(article.id, field.id, value.id, checked, value.value)
 
     else:
         if extraction != None:
             value = extraction.get_value()
         else:
             value = u''
-        str_field = u'<input type="text" name="{0}-{1}-value" maxlength="1000" value="{2}">'.format(article.id, field.id, value)
+        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="1000" value="{2}">'.format(article.id, field.id, value)
 
     return str_field
 
@@ -186,21 +184,22 @@ def build_data_extraction_table(review):
     selected_studies = review.get_final_selection_articles()
     data_extraction_fields = review.get_data_extraction_fields()
     if data_extraction_fields:
-        str_table = u''
+        str_table = u'<div class="panel-group">'
         for study in selected_studies:
-            str_table += u'''<div class="container data-extraction-container"><table class="table tbl-data-extraction" article-id="{0}">
-                <thead>
-                  <tr>
-                    <th colspan="2">{1} <span class="label label-success pull-right">{2}</span></th>
-                  </tr>
-                </thead>
-                <tbody>'''.format(study.id, study.title, study.get_score())
+            str_table += u'''<div class="panel panel-success data-extraction-panel">
+              <div class="panel-heading">
+                <h3 class="panel-title">{1} <span class="badge pull-right">{2}</span></h3>
+              </div>
+              <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, study.title, study.get_score())
             for field in data_extraction_fields:
-                str_table += u'''<tr field-id="{0}">
-                  <td style="width: 25%;" class="data-extraction-label">{1}</td>
-                  <td style="width: 75%;">{2}<p class="error hide"></p></td>
-                </tr>'''.format(field.id, field.description, build_data_extraction_field_row(study, field))
-            str_table += u'</tbody></table></div>'
+                str_table += u'''<div class="form-group" data-field-id="{0}">
+                    <label class="control-label col-md-2">{1}</label>
+                    <div class="col-md-10">{2}<span class="help-block error" style="display: none;"></span>
+                    </div>
+                </div>
+                '''.format(field.id, field.description, build_data_extraction_field_row(study, field))
+            str_table += u'</div></div>'
+        str_table += "</div>"
         return str_table
     else:
         return u''
@@ -555,4 +554,3 @@ def new_article(request):
 
     context = RequestContext(request, {'article': article})
     return render_to_response('conducting/partial_conducting_article_details.html', context)
-    
