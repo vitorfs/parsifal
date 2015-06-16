@@ -5,8 +5,8 @@ except:
     import pickle
 from mendeley import DefaultStateGenerator
 from mendeley.session import MendeleySession
-from mendeley.auth import MendeleyAuthorizationCodeAuthenticator, MendeleyAuthorizationCodeTokenRefresher, handle_text_response
-from oauthlib.oauth2 import TokenExpiredError, BackendApplicationClient
+from mendeley.auth import MendeleyAuthorizationCodeAuthenticator, handle_text_response
+from oauthlib.oauth2 import TokenExpiredError
 from requests_oauthlib import OAuth2Session
 
 from django.contrib.auth.models import User
@@ -38,25 +38,28 @@ class Profile(models.Model):
             return None
 
     def get_mendeley_session(self):
-        token = self.get_mendeley_token()
-        return MendeleySession(django_settings.MENDELEY, token)
-
-    def get_mendeley_profile(self):
         mendeley = django_settings.MENDELEY
         token = self.get_mendeley_token()
-        mendeley_profile = None
+        mendeley_session = None
         if token:
             mendeley_session = MendeleySession(mendeley, token)
             try:
-                mendeley_profile = mendeley_session.profiles.me
+                mendeley_session.profiles.me
             except TokenExpiredError, e:
                 authenticator = MendeleyAuthorizationCodeAuthenticator(mendeley, DefaultStateGenerator.generate_state())
                 oauth = OAuth2Session(client=authenticator.client, redirect_uri=mendeley.redirect_uri, scope=['all'])
                 oauth.compliance_hook['access_token_response'] = [handle_text_response]
-                mendeley_session.token = oauth.refresh_token(authenticator.token_url, auth=authenticator.auth, refresh_token=token['refresh_token'])
-                self.set_mendeley_token(mendeley_session.token)
+                token = oauth.refresh_token(authenticator.token_url, auth=authenticator.auth, refresh_token=token['refresh_token'])
+                self.set_mendeley_token(token)
                 self.user.save()
-                mendeley_profile = mendeley_session.profiles.me
+                mendeley_session = MendeleySession(mendeley, token)
+        return mendeley_session
+
+    def get_mendeley_profile(self):
+        mendeley_session = self.get_mendeley_session()
+        mendeley_profile = None
+        if mendeley_session:
+            mendeley_profile = mendeley_session.profiles.me
         return mendeley_profile
 
     def get_url(self):
