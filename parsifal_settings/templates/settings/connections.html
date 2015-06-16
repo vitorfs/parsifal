@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}  
+  <div class="row">
+    <div class="col-md-3">
+      {% include "settings/settings_menu.html" %}
+    </div>
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Connected Services</h3>
+        </div>
+        <div class="panel-body">
+          <h4>Connect to Mendeley</h4>
+          <div class="row">
+            <div class="col-sm-8">
+              <p>Friends you have on Mendeley who are also on Parsifal will become part of your Parsifal network.</p>
+            </div>
+            <div class="col-sm-4 text-right">
+              {% if mendeley_profile %}
+                <div class="media">
+                  <div class="media-body">
+                    <strong>{{ mendeley_profile.display_name }}</strong>
+                    <form method="post" action="{% url 'settings:disconnect_mendeley' %}">{% csrf_token %}<button type="submit" class="btn btn-link btn-sm" style="padding-top: 0; padding-right: 0;">(Disconnect)</button></form>
+                  </div>
+                  <div class="media-right">
+                    <a href="#">
+                      <img src="{{ mendeley_profile.photo.standard }}" alt="{{ mendeley_profile.display_name }}" class="media-object" style="width: 45px; height: 45px; border-radius: 4px;">
+                    </a>
+                  </div>
+                </div>
+              {% else %}
+                <a href="{{ mendeley_auth_url }}" class="btn btn-primary">Connect to Mendeley</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

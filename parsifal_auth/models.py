@@ -1,19 +1,63 @@
+import os.path
+try:
+    import cPickle as pickle
+except:
+    import pickle
+from mendeley import DefaultStateGenerator
+from mendeley.session import MendeleySession
+from mendeley.auth import MendeleyAuthorizationCodeAuthenticator, MendeleyAuthorizationCodeTokenRefresher, handle_text_response
+from oauthlib.oauth2 import TokenExpiredError, BackendApplicationClient
+from requests_oauthlib import OAuth2Session
+
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
+from django.conf import settings as django_settings
+
 from activities.models import Activity
 from reviews.models import Review
-from django.conf import settings as django_settings
-import os.path
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
     location = models.CharField(max_length=50)
     url = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
+    mendeley_token = models.CharField(max_length=2000, null=True, blank=True)
 
     class Meta:
         db_table = 'auth_profile'
+
+    def set_mendeley_token(self, value):
+        self.mendeley_token = pickle.dumps(value)
+
+    def get_mendeley_token(self):
+        try:
+            return pickle.loads(str(self.mendeley_token))
+        except Exception, e:
+            return None
+
+    def get_mendeley_session(self):
+        token = self.get_mendeley_token()
+        return MendeleySession(django_settings.MENDELEY, token)
+
+    def get_mendeley_profile(self):
+        mendeley = django_settings.MENDELEY
+        token = self.get_mendeley_token()
+        mendeley_profile = None
+        if token:
+            mendeley_session = MendeleySession(mendeley, token)
+            try:
+                mendeley_profile = mendeley_session.profiles.me
+            except TokenExpiredError, e:
+                authenticator = MendeleyAuthorizationCodeAuthenticator(mendeley, DefaultStateGenerator.generate_state())
+                oauth = OAuth2Session(client=authenticator.client, redirect_uri=mendeley.redirect_uri, scope=['all'])
+                oauth.compliance_hook['access_token_response'] = [handle_text_response]
+                mendeley_session.token = oauth.refresh_token(authenticator.token_url, auth=authenticator.auth, refresh_token=token['refresh_token'])
+                self.set_mendeley_token(mendeley_session.token)
+                self.user.save()
+                mendeley_profile = mendeley_session.profiles.me
+        return mendeley_profile
 
     def get_url(self):
         url = self.url

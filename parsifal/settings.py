@@ -2,6 +2,7 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 from unipath import Path
 import dj_database_url
 from decouple import config
+from mendeley import Mendeley
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -81,7 +82,7 @@ INSTALLED_APPS = (
     'reviews.settings',
     'reviews.publish',
     'parsifal_settings',
-    'django_extensions',
+    #'django_extensions',
 )
 
 LOGIN_URL = '/signin/'
@@ -96,3 +97,8 @@ DEFAULT_FROM_EMAIL = 'Parsifal Team <noreply@parsif.al>'
 
 FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0644
+
+MENDELEY_ID = config('MENDELEY_ID', cast=int)
+MENDELEY_SECRET = config('MENDELEY_SECRET')
+MENDELEY_REDIRECT_URI = config('MENDELEY_REDIRECT_URI')
+MENDELEY = Mendeley(MENDELEY_ID, client_secret=MENDELEY_SECRET, redirect_uri=MENDELEY_REDIRECT_URI)

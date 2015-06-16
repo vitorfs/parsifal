@@ -49,7 +49,6 @@ def author_required(f):
             except:
                 try:
                     review_id = request.GET['review-id']
-                    print review_id
                 except:
                     return HttpResponseBadRequest()
             review = Review.objects.get(pk=review_id)

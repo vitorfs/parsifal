@@ -2,6 +2,8 @@
 
 import os
 from PIL import Image
+from mendeley.session import MendeleySession
+from oauthlib.oauth2 import TokenExpiredError
 
 from django.core.urlresolvers import reverse as r
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
@@ -94,3 +96,39 @@ def save_uploaded_picture(request):
         return HttpResponse(django_settings.MEDIA_URL + 'profile_pictures/' + request.user.username + '.jpg')
     except Exception, e:
         return HttpResponseBadRequest()
+
+@login_required
+def connections(request):    
+    mendeley_profile = request.user.profile.get_mendeley_profile()
+    if not mendeley_profile:
+        mendeley = django_settings.MENDELEY
+        auth = mendeley.start_authorization_code_flow()
+        mendeley_auth_url = auth.get_login_url()
+    else:
+        mendeley_auth_url = ''
+    return render(request, 'settings/connections.html', { 
+            'mendeley_auth_url': mendeley_auth_url,
+            'mendeley_profile': mendeley_profile
+            })
+
+@login_required
+def connect_mendeley(request):
+    if 'code' in request.GET and 'state' in request.GET:
+        state = request.GET.get('state')
+        mendeley = django_settings.MENDELEY
+        auth = mendeley.start_authorization_code_flow(state=state)
+        mendeley_session = auth.authenticate(request.get_full_path())
+        request.user.profile.set_mendeley_token(mendeley_session.token)
+        request.user.save()
+        messages.success(request, 'Your Mendeley account were linked successfully!')
+    else:
+        messages.error(request, 'A problem occurred while trying to connect your Mendeley account.')
+    return redirect(r('settings:connections'))
+
+@login_required
+def disconnect_mendeley(request):
+    if request.method == 'POST':
+        request.user.profile.mendeley_token = None
+        request.user.save()
+        messages.success(request, 'Your Mendeley account were disconnected successfully!')
+    return redirect(r('settings:connections'))
