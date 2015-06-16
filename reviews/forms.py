@@ -1,5 +1,5 @@
 from django import forms
-from reviews.models import Review
+from reviews.models import Review, ArticleFile
 
 class CreateReviewForm(forms.ModelForm):
     title = forms.CharField(
@@ -28,3 +28,9 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['title', 'description',]
+
+
+class ArticleUploadForm(forms.ModelForm):
+    class Meta:
+        model = ArticleFile
+        fields = ['article_file']

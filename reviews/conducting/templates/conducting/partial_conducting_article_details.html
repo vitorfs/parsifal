@@ -10,16 +10,24 @@
   <input type="hidden" name="article-id" id="article-id" value="{{ article.id }}">
   <input type="hidden" name="review-id" id="review-id" value="{{ article.review.id }}">
   <input type="hidden" name="source-id" id="source-id" value="{{ article.source.id }}">
+
   <div role="tabpanel">
     <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#tab-details" aria-controls="tab-details" role="tab" data-toggle="tab">Details</a></li>
-      <li role="presentation"><a href="#tab-comments" aria-controls="tab-comments" role="tab" data-toggle="tab">Comments</a></li>
+      <li role="presentation" class="active">
+        <a href="#tab-details" aria-controls="tab-details" role="tab" data-toggle="tab">Details</a>
+      </li>
+      <li role="presentation">
+        <a href="#tab-comments" aria-controls="tab-comments" role="tab" data-toggle="tab">Comments</a>
+      </li>
+      <li role="presentation">
+        <a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab">Files</a>
+      </li>
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="tab-details">
         <div class="form-group">
           <label class="control-label">Status</label>
-          <select name="status" id="status">
+          <select name="status" id="status" class="form-control" style="width: 200px;">
             {% for status in article.ARTICLE_STATUS %}
               <option value="{{ status.0 }}"{% if article.status == status.0 %} selected{% endif %}>{{ status.1 }}</option>
             {% endfor %}
@@ -67,6 +75,9 @@
           <label class="control-label">Comments</label>
           <textarea name="comments" class="form-control" id="comments" rows="5">{{ article.comments }}</textarea>
         </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="tab-files">
+        {% include 'conducting/partial_article_files.html' %}
       </div>
     </div>
   </div>

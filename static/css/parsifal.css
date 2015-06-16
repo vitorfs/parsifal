@@ -30,6 +30,99 @@ footer ul li {
   margin-right: 15px;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
+.page-loading {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9000;
+  display: none;
+}
+
+.page-loading .spinner {
+  width: 70px;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -35px;
+  position: fixed;
+  text-align: center;
+  z-index: 9001;
+}
+
+.page-loading .spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: rgba(0, 0, 0, .3);
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.page-loading .spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.page-loading .spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.block-spinner {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #333;
+  border-radius: 100%;  
+  -webkit-animation: scaleout 1.0s infinite ease-in-out;
+  animation: scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes scaleout {
+  0% { -webkit-transform: scale(0.0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleout {
+  0% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 100% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
 /* Parsifal cover */
 
 .cover {
@@ -234,12 +327,39 @@ ul.review-menu li.active {
   margin-bottom: 20px;
 }
 
-.table-hover {
+.table-hover tbody tr td {
   cursor: pointer;
 }
 
 /* Bootstrap extension */
+
 table.table-v-align-middle thead tr th, 
 table.table-v-align-middle tbody tr td {
   vertical-align: middle;
+}
+
+/* Table sorter overrides */
+th.header {
+  cursor: pointer;
+}
+
+th.header:after {
+  font-family: "Glyphicons Halflings";
+  float: right;
+  content: "\e150";
+  font-weight: 300;
+}
+
+th.headerSortDown:after {
+  font-family: "Glyphicons Halflings";
+  float: right;
+  content: "\e155";
+  font-weight: 300;
+}
+
+th.headerSortUp:after {
+  font-family: "Glyphicons Halflings";
+  float: right;
+  content: "\e156";
+  font-weight: 300;
 }

@@ -1,0 +1,21 @@
+{% if article.articlefile_set.all %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Library</h3>
+    </div>
+    <div class="panel-body">
+      
+    </div>
+    <div class="panel-footer">
+      <input type="file" id="id_article_file" name="article_file" style="display: none!important;">
+      <button type="button" class="btn btn-primary js-start-upload">Upload</button>
+    </div>
+  </div>
+{% else %}
+  <div class="well text-center" style="padding: 3.5em;">
+    <span class="glyphicon glyphicon-cloud-upload" style="font-size: 3em; color: #aaa;"></span>
+    <h4 style="margin-top: 20px; margin-bottom: 20px;">This article doesn't have any attached files yet.</h4>
+    <input type="file" id="id_article_file" name="article_file" style="display: none!important;">
+    <button type="button" class="btn btn-primary js-start-upload">Upload a file</button>
+  </div>
+{% endif %}

@@ -10,6 +10,39 @@ function isScrolledIntoView(elem) {
 
 $(function () {
 
+
+  $("body").on("click", ".js-start-upload", function () {
+    $(this).siblings("input[type='file']").click();
+  });
+
+  $("body").on("change", "#id_article_file", function () {
+
+    var data = new FormData();
+    data.append("article_file", $(this)[0].files[0]);
+
+    $.ajax({
+      url: '/reviews/conducting/articles/upload/',
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      type: 'post',
+      beforeSend: function () {
+        $.parsifal.pageLoading();
+      },
+      success: function (data) {
+        $("#tab-files").html(data);
+      },
+      error: function () {
+        
+      },
+      complete: function () {
+        $.parsifal.pageLoading();
+      }
+    });
+
+  });
+
   $(".source-tab-content").on("click", ".btn-add-manual", function () {
     var container = $("#modal-add-article .modal-body");
     var review_id = $("#review-id").val();
@@ -48,6 +81,7 @@ $(function () {
       },
       success: function (data) {
         $(".source-tab-content").html(data);
+        $(".source-tab-content table").tablesorter({ headers: { 0: { sorter: false }, 1: { sorter: false }}});
       },
       complete: function () {
         $(".source-tab-content").stopLoading();

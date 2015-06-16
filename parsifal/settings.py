@@ -6,6 +6,8 @@ from mendeley import Mendeley
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+
 PROJECT_DIR = Path(__file__).parent.parent
 
 DEBUG = config('DEBUG', default=False, cast=bool) 
@@ -33,6 +35,9 @@ USE_TZ = True
 
 MEDIA_ROOT = PROJECT_DIR.parent.child('media')
 MEDIA_URL = '/media/'
+FILE_UPLOAD_TEMP_DIR = '/tmp/'
+FILE_UPLOAD_PERMISSIONS = 0644
+FILE_UPLOAD_MAX_MEMORY_SIZE = 33554432
 
 STATIC_ROOT = PROJECT_DIR.parent.child('static')
 STATIC_URL = '/static/'
@@ -47,6 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -82,21 +88,21 @@ INSTALLED_APPS = (
     'reviews.settings',
     'reviews.publish',
     'parsifal_settings',
-    #'django_extensions',
 )
 
 LOGIN_URL = '/signin/'
 LOGOUT_URL = '/signout/'
 
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_FILE_PATH = PROJECT_DIR.parent.child('maildumps')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = 'Parsifal Team <noreply@parsif.al>'
-
-FILE_UPLOAD_TEMP_DIR = '/tmp/'
-FILE_UPLOAD_PERMISSIONS = 0644
+EMAIL_SUBJECT_PREFIX = '[Parsifal] '
+SERVER_EMAIL = 'application@parsif.al'
 
 MENDELEY_ID = config('MENDELEY_ID', cast=int)
 MENDELEY_SECRET = config('MENDELEY_SECRET')

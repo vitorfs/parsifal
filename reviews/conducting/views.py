@@ -1,16 +1,21 @@
 # coding: utf-8
+
+from bibtexparser.bparser import BibTexParser
+
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, redirect, get_object_or_404, render
 from django.template import RequestContext
+from django.conf import settings as django_settings
+from django.core.context_processors import csrf
+
 from reviews.models import *
 from reviews.decorators import main_author_required, author_required
 from parsifal.decorators import ajax_required
-from bibtexparser.bparser import BibTexParser
-from django.conf import settings as django_settings
-from django.core.context_processors import csrf
+from reviews.forms import ArticleUploadForm
+
 
 @author_required
 @login_required
@@ -299,8 +304,18 @@ def source_articles(request):
 def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
-    context = RequestContext(request, {'article': article})
+    upload_form = ArticleUploadForm()
+    user = request.user
+    mendeley_files = []
+    if user.profile.mendeley_token:
+        mendeley_files = user.profile.get_mendeley_session().files.list().items
+    context = RequestContext(request, { 'article': article, 'upload_form': upload_form, 'mendeley_files': mendeley_files })
     return render_to_response('conducting/partial_conducting_article_details.html', context)
+
+@author_required
+@login_required
+def articles_upload(request):
+    pass
 
 def build_article_table_row(article):
     row = u'''<tr oid="{0}" article-status="{1}">
