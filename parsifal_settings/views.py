@@ -114,10 +114,12 @@ def connections(request):
 @login_required
 def connect_mendeley(request):
     if 'code' in request.GET and 'state' in request.GET:
+        code = request.GET.get('code')
         state = request.GET.get('state')
         mendeley = django_settings.MENDELEY
         auth = mendeley.start_authorization_code_flow(state=state)
-        mendeley_session = auth.authenticate(request.get_full_path())
+        auth_path = u'{0}?code={1}&state={2}'.format(django_settings.MENDELEY_REDIRECT_URI, code, state)
+        mendeley_session = auth.authenticate(auth_path)
         request.user.profile.set_mendeley_token(mendeley_session.token)
         request.user.save()
         messages.success(request, 'Your Mendeley account were linked successfully!')
