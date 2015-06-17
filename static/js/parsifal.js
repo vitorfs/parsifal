@@ -1,8 +1,49 @@
 (function($) {
+
+  'use strict';
+
+  /* Parsifal base scripts */
+
   $.parsifal = {
+
+    /* General application initialization */
+
     init: function () {
       $("[data-toggle='tooltip']").tooltip();
+
+      $.fn.disable = function () {
+        $(this).prop("disabled", true);
+        $(this).attr("data-original", $(this).text());
+        $(this).text($(this).attr("data-loading"));
+      };
+
+      $.fn.enable = function () {
+        $(this).prop("disabled", false);
+        $(this).text($(this).attr("data-original"));
+      };
+
+      $.fn.spinner = function () {
+        if ($(this).hasClass("loading")) {
+          $(this).find(".block-spinner").remove();
+          $(this).removeClass("loading");
+        }
+        else {
+          var center = (parseInt($(this).css("height")) / 2) - 40;
+          $(this).addClass("loading");
+          $(this).html("<div class='block-spinner' style='margin-top: " + center + "px;'></div>");
+        }
+      };
+      
     },
+
+    /* Apps */
+
+    activities: function () {
+
+    },
+
+    /* Helper functions */
+
     pageLoading: function () {
       if ($("body").hasClass("no-scroll")) {
         $("body").removeClass("no-scroll");
@@ -11,29 +52,6 @@
         $("body").addClass("no-scroll");
       }
       $(".page-loading").toggle();
-    }
-  };
-
-  $.fn.disable = function () {
-    $(this).prop("disabled", true);
-    $(this).attr("data-original", $(this).text());
-    $(this).text($(this).attr("data-loading"));
-  };
-
-  $.fn.enable = function () {
-    $(this).prop("disabled", false);
-    $(this).text($(this).attr("data-original"));
-  };
-
-  $.fn.spinner = function () {
-    if ($(this).hasClass("loading")) {
-      $(this).find(".block-spinner").remove();
-      $(this).removeClass("loading");
-    }
-    else {
-      var center = (parseInt($(this).css("height")) / 2) - 40;
-      $(this).addClass("loading");
-      $(this).html("<div class='block-spinner' style='margin-top: " + center + "px;'></div>");
     }
   };
 

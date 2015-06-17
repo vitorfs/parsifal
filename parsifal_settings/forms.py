@@ -8,7 +8,7 @@ from parsifal_auth.models import Profile
 class ProfileForm(forms.ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'form-control' }), max_length=30, required=False)
     last_name = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'form-control' }), max_length=30, required=False)
-    email = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'form-control' }), max_length=254)
+    email = forms.CharField(widget=forms.EmailInput(attrs={ 'class': 'form-control' }), max_length=254)
     url = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'form-control' }), max_length=50, required=False)
     institution = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'form-control' }), max_length=50, required=False)
     location = forms.CharField(widget=forms.TextInput(attrs={ 'class': 'form-control' }), max_length=50, required=False)
