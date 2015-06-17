@@ -3,8 +3,9 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import TemplateView
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -39,4 +40,6 @@ urlpatterns = patterns('',
     url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/publish/$', 'reviews.publish.views.publish', name='publish'),
     url(r'^(?P<username>[^/]+)/(?P<review_name>[^/]+)/settings/$', 'reviews.settings.views.settings', name='settings'),
     url(r'^(?P<username>[^/]+)/$', 'reviews.views.reviews', name='reviews'),
+    url(r'^sitemap.xml$', TemplateView.as_view(template_name='sitemap.xml', content_type='application/xml')),
+    url(r'^robots.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

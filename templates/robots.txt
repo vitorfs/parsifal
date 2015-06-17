@@ -1,0 +1,9 @@
+User-agent: *
+
+Disallow: /admin/
+Disallow: /signin/
+Disallow: /signout/
+Disallow: /reset/
+Allow: /
+
+Sitemap: /sitemap.xml
