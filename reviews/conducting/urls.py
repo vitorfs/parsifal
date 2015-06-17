@@ -16,7 +16,6 @@ urlpatterns = patterns('reviews.conducting.views',
     url(r'^multiple_articles_action/remove/$', 'multiple_articles_action_remove', name='multiple_articles_action_remove'),
     url(r'^multiple_articles_action/accept/$', 'multiple_articles_action_accept', name='multiple_articles_action_accept'),
     url(r'^multiple_articles_action/reject/$', 'multiple_articles_action_reject', name='multiple_articles_action_reject'),
-    url(r'^articles/order_by/$', 'articles_order_by', name='articles_order_by'),
     url(r'^articles/upload/$', 'articles_upload', name='articles_upload'),
     url(r'^save_data_extraction/$', 'save_data_extraction', name='save_data_extraction'),
 )

@@ -1,7 +1,5 @@
 # coding: utf-8
 
-import json
-
 from django.core.urlresolvers import reverse as r
 from django.template.defaultfilters import slugify
 from django.db.models import Q

@@ -19,9 +19,9 @@
       <li role="presentation">
         <a href="#tab-comments" aria-controls="tab-comments" role="tab" data-toggle="tab">Comments</a>
       </li>
-      <li role="presentation">
+      {% comment %}<li role="presentation">
         <a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab">Files</a>
-      </li>
+      </li>{% endcomment %}
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="tab-details">
@@ -76,9 +76,9 @@
           <textarea name="comments" class="form-control" id="comments" rows="5">{{ article.comments }}</textarea>
         </div>
       </div>
-      <div role="tabpanel" class="tab-pane" id="tab-files">
+      {% comment %}<div role="tabpanel" class="tab-pane" id="tab-files">
         {% include 'conducting/partial_article_files.html' %}
-      </div>
+      </div>{% endcomment %}
     </div>
   </div>
 </form>

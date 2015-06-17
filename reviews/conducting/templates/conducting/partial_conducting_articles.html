@@ -39,7 +39,8 @@
       <thead>
         <tr>
           <th style="width: 35px; text-align: center;"><input type="checkbox" id="ck-all-articles"></th>
-          <th style="width: 35px; text-align: center;"><span class="glyphicon glyphicon-file"></span></th>
+          {% comment %}<th style="width: 35px; text-align: center;"><span class="glyphicon glyphicon-file"></span></th>{% endcomment %}
+          <th>Bibtex Key</th>
           <th>Title</th>
           <th>Author</th>
           <th>Journal</th>
@@ -51,7 +52,7 @@
         {% for article in articles %}
           <tr oid="{{ article.id }}" article-status="{{ article.status }}">
             <td style="text-align: center;"><input type="checkbox" value="{{ article.id }}"></td>
-            <td></td>
+            <td>{{ article.bibtex_key }}</td>
             <td>{{ article.title }}</td>
             <td>{{ article.author }}</td>
             <td>{{ article.journal }}</td>

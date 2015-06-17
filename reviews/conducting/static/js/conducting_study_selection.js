@@ -77,14 +77,14 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $(".source-tab-content").loading();
+        $(".source-tab-content").spinner();
       },
       success: function (data) {
         $(".source-tab-content").html(data);
-        $(".source-tab-content table").tablesorter({ headers: { 0: { sorter: false }, 1: { sorter: false }}});
+        $(".source-tab-content table").tablesorter({ headers: { 0: { sorter: false }}});
       },
       complete: function () {
-        $(".source-tab-content").stopLoading();
+        $(".source-tab-content").spinner();
       }
     });
 
@@ -114,13 +114,28 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $(container).loading();
+        $(container).spinner();
       },
       success: function (data) {
         $(container).html(data);
+
+        $('#fileupload').fileupload({
+          url: '/reviews/conducting/articles/upload/',
+          dataType: 'json',
+          done: function (e, data) {
+            data.result.forEach(function (uploadedFile) {
+              $("#files").append("<li class='list-group-item'>" + uploadedFile.name + "</li>");
+            });
+          },
+          progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css('width', progress + '%');
+          }
+        }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+
       },
       complete: function () {
-        $(container).stopLoading();
+        $(container).spinner();
       }
     });
   };
@@ -129,8 +144,8 @@ $(function () {
     if (!$(this).hasClass("no-data")) {
       $(".source-articles tbody tr").removeClass("active");
       $(this).addClass("active");
-      $("#modal-article .modal-body").loadActiveArticle();
       $("#modal-article .modal-body").css("height", $(window).height() * 0.7);
+      $("#modal-article .modal-body").loadActiveArticle();
       $("#modal-article").modal('show');
     }
   });
@@ -345,39 +360,6 @@ $(function () {
         }
       }
     }
-  });
-
-  $(".source-tab-content").on("click", ".source-articles table thead tr th a", function () {
-    var a = $(this);
-    var column = $(a).attr("col");
-    var source_id = $(a).closest("table").attr("source-id");
-    $.ajax({
-      url: '/reviews/conducting/articles/order_by/',
-      data: {
-        'review-id': $("#review-id").val(),
-        'source-id': source_id,
-        'column': column
-      },
-      type: 'get',
-      cache: false,
-      beforeSend: function () {
-        $(".source-articles table tbody").replaceWith("<tbody><tr><td colspan='7'></td></tr></tbody>");
-        $(".source-articles table tbody tr td").loading();
-      },
-      success: function (data) {
-        $(".source-articles table tbody").replaceWith(data);
-        if ($(a).attr("col").indexOf("-") == 0) {
-          $(a).attr("col", $(a).attr("col").replace("-", ""));
-        }
-        else {
-          $(a).attr("col", "-" + $(a).attr("col"));
-        }
-        $(".source-articles table thead tr th a").removeClass("active-order");
-        $(a).addClass("active-order");
-        $("#ck-all-articles").prop("checked", false);
-      }
-    });
-    return false;
   });
 
   $(".source-tab-content").on("click", "table tbody tr td input[type=checkbox]", function () {

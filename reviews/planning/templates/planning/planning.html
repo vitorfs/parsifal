@@ -249,6 +249,23 @@
           </div>
         </div>
 
+        <div class="modal fade" id="modal-confirm-source-deletion">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Are you sure?</h4>
+              </div>
+              <div class="modal-body">
+                <p>This action <strong>cannot</strong> be undone. This will remove the <strong id="delete-source-name"></strong> source, and permanently delete all imported articles associated with it.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="confirm-deletion" class="btn btn-danger btn-block" data-source-id="">Remove this source</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Sources</h3>
@@ -274,7 +291,7 @@
                   </td>
                   <td>
                     <button type="button" class="btn btn-warning btn-sm btn-edit-source">edit</button>
-                    <button type="button" class="btn btn-danger btn-sm btn-remove-source">remove</button>
+                    <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</button>
                   </td>
                 </tr>
               {% endfor %}

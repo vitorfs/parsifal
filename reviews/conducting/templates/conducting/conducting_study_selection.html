@@ -2,8 +2,15 @@
 
 {% load staticfiles %}
 
+{% block stylesheet %}
+  <link href="{% static 'css/fileupload/jquery.fileupload.css' %}" rel="stylesheet">
+{% endblock stylesheet %}
+
 {% block javascript %}
-  <script type="text/javascript" src="{% static 'js/conducting_study_selection.js' %}"></script>
+  <script src="{% static 'js/fileupload/jquery.ui.widget.js' %}"></script>
+  <script src="{% static 'js/fileupload/jquery.iframe-transport.js' %}"></script>
+  <script src="{% static 'js/fileupload/jquery.fileupload.js' %}"></script>
+  <script src="{% static 'js/conducting_study_selection.js' %}"></script>
 {% endblock javascript %}
 
 {% block tab_content %}
@@ -77,7 +84,7 @@
         <li{% if source.id == active_tab %} class="active"{% endif %}><a href="#" source-id="{{ source.id }}">{{ source.name }}</a></li>
       {% endfor %}
     </ul>
-    <div class="source-tab-content"></div>
+    <div class="source-tab-content" style="min-height: 200px;"></div>
   {% else %}
     <p>There is a few steps you have to finish before you select the studies:</p>
     <ul>

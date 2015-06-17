@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import json
 from bibtexparser.bparser import BibTexParser
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
@@ -315,7 +316,31 @@ def article_details(request):
 @author_required
 @login_required
 def articles_upload(request):
-    pass
+    if request.method == 'POST':
+        form = ArticleUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES['article_file']
+            review_id = request.POST.get('review-id')
+            review = Review.objects.get(pk=review_id)
+
+            article_id = request.POST.get('article-id')
+            article = Article.objects.get(pk=article_id)
+
+            article_file = ArticleFile(review=review, 
+                    article=article, 
+                    user=request.user, 
+                    article_file=uploaded_file,
+                    name=uploaded_file.name,
+                    size=uploaded_file.size)
+            article_file.save()
+
+            results = [ { 'name': article_file.name, 'size': article_file.size } ]
+
+            return HttpResponse(json.dumps(results), content_type='application/json')
+        else:
+            return HttpResponseBadRequest()
+    else:
+        return HttpResponseBadRequest()
 
 def build_article_table_row(article):
     row = u'''<tr oid="{0}" article-status="{1}">
@@ -457,36 +482,6 @@ def multiple_articles_action_reject(request):
         if article_ids_list:
             Article.objects.filter(pk__in=article_ids_list).update(status=Article.REJECTED)
         return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
-
-
-@author_required
-@login_required
-def articles_order_by(request):
-    try:
-        review_id = request.GET['review-id']
-        source_id = request.GET['source-id']
-        column = request.GET['column']
-
-        asc = ''
-        if column[0] == '-':
-            asc = '-'
-        column = column.replace('-', '')
-
-        review = Review.objects.get(pk=review_id)
-        if source_id != 'None':
-            articles = review.get_source_articles(source_id).extra(select={'lower_column': 'lower('+ column +')'}).order_by(asc + 'lower_column')
-            source = Source.objects.get(pk=source_id)
-        else:
-            articles = review.get_source_articles().extra(select={'lower_column': 'lower('+ column +')'}).order_by(asc + 'lower_column')
-            source = Source()
-
-        str_return = u'<tbody>'
-        for article in articles:
-            str_return += build_article_table_row(article)
-        str_return += '</tbody>'
-        return HttpResponse(str_return)
     except:
         return HttpResponseBadRequest()
 

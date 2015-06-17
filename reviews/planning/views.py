@@ -365,7 +365,7 @@ def html_source(source):
         html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
     else:
         html += '<td>' + escape(source.url) + '</td>'
-    html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source">edit</button> <button type="button" class="btn btn-danger btn-sm btn-remove-source">remove</a></td></tr>'
+    html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source">edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
     return html
 
 
@@ -391,11 +391,15 @@ def save_source(request):
             try:
                 source = Source.objects.get(pk=source_id)
                 if source.is_default:
+                    default_source_articles = review.get_source_articles(source.id)
                     review.sources.remove(source)
                     source = Source()
                 source.name=name
                 source.set_url(url)
                 source.save()
+                default_source_articles.update(source=source)
+                review.sources.add(source)
+                review.save()
             except Source.DoesNotExist:
                 pass
         else:

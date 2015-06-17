@@ -55,30 +55,24 @@ $(function () {
     is_adding_or_editing_source = false;
   }
 
-  function removeSource() {
+  $("#confirm-deletion").click(function () {
     var button = $(this);
-    var row = $(this).closest("tr");
-    review_id = $("input#review-id").val();
-    source_id = row.attr("source-id");
+    var review_id = $("input#review-id").val();
+    var source_id = $(this).attr("data-source-id");
+    var row = $("#tbl-sources tr[source-id='" + source_id + "']");;
     $.ajax({
       url: '/reviews/planning/remove_source/',
       data: { 'review-id': review_id, 'source-id': source_id },
       type: 'get',
       cache: false,
-      beforeSend: function () {
-
-      },
-      error: function () {
-
-      },
       success: function(data) {
-        row.remove();
+        $(row).remove();
       },
       complete: function () {
-        
+        $("#modal-confirm-source-deletion").modal('hide');
       }
     });
-  }
+  });
 
   function editSource() {
     if (!is_adding_or_editing_source) {
@@ -143,9 +137,17 @@ $(function () {
     });
   });
 
-  $("table#tbl-sources tbody").on("click", ".btn-remove-source", removeSource);
   $("table#tbl-sources tbody").on("click", ".btn-edit-source", editSource);
   $("table#tbl-sources tbody").on("click", ".btn-save-source", saveSource);
   $("table#tbl-sources tbody").on("click", ".btn-cancel-source", cancelSource);
+
+  $("table#tbl-sources tbody").on("click", ".js-start-remove", function () {
+    var row = $(this).closest("tr");
+    var source_id = $(row).attr("source-id");
+    var name = $("td:eq(0)", row).text();
+    $("#delete-source-name").text(name);
+    $("#confirm-deletion").attr("data-source-id", source_id);
+    $("#modal-confirm-source-deletion").modal('show');
+  });
 
 });
