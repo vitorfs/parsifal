@@ -105,10 +105,13 @@ def connections(request):
         auth = mendeley.start_authorization_code_flow()
         mendeley_auth_url = auth.get_login_url()
     else:
+        mendeley_profile_picture = mendeley_profile.photo.square
+        mendeley_profile_picture = mendeley_profile_picture.replace('http://', 'https://')
         mendeley_auth_url = ''
     return render(request, 'settings/connections.html', { 
             'mendeley_auth_url': mendeley_auth_url,
-            'mendeley_profile': mendeley_profile
+            'mendeley_profile': mendeley_profile,
+            'mendeley_profile_picture': mendeley_profile_picture
             })
 
 @login_required
