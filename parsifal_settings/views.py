@@ -100,6 +100,7 @@ def save_uploaded_picture(request):
 @login_required
 def connections(request):    
     mendeley_profile = request.user.profile.get_mendeley_profile()
+    mendeley_profile_picture = None
     if not mendeley_profile:
         mendeley = django_settings.MENDELEY
         auth = mendeley.start_authorization_code_flow()
