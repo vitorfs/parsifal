@@ -44,8 +44,8 @@
         </div>
         <div class="list-group">
           <a href="#objective-section" class="list-group-item">Objectives</a>
-          <a href="#question-section" class="list-group-item">Research Questions</a>
           <a href="#picoc-section" class="list-group-item">PICOC</a>
+          <a href="#question-section" class="list-group-item">Research Questions</a>
           <a href="#keywords-section" class="list-group-item">Keywords and Synonyms</a>
           <a href="#search-string-section" class="list-group-item">Search String</a>
           <a href="#sources-section" class="list-group-item">Sources</a>
@@ -58,12 +58,36 @@
     <div class="col-sm-12 col-md-8 col-lg-9">
 
       <section id="objective-section">
+
+        <div class="modal fade" id="objective-help">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">About the Objectives</h4>
+              </div>
+              <div class="modal-body">
+                <p><strong>Identification of the need for a review.</strong> The need for a systematic review originates from a researcher aiming to understand the state-of-the-art in an area, or from practitioners wanting to use empirical evidence in their strategic decision-making or improvement activities. If there are more or less systematic literature reviews available in the field, they should be appraised regarding scope and quality, to evaluate if they are sufficient to meet the current needs for a review. A systematic literature review may be viewed as a research method for making a literature review.</p>
+                <p><small class="text-muted">C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell and A. Wesslén, <a href="http://www.springer.com/us/book/9783642290435" target="_blank">"Experimentation in Software Engineering"</a>, Springer, ISBN 978-3-642-29043-5, 2012.</small></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <form method="post" id="form-objective">
           {% csrf_token %}
           <input type="hidden" name="review-id" value="{{ review.id }}">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Objectives</h3>
+              <h3 class="panel-title">
+                Objectives
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What is this? Click to get help." data-placement="top" data-container="body">
+                  <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#objective-help"></span>
+                </a>
+              </h3>
             </div>
             <div class="panel-body">
               <div class="form-group">
@@ -77,36 +101,46 @@
           </div>
         </form>
       </section>
-
-      <section id="question-section">
-        <form method="post" id="question-form">
-          {% csrf_token %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Research Questions</h3>
-            </div>
-            <ul class="list-group">
-              {% for question in review.get_questions %}
-                {% include "planning/partial_planning_question.html" with question=question %}
-              {% empty %}
-                {% include "planning/partial_planning_question_form.html" %}
-              {% endfor %}
-            </ul>
-            <div class="panel-footer">
-              <button type="button" class="btn btn-primary" id="btn-add-question">Add Question</button>
-            </div>
-          </div>
-        </form>
-      </section>
       
       <section id="picoc-section">
+
+        <div class="modal fade" id="picoc-help">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">About the PICOC</h4>
+              </div>
+              <div class="modal-body">
+                <p>PICOC stands for <em>population</em>, <em>intervention</em>, <em>comparison</em>, <em>outcomes</em> and <em>context</em>.</p>
+                <ul>
+                  <li>The <em>population</em> in which the evidence is collected, i.e. which group of people, programs or businesses are of interest for the review?</li>
+                  <li>The <em>intervention</em> applied in the empirical study, i.e. which technology, tool or procedure is under study?</li>
+                  <li>The <em>comparison</em> to which the intervention is compared, i.e. how is the control treatment defined? In particular the ‘placebo’ intervention is critical, as “not using the intervention” is mostly not a valid action in software engineering.</li>
+                  <li>The <em>outcomes</em> of the experiment should not only be statistically significant, but also be significant from a practical point of view. For example, it is probably not interesting that an outcome is 10% better in some respect if it is twice as time consuming.</li>
+                  <li>The <em>context</em> of the study must be defined, which is an extended view of the population, including whether it is conducted in academia or industry, in which industry segment, and also the incentives for the subjects.</li>
+                </ul>
+                <p><small class="text-muted">C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell and A. Wesslén, <a href="http://www.springer.com/us/book/9783642290435" target="_blank">"Experimentation in Software Engineering"</a>, Springer, ISBN 978-3-642-29043-5, 2012.</small></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <form method="post" id="picoc-form" class="form-horizontal">
           {% csrf_token %}
           <input type="hidden" name="review-id" value="{{ review.id }}">
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">PICOC <!--a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What is this? Click to get help" data-placement="top" data-container="body"><span class="glyphicon glyphicon-question-sign"></span></a--></h3>
+              <h3 class="panel-title">
+                PICOC 
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What is this? Click to get help." data-placement="top" data-container="body">
+                  <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#picoc-help"></span>
+                </a>
+              </h3>
             </div>
             <div class="panel-body">
               <p>Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
@@ -150,6 +184,50 @@
         </form>
       </section>
       
+      <section id="question-section">
+
+        <div class="modal fade" id="question-help">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">About the Research Questions</h4>
+              </div>
+              <div class="modal-body">
+                <p>The area of the systematic review and the specific research questions set the focus for the identification of the primary studies, the extraction of data from the studies and the analysis. Hence, the research questions must be well thought through and phrased. Aspects to take into account in phrasing the research questions include the PICOC.</p>
+                <p><small class="text-muted">C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell and A. Wesslén, <a href="http://www.springer.com/us/book/9783642290435" target="_blank">"Experimentation in Software Engineering"</a>, Springer, ISBN 978-3-642-29043-5, 2012.</small></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form method="post" id="question-form">
+          {% csrf_token %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Research Questions
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What is this? Click to get help." data-placement="top" data-container="body">
+                  <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#question-help"></span>
+                </a>
+              </h3>
+            </div>
+            <ul class="list-group">
+              {% for question in review.get_questions %}
+                {% include "planning/partial_planning_question.html" with question=question %}
+              {% empty %}
+                {% include "planning/partial_planning_question_form.html" %}
+              {% endfor %}
+            </ul>
+            <div class="panel-footer">
+              <button type="button" class="btn btn-primary" id="btn-add-question">Add Question</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
       <section id="keywords-section">
         <div class="panel panel-default">
           <div class="panel-heading">
