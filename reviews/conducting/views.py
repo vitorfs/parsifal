@@ -67,21 +67,21 @@ def build_quality_assessment_table(request, review):
     quality_answers = review.get_quality_assessment_answers()
 
     if quality_questions and quality_answers:   
-        str_table = '' 
+        str_table = u'' 
         for study in selected_studies:
-            str_table += '''
+            str_table += u'''
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h3 class="panel-title">''' + str(study.title) + '''<span class="badge score pull-right">''' + str(study.get_score()) + '''</span></h3>
+                <h3 class="panel-title">{0}<span class="badge score pull-right">{1}</span></h3>
               </div>
 
-            <table class="table" id="tbl-quality" article-id="''' + str(study.id) + '''" csrf-token="''' + unicode(csrf(request)['csrf_token']) +'''">
-                <tbody>'''
+            <table class="table" id="tbl-quality" article-id="{2}" csrf-token="{3}">
+                <tbody>'''.format(study.title, study.get_score(), study.id, unicode(csrf(request)['csrf_token']))
 
             quality_assessment = study.get_quality_assesment()
 
             for question in quality_questions:
-                str_table += '''<tr question-id="''' + str(question.id) + '''">
+                str_table += u'''<tr question-id="''' + str(question.id) + '''">
                 <td>''' + question.description + '''</td>'''
                 
                 try:
@@ -94,10 +94,10 @@ def build_quality_assessment_table(request, review):
                     if question_answer is not None:
                         if answer.id == question_answer.answer.id:
                             selected_answer = ' selected-answer'
-                    str_table += '''<td class="answer'''+ selected_answer +'''" answer-id="''' + str(answer.id) + '''">''' + answer.description + '''</td>'''
-                str_table += '''</tr>'''
+                    str_table += u'''<td class="answer'''+ selected_answer +'''" answer-id="''' + str(answer.id) + '''">''' + answer.description + '''</td>'''
+                str_table += u'''</tr>'''
 
-            str_table += '''</tbody></table></div>'''
+            str_table += u'''</tbody></table></div>'''
         return str_table
     else:
         return ''
