@@ -30,6 +30,14 @@ footer ul li {
   margin-right: 15px;
 }
 
+article {
+  font-size: 16px;
+}
+
+.references {
+  font-size: 14px;
+}
+
 .no-scroll {
   overflow: hidden;
 }
