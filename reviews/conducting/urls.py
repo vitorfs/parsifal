@@ -18,4 +18,6 @@ urlpatterns = patterns('reviews.conducting.views',
     url(r'^multiple_articles_action/reject/$', 'multiple_articles_action_reject', name='multiple_articles_action_reject'),
     url(r'^articles/upload/$', 'articles_upload', name='articles_upload'),
     url(r'^save_data_extraction/$', 'save_data_extraction', name='save_data_extraction'),
+    url(r'^articles_selection_chart/$', 'articles_selection_chart', name='articles_selection_chart'),
+    url(r'^articles_per_year/$', 'articles_per_year', name='articles_per_year'),
 )

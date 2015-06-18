@@ -1,6 +1,20 @@
 <ul class="nav nav-tabs" id="conducting-tab">
-  <li role="presentation"{% if active_tab == 'import' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/import/">Import Studies</a></li>
-  <li role="presentation"{% if active_tab == 'studies' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/studies/">Study Selection</a></li>
-  <li role="presentation"{% if active_tab == 'quality' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/quality/">Quality Assessment</a></li>
-  <li role="presentation"{% if active_tab == 'extraction' %} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/extraction/">Data Extraction</a></li>
+  <li role="presentation"{% if active_tab == 'search' %} class="active"{% endif %}>
+    <a href="{% url 'search_studies' review.author.username review.name %}">1. Search</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'import' %} class="active"{% endif %}>
+    <a href="{% url 'import_studies' review.author.username review.name %}">2. Import Studies</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'studies' %} class="active"{% endif %}>
+    <a href="{% url 'study_selection' review.author.username review.name %}">3. Study Selection</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'quality' %} class="active"{% endif %}>
+    <a href="{% url 'quality_assessment' review.author.username review.name %}">4. Quality Assessment</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'extraction' %} class="active"{% endif %}>
+    <a href="{% url 'data_extraction' review.author.username review.name %}">5. Data Extraction</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'analysis' %} class="active"{% endif %}>
+    <a href="{% url 'data_analysis' review.author.username review.name %}">6. Data Analysis</a>
+  </li>
 </ul>

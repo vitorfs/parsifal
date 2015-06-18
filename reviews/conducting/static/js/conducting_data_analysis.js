@@ -38,13 +38,13 @@ function drawLineChart(rows) {
 
 function drawChart() {
   $.ajax({
-    url: '/reviews/reporting/articles_selection_chart/',
+    url: '/reviews/conducting/articles_selection_chart/',
     data: {'review-id': $("#review-id").val()},
     type: 'get',
     cache: false,
     beforeSend: function () {
-      $("#articles-selection-pie").loading();
-      $("#articles-selection-column").loading();
+      $("#articles-selection-pie").spinner(false);
+      $("#articles-selection-column").spinner(false);
     },
     success: function (data) {
       var source_data = data.split(",");
@@ -59,20 +59,20 @@ function drawChart() {
       drawColumnChart(rows_chart);
     },
     complete: function () {
-      $("#articles-selection-pie").stopLoading();
-      $("#articles-selection-column").stopLoading();
+      $("#articles-selection-pie").spinner();
+      $("#articles-selection-column").spinner();
     }
   });
 }
 
 function drawYearLines() {
   $.ajax({
-    url: '/reviews/reporting/articles_per_year/',
+    url: '/reviews/conducting/articles_per_year/',
     data: {'review-id': $("#review-id").val()},
     type: 'get',
     cache: false,
     beforeSend: function () {
-      $("#articles-selection-line").loading();
+      $("#articles-selection-line").spinner(false);
     },
     success: function (data) {
       var source_data = data.split(",");
@@ -84,7 +84,7 @@ function drawYearLines() {
       drawLineChart(rows);
     },
     complete: function () {
-      $("#articles-selection-line").stopLoading();
+      $("#articles-selection-line").spinner();
     }
   });
 }

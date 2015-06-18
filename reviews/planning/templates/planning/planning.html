@@ -273,15 +273,43 @@
       </section>
       
       <section id="search-string-section">
+
+        <div class="modal fade" id="search-string-help">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">About the Search String</h4>
+              </div>
+              <div class="modal-body">
+                <p><span class="label label-success"><span class="glyphicon glyphicon-ok"></span> Good</span> <em>("effort estimation" OR "cost estimation") AND ("global software development" OR gsd)</em></p>
+                <p><span class="label label-danger"><span class="glyphicon glyphicon-ban-circle"></span> Bad</span> <em>effort estimation or cost estimation and global software development or gsd</em></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <form>
           {% csrf_token %}
           <input type="hidden" name="review-id" value="{{ review.id }}">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Search String</h3>
+              <h3 class="panel-title">
+                Search String
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What is this? Click to get help." data-placement="top" data-container="body">
+                  <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#search-string-help"></span>
+                </a>
+              </h3>
             </div>
             <div class="panel-body">
-              <textarea style="width:100%" rows="4" name="search-string" class="form-control search-string">{{ review.get_generic_search_string.search_string }}</textarea>  
+              <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Use uppercase for boolean operators (<strong>AND</strong>, <strong>OR</strong>), double quotes for composite words and parentheses to logically separate the keywords and synonyms.
+              </div>
+              <textarea rows="4" name="search-string" class="form-control expanding search-string">{{ review.get_generic_search_string.search_string }}</textarea>  
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success btn-save-generic-search-string">Save</button>

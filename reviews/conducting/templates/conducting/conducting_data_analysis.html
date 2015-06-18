@@ -1,0 +1,41 @@
+{% extends 'conducting/conducting.html' %}
+
+{% load staticfiles %}
+
+{% block javascript %}
+  <script src="https://www.google.com/jsapi"></script>
+  <script src="{% static 'js/conducting_data_analysis.js' %}"></script>
+{% endblock javascript %}
+
+{% block tab_content %}
+
+  {% include "conducting/conducting_header.html" with active_tab="analysis" %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Articles Per Source</h3>
+    </div>
+    <div class="panel-body">
+      <div id="articles-selection-pie"></div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Accepted Articles Per Source</h3>
+    </div>
+    <div class="panel-body">
+      <div id="articles-selection-column"></div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Final Articles Per Year <small>(After study selection and quality assessment)</small></h3>
+    </div>
+    <div class="panel-body">
+      <div id="articles-selection-line"></div>
+    </div>
+  </div>
+
+{% endblock tab_content %}

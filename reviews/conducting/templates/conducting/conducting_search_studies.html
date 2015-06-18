@@ -1,0 +1,22 @@
+{% extends 'conducting/conducting.html' %}
+
+{% block tab_content %}
+
+  {% include "conducting/conducting_header.html" with active_tab="search" %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Base Search String</h3>
+    </div>
+    <div class="panel-body">
+      {% with search_string=review.get_generic_search_string %}
+        {% if search_string.search_string %}
+          {{ review.get_generic_search_string }}
+        {% else %}
+          <em class="text-muted">No provided search string. Please visit the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a> and create one.</em>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+
+{% endblock tab_content %}
