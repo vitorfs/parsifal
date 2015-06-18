@@ -8,6 +8,7 @@ from mendeley.session import MendeleySession
 from mendeley.auth import MendeleyAuthorizationCodeAuthenticator, handle_text_response
 from oauthlib.oauth2 import TokenExpiredError
 from requests_oauthlib import OAuth2Session
+from dropbox.client import DropboxClient
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -24,6 +25,7 @@ class Profile(models.Model):
     url = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
     mendeley_token = models.CharField(max_length=2000, null=True, blank=True)
+    dropbox_token = models.CharField(max_length=2000, null=True, blank=True)
 
     class Meta:
         db_table = 'auth_profile'
@@ -53,6 +55,8 @@ class Profile(models.Model):
                 self.set_mendeley_token(token)
                 self.user.save()
                 mendeley_session = MendeleySession(mendeley, token)
+            except Exception, e:
+                pass
         return mendeley_session
 
     def get_mendeley_profile(self):
@@ -61,6 +65,16 @@ class Profile(models.Model):
         if mendeley_session:
             mendeley_profile = mendeley_session.profiles.me
         return mendeley_profile
+
+    def get_dropbox_profile(self):
+        dropbox_profile = None
+        if self.dropbox_token is not None:
+            client = DropboxClient(self.dropbox_token)
+            try:
+                dropbox_profile = client.account_info()
+            except Exception, e:
+                pass
+        return dropbox_profile
 
     def get_url(self):
         url = self.url

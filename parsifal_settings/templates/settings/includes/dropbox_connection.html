@@ -1,0 +1,10 @@
+{% if dropbox_profile %}
+  <div class="media">
+    <div class="media-body">
+      <strong>{{ dropbox_profile.display_name }}</strong>
+      <form method="post" action="{% url 'settings:disconnect_dropbox' %}">{% csrf_token %}<button type="submit" class="btn btn-link btn-sm" style="padding-top: 0; padding-right: 0;">(Disconnect)</button></form>
+    </div>
+  </div>
+{% else %}
+  <a href="{{ dropbox_auth_url }}" class="btn btn-primary">Connect to Dropbox</a>
+{% endif %}

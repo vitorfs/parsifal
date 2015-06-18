@@ -22,13 +22,19 @@
         $(this).text($(this).attr("data-original"));
       };
 
-      $.fn.spinner = function () {
+      $.fn.spinner = function (alignCenter) {
+        alignCenter = typeof alignCenter !== 'undefined' ? alignCenter : true;
         if ($(this).hasClass("loading")) {
           $(this).find(".block-spinner").remove();
           $(this).removeClass("loading");
         }
         else {
-          var center = (parseInt($(this).css("height")) / 2) - 40;
+          if (alignCenter) {
+            var center = (parseInt($(this).css("height")) / 2) - 40;
+          }
+          else {
+            var center = 0;
+          }
           $(this).addClass("loading");
           $(this).html("<div class='block-spinner' style='margin-top: " + center + "px;'></div>");
         }
