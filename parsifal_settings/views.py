@@ -98,9 +98,22 @@ def save_uploaded_picture(request):
     except Exception, e:
         return HttpResponseBadRequest()
 
+def get_dropbox_auth_flow(session):
+    return DropboxOAuth2Flow(
+            django_settings.DROPBOX_APP_KEY, 
+            django_settings.DROPBOX_SECRET, 
+            django_settings.DROPBOX_REDIRECT_URI, 
+            session, 
+            'dropbox-auth-csrf-token')
+
 @login_required
 def connections(request):    
+    return render(request, 'settings/connections.html')
+
+@login_required
+def mendeley_connection(request):
     mendeley_profile = request.user.profile.get_mendeley_profile()
+    mendeley_profile_picture = None
     if not mendeley_profile:
         mendeley = django_settings.MENDELEY
         auth = mendeley.start_authorization_code_flow()
@@ -109,10 +122,22 @@ def connections(request):
         mendeley_profile_picture = mendeley_profile.photo.square
         mendeley_profile_picture = mendeley_profile_picture.replace('http://', 'https://')
         mendeley_auth_url = ''
-    return render(request, 'settings/connections.html', { 
+    return render(request, 'settings/includes/mendeley_connection.html', {
             'mendeley_auth_url': mendeley_auth_url,
             'mendeley_profile': mendeley_profile,
             'mendeley_profile_picture': mendeley_profile_picture
+            })
+
+@login_required
+def dropbox_connection(request):
+    dropbox_profile = request.user.profile.get_dropbox_profile()
+    if not dropbox_profile:
+        dropbox_auth_url = get_dropbox_auth_flow(request.session).start()
+    else:
+        dropbox_auth_url = ''
+    return render(request, 'settings/includes/dropbox_connection.html', {
+            'dropbox_auth_url': dropbox_auth_url,
+            'dropbox_profile': dropbox_profile
             })
 
 @login_required
@@ -137,4 +162,29 @@ def disconnect_mendeley(request):
         request.user.profile.mendeley_token = None
         request.user.save()
         messages.success(request, 'Your Mendeley account were disconnected successfully!')
+    return redirect(r('settings:connections'))
+
+@login_required
+def connect_dropbox(request):
+    try:
+        access_token, user_id, url_state = get_dropbox_auth_flow(request.session).finish(request.GET)
+        messages.success(request, u'Your Dropbox account were linked successfully!')
+        request.user.profile.dropbox_token = access_token
+        request.user.save()
+    except DropboxOAuth2Flow.NotApprovedException, e:
+        messages.warning(request, 'You didn\'t approved Parsifal to connect your Dropbox account.')
+    except Exception, e:
+        messages.error(request, 'A problem occurred while trying to connect your Dropbox account. Please try again later.')
+    return redirect(r('settings:connections'))
+
+@login_required
+def disconnect_dropbox(request):
+    if request.method == 'POST':
+        dropbox_token = request.user.profile.dropbox_token
+        if dropbox_token is not None:
+            client = DropboxClient(dropbox_token)
+            client.disable_access_token()
+            request.user.profile.dropbox_token = None
+            request.user.save()
+            messages.success(request, 'Your Dropbox account were disconnected successfully!')
     return redirect(r('settings:connections'))

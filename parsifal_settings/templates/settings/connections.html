@@ -1,5 +1,35 @@
 {% extends 'base.html' %}
 
+{% block javascript %}
+  <script>
+    $(function () {
+
+      $.fn.loadConnection = function (url) {
+        var url = $(this).attr("data-remote");
+        var container = $(this);
+        $.ajax({
+          url: url,
+          cache: false,
+          beforeSend: function () {
+            $(container).spinner(false);
+            $(".block-spinner", container).addClass("pull-right");
+          },
+          success: function (data) {
+            $(container).html(data);
+          },
+          complete: function () {
+            $(container).spinner();
+          }
+        });
+      };
+
+      $(".mendeley-container").loadConnection();
+      $(".dropbox-container").loadConnection();
+
+    });
+  </script>
+{% endblock javascript %}
+
 {% block content %}  
   <div class="row">
     <div class="col-md-3">
@@ -17,22 +47,8 @@
               <div class="col-xs-8">
                 <p>Import your references from Mendeley. Associate your Mendeley library to your reviews. Friends you have on Mendeley who are also on Parsifal will become part of your Parsifal network.</p>
               </div>
-              <div class="col-xs-4 text-right">
-                {% if mendeley_profile %}
-                  <div class="media">
-                    <div class="media-body">
-                      <strong>{{ mendeley_profile.display_name }}</strong>
-                      <form method="post" action="{% url 'settings:disconnect_mendeley' %}">{% csrf_token %}<button type="submit" class="btn btn-link btn-sm" style="padding-top: 0; padding-right: 0;">(Disconnect)</button></form>
-                    </div>
-                    <div class="media-right">
-                      <a href="{{ mendeley_profile.link }}" target="_blank">
-                        <img src="{{ mendeley_profile_picture }}" alt="{{ mendeley_profile.display_name }}" class="media-object" style="width: 45px; height: 45px; border-radius: 4px;">
-                      </a>
-                    </div>
-                  </div>
-                {% else %}
-                  <a href="{{ mendeley_auth_url }}" class="btn btn-primary">Connect to Mendeley</a>
-                {% endif %}
+              <div class="col-xs-4 text-right mendeley-container" data-remote="{% url 'settings:mendeley_connection' %}">
+
               </div>
             </div>
           </li>
@@ -42,8 +58,8 @@
               <div class="col-xs-8">
                 <p>Use your Dropbox account as your personal library and store papers related to your literature reviews.</p>
               </div>
-              <div class="col-xs-4 text-right">
-                <a href="#" class="btn btn-primary">Connect to Dropbox</a>
+              <div class="col-xs-4 text-right dropbox-container" data-remote="{% url 'settings:dropbox_connection' %}">
+
               </div>
             </div>
           </li>
