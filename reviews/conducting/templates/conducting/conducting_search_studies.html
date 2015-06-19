@@ -4,18 +4,51 @@
 
   {% include "conducting/conducting_header.html" with active_tab="search" %}
 
+  <div class="modal fade" id="base-string-help">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">About the Base String</h4>
+        </div>
+        <div class="modal-body">
+          <p>The base search string is the search string designed during the planning phase. It should be database agnostic, enhance the reader's readability and represent the essence of the search string used in the digital libraries.</p>
+          <p>Most of the digital libraries have it's particularities and different advanced search resources. Here you can store the specific search string used in each database.</p>
+          <p>You can edit the base search string in the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Base Search String</h3>
+      <h3 class="panel-title">
+        Base Search String
+        <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+          <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#base-string-help"></span>
+        </a>
+      </h3>
     </div>
     <div class="panel-body">
       {% with search_string=review.get_generic_search_string %}
         {% if search_string.search_string %}
-          {{ review.get_generic_search_string }}
+          <pre><code>{{ review.get_generic_search_string.search_string_as_html|safe }}</code></pre>
         {% else %}
           <em class="text-muted">No provided search string. Please visit the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a> and create one.</em>
         {% endif %}
       {% endwith %}
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Database-Specific Search Strings</h3>
+    </div>
+    <div class="panel-body">
+      
     </div>
   </div>
 

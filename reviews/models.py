@@ -2,6 +2,7 @@
 
 import datetime
 from django.utils import timezone
+from django.utils.html import escape
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
@@ -207,10 +208,15 @@ class SearchSession(models.Model):
     review = models.ForeignKey(Review)
     source = models.ForeignKey(Source, null=True)
     search_string = models.TextField(max_length=2000)
+    version = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.search_string
 
+    def search_string_as_html(self):
+        escaped_string = escape(self.search_string)
+        html = escaped_string.replace(' OR ', ' <strong>OR</strong> ').replace(' AND ', ' <strong>AND</strong> ')
+        return html
 
 class Article(models.Model):
     UNCLASSIFIED = 'U'
