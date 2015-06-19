@@ -29,7 +29,9 @@ def conducting(request, username, review_name):
 @login_required
 def search_studies(request, username, review_name):
     review = get_object_or_404(Review, name=review_name, author__username__iexact=username)
-    return render(request, 'conducting/conducting_search_studies.html', { 'review': review })
+    sessions = review.get_latest_source_search_strings().values('source__id')
+    sources = review.sources.exclude(id__in=sessions)
+    return render(request, 'conducting/conducting_search_studies.html', { 'review': review, 'add_sources': sources })
 
 @author_required
 @login_required
@@ -598,3 +600,21 @@ def articles_per_year(request):
     for article in final_articles:
         articles.append(article['year'] + ':' + str(article['count']))
     return HttpResponse(','.join(articles))
+
+@author_required
+@login_required
+def add_source_string(request):
+    review_id = request.POST.get('review-id')
+    review = get_object_or_404(Review, pk=review_id)
+    source_ids = request.POST.getlist('source')
+    for source_id in source_ids:
+        try:
+            source = Source.objects.get(pk=source_id)
+            exists = SearchSession.objects.filter(review=review, source=source).exists()
+            if not exists:
+                search_session = SearchSession(review=review, source=source)
+                search_session.save()
+        except Source.DoesNotExist:
+            pass
+    review.save()
+    return redirect(r('search_studies', args=(review.author.username, review.name)))

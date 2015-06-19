@@ -11,6 +11,32 @@
     init: function () {
       $("[data-toggle='tooltip']").tooltip();
 
+      $("table.table-check-all thead tr th input[type='checkbox']").click(function () {
+        var is_checked = $(this).is(":checked");
+        var table = $(this).closest("table");
+        if (is_checked) {
+          $("tbody tr td input[type='checkbox']", table).prop("checked", true);
+        }
+        else {
+          $("tbody tr td input[type='checkbox']", table).prop("checked", false);
+        }
+      });
+
+      $("table.table-check-all").on("click", "input[type='checkbox']", function () {
+        var table = $(this).closest("table");
+        var all_checked_flag = true;
+        var checked_count = 0;
+        $("tbody tr td input[type='checkbox']", table).each(function () {
+          if ($(this).is(":checked")) {
+            checked_count = checked_count + 1;
+          }
+          else {
+            all_checked_flag = false;
+          }
+        });
+        $("thead tr th input[type='checkbox']", table).prop("checked", all_checked_flag);
+      });
+
       $.fn.disable = function () {
         $(this).prop("disabled", true);
         $(this).attr("data-original", $(this).text());

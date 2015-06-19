@@ -425,6 +425,10 @@ def remove_source_from_review(request):
         review.sources.remove(source)
         if source.is_default:
             review.get_source_articles(source.id).delete()
+            try:
+                review.searchsession_set.filter(source=source).delete()
+            except:
+                pass
         else:
             source.delete()
         review.save()

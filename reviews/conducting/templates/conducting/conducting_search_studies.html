@@ -9,7 +9,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">About the Base String</h4>
+          <h4 class="modal-title">About the Search Strings</h4>
         </div>
         <div class="modal-body">
           <p>The base search string is the search string designed during the planning phase. It should be database agnostic, enhance the reader's readability and represent the essence of the search string used in the digital libraries.</p>
@@ -23,29 +23,113 @@
     </div>
   </div>
 
+  <form method="post" action="{% url 'reviews:conducting:add_source_string' %}">
+    {% csrf_token %}
+    <input type="hidden" name="review-id" value="{{ review.id }}">
+    <div class="modal fade" id="modal-source-string">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Select Sources</h4>
+          </div>
+          <div class="modal-body">
+            {% if add_sources %}
+            <table class="table table-check-all">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" autocomplete="off">
+                  </th>
+                  <th>Name</th>
+                  <th>URL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for source in add_sources %}
+                  <tr>
+                    <td><input type="checkbox" name="source" value="{{ source.pk }}" autocomplete="off"></td>
+                    <td>{{ source.name }}</td>
+                    <td>{{ source.url }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+              <div class="well text-center" style="padding: 3em;">
+                <span class="glyphicon glyphicon-folder-open" style="font-size: 2.2em; color: #aaa;"></span>
+                <h4 style="margin-top: 20px; margin-bottom: 20px;">All sources are already in use. Add other sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.</h3>
+                <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-primary">New source</a>
+              </div>
+            {% endif %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success"{% if not add_sources %} disabled{% endif %}>Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Base Search String
+        Search Strings
         <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
           <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#base-string-help"></span>
         </a>
       </h3>
     </div>
     <div class="panel-body">
-      {% with search_string=review.get_generic_search_string %}
-        {% if search_string.search_string %}
-          <pre><code>{{ review.get_generic_search_string.search_string_as_html|safe }}</code></pre>
-        {% else %}
-          <em class="text-muted">No provided search string. Please visit the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a> and create one.</em>
-        {% endif %}
-      {% endwith %}
+              
+      <div class="alert alert-info" role="alert">
+        <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Add digital source-specific search strings. Use this space to save all search string formats used during the research.
+      </div>
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#base" aria-controls="base" role="tab" data-toggle="tab">Base String</a></li>
+        {% for search_session in review.get_latest_source_search_strings  %}
+          <li role="presentation"><a href="#source_{{ search_session.source.pk }}" aria-controls="source_{{ search_session.source.pk }}" role="tab" data-toggle="tab">{{ search_session.source.name }}</a></li>
+        {% endfor %}
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="base">
+          {% with search_string=review.get_generic_search_string %}
+            {% if search_string.search_string %}
+              <pre><code>{{ review.get_generic_search_string.search_string_as_html|safe }}</code></pre>
+            {% else %}
+              <em class="text-muted">No provided search string. Please visit the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a> and create one.</em>
+            {% endif %}
+          {% endwith %}
+        </div>
+        {% for search_session in review.get_latest_source_search_strings  %}
+          <div role="tabpanel" class="tab-pane" id="source_{{ search_session.source.pk }}">
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="review-id" value="{{ review.id }}">
+              <input type="hidden" name="source" value="{{ search_session.source.pk }}">
+              <div class="form-group">
+                <textarea id="id_search_string" name="search_string" class="form-control" rows="4"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-sm btn-danger pull-right">Remove {{ search_session.source.name }}</button>
+                <button type="button" class="btn btn-sm btn-success">Save</button>
+                <button type="button" class="btn btn-sm btn-primary">Import Base String</button>
+              </div>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-source-string">Add source</button>
     </div>
   </div>
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Database-Specific Search Strings</h3>
+      <h3 class="panel-title">Search</h3>
     </div>
     <div class="panel-body">
       

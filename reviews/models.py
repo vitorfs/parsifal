@@ -102,6 +102,9 @@ class Review(models.Model):
             search_string = SearchSession(review=self)
         return search_string
 
+    def get_latest_source_search_strings(self):
+        return self.searchsession_set.exclude(source=None)
+
     def get_source_articles(self, source_id=None):
         if source_id is None:
             return Article.objects.filter(review__id=self.id)

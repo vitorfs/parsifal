@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reviews', '0007_articlefile_review'),
+        ('reviews', '0008_auto_20150618_0836'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='articlefile',
-            name='article_file',
-            field=models.FileField(upload_to=b'library/'),
+        migrations.AddField(
+            model_name='searchsession',
+            name='version',
+            field=models.IntegerField(default=1),
         ),
     ]

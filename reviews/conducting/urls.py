@@ -2,6 +2,7 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('reviews.conducting.views',
+    url(r'^add_source_string/$', 'add_source_string', name='add_source_string'),
     url(r'^new_article/$', 'new_article', name='new_article'),
     url(r'^import_bibtex/$', 'import_bibtex', name='import_bibtex'),
     url(r'^source_articles/$', 'source_articles', name='source_articles'),
