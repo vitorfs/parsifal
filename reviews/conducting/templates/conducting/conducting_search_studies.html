@@ -58,7 +58,7 @@
             {% else %}
               <div class="well text-center" style="padding: 3em;">
                 <span class="glyphicon glyphicon-folder-open" style="font-size: 2.2em; color: #aaa;"></span>
-                <h4 style="margin-top: 20px; margin-bottom: 20px;">All sources are already in use. Add other sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.</h3>
+                <h4 style="margin-top: 20px; margin-bottom: 20px;">No source available. Add sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.</h3>
                 <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-primary">New source</a>
               </div>
             {% endif %}
@@ -113,9 +113,9 @@
                 <textarea id="id_search_string" name="search_string" class="form-control" rows="4"></textarea>
               </div>
               <div class="form-group">
-                <button type="button" class="btn btn-sm btn-danger pull-right">Remove {{ search_session.source.name }}</button>
-                <button type="button" class="btn btn-sm btn-success">Save</button>
-                <button type="button" class="btn btn-sm btn-primary">Import Base String</button>
+                <button type="button" class="btn btn-sm btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Remove {{ search_session.source.name }}</button>
+                <button type="button" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-ok"></span> Save</button>
+                <button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-import"></span> Import Base String</button>
               </div>
             </form>
           </div>
@@ -123,7 +123,7 @@
       </div>
     </div>
     <div class="panel-footer">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-source-string">Add source</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-source-string"><span class="glyphicon glyphicon-plus"></span> Add source</button>
     </div>
   </div>
 
@@ -133,6 +133,10 @@
     </div>
     <div class="panel-body">
       
+      <div class="alert alert-info" role="alert">
+        <strong><span class="glyphicon glyphicon-info-sign"></span></strong> <strong>Parsifal</strong> is integrated with <strong>Scopus's</strong> and <strong>ScienceDirect's</strong> databases. To enable the automatic search pick them as sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.
+      </div>
+
     </div>
   </div>
 

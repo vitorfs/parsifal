@@ -7,6 +7,12 @@
 {% block stylesheet %}
   <style>
     body,html,.wrapper{height:auto;}
+    section {
+      padding-top: 20px;
+    }
+    ul.review-menu, section > .panel {
+      margin-bottom: 0;
+    }
   </style>
 {% endblock stylesheet %}
 
@@ -37,7 +43,7 @@
   {% include "reviews/review_header.html" with active_menu="planning" %}
 
   <div class="row">
-    <div class="hidden-sm col-md-4 col-lg-3">
+    <div class="hidden-sm col-md-4 col-lg-3" style="padding-top: 20px;">
       <div id="protocol" class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Protocol</h3>
@@ -627,7 +633,7 @@
         </div>
       </section>
       
-      <section id="data-extraction-section">
+      <section id="data-extraction-section" style="margin-bottom: 20px;">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Data Extraction Form</h3>

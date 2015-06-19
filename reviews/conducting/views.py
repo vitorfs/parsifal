@@ -3,6 +3,7 @@
 import json
 from bibtexparser.bparser import BibTexParser
 
+from django.views.decorators.http import require_POST
 from django.core.urlresolvers import reverse as r
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
@@ -603,6 +604,7 @@ def articles_per_year(request):
 
 @author_required
 @login_required
+@require_POST
 def add_source_string(request):
     review_id = request.POST.get('review-id')
     review = get_object_or_404(Review, pk=review_id)
