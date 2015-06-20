@@ -265,6 +265,15 @@ ul.review-menu li.active {
   color: #fff;
 }
 
+#remote-search-panels .panel-collapse .panel-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#remote-search-panels .panel-collapse .panel-body .table {
+  font-size: 12px;
+}
+
 /* Selectize options */
 
 .selectize-control.contacts .selectize-input > div {

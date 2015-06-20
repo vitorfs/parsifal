@@ -33,15 +33,54 @@ def search_studies(request, username, review_name):
     review = get_object_or_404(Review, name=review_name, author__username__iexact=username)
     sessions = review.get_latest_source_search_strings().values('source__id')
     sources = review.sources.exclude(id__in=sessions)
-    return render(request, 'conducting/conducting_search_studies.html', { 'review': review, 'add_sources': sources })
+    database_queries = {}
+    return render(request, 'conducting/conducting_search_studies.html', { 
+            'review': review, 
+            'add_sources': sources 
+            })
+
+@author_required
+@login_required
+@require_POST
+def import_base_string(request):
+    try:
+        review_id = request.POST.get('review-id')
+        source_id = request.POST.get('source-id')
+        review = Review.objects.get(pk=review_id)
+        source = Source.objects.get(pk=source_id)
+        base_search_string = review.get_generic_search_string().search_string
+        try:
+            search_session = review.get_latest_source_search_strings().get(source=source)
+        except SearchSession.DoesNotExist:
+            search_session = SearchSession(review=review, source=source)
+        search_session.search_string = base_search_string
+        search_session.save()
+        return HttpResponse(base_search_string)
+    except Exception, e:
+        raise e
+        return HttpResponseBadRequest()
+
+def elsevier_search(request, database):
+    client = ElsevierClient(django_settings.ELSEVIER_API_KEY)
+    query = request.GET.get('query', '')
+    query = ' '.join(query.split())
+    result = {}
+    if database == 'scopus':
+        result = client.search_scopus(query)
+    elif database == 'science_direct':
+        result = client.search_science_direct(query)
+    data = json.dumps(result)
+    return HttpResponse(data, content_type='application/json')    
 
 @author_required
 @login_required
 def search_scopus(request):
-    client = ElsevierClient(django_settings.ELSEVIER_API_KEY)
-    result = client.search_scopus('("effort estimation" OR "cost estimation") AND ("global software development" OR gsd)')
-    data = json.dumps(result)
-    return HttpResponse(data, content_type='application/json')
+    return elsevier_search(request, 'scopus')
+
+@author_required
+@login_required
+def search_science_direct(request):
+    return elsevier_search(request, 'science_direct')
 
 @author_required
 @login_required

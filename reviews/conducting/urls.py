@@ -3,7 +3,9 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('reviews.conducting.views',
     url(r'^add_source_string/$', 'add_source_string', name='add_source_string'),
+    url(r'^import_base_string/$', 'import_base_string', name='import_base_string'),
     url(r'^search_scopus/$', 'search_scopus', name='search_scopus'),
+    url(r'^search_science_direct/$', 'search_science_direct', name='search_science_direct'),
     url(r'^new_article/$', 'new_article', name='new_article'),
     url(r'^import_bibtex/$', 'import_bibtex', name='import_bibtex'),
     url(r'^source_articles/$', 'source_articles', name='source_articles'),

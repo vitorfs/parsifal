@@ -1,6 +1,6 @@
 import requests
 
-from exceptions import ElsevierException
+from exceptions import ElsevierException, ElsevierQuotaExceeded
 
 
 class ElsevierClient(object):
@@ -27,7 +27,7 @@ class ElsevierClient(object):
         if response.status_code == 200:
             return response.json()
         elif response.status_code == 429:
-            raise ElsevierException('Quota Exceeded.')
+            raise ElsevierQuotaExceeded
 
 
     def search_scopus(self, query):

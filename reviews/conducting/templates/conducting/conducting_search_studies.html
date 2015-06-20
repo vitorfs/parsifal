@@ -4,39 +4,79 @@
   <script>
     $(function () {
 
-      $.fn.executeSearch = function () {
-
-        var form = $(this);
-        var url = $(this).attr("action");
-
+      $(".js-import-base-string").click(function () {
+        var form = $(this).closest("form");
+        var url = $(this).attr("data-remote");
         $.ajax({
           url: url,
-          data: {
-            'review-id': $("#review-id").val()
-          },
+          data: $(form).serialize(),
+          type: 'post',
           cache: false,
-          dataType: 'json',
           beforeSend: function () {
-            $("table tbody", form).html("<tr><td colspan='5' class='loading-placeholder'></td></tr>");
-            $(".loading-placeholder", form).spinner(false);
-            $(".block-spinner", form).css("margin", "30px auto");
+
           },
           success: function (data) {
-            $("table tbody", form).html("");
-            data["search-results"].entry.forEach(function (entry) {
-              $("table tbody", form).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + entry["citedby-count"] + "</td></tr>");
-            });
-          },
-          error: function () {
-
-          },
-          complete: function () {
-
+            $("textarea[name='search_string']", form).val(data);
           }
         });
-      };
+      });
 
-      $("#search-scopus").executeSearch();
+      $(".source-search textarea:visible").expanding();
+
+      $("#remote-search-panels .panel-collapse").on("show.bs.collapse", function () {
+        var panel = $(this).closest(".panel");
+        $("[data-toggle='collapse'] .glyphicon", panel).removeClass().addClass("glyphicon glyphicon-minus");
+      });
+
+      $("#remote-search-panels .panel-collapse").on("hide.bs.collapse", function () {
+        var panel = $(this).closest(".panel");
+        $("[data-toggle='collapse'] .glyphicon", panel).removeClass().addClass("glyphicon glyphicon-plus");
+      });
+
+      $("#remote-search-panels .panel-collapse").on("shown.bs.collapse", function () {
+        $("textarea", this).each(function () {
+          if (!$(this).hasClass("expanding")) {
+            $(this).expanding();
+          }
+        });
+      });
+
+      $(".source-search").submit(function () {
+        var container = $(this).closest(".panel-body");
+        var form = $(this);
+        var url = $(this).attr("action");
+        var data = $(this).serialize();
+        var status = $(form).attr("data-remote-status");
+
+        if (status !== "loading") {
+          $.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            dataType: 'json',
+            beforeSend: function () {
+              $("table tbody", container).html("<tr><td colspan='5' class='loading-placeholder'></td></tr>");
+              $(".loading-placeholder", container).spinner(false);
+              $(".block-spinner", container).css("margin", "30px auto");
+              $(form).attr("data-remote-status", "loading");
+            },
+            success: function (data) {
+              $("table tbody", container).html("");
+              data["search-results"].entry.forEach(function (entry) {
+                $("table tbody", container).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + entry["citedby-count"] + "</td></tr>");
+              });
+              $(".document-results", container).text(data["search-results"]["opensearch:totalResults"]);
+              $(form).attr("data-remote-status", "loaded");
+            },
+            error: function () {
+              $(form).attr("data-remote-status", "error");
+            },
+            complete: function () { }
+          });
+        }
+
+        return false;
+      });
 
     });
   </script>
@@ -150,14 +190,14 @@
             <form method="post">
               {% csrf_token %}
               <input type="hidden" name="review-id" value="{{ review.id }}">
-              <input type="hidden" name="source" value="{{ search_session.source.pk }}">
+              <input type="hidden" name="source-id" value="{{ search_session.source.pk }}">
               <div class="form-group">
-                <textarea id="id_search_string" name="search_string" class="form-control" rows="4"></textarea>
+                <textarea name="search_string" class="form-control" rows="4" autocomplete="off">{{ search_session.search_string }}</textarea>
               </div>
               <div class="form-group">
                 <button type="button" class="btn btn-sm btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Remove {{ search_session.source.name }}</button>
                 <button type="button" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-ok"></span> Save</button>
-                <button type="button" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-import"></span> Import Base String</button>
+                <button type="button" class="btn btn-sm btn-primary js-import-base-string" data-remote="{% url 'reviews:conducting:import_base_string' %}"><span class="glyphicon glyphicon-import"></span> Import Base String</button>
               </div>
             </form>
           </div>
@@ -174,32 +214,109 @@
       <h3 class="panel-title">Search</h3>
     </div>
     <div class="panel-body">
-      
       <div class="alert alert-info" role="alert">
-        <strong><span class="glyphicon glyphicon-info-sign"></span></strong> <strong>Parsifal</strong> is integrated with <strong>Scopus's</strong> and <strong>ScienceDirect's</strong> databases. To enable the automatic search pick them as sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.
+        <strong><span class="glyphicon glyphicon-info-sign"></span></strong> <strong>Parsifal</strong> is integrated with <strong>Scopus's</strong> and <strong>Science@Direct's</strong> databases. To enable the automatic search pick them as sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.
       </div>
 
-      <form action="{% url 'reviews:conducting:search_scopus' %}" id="search-scopus">
+      <div class="panel-group" id="remote-search-panels" role="tablist" aria-multiselectable="true">
+
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title"><span class="glyphicon glyphicon-search"></span> Scopus</h3>
+            <h3 class="panel-title">
+              <a class="pull-right" role="button" data-toggle="collapse" href="#search-scopus-collapse" aria-expanded="false">
+                <span class="glyphicon glyphicon-minus"></span>
+              </a>
+              Scopus
+            </h3>
           </div>
-          <div class="panel-body">
-            
+          <div id="search-scopus-collapse" class="panel-collapse collapse in" role="tabpanel">
+            <div class="panel-body">
+              <form action="{% url 'reviews:conducting:search_scopus' %}" class="source-search">
+                <input type="hidden" name="review-id" value="{{ review.id }}">
+                <div class="form-group">
+                  <label class="control-label">Query</label>
+                  <textarea class="form-control" name="query"></textarea>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
+                  <button type="button" class="btn btn-success">Save to Scopus Search String</button>
+                </div>
+              </form>
+              <p><strong>Document results:</strong> <span class="document-results">0</span></p>
+              <table class="table table-condensed table-striped table-bordered">
+                <thead>
+                  <th>Title</th>
+                  <th>Authors</th>
+                  <th>Year</th>
+                  <th>Journal</th>
+                  <th>Citations</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5">No data</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <table class="table table-condensed table-striped">
-            <thead>
-              <th>Title</th>
-              <th>Authors</th>
-              <th>Year</th>
-              <th>Journal</th>
-              <th>Citations</th>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
         </div>
-      </form>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a class="pull-right" role="button" data-toggle="collapse" href="#search-science-direct-collapse" aria-expanded="false">
+                <span class="glyphicon glyphicon-plus"></span>
+              </a>
+              Science@Direct
+            </h3>
+          </div>
+          <div id="search-science-direct-collapse" class="panel-collapse collapse" role="tabpanel">
+            <div class="panel-body">
+              <form action="{% url 'reviews:conducting:search_science_direct' %}" class="source-search">
+                <input type="hidden" name="review-id" value="{{ review.id }}">
+                <input type="hidden" name="start" value="0">
+                <div class="form-group">
+                  <label class="control-label">Query</label>
+                  <textarea class="form-control" name="query"></textarea>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
+                  <button type="button" class="btn btn-success">Save to Science@Direct Search String</button>
+                </div>
+              </form>
+              <div class="row">
+                <div class="col-sm-6">
+                  <label class="control-label">Document results:</label> <span class="document-results">0</span>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <label class="control-label">Items per page:</label>
+                  <select name="count">
+                    <option>25</option>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>200</option>
+                  </select>
+                </div>
+              </div>
+              <table class="table table-condensed table-striped table-bordered">
+                <thead>
+                  <th>Title</th>
+                  <th>Authors</th>
+                  <th>Year</th>
+                  <th>Journal</th>
+                  <th>Citations</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5">No data</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
     </div>
   </div>
