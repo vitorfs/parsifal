@@ -17,8 +17,9 @@ from django.db.models import Count
 
 from reviews.models import *
 from reviews.decorators import main_author_required, author_required
-from parsifal.decorators import ajax_required
 from reviews.forms import ArticleUploadForm
+from parsifal.decorators import ajax_required
+from parsifal.utils.elsevier.client import ElsevierClient
 
 
 @author_required
@@ -33,6 +34,14 @@ def search_studies(request, username, review_name):
     sessions = review.get_latest_source_search_strings().values('source__id')
     sources = review.sources.exclude(id__in=sessions)
     return render(request, 'conducting/conducting_search_studies.html', { 'review': review, 'add_sources': sources })
+
+@author_required
+@login_required
+def search_scopus(request):
+    client = ElsevierClient(django_settings.ELSEVIER_API_KEY)
+    result = client.search_scopus('("effort estimation" OR "cost estimation") AND ("global software development" OR gsd)')
+    data = json.dumps(result)
+    return HttpResponse(data, content_type='application/json')
 
 @author_required
 @login_required
