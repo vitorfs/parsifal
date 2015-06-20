@@ -48,6 +48,23 @@
         $(this).text($(this).attr("data-original"));
       };
 
+      $.fn.ajaxDisable = function () {
+        $(this).prop("disabled", true);
+        $("span[class^='btn-ajax-']", this).hide();
+        $("span.btn-ajax-loading", this).show();
+      };
+
+      $.fn.ajaxEnable = function () {
+        var btn = $(this);
+        $(this).prop("disabled", false);
+        $("span[class^='btn-ajax-']", this).hide();
+        $("span.btn-ajax-complete", this).show();
+        setTimeout(function () {
+          $("span[class^='btn-ajax-']", btn).hide();
+          $("span.btn-ajax-normal", btn).show();
+        }, 1500);
+      };
+
       $.fn.spinner = function (alignCenter) {
         alignCenter = typeof alignCenter !== 'undefined' ? alignCenter : true;
         if ($(this).hasClass("loading")) {

@@ -1,6 +1,6 @@
 import requests
 
-from exceptions import ElsevierException, ElsevierQuotaExceeded
+from exceptions import *
 
 
 class ElsevierClient(object):
@@ -24,14 +24,17 @@ class ElsevierClient(object):
         return self._parse_response(response)
 
     def _parse_response(self, response):
+        print response.status_code
         if response.status_code == 200:
             return response.json()
+        elif response.status_code == 400:
+            raise ElsevierInvalidRequest
         elif response.status_code == 429:
             raise ElsevierQuotaExceeded
 
 
-    def search_scopus(self, query):
-        return self._request('/search/scopus', { 'query': query })
+    def search_scopus(self, params):
+        return self._request('/search/scopus', params)
 
-    def search_science_direct(self, query):
-        return self._request('/search/scidir', { 'query': query })
+    def search_science_direct(self, params):
+        return self._request('/search/scidir', params)

@@ -1,85 +1,9 @@
 {% extends 'conducting/conducting.html' %}
 
+{% load staticfiles %}
+
 {% block javascript %}
-  <script>
-    $(function () {
-
-      $(".js-import-base-string").click(function () {
-        var form = $(this).closest("form");
-        var url = $(this).attr("data-remote");
-        $.ajax({
-          url: url,
-          data: $(form).serialize(),
-          type: 'post',
-          cache: false,
-          beforeSend: function () {
-
-          },
-          success: function (data) {
-            $("textarea[name='search_string']", form).val(data);
-          }
-        });
-      });
-
-      $(".source-search textarea:visible").expanding();
-
-      $("#remote-search-panels .panel-collapse").on("show.bs.collapse", function () {
-        var panel = $(this).closest(".panel");
-        $("[data-toggle='collapse'] .glyphicon", panel).removeClass().addClass("glyphicon glyphicon-minus");
-      });
-
-      $("#remote-search-panels .panel-collapse").on("hide.bs.collapse", function () {
-        var panel = $(this).closest(".panel");
-        $("[data-toggle='collapse'] .glyphicon", panel).removeClass().addClass("glyphicon glyphicon-plus");
-      });
-
-      $("#remote-search-panels .panel-collapse").on("shown.bs.collapse", function () {
-        $("textarea", this).each(function () {
-          if (!$(this).hasClass("expanding")) {
-            $(this).expanding();
-          }
-        });
-      });
-
-      $(".source-search").submit(function () {
-        var container = $(this).closest(".panel-body");
-        var form = $(this);
-        var url = $(this).attr("action");
-        var data = $(this).serialize();
-        var status = $(form).attr("data-remote-status");
-
-        if (status !== "loading") {
-          $.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            dataType: 'json',
-            beforeSend: function () {
-              $("table tbody", container).html("<tr><td colspan='5' class='loading-placeholder'></td></tr>");
-              $(".loading-placeholder", container).spinner(false);
-              $(".block-spinner", container).css("margin", "30px auto");
-              $(form).attr("data-remote-status", "loading");
-            },
-            success: function (data) {
-              $("table tbody", container).html("");
-              data["search-results"].entry.forEach(function (entry) {
-                $("table tbody", container).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + entry["citedby-count"] + "</td></tr>");
-              });
-              $(".document-results", container).text(data["search-results"]["opensearch:totalResults"]);
-              $(form).attr("data-remote-status", "loaded");
-            },
-            error: function () {
-              $(form).attr("data-remote-status", "error");
-            },
-            complete: function () { }
-          });
-        }
-
-        return false;
-      });
-
-    });
-  </script>
+  <script src="{% static 'js/conducting_search_studies.js' %}"></script>
 {% endblock javascript %}
 
 {% block tab_content %}
@@ -169,7 +93,7 @@
         <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Add digital source-specific search strings. Use this space to save all search string formats used during the research.
       </div>
 
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs" role="tablist" id="source-search-strings">
         <li role="presentation" class="active"><a href="#base" aria-controls="base" role="tab" data-toggle="tab">Base String</a></li>
         {% for search_session in review.get_latest_source_search_strings  %}
           <li role="presentation"><a href="#source_{{ search_session.source.pk }}" aria-controls="source_{{ search_session.source.pk }}" role="tab" data-toggle="tab">{{ search_session.source.name }}</a></li>
@@ -195,9 +119,39 @@
                 <textarea name="search_string" class="form-control" rows="4" autocomplete="off">{{ search_session.search_string }}</textarea>
               </div>
               <div class="form-group">
-                <button type="button" class="btn btn-sm btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Remove {{ search_session.source.name }}</button>
-                <button type="button" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-ok"></span> Save</button>
-                <button type="button" class="btn btn-sm btn-primary js-import-base-string" data-remote="{% url 'reviews:conducting:import_base_string' %}"><span class="glyphicon glyphicon-import"></span> Import Base String</button>
+                <button type="button" class="btn btn-sm btn-danger pull-right js-remove-source-string" data-remote="{% url 'reviews:conducting:remove_source_string' %}">
+                  <span class="btn-ajax-normal">
+                    <span class="glyphicon glyphicon-trash"></span> Remove {{ search_session.source.name }}
+                  </span>
+                  <span class="btn-ajax-loading">
+                    <span class="glyphicon glyphicon-refresh spin"></span> Removing…
+                  </span>
+                  <span class="btn-ajax-complete">
+                    <span class="glyphicon glyphicon-ok"></span> Removed!
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-success js-save-source-string" data-remote="{% url 'reviews:conducting:save_source_string' %}">
+                  <span class="btn-ajax-normal">
+                    <span class="glyphicon glyphicon-ok"></span> Save
+                  </span>
+                  <span class="btn-ajax-loading">
+                    <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                  </span>
+                  <span class="btn-ajax-complete">
+                    <span class="glyphicon glyphicon-ok"></span> Saved!
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-primary js-import-base-string" data-remote="{% url 'reviews:conducting:import_base_string' %}">
+                  <span class="btn-ajax-normal">
+                    <span class="glyphicon glyphicon-import"></span> Import Base String
+                  </span>
+                  <span class="btn-ajax-loading">
+                    <span class="glyphicon glyphicon-refresh spin"></span> Importing…
+                  </span>
+                  <span class="btn-ajax-complete">
+                    <span class="glyphicon glyphicon-ok"></span> Imported!
+                  </span>
+                </button>
               </div>
             </form>
           </div>
@@ -223,26 +177,65 @@
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">
-              <a class="pull-right" role="button" data-toggle="collapse" href="#search-scopus-collapse" aria-expanded="false">
-                <span class="glyphicon glyphicon-minus"></span>
+              <a role="button" data-toggle="collapse" href="#search-scopus-collapse" aria-expanded="false">
+                <span class="glyphicon glyphicon-minus pull-right"></span>
+                Scopus
               </a>
-              Scopus
             </h3>
           </div>
           <div id="search-scopus-collapse" class="panel-collapse collapse in" role="tabpanel">
             <div class="panel-body">
               <form action="{% url 'reviews:conducting:search_scopus' %}" class="source-search">
                 <input type="hidden" name="review-id" value="{{ review.id }}">
+                <input type="hidden" name="start" value="0">
+                <input type="hidden" name="source-id" value="{{ database_queries.scopus.source.pk }}">
                 <div class="form-group">
                   <label class="control-label">Query</label>
-                  <textarea class="form-control" name="query"></textarea>
+                  <textarea class="form-control" name="query">{{ database_queries.scopus.search_string }}</textarea>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
-                  <button type="button" class="btn btn-success">Save to Scopus Search String</button>
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-ajax-normal">
+                      <span class="glyphicon glyphicon-search"></span> Search
+                    </span>
+                    <span class="btn-ajax-loading">
+                      <span class="glyphicon glyphicon-refresh spin"></span> Searching…
+                    </span>
+                    <span class="btn-ajax-complete">
+                      <span class="glyphicon glyphicon-ok"></span> Done!
+                    </span>
+                  </button>
+                  {% if 'scopus' in database_queries.keys %}
+                    <button type="button" class="btn btn-success js-save-elsevier-string" data-remote="{% url 'reviews:conducting:save_source_string' %}">
+                      <span class="btn-ajax-normal">
+                        Save to Scopus Search String
+                      </span>
+                      <span class="btn-ajax-loading">
+                        <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                      </span>
+                      <span class="btn-ajax-complete">
+                        <span class="glyphicon glyphicon-ok"></span> Saved!
+                      </span>
+                    </button>
+                  {% else %}
+                    <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                  {% endif %}
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Document results:</label> <span class="document-results">0</span>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <label class="control-label">Items per page:</label>
+                    <select name="count">
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                      <option>200</option>
+                    </select>
+                  </div>
                 </div>
               </form>
-              <p><strong>Document results:</strong> <span class="document-results">0</span></p>
               <table class="table table-condensed table-striped table-bordered">
                 <thead>
                   <th>Title</th>
@@ -264,10 +257,10 @@
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">
-              <a class="pull-right" role="button" data-toggle="collapse" href="#search-science-direct-collapse" aria-expanded="false">
-                <span class="glyphicon glyphicon-plus"></span>
+              <a role="button" data-toggle="collapse" href="#search-science-direct-collapse" aria-expanded="false">
+                <span class="glyphicon glyphicon-plus pull-right"></span>
+                Science@Direct
               </a>
-              Science@Direct
             </h3>
           </div>
           <div id="search-science-direct-collapse" class="panel-collapse collapse" role="tabpanel">
@@ -275,29 +268,54 @@
               <form action="{% url 'reviews:conducting:search_science_direct' %}" class="source-search">
                 <input type="hidden" name="review-id" value="{{ review.id }}">
                 <input type="hidden" name="start" value="0">
+                <input type="hidden" name="source-id" value="{{ database_queries.science_direct.source.pk }}">
                 <div class="form-group">
                   <label class="control-label">Query</label>
-                  <textarea class="form-control" name="query"></textarea>
+                  <textarea class="form-control" name="query">{{ database_queries.science_direct.search_string }}</textarea>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
-                  <button type="button" class="btn btn-success">Save to Science@Direct Search String</button>
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-ajax-normal">
+                      <span class="glyphicon glyphicon-search"></span> Search
+                    </span>
+                    <span class="btn-ajax-loading">
+                      <span class="glyphicon glyphicon-refresh spin"></span> Searching…
+                    </span>
+                    <span class="btn-ajax-complete">
+                      <span class="glyphicon glyphicon-ok"></span> Done!
+                    </span>
+                  </button>
+                  {% if 'science_direct' in database_queries.keys %}
+                    <button type="button" class="btn btn-success js-save-elsevier-string" data-remote="{% url 'reviews:conducting:save_source_string' %}">
+                      <span class="btn-ajax-normal">
+                        Save to Science@Direct Search String
+                      </span>
+                      <span class="btn-ajax-loading">
+                        <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                      </span>
+                      <span class="btn-ajax-complete">
+                        <span class="glyphicon glyphicon-ok"></span> Saved!
+                      </span>
+                    </button>
+                  {% else %}
+                    <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                  {% endif %}
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Document results:</label> <span class="document-results">0</span>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <label class="control-label">Items per page:</label>
+                    <select name="count">
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                      <option>200</option>
+                    </select>
+                  </div>
                 </div>
               </form>
-              <div class="row">
-                <div class="col-sm-6">
-                  <label class="control-label">Document results:</label> <span class="document-results">0</span>
-                </div>
-                <div class="col-sm-6 text-right">
-                  <label class="control-label">Items per page:</label>
-                  <select name="count">
-                    <option>25</option>
-                    <option>50</option>
-                    <option>100</option>
-                    <option>200</option>
-                  </select>
-                </div>
-              </div>
               <table class="table table-condensed table-striped table-bordered">
                 <thead>
                   <th>Title</th>

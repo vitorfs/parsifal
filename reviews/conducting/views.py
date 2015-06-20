@@ -20,6 +20,7 @@ from reviews.decorators import main_author_required, author_required
 from reviews.forms import ArticleUploadForm
 from parsifal.decorators import ajax_required
 from parsifal.utils.elsevier.client import ElsevierClient
+from parsifal.utils.elsevier.exceptions import *
 
 
 @author_required
@@ -31,13 +32,64 @@ def conducting(request, username, review_name):
 @login_required
 def search_studies(request, username, review_name):
     review = get_object_or_404(Review, name=review_name, author__username__iexact=username)
-    sessions = review.get_latest_source_search_strings().values('source__id')
-    sources = review.sources.exclude(id__in=sessions)
+    sessions = review.get_latest_source_search_strings()
+    add_sources = review.sources.exclude(id__in=sessions.values('source__id'))
     database_queries = {}
+    try:
+        scopus = sessions.filter(source__name__iexact='Scopus')[0]
+        database_queries['scopus'] = scopus
+    except:
+        pass
+    try:
+        science_direct = sessions.filter(source__name__iexact='Science@Direct')[0]
+        database_queries['science_direct'] = science_direct
+    except:
+        pass
     return render(request, 'conducting/conducting_search_studies.html', { 
             'review': review, 
-            'add_sources': sources 
+            'add_sources': add_sources,
+            'database_queries': database_queries
             })
+
+@author_required
+@login_required
+@require_POST
+def save_source_string(request):
+    try:
+        review_id = request.POST.get('review-id')
+        source_id = request.POST.get('source-id')
+        review = Review.objects.get(pk=review_id)
+        source = Source.objects.get(pk=source_id)
+        search_string = request.POST.get('search_string')
+        try:
+            search_session = review.get_latest_source_search_strings().get(source=source)
+        except SearchSession.DoesNotExist:
+            search_session = SearchSession(review=review, source=source)
+        search_session.search_string = search_string
+        search_session.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+@author_required
+@login_required
+@require_POST
+def remove_source_string(request):
+    try:
+        review_id = request.POST.get('review-id')
+        source_id = request.POST.get('source-id')
+        review = Review.objects.get(pk=review_id)
+        source = Source.objects.get(pk=source_id)
+        search_string = request.POST.get('search_string')
+        try:
+            search_session = review.get_latest_source_search_strings().get(source=source)
+            search_session.delete()
+        except SearchSession.DoesNotExist:
+            pass
+        messages.success(request, u'{0} search string removed successfully!'.format(source.name))
+    except:
+        messages.error(request, u'{0} search string removed successfully!'.format(source.name))
+    return redirect(r('search_studies', args=(review.author.username, review.name)))
 
 @author_required
 @login_required
@@ -56,21 +108,27 @@ def import_base_string(request):
         search_session.search_string = base_search_string
         search_session.save()
         return HttpResponse(base_search_string)
-    except Exception, e:
-        raise e
+    except:
         return HttpResponseBadRequest()
 
 def elsevier_search(request, database):
     client = ElsevierClient(django_settings.ELSEVIER_API_KEY)
     query = request.GET.get('query', '')
     query = ' '.join(query.split())
-    result = {}
-    if database == 'scopus':
-        result = client.search_scopus(query)
-    elif database == 'science_direct':
-        result = client.search_science_direct(query)
-    data = json.dumps(result)
-    return HttpResponse(data, content_type='application/json')    
+    count = request.GET.get('count', '25')
+    try:
+        result = {}
+        if database == 'scopus':
+            result = client.search_scopus({ 'query': query, 'count': count })
+        elif database == 'science_direct':
+            result = client.search_science_direct({ 'query': query, 'count': count })
+        data = json.dumps(result)
+        return HttpResponse(data, content_type='application/json')
+    except ElsevierInvalidRequest, e:
+        return HttpResponseBadRequest('Invalid query. Please verify the syntax of your query before executing a new search.')
+    except ElsevierQuotaExceeded, e:
+        return HttpResponseBadRequest('Parsifal\'s search quota on Elsevier\'s databases exceeded. Please try again later.')
+
 
 @author_required
 @login_required
@@ -667,4 +725,5 @@ def add_source_string(request):
         except Source.DoesNotExist:
             pass
     review.save()
+    messages.success(request, 'Sources search string successfully added to the review!')
     return redirect(r('search_studies', args=(review.author.username, review.name)))

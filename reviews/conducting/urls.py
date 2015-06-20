@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('reviews.conducting.views',
     url(r'^add_source_string/$', 'add_source_string', name='add_source_string'),
+    url(r'^save_source_string/$', 'save_source_string', name='save_source_string'),
+    url(r'^remove_source_string/$', 'remove_source_string', name='remove_source_string'),
     url(r'^import_base_string/$', 'import_base_string', name='import_base_string'),
     url(r'^search_scopus/$', 'search_scopus', name='search_scopus'),
     url(r'^search_science_direct/$', 'search_science_direct', name='search_science_direct'),
