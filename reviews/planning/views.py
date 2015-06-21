@@ -365,7 +365,10 @@ def html_source(source):
         html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + '</a></td>'
     else:
         html += '<td>' + escape(source.url) + '</td>'
-    html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source">edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
+    if source.is_default:
+        html += '<td><span data-toggle="tooltip" data-placement="top" data-container="body" title="It\'s not possible to edit Digital Library\'s details"><button type="button" class="btn btn-sm btn-warning" disabled>edit</button></span> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
+    else:
+        html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source">edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
     return html
 
 

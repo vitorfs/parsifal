@@ -11,6 +11,11 @@ $(function () {
       beforeSend: function () {
         $(btn).ajaxDisable();
       },
+      success: function () {
+        var source_id = $("[name='source-id']", form).val();
+        var search_string = $("[name='search_string']", form).val();
+        $("[data-source-id='" + source_id + "'] textarea[name='query']").val(search_string);
+      },
       complete: function () {
         $(btn).ajaxEnable();
       }
@@ -58,6 +63,29 @@ $(function () {
     });
   });
 
+  $.fn.displaySearchResults = function (data) {
+    var container = $(this);
+    if (data !== null) {
+      $("table tbody", container).html("");
+
+      data["search-results"].entry.forEach(function (entry) {
+        $("table tbody", container).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + entry["citedby-count"] + "</td></tr>");
+      });
+
+      data["search-results"].link.forEach(function (link) {
+        var pager = $(".pager a[ref='" + link["@ref"] + "']");
+        $(pager).attr("href", link["@href"]);
+        $(pager).closest("li").removeClass("disabled");
+      });
+
+      $(".document-results", container).text(data["search-results"]["opensearch:totalResults"]);
+      $("form", container).attr("data-remote-status", "loaded");
+    }
+    else {
+      $("table tbody", container).html("<tr><td colspan='5'>No data</td></tr>");
+    }
+  };
+
   $(".source-search").submit(function () {
     var container = $(this).closest(".panel-body");
     var form = $(this);
@@ -79,17 +107,7 @@ $(function () {
           $(form).attr("data-remote-status", "loading");
         },
         success: function (data) {
-          if (data !== null) {
-            $("table tbody", container).html("");
-            data["search-results"].entry.forEach(function (entry) {
-              $("table tbody", container).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + entry["citedby-count"] + "</td></tr>");
-            });
-            $(".document-results", container).text(data["search-results"]["opensearch:totalResults"]);
-            $(form).attr("data-remote-status", "loaded");
-          }
-          else {
-            $("table tbody", container).html("<tr><td colspan='5'>No data</td></tr>");
-          }
+          $(container).displaySearchResults(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           $(form).attr("data-remote-status", "error");
@@ -103,22 +121,61 @@ $(function () {
     return false;
   });
 
+  $(".source-search .pager a").click(function (e) {
+    e.preventDefault();
+    var isDisabled = $(this).closest("li").hasClass("disabled");
+    if (!isDisabled) {
+      var url = $(this).attr("href");
+      var container = $(this).closest(".panel-body");
+      var form = $(this).closest("form");
+      var status = $(form).attr("data-remote-status");
+      if (status !== "loading") { 
+        $.ajax({
+          url: url,
+          cache: false,
+          dataType: 'json',
+          beforeSend: function () {
+            $("table tbody", container).html("<tr><td colspan='5' class='loading-placeholder'></td></tr>");
+            $(".loading-placeholder", container).spinner(false);
+            $(".block-spinner", container).css("margin", "30px auto");
+            $(form).attr("data-remote-status", "loading");
+            $(".pager li", container).addClass("disabled");
+          },
+          success: function (data) {
+            $(container).displaySearchResults(data);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            $(form).attr("data-remote-status", "error");
+            $("table tbody", container).html("<tr><td colspan='5'>" + jqXHR.responseText + "</td></tr>");
+          }
+        });
+      }
+    }
+    return false;
+  });
+
   $(".js-save-elsevier-string").click(function () {
     var btn = $(this);
     var form = $(this).closest("form");
     var url = $(this).attr("data-remote");
+    var search_string = $("[name='query']", form).val();
+    var review_id = $("[name='review-id']", form).val();
+    var source_id = $("[name='source-id']", form).val();
     $.ajax({
       url: url,
       data: {
         'csrfmiddlewaretoken': $("[name='csrfmiddlewaretoken']").val(),
-        'search_string': $("[name='query']", form).val(),
-        'review-id': $("[name='review-id']", form).val(),
-        'source-id': $("[name='source-id']", form).val(),
+        'search_string': search_string,
+        'review-id': review_id,
+        'source-id': source_id,
       },
       type: 'post',
       cache: false,
       beforeSend: function () {
         $(btn).ajaxDisable();
+      },
+      success: function () {
+        $("#source_" + source_id + " textarea[name='search_string']").val(search_string);
       },
       complete: function () {
         $(btn).ajaxEnable();

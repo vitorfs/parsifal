@@ -45,10 +45,14 @@ def search_studies(request, username, review_name):
         database_queries['science_direct'] = science_direct
     except:
         pass
+    sources_names = []
+    for source in review.sources.all():
+        sources_names.append(source.name.lower())
     return render(request, 'conducting/conducting_search_studies.html', { 
             'review': review, 
             'add_sources': add_sources,
-            'database_queries': database_queries
+            'database_queries': database_queries,
+            'sources_names': sources_names
             })
 
 @author_required

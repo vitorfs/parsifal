@@ -81,7 +81,7 @@
     </div>
   </form>
 
-  <div class="panel panel-default">
+  <div class="panel panel-default" id="search-strings">
     <div class="panel-heading">
       <h3 class="panel-title">
         Search Strings
@@ -190,7 +190,7 @@
               </a>
             </h3>
           </div>
-          <div id="search-scopus-collapse" class="panel-collapse collapse{% if 'scopus' in database_queries.keys %} in{% endif %}" role="tabpanel">
+          <div id="search-scopus-collapse" class="panel-collapse collapse{% if 'scopus' in database_queries.keys %} in{% endif %}" role="tabpanel" data-source-id="{{ database_queries.scopus.source.pk }}">
             <div class="panel-body">
               <form action="{% url 'reviews:conducting:search_scopus' %}" class="source-search">
                 <input type="hidden" name="review-id" value="{{ review.id }}">
@@ -225,7 +225,11 @@
                       </span>
                     </button>
                   {% else %}
-                    <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                    {% if 'scopus' in sources_names %}
+                      <a href="#search-strings" class="btn btn-link">Add a search string for Scopus to perform automatic searches</a>
+                    {% else %}
+                      <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                    {% endif %}
                   {% endif %}
                 </div>
                 <div class="row">
@@ -242,21 +246,29 @@
                     </select>
                   </div>
                 </div>
+                <table class="table table-condensed table-striped table-bordered">
+                  <thead>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Year</th>
+                    <th>Journal</th>
+                    <th>Citations</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="5">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <nav>
+                  <ul class="pager">
+                    <li class="disabled"><a href="#" ref="first">First</a></li>
+                    <li class="disabled"><a href="#" ref="previous">Previous</a></li>
+                    <li class="disabled"><a href="#" ref="next">Next</a></li>
+                    <li class="disabled"><a href="#" ref="last">Last</a></li>
+                  </ul>
+                </nav>
               </form>
-              <table class="table table-condensed table-striped table-bordered">
-                <thead>
-                  <th>Title</th>
-                  <th>Authors</th>
-                  <th>Year</th>
-                  <th>Journal</th>
-                  <th>Citations</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="5">No data</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
@@ -274,7 +286,7 @@
               </a>
             </h3>
           </div>
-          <div id="search-science-direct-collapse" class="panel-collapse collapse{% if 'science_direct' in database_queries.keys %} in{% endif %}" role="tabpanel">
+          <div id="search-science-direct-collapse" class="panel-collapse collapse{% if 'science_direct' in database_queries.keys %} in{% endif %}" role="tabpanel" data-source-id="{{ database_queries.science_direct.source.pk }}">
             <div class="panel-body">
               <form action="{% url 'reviews:conducting:search_science_direct' %}" class="source-search">
                 <input type="hidden" name="review-id" value="{{ review.id }}">
@@ -309,7 +321,11 @@
                       </span>
                     </button>
                   {% else %}
-                    <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                    {% if 'science@direct' in sources_names %}
+                      <a href="#search-strings" class="btn btn-link">Add a search string for Science@Direct to perform automatic searches</a>
+                    {% else %}
+                      <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Science@Direct to your sources to perform automatic searches</a>
+                    {% endif %}
                   {% endif %}
                 </div>
                 <div class="row">

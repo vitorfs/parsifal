@@ -10,7 +10,7 @@
     section {
       padding-top: 20px;
     }
-    ul.review-menu, section > .panel {
+    ul.review-menu, section > .panel, section form > .panel {
       margin-bottom: 0;
     }
   </style>
@@ -425,7 +425,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Suggested Sources</h4>
+                <h4 class="modal-title">Digital Libraries</h4>
               </div>
               <div class="modal-body">
                 <form action="." method="post" id="form-suggested-sources">
@@ -494,7 +494,13 @@
                     {% endif %}
                   </td>
                   <td>
-                    <button type="button" class="btn btn-warning btn-sm btn-edit-source">edit</button>
+                    {% if source.is_default %}
+                      <span data-toggle="tooltip" data-placement="top" data-container="body" title="It's not possible to edit Digital Library's details">
+                        <button type="button" class="btn btn-warning btn-sm" disabled>edit</button>
+                      </span>
+                    {% else %}
+                      <button type="button" class="btn btn-warning btn-sm btn-edit-source">edit</button>
+                    {% endif %}
                     <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</button>
                   </td>
                 </tr>
@@ -503,7 +509,7 @@
           </table>
           <div class="panel-footer">
             <button type="button" class="btn btn-primary" id="btn-add-source">Add Source</button>
-            <button type="button" class="btn btn-primary" id="btn-suggested-sources" data-toggle="modal" data-target="#modal-suggested-sources">Suggested Sources</button>
+            <button type="button" class="btn btn-primary" id="btn-suggested-sources" data-toggle="modal" data-target="#modal-suggested-sources">Add a Digital Library</button>
           </div>
         </div>
       </section>
