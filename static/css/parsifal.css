@@ -26,13 +26,32 @@ html, body {
 footer {
   border-top: 1px solid #E7E7E7;
   height: 50px;
-  padding-top: 14px;
   background-color: #fff;
+}
+
+footer .legal {
+  padding-top: 14px;
 }
 
 footer ul li {
   display: inline;
   margin-right: 15px;
+}
+
+footer .social {
+  padding-top: 10px;
+  font-size: 20px;
+  text-align: right;
+}
+
+footer .social a {
+  color: #777;
+  margin-left: 10px;
+  transition: all 0.2s ease 0s;
+}
+
+footer .social a:hover {
+  color: #333;
 }
 
 article {
