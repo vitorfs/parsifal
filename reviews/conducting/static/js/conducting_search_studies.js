@@ -36,6 +36,8 @@ $(function () {
       },
       success: function (data) {
         $("textarea[name='search_string']", form).val(data);
+        var source_id = $("[name='source-id']", form).val();
+        $("[data-source-id='" + source_id + "'] textarea[name='query']").val(data);
       },
       complete: function () {
         $(btn).ajaxEnable();
@@ -69,7 +71,11 @@ $(function () {
       $("table tbody", container).html("");
 
       data["search-results"].entry.forEach(function (entry) {
-        $("table tbody", container).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + entry["citedby-count"] + "</td></tr>");
+        var citations = entry["citedby-count"];
+        if (citations === undefined) {
+          citations = "";
+        }
+        $("table tbody", container).append("<tr><td>" +  entry["dc:title"] + "</td><td>" + entry["dc:creator"] + "</td><td>" + entry["prism:coverDisplayDate"] + "</td><td>" + entry["prism:publicationName"] + "</td><td>" + citations + "</td></tr>");
       });
 
       data["search-results"].link.forEach(function (link) {
@@ -97,9 +103,10 @@ $(function () {
       $.ajax({
         url: url,
         data: data,
-        cache: false,
+        cache: true,
         dataType: 'json',
         beforeSend: function () {
+          $("[name='page-query']", form).val($("[name='query']", form).val());
           $("button[type='submit']", form).ajaxDisable();
           $("table tbody", container).html("<tr><td colspan='5' class='loading-placeholder'></td></tr>");
           $(".loading-placeholder", container).spinner(false);
@@ -121,18 +128,37 @@ $(function () {
     return false;
   });
 
+  $(".source-search [name='count']").change(function () {
+    $(this).closest("form").submit();
+  });
+
   $(".source-search .pager a").click(function (e) {
     e.preventDefault();
     var isDisabled = $(this).closest("li").hasClass("disabled");
     if (!isDisabled) {
-      var url = $(this).attr("href");
+      
       var container = $(this).closest(".panel-body");
       var form = $(this).closest("form");
+      var url = $(form).attr("action");
       var status = $(form).attr("data-remote-status");
+
+      var href = $(this).attr("href");
+      var start = href.split('start=')[1].split('&')[0];
+      var query = $("[name='page-query']", form).val();
+      var count = href.split('count=')[1].split('&')[0];
+
+      var review_id = $("[name='review-id']", form).val();
+
       if (status !== "loading") { 
         $.ajax({
           url: url,
-          cache: false,
+          data: {
+            'review-id': review_id,
+            'query': query,
+            'start': start,
+            'count': count
+          },
+          cache: true,
           dataType: 'json',
           beforeSend: function () {
             $("table tbody", container).html("<tr><td colspan='5' class='loading-placeholder'></td></tr>");

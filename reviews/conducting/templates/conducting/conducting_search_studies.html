@@ -196,6 +196,7 @@
                 <input type="hidden" name="review-id" value="{{ review.id }}">
                 <input type="hidden" name="start" value="0">
                 <input type="hidden" name="source-id" value="{{ database_queries.scopus.source.pk }}">
+                <input type="hidden" name="page-query" value="">
                 <div class="form-group">
                   <label class="control-label">Query</label>
                   <textarea class="form-control" name="query">{{ database_queries.scopus.search_string }}</textarea>
@@ -263,7 +264,8 @@
                 <nav>
                   <ul class="pager">
                     <li class="disabled"><a href="#" ref="first">First</a></li>
-                    <li class="disabled"><a href="#" ref="previous">Previous</a></li>
+                    <li class="disabled"><a href="#" ref="prev">Previous</a></li>
+                    <li class="disabled hide"><a href="#" ref="self">Current</a></li>
                     <li class="disabled"><a href="#" ref="next">Next</a></li>
                     <li class="disabled"><a href="#" ref="last">Last</a></li>
                   </ul>
@@ -292,6 +294,7 @@
                 <input type="hidden" name="review-id" value="{{ review.id }}">
                 <input type="hidden" name="start" value="0">
                 <input type="hidden" name="source-id" value="{{ database_queries.science_direct.source.pk }}">
+                <input type="hidden" name="page-query" value="">
                 <div class="form-group">
                   <label class="control-label">Query</label>
                   <textarea class="form-control" name="query">{{ database_queries.science_direct.search_string }}</textarea>
@@ -342,21 +345,30 @@
                     </select>
                   </div>
                 </div>
+                <table class="table table-condensed table-striped table-bordered">
+                  <thead>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Year</th>
+                    <th>Journal</th>
+                    <th>Citations</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="5">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <nav>
+                  <ul class="pager">
+                    <li class="disabled"><a href="#" ref="first">First</a></li>
+                    <li class="disabled"><a href="#" ref="prev">Previous</a></li>
+                    <li class="disabled hide"><a href="#" ref="self">Current</a></li>
+                    <li class="disabled"><a href="#" ref="next">Next</a></li>
+                    <li class="disabled"><a href="#" ref="last">Last</a></li>
+                  </ul>
+                </nav>
               </form>
-              <table class="table table-condensed table-striped table-bordered">
-                <thead>
-                  <th>Title</th>
-                  <th>Authors</th>
-                  <th>Year</th>
-                  <th>Journal</th>
-                  <th>Citations</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="5">No data</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>

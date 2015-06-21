@@ -120,12 +120,15 @@ def elsevier_search(request, database):
     query = request.GET.get('query', '')
     query = ' '.join(query.split())
     count = request.GET.get('count', '25')
+    start = request.GET.get('start', '0')
+    print count
+    print start
     try:
         result = {}
         if database == 'scopus':
-            result = client.search_scopus({ 'query': query, 'count': count })
+            result = client.search_scopus({ 'query': query, 'count': count, 'start': start })
         elif database == 'science_direct':
-            result = client.search_science_direct({ 'query': query, 'count': count })
+            result = client.search_science_direct({ 'query': query, 'count': count, 'start': start })
         data = json.dumps(result)
         return HttpResponse(data, content_type='application/json')
     except ElsevierInvalidRequest, e:
