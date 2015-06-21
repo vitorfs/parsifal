@@ -1,4 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=Playball);
+@font-face {
+  font-family: 'Playball';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Playball'), local('Playball-Regular'), url(../fonts/playball-regular.woff2) format('woff2'), url(../fonts/playball-regular.woff) format('woff');
+}
 
 /* Parsifal base */
 

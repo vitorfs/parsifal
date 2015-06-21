@@ -41,6 +41,9 @@
           </div>
           <div class="modal-body">
             {% if add_sources %}
+            <div class="alert alert-info" role="alert">
+              <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Showing the available sources from you Protocol, defined in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.
+            </div>
             <table class="table table-check-all">
               <thead>
                 <tr>
@@ -159,7 +162,7 @@
       </div>
     </div>
     <div class="panel-footer">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-source-string"><span class="glyphicon glyphicon-plus"></span> Add source</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-source-string"><span class="glyphicon glyphicon-plus"></span> Add source-specific search string</button>
     </div>
   </div>
 
@@ -178,12 +181,16 @@
           <div class="panel-heading">
             <h3 class="panel-title">
               <a role="button" data-toggle="collapse" href="#search-scopus-collapse" aria-expanded="false">
-                <span class="glyphicon glyphicon-minus pull-right"></span>
+                {% if 'scopus' in database_queries.keys %}
+                  <span class="glyphicon glyphicon-minus pull-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-plus pull-right"></span>
+                {% endif %}
                 Scopus
               </a>
             </h3>
           </div>
-          <div id="search-scopus-collapse" class="panel-collapse collapse in" role="tabpanel">
+          <div id="search-scopus-collapse" class="panel-collapse collapse{% if 'scopus' in database_queries.keys %} in{% endif %}" role="tabpanel">
             <div class="panel-body">
               <form action="{% url 'reviews:conducting:search_scopus' %}" class="source-search">
                 <input type="hidden" name="review-id" value="{{ review.id }}">
@@ -258,12 +265,16 @@
           <div class="panel-heading">
             <h3 class="panel-title">
               <a role="button" data-toggle="collapse" href="#search-science-direct-collapse" aria-expanded="false">
-                <span class="glyphicon glyphicon-plus pull-right"></span>
+                {% if 'science_direct' in database_queries.keys %}
+                  <span class="glyphicon glyphicon-minus pull-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-plus pull-right"></span>
+                {% endif %}
                 Science@Direct
               </a>
             </h3>
           </div>
-          <div id="search-science-direct-collapse" class="panel-collapse collapse" role="tabpanel">
+          <div id="search-science-direct-collapse" class="panel-collapse collapse{% if 'science_direct' in database_queries.keys %} in{% endif %}" role="tabpanel">
             <div class="panel-body">
               <form action="{% url 'reviews:conducting:search_science_direct' %}" class="source-search">
                 <input type="hidden" name="review-id" value="{{ review.id }}">
