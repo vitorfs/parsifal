@@ -18,7 +18,7 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['parsif.al', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', '162.243.206.171', 'parsif.al']
 
 ADMINS = (
     ('Vitor Freitas', 'vitorfs@gmail.com'),
