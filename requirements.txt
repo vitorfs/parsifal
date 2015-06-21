@@ -5,6 +5,7 @@ arrow==0.5.0
 bibtexparser==0.5.2
 dj-database-url==0.3.0
 django-extensions==1.5.5
+dropbox==2.2.0
 future==0.14.3
 gunicorn==19.3.0
 memoized-property==1.0.2
@@ -14,7 +15,8 @@ psycopg2==2.6
 python-dateutil==2.4.2
 python-decouple==2.3
 pytz==2015.4
-requests==2.5.1
+requests==2.7.0
 requests-oauthlib==0.4.2
 six==1.9.0
+urllib3==1.10.4
 wsgiref==0.1.2
