@@ -13,9 +13,6 @@
     <loc>https://parsif.al/support/</loc>
   </url>
   <url>
-    <loc>https://parsif.al/signin/</loc>
-  </url>
-  <url>
     <loc>https://parsif.al/signup/</loc>
   </url>
   <url>
@@ -35,5 +32,11 @@
   </url>
   <url>
     <loc>https://parsif.al/blog/5-new-user-interface/</loc>
+  </url>
+  <url>
+    <loc>https://parsif.al/blog/6-bugfixes/</loc>
+  </url>
+  <url>
+    <loc>https://parsif.al/blog/7-search-scopus-and-sciencedirects-databases-through-parsifal/</loc>
   </url>
 </urlset>
