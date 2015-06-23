@@ -47,33 +47,70 @@
         </div>
         <div class="form-group">
           <label class="control-label">Author</label>
-          <input type="text" class="form-control" name="author" id="author" value="{{ article.author }}">
+          <input type="text" class="form-control" name="author" id="author" value="{{ article.author|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Author Keywords</label>
+          <input type="text" class="form-control" name="author_keywords" id="author_keywords" value="{{ article.author_keywords|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Keywords</label>
+          <input type="text" class="form-control" name="keywords" id="keywords" value="{{ article.keywords|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Journal</label>
-          <input type="text" class="form-control" name="journal" id="journal" value="{{ article.journal }}">
+          <input type="text" class="form-control" name="journal" id="journal" value="{{ article.journal|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Year</label>
-          <input type="text" class="form-control" name="year" id="year" value="{{ article.year }}">
+          <input type="text" class="form-control" name="year" id="year" value="{{ article.year|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Document Type</label>
-          <input type="text" class="form-control" name="document-type" id="document-type" value="{{ article.document_type }}">
+          <input type="text" class="form-control" name="document-type" id="document-type" value="{{ article.document_type|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Pages</label>
-          <input type="text" class="form-control" name="pages" id="pages" value="{{ article.pages }}">
+          <input type="text" class="form-control" name="pages" id="pages" value="{{ article.pages|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Volume</label>
-          <input type="text" class="form-control" name="volume" id="volume" value="{{ article.volume }}">
+          <input type="text" class="form-control" name="volume" id="volume" value="{{ article.volume|default_if_none:'' }}">
         </div>
+        <div class="form-group">
+          <label class="control-label">DOI</label>
+          <input type="text" class="form-control" name="doi" id="doi" value="{{ article.doi|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">URL</label>
+          <input type="text" class="form-control" name="url" id="url" value="{{ article.url|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Affiliation</label>
+          <input type="text" class="form-control" name="affiliation" id="affiliation" value="{{ article.affiliation|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Publisher</label>
+          <input type="text" class="form-control" name="publisher" id="publisher" value="{{ article.publisher|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">ISSN</label>
+          <input type="text" class="form-control" name="issn" id="issn" value="{{ article.issn|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Language</label>
+          <input type="text" class="form-control" name="language" id="language" value="{{ article.language|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Note</label>
+          <input type="text" class="form-control" name="note" id="note" value="{{ article.note|default_if_none:'' }}">
+        </div>
+
       </div>
       <div role="tabpanel" class="tab-pane" id="tab-comments">
         <div class="form-group">
           <label class="control-label">Comments</label>
-          <textarea name="comments" class="form-control" id="comments" rows="5">{{ article.comments }}</textarea>
+          <textarea name="comments" class="form-control" id="comments" rows="5">{{ article.comments|default_if_none:'' }}</textarea>
         </div>
       </div>
       {% comment %}<div role="tabpanel" class="tab-pane" id="tab-files">

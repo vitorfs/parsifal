@@ -526,6 +526,16 @@ def save_article_details(request):
             article.author = request.POST['author'][:1000]
             article.abstract = request.POST['abstract'][:4000]
             article.document_type = request.POST['document-type'][:100]
+            article.doi = request.POST['doi'][:50]
+            article.url = request.POST['url'][:500]
+            article.affiliation = request.POST['affiliation'][:500]
+            article.author_keywords = request.POST['author_keywords'][:500]
+            article.keywords = request.POST['keywords'][:500]
+            article.publisher = request.POST['publisher'][:100]
+            article.issn = request.POST['issn'][:50]
+            article.language = request.POST['language'][:50]
+            article.note = request.POST['note'][:500]
+
             article.comments = request.POST['comments'][:4000]
             status = request.POST['status'][:1]
             if status in (Article.UNCLASSIFIED, Article.REJECTED, Article.ACCEPTED, Article.DUPLICATED):
