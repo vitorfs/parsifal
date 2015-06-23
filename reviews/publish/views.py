@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
 from reviews.models import Review
 from reviews.decorators import main_author_required, author_required
-from parsifal.decorators import ajax_required
-from django.contrib.auth.decorators import login_required
+
 
 @login_required
 @author_required

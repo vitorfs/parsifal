@@ -3,7 +3,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from activities.models import Activity
 from django.contrib.auth.models import User
-from parsifal.decorators import ajax_required
 from django.contrib.auth.decorators import login_required
 
 

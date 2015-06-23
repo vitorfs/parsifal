@@ -18,7 +18,7 @@ from django.db.models import Count
 from reviews.models import *
 from reviews.decorators import main_author_required, author_required
 from reviews.forms import ArticleUploadForm
-from parsifal.decorators import ajax_required
+
 from parsifal.utils.elsevier.client import ElsevierClient
 from parsifal.utils.elsevier.exceptions import *
 
