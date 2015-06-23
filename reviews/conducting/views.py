@@ -374,15 +374,24 @@ def bibtex_to_article_object(filename, review, source):
     for record in record_list:
         article = Article()
         try:
-            if 'id' in record: article.bibtex_key = record['id'][:100]
-            if 'title' in record: article.title = record['title'][:1000]
-            if 'journal' in record: article.journal = record['journal'][:1000]
-            if 'year' in record: article.year = record['year'][:10]
-            if 'author' in record: article.author = record['author'][:1000]
-            if 'abstract' in record: article.abstract = record['abstract'][:4000]
-            if 'pages' in record: article.pages = record['pages'][:20]
-            if 'volume' in record: article.volume = record['volume'][:100]
-            if 'document_type' in record: article.document_type = record['document_type'][:100]
+            if 'id'              in record: article.bibtex_key      = record['id'][:100]
+            if 'title'           in record: article.title           = record['title'][:1000]
+            if 'journal'         in record: article.journal         = record['journal'][:1000]
+            if 'year'            in record: article.year            = record['year'][:10]
+            if 'author'          in record: article.author          = record['author'][:1000]
+            if 'abstract'        in record: article.abstract        = record['abstract'][:4000]
+            if 'pages'           in record: article.pages           = record['pages'][:20]
+            if 'volume'          in record: article.volume          = record['volume'][:100]
+            if 'document_type'   in record: article.document_type   = record['document_type'][:100]
+            if 'doi'             in record: article.doi             = record['doi'][:50]
+            if 'url'             in record: article.url             = record['url'][:500]
+            if 'affiliation'     in record: article.affiliation     = record['affiliation'][:500]
+            if 'author_keywords' in record: article.author_keywords = record['author_keywords'][:500]
+            if 'keywords'        in record: article.keywords        = record['keywords'][:500]
+            if 'publisher'       in record: article.publisher       = record['publisher'][:100]
+            if 'issn'            in record: article.issn            = record['issn'][:50]
+            if 'language'        in record: article.language        = record['language'][:50]
+            if 'note'            in record: article.note            = record['note'][:500]
             article.review = review
             article.source = source
         except:
