@@ -365,7 +365,7 @@ def data_extraction(request, username, review_name):
     context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'data_extraction_table': data_extraction_table, 'finished_all_steps': finished_all_steps })
     return render_to_response('conducting/conducting_data_extraction.html', context)
 
-def bibtex_to_article_object(filename, review_id, source_id):
+def bibtex_to_article_object(filename, review, source):
     filehandler = open(filename, 'r')
     parser = BibTexParser(filehandler)
     record_list = parser.get_entry_list()
@@ -383,8 +383,8 @@ def bibtex_to_article_object(filename, review_id, source_id):
             if 'pages' in record: article.pages = record['pages'][:20]
             if 'volume' in record: article.volume = record['volume'][:100]
             if 'document_type' in record: article.document_type = record['document_type'][:100]
-            article.review = Review(id=review_id)
-            article.source = Source(id=source_id)
+            article.review = review
+            article.source = source
         except:
             continue
         articles.append(article)
@@ -392,20 +392,25 @@ def bibtex_to_article_object(filename, review_id, source_id):
 
 @author_required
 @login_required
+@require_POST
 def import_bibtex(request):
     review_id = request.POST['review-id']
     source_id = request.POST['source-id']
+
     review = Review.objects.get(pk=review_id)
+    source = Source.objects.get(pk=source_id)
+
     f = request.FILES['bibtex']
     filename = django_settings.FILE_UPLOAD_TEMP_DIR + request.user.username + '.bib'
     with open(filename, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-    articles = bibtex_to_article_object(filename, review_id, source_id)
-    for article in articles:
-        article.save()
-    return redirect('/' + review.author.username + '/' + review.name + '/conducting/import/')
-
+    articles = bibtex_to_article_object(filename, review, source)
+    if any(articles):
+        for article in articles:
+            article.save()
+        messages.success(request, u'{0} articles successfully imported to {1}!'.format(len(articles), source.name))
+    return redirect(r('import_studies', args=(review.author.username, review.name)))
 
 @author_required
 @login_required

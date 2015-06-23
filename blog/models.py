@@ -17,7 +17,7 @@ class Entry(models.Model):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
-    content = models.TextField(max_length=2000)
+    content = models.TextField(max_length=4000, null=True, blank=True)
     status = models.CharField(max_length=10, choices=ENTRY_STATUS)
     start_publication = models.DateTimeField()
     created_by = models.ForeignKey(User)
@@ -31,9 +31,3 @@ class Entry(models.Model):
 
     def __unicode__(self):
         return self.title
-
-    def format_content(self):
-        formatted_content = ''
-        for content in self.content.split('\n'):
-            formatted_content += '<p>' + content + '</p>'
-        return formatted_content

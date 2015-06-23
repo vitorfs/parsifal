@@ -18,7 +18,7 @@
     {% for articles in duplicates %}
       {% with forloop.counter as loop_count %}
         {% for article in articles %}
-          <tr{% if loop_count|divisibleby:2 %} class="zebra"{% endif %} duplicate="{{ loop_count }}" article-id="{{ article.id }}" resolved="false">
+          <tr{% if loop_count|divisibleby:2 %} style="background-color: #f5f5f5;"{% endif %} duplicate="{{ loop_count }}" article-id="{{ article.id }}" resolved="false">
             <td>{{ article.title }}</td>
             <td>{{ article.author }}</td>
             <td>{{ article.year }}</td>
