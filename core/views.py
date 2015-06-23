@@ -1,9 +1,14 @@
 # coding: utf-8
+
+from datetime import datetime
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from reviews.models import Review
 from activities.models import Activity
-from datetime import datetime
+
+from reviews.models import Review
+from blog.models import Entry
+
 
 def get_following_feeds(user):
     feeds = []    
@@ -44,7 +49,11 @@ def home(request):
     if request.user.is_authenticated():
         user_reviews = request.user.profile.get_reviews()
         feeds = get_following_feeds(request.user)
-        context = RequestContext(request, {'user_reviews': user_reviews, 'feeds': feeds, })
+        try:
+            latest_news = Entry.objects.filter(status=Entry.PUBLISHED).order_by('-start_publication',)[0]
+        except:
+            latest_news = None
+        context = RequestContext(request, {'user_reviews': user_reviews, 'feeds': feeds, 'latest_news': latest_news })
         return render_to_response('core/home.html', context)
     else:
         context = RequestContext(request)
@@ -53,10 +62,6 @@ def home(request):
 def about(request):
     context = RequestContext(request)
     return render_to_response('core/about.html', context)
-
-def help(request):
-    context = RequestContext(request)
-    return render_to_response('core/help.html', context)
 
 def support(request):
     context = RequestContext(request)

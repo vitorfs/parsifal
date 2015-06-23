@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-md-12">
       <a href="/reviews/new/" class="btn btn-primary pull-right">New review</a>
-      <h2 class="page-header">Last updates on Parsifal</h2>
+      <h2 class="page-header">Last updates on your network</h2>
     </div>
   </div>
   <div class="row">
@@ -18,6 +18,16 @@
       {% endfor %}
     </div>
     <div class="col-md-4">
+      {% if latest_news %}
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Lastest news</h3>
+          </div>
+          <div class="panel-body">
+            {{ latest_news.content|safe|truncatechars:"140" }} <a href="{% url 'blog:entry' latest_news.slug %}">Read more</a>
+          </div>
+        </div>
+      {% endif %}
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Your reviews</h3>

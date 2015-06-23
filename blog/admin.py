@@ -1,8 +1,12 @@
 # coding: utf-8
+
 import datetime
+
 from django.contrib import admin
-from blog.models import Entry
 from django.template.defaultfilters import slugify
+
+from blog.models import Entry
+
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ['title', 'status', 'start_publication', 'creation_date', 'last_update', 'created_by', 'edited_by']

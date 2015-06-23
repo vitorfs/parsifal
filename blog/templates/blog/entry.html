@@ -2,17 +2,6 @@
 
 {% block title %}Parsifal - {{ entry.title }}{% endblock %}
 
-{% block javascript %}
-  <script type="text/javascript">
-    var disqus_shortname = 'parsifalreviews';
-    (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-{% endblock javascript %}
-
 {% block content %}
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -26,7 +15,6 @@
           {{ entry.content|safe }}
         </div>
       </article>
-      <div id="disqus_thread"></div>
     </div>
   </div>
 {% endblock content %}

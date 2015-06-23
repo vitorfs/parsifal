@@ -88,6 +88,7 @@ INSTALLED_APPS = (
     'reviews.settings',
     'reviews.publish',
     'parsifal_settings',
+    'parsifal.help',
 )
 
 LOGIN_URL = '/signin/'
