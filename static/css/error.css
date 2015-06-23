@@ -1,0 +1,26 @@
+body {
+  background-color: #f8f8f8;
+  text-align: center;
+  padding-top: 170px;
+}
+
+h1 {
+  font-family: 'Playball', cursive;
+  font-weight: 400;
+  color: #777;
+  font-size: 42px;
+}
+
+.divider {
+  line-height: 1.42857;
+  color: #777;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 6px 0;
+  vertical-align: middle;
+}
+
+.legal {
+  text-align: left;
+}
