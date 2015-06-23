@@ -2,22 +2,32 @@
 
 {% block title %}Parsifal - About{% endblock %}
 
+{% block fullwidthheader %}
+  <div class="masthead">
+    <h1>About Parsifal</h1>
+    <p>Learn more about the project and our goals</p>
+  </div>
+{% endblock %}
+
 {% block content %}
-  <h2 class="page-header">About Parsifal</h2>
-  <article>  
-    <h3>What's Parsifal?</h3>
-    <p><strong>Parsifal</strong> is an online tool designed to support researchers to perform systematic literature reviews. With <strong>Parsifal</strong>, geographically distributed researchers can work together within a shared workspace, designing the protocol and conducting the research.</p>
-    <p>As well as providing a way to document the whole process, the tool will help you remind what is important during a systematic literature review. During the planning phase, <strong>Parsifal</strong> will help you with the objectives, PICOC, research questions, search string, keywords and synonyms, selecting the sources, the inclusion and exclusion criterias. Will also provide mechanisms to build a quality assessment checklist and data extraction forms.</p>
-    <p>During the conducting phase, you will be able to import <em>bibtex</em> files and select the studies, find duplicates among all the different sources, execute the quality assessment and extract data from the papers.</p>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <article>  
+        <h2>What's Parsifal?</h2>
+        <p><strong>Parsifal</strong> is an online tool designed to support researchers to perform systematic literature reviews. With <strong>Parsifal</strong>, geographically distributed researchers can work together within a shared workspace, designing the protocol and conducting the research.</p>
+        <p>As well as providing a way to document the whole process, the tool will help you remind what is important during a systematic literature review. During the planning phase, <strong>Parsifal</strong> will help you with the objectives, PICOC, research questions, search string, keywords and synonyms, selecting the sources, the inclusion and exclusion criterias. Will also provide mechanisms to build a quality assessment checklist and data extraction forms.</p>
+        <p>During the conducting phase, you will be able to import <em>bibtex</em> files and select the studies, find duplicates among all the different sources, execute the quality assessment and extract data from the papers.</p>
 
-    <h3>What's a Systematic Literature Review?</h3>
-    <p>A systematic literature review is a secondary study with the objective to identify, analyze and interpret all available evidences from primary studies related to a specific research question. As suggested by Kitchenham and Charters, the activity to perform a systematic literature review involves planning, conducting and reporting the review <sup><a href="#kitchenham-2007">[1]</a></sup>.</p>
-    <p>Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher, designing the protocol, adjusting the search string, filtering the results, sometimes more than a thousand of articles, selecting those articles that attends the include criteria and removing those articles that attends the exclude criteria. After that, the researcher might start to analyze the relevant result one by one.</p>
-    <p><strong>Parsifal</strong> was designed to help you through all those steps.</p>
+        <h2>What's a Systematic Literature Review?</h2>
+        <p>A systematic literature review is a secondary study with the objective to identify, analyze and interpret all available evidences from primary studies related to a specific research question. As suggested by Kitchenham and Charters, the activity to perform a systematic literature review involves planning, conducting and reporting the review <sup><a href="#kitchenham-2007">[1]</a></sup>.</p>
+        <p>Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher, designing the protocol, adjusting the search string, filtering the results, sometimes more than a thousand of articles, selecting those articles that attends the include criteria and removing those articles that attends the exclude criteria. After that, the researcher might start to analyze the relevant result one by one.</p>
+        <p><strong>Parsifal</strong> was designed to help you through all those steps.</p>
 
-    <h3>References</h3>
-    <ol class="references">
-      <li id="kitchenham-2007">Kitchenham B (2007) Guidelines for performing Systematic Literature Reviews in Software Engineering, Version 2.3, EBSE Technical Report EBSE-2007-01, Keele University and University of Durham</li>
-    </ol>
-  </article>
+        <h2>References</h2>
+        <ol class="references">
+          <li id="kitchenham-2007">Kitchenham B (2007) Guidelines for performing Systematic Literature Reviews in Software Engineering, Version 2.3, EBSE Technical Report EBSE-2007-01, Keele University and University of Durham</li>
+        </ol>
+      </article>
+    </div>
+  </div>
 {% endblock content %}

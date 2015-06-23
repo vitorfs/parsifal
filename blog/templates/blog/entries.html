@@ -2,18 +2,28 @@
 
 {% block title %}Parsifal - Blog{% endblock %}
 
+{% block fullwidthheader %}
+  <div class="masthead">
+    <h1>The Parsifal Blog</h1>
+    <p>Find out the latest news on Parsifal</p>
+  </div>
+{% endblock %}
+
 {% block content %}
-  <h2 class="page-header">The Parsifal Blog</h2>
-  {% for entry in entries %}
-    <article>
-      <h3><a href="{% url 'blog:entry' entry.slug %}">{{ entry.title }}</a></h3>
-      <p class="text-muted">
-        Posted by <a href="{% url 'reviews' entry.created_by.username %}">{{ entry.created_by.profile.get_screen_name }}</a> at
-        {{ entry.start_publication|date:"D d M Y" }}
-      </p>
-      <div class="content">
-        {{ entry.content|safe }}
-      </div>
-    </article>
-  {% endfor %}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      {% for entry in entries %}
+        <article>
+          <h2><a href="{% url 'blog:entry' entry.slug %}">{{ entry.title }}</a></h2>
+          <p class="text-muted">
+            Posted by <a href="{% url 'reviews' entry.created_by.username %}">{{ entry.created_by.profile.get_screen_name }}</a> at
+            {{ entry.start_publication|date:"D d M Y" }}
+          </p>
+          <div class="content">
+            {{ entry.content|safe }}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock content %}

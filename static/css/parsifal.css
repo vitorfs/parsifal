@@ -5,6 +5,13 @@
   src: local('Playball'), local('Playball-Regular'), url(../fonts/playball-regular.woff2) format('woff2'), url(../fonts/playball-regular.woff) format('woff');
 }
 
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Merriweather'), url(../fonts/merriweather.woff2) format('woff2'), url(../fonts/merriweather.woff) format('woff');
+}
+
 /* Parsifal base */
 
 html, body {
@@ -21,6 +28,35 @@ html, body {
 
 .push {
   height: 50px;
+}
+
+header .navbar {
+  margin-bottom: 0;
+}
+
+.masthead {
+  background-color: #fafafa;
+  border-bottom: 1px solid #e7e7e7;
+  text-align: center;
+  color: #777;
+  padding: 70px 0;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-family: 'Merriweather', serif;
+  font-size: 42px;
+}
+
+.masthead p {
+  margin-bottom: 0;
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+main {
+  margin-top: 20px;
 }
 
 footer {
@@ -56,6 +92,7 @@ footer .social a:hover {
 
 article {
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
 .references {

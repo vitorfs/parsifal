@@ -3,14 +3,18 @@
 {% block title %}Parsifal - {{ entry.title }}{% endblock %}
 
 {% block content %}
-  <article class="single-entry">
-    <h2 class="page-header">{{ entry.title }}</h2>
-    <p class="text-muted">
-      Posted by <a href="{% url 'reviews' entry.created_by.username %}">{{ entry.created_by.profile.get_screen_name }}</a> at
-      {{ entry.start_publication|date:"D d M Y" }}
-    </p>
-    <div class="content">
-      {{ entry.content|safe }}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <article class="single-entry">
+        <h2 class="page-header">{{ entry.title }}</h2>
+        <p class="text-muted">
+          Posted by <a href="{% url 'reviews' entry.created_by.username %}">{{ entry.created_by.profile.get_screen_name }}</a> at
+          {{ entry.start_publication|date:"D d M Y" }}
+        </p>
+        <div class="content">
+          {{ entry.content|safe }}
+        </div>
+      </article>
     </div>
-  </article>
+  </div>
 {% endblock content %}
