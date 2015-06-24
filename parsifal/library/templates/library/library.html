@@ -2,59 +2,128 @@
 
 {% block title %}Parsifal · Library{% endblock %}
 
+{% block javascript %}
+<script>
+$(function () {
+  $(".js-jump-page").popover({
+    html: true,
+    content: function () {
+      var html = "<div><small><a href='?page=1'>First page</a></small></div>";
+      html += "<div><small><a href='?page={{ documents.paginator.num_pages }}'>Last page</a></small></div>";
+      return html;
+    }
+  });
+});
+</script>
+{% endblock %}
+
 {% block content %}
   <h2 class="page-header">My Library</h2>
 
   <div class="row">
-    <div class="col-md-3">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Menu</h3>
-        </div>
-        <div class="panel-body">
-          
-        </div>
-      </div>
+    <div class="col-md-4 col-lg-3">
+      {% include 'library/includes/menu.html' with reviews=reviews %}
     </div>
-    <div class="col-md-9">
+    <div class="col-md-8 col-lg-9">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Documents</h3>
+          <h3 class="panel-title">
+            <span class="fa fa-files-o"></span>
+            Documents
+          </h3>
         </div>
         <div class="panel-body">
-          
+          <div class="btn-toolbar" role="toolbar" aria-label="Library Toolbar">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-unchecked"></span>
+              </button>
+              <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#">All</a></li>
+                <li><a href="#">None</a></li>
+              </ul>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon glyphicon-folder-open"></span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-sort-by-attributes"></span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#">Title (a - z)</a></li>
+                <li><a href="#">Title (z - a)</a></li>
+                <li><a href="#">Publication year (0 - 9)</a></li>
+                <li><a href="#">Publication year (9 - 0)</a></li>
+              </ul>
+            </div>
+
+            <div class="btn-group pull-right" role="group" aria-label="Pager">
+              {% if documents.has_previous %}
+                <a href="?page={{ documents.previous_page_number }}" class="btn btn-default btn-sm">
+                  <span class="glyphicon glyphicon-arrow-left"></span>
+                </a>
+              {% else %}
+                <button type="button" class="btn btn-default btn-sm" disabled>
+                  <span class="glyphicon glyphicon-arrow-left"></span>
+                </button>
+              {% endif %}
+              {% if documents.has_next %}
+                <a href="?page={{ documents.next_page_number }}" class="btn btn-default btn-sm">
+                  <span class="glyphicon glyphicon-arrow-right"></span>
+                </a>
+              {% else %}
+                <button type="button" class="btn btn-default btn-sm" disabled>
+                  <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+              {% endif %}
+            </div>
+
+            <div class="btn-group pull-right">
+              <a href="javascript:void(0);" class="btn btn-sm btn-link js-jump-page" data-container="body" data-placement="bottom">
+                <strong>{{ documents.start_index }}</strong> – <strong>{{ documents.end_index }}</strong> of <strong>{{ documents.paginator.count }}</strong>
+              </a>
+            </div>
+          </div>
+
         </div>
         <table class="table table-hover" id="library-documents">
           {% for document in documents %}
             <tr>
+              <td style="text-align: center; vertical-align: middle; width: 35px;">
+                <span class="glyphicon glyphicon-unchecked"></span>
+              </td>
               <td>
-                <p style="margin-bottom: 5px;">{{ document.title }}</p>
-                <p class="text-muted" style="margin-bottom: 0;"><span>{{ document.author }}</span>, {{ document.journal }}</p>
+                <p style="margin: 0;">{{ document.title }}</p>
+                {% if document.author or document.journal %}
+                  <p class="text-muted" style="margin-top: 5px; margin-bottom: 0;">
+                    <span class="text-info">{{ document.author }}</span>{% if document.journal %}, {{ document.journal }}{% endif %}
+                  </p>
+                {% endif %}
               </td>
             </tr>
           {% endfor %}
         </table>
-        <div class="panel-footer">
-          <nav>
-            <ul class="pagination pagination-sm" style="margin: 0;">
-              <li>
-                <a href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li>
-                <a href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
       </div>
     </div>
   </div>

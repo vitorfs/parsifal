@@ -242,7 +242,6 @@ class Article(models.Model):
     source = models.ForeignKey(Source, null=True)
     pages = models.CharField(max_length=20, null=True, blank=True)
     volume = models.CharField(max_length=100, null=True, blank=True)
-    author = models.CharField(max_length=1000, null=True, blank=True)
     abstract = models.TextField(max_length=4000, null=True, blank=True)
     document_type = models.CharField(max_length=100, null=True, blank=True)
     status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
