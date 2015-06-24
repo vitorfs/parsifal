@@ -16,3 +16,4 @@ def index(request):
     except EmptyPage:
         documents = paginator.page(paginator.num_pages)
     return render(request, 'library/library.html', { 'reviews': reviews, 'documents': documents })
+
