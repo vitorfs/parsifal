@@ -2,7 +2,7 @@ Django==1.8.2
 Pillow==2.6.1
 Unipath==1.1
 arrow==0.5.0
-bibtexparser==0.5.2
+bibtexparser==0.6.0
 dj-database-url==0.3.0
 django-extensions==1.5.5
 dropbox==2.2.0

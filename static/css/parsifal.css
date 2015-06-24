@@ -218,6 +218,10 @@ article {
   }
 }
 
+#library-documents {
+  font-size: 12px;
+}
+
 /* Parsifal cover */
 
 .cover {

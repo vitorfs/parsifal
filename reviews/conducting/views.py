@@ -1,7 +1,10 @@
 # coding: utf-8
 
+import codecs 
 import json
+import bibtexparser
 from bibtexparser.bparser import BibTexParser
+from bibtexparser.customization import convert_to_unicode
 
 from django.views.decorators.http import require_POST
 from django.core.urlresolvers import reverse as r
@@ -366,32 +369,43 @@ def data_extraction(request, username, review_name):
     return render_to_response('conducting/conducting_data_extraction.html', context)
 
 def bibtex_to_article_object(filename, review, source):
-    filehandler = open(filename, 'r')
-    parser = BibTexParser(filehandler)
-    record_list = parser.get_entry_list()
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
 
     articles = []
-    for record in record_list:
+
+    with codecs.open(filename, 'r', 'utf-8-sig') as bibtex_file:
+        parser = BibTexParser()
+        parser.customization = convert_to_unicode
+        bib_database = bibtexparser.load(bibtex_file, parser=parser)
+
+    pp.pprint(bib_database.entries)
+
+    for entry in bib_database.entries:
+        pp.pprint(entry)
         article = Article()
         try:
-            if 'id'              in record: article.bibtex_key      = record['id'][:100]
-            if 'title'           in record: article.title           = record['title'][:1000]
-            if 'journal'         in record: article.journal         = record['journal'][:1000]
-            if 'year'            in record: article.year            = record['year'][:10]
-            if 'author'          in record: article.author          = record['author'][:1000]
-            if 'abstract'        in record: article.abstract        = record['abstract'][:4000]
-            if 'pages'           in record: article.pages           = record['pages'][:20]
-            if 'volume'          in record: article.volume          = record['volume'][:100]
-            if 'document_type'   in record: article.document_type   = record['document_type'][:100]
-            if 'doi'             in record: article.doi             = record['doi'][:50]
-            if 'url'             in record: article.url             = record['url'][:500]
-            if 'affiliation'     in record: article.affiliation     = record['affiliation'][:500]
-            if 'author_keywords' in record: article.author_keywords = record['author_keywords'][:500]
-            if 'keywords'        in record: article.keywords        = record['keywords'][:500]
-            if 'publisher'       in record: article.publisher       = record['publisher'][:100]
-            if 'issn'            in record: article.issn            = record['issn'][:50]
-            if 'language'        in record: article.language        = record['language'][:50]
-            if 'note'            in record: article.note            = record['note'][:500]
+            if 'id'              in entry: article.bibtex_key      = entry['id'][:100]
+            if 'title'           in entry: article.title           = entry['title'][:1000]
+            if 'journal'         in entry: article.journal         = entry['journal'][:1000]
+            if 'year'            in entry: article.year            = entry['year'][:10]
+            if 'author'          in entry: article.author          = entry['author'][:1000]
+            if 'abstract'        in entry: article.abstract        = entry['abstract'][:4000]
+            if 'pages'           in entry: article.pages           = entry['pages'][:20]
+            if 'volume'          in entry: article.volume          = entry['volume'][:100]
+            if 'type'            in entry: article.document_type   = entry['type'][:100]
+            elif 'document_type' in entry: article.document_type   = entry['document_type'][:100]
+            if 'doi'             in entry: article.doi             = entry['doi'][:50]
+            if 'link'            in entry: article.url             = entry['link'][:500]
+            elif 'url'           in entry: article.url             = entry['url'][:500]
+            if 'affiliation'     in entry: article.affiliation     = entry['affiliation'][:500]
+            if 'author_keywords' in entry: article.author_keywords = entry['author_keywords'][:500]
+            if 'keywords'        in entry: article.keywords        = entry['keywords'][:500]
+            elif 'keyword'       in entry: article.keywords        = entry['keyword'][:500]
+            if 'publisher'       in entry: article.publisher       = entry['publisher'][:100]
+            if 'issn'            in entry: article.issn            = entry['issn'][:50]
+            if 'language'        in entry: article.language        = entry['language'][:50]
+            if 'note'            in entry: article.note            = entry['note'][:500]
             article.review = review
             article.source = source
         except:
@@ -411,9 +425,10 @@ def import_bibtex(request):
 
     f = request.FILES['bibtex']
     filename = django_settings.FILE_UPLOAD_TEMP_DIR + request.user.username + '.bib'
-    with open(filename, 'wb+') as destination:
+    
+    with codecs.open(filename, 'w', 'utf-8-sig') as temp:
         for chunk in f.chunks():
-            destination.write(chunk)
+            temp.write(unicode(chunk, 'utf-8-sig'))
     articles = bibtex_to_article_object(filename, review, source)
     if any(articles):
         for article in articles:
