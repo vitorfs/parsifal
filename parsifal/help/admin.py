@@ -9,10 +9,20 @@ from parsifal.help.models import Article, Category
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title', 'slug', 'category', 'parent', 'is_active', 'views',]
+    list_filter = ['category',]
+    search_fields = ['title', 'content',]
+    fields = ['title', 'content', 'category', 'parent', 'is_active',]
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.created_by = request.user
+        obj.updated_by = request.user
+        obj.slug = slugify(obj.title)
+        obj.save()
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'slug',]
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)

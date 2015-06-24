@@ -8,14 +8,16 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <div class="input-group">
-            <input type="text" class="form-control input-lg" placeholder="Search">
-            <span class="input-group-btn">
-              <button class="btn btn-default btn-lg" type="button">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
-          </div>
+          <form action="{% url 'help:search' %}" method="get">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control input-lg" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-lg" type="submit">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -25,54 +27,21 @@
 {% block content %}
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title">Common issues</h3>
+      {% regroup articles by category as category_list %}
+      {% for category in category_list %}
+        <div class="panel panel-default" id="{{ category.grouper.slug }}">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ category.grouper.name }}</h3>
+          </div>
+          <div class="list-group">
+            {% for article in category.list %}
+              <a href="{% url 'help:article' article.slug %}" class="list-group-item">{{ article.title }}</a>
+            {% endfor %}
+          </div>
         </div>
-        <div class="list-group">
-          <a href="#" class="list-group-item">
-            Lorem ipsum dolor sit amet
-            <span class="fa fa-video-camera pull-right" data-toggle="tooltip" title="Video content" data-placement="top" data-container="body"></span>
-          </a>
-          <a href="#" class="list-group-item">
-            tempor incididunt ut labore
-            <span class="fa fa-file-text-o pull-right" data-toggle="tooltip" title="Text content" data-placement="top" data-container="body"></span>
-          </a>
-          <a href="#" class="list-group-item">
-            quis nostrud exercitation ullamco
-            <span class="fa fa-file-picture-o pull-right" data-toggle="tooltip" title="Screenshot content" data-placement="top" data-container="body"></span>
-          </a>
-          <a href="#" class="list-group-item">consequat. Duis aute irure dolor</a>
-          <a href="#" class="list-group-item">cillum dolore eu fugiat nulla</a>
-          <a href="#" class="list-group-item">proident, sunt in culpa qui</a>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Planning a review</h3>
-        </div>
-        <div class="list-group">
-          <a href="#" class="list-group-item">Lorem ipsum dolor sit amet</a>
-          <a href="#" class="list-group-item">tempor incididunt ut labore</a>
-          <a href="#" class="list-group-item">cillum dolore eu fugiat nulla</a>
-          <a href="#" class="list-group-item">proident, sunt in culpa qui</a>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Conducting a review</h3>
-        </div>
-        <div class="list-group">
-          <a href="#" class="list-group-item">Lorem ipsum dolor sit amet</a>
-          <a href="#" class="list-group-item">tempor incididunt ut labore</a>
-          <a href="#" class="list-group-item">cillum dolore eu fugiat nulla</a>
-          <a href="#" class="list-group-item">proident, sunt in culpa qui</a>
-        </div>
-      </div>
-      
+      {% endfor %}   
+      <hr>
+      <p>If you didn't find what you were looking for, contact us <a href="mailto:support@parsif.al">support@parsif.al</a>.</p>
     </div>
   </div>
 {% endblock content %}

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, null=True)
 
     class Meta:
         verbose_name = "Category"
@@ -13,9 +14,9 @@ class Category(models.Model):
         return self.name
 
 class Article(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
-    description = models.TextField(max_length=4000)
+    content = models.TextField(max_length=4000)
     category = models.ForeignKey(Category)
     views = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
@@ -30,4 +31,4 @@ class Article(models.Model):
         verbose_name_plural = 'Articles'
 
     def __unicode__(self):
-        return self.name
+        return self.title

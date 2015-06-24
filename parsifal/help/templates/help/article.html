@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.category.name }} · {{ article.title }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <ol class="breadcrumb">
+        <li><a href="{% url 'help:articles' %}">Help</a></li>
+        <li><a href="{% url 'help:articles' %}#{{ article.category.slug }}">{{ article.category.name }}</a></li>
+        <li class="active">{{ article.title }}</li>
+      </ol>
+      <article>
+        <h2 class="page-header">{{ article.title }}</h2>
+        {{ article.content|safe }}
+      </article>
+      <hr>
+      <p>If you didn't find what you were looking for, contact us <a href="mailto:support@parsif.al">support@parsif.al</a>.</p>
+    </div>
+  </div>
+{% endblock content %}
