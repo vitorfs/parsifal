@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -32,3 +34,7 @@ class Article(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def raw_content(self):
+        soup = BeautifulSoup(self.content)
+        return soup.get_text()

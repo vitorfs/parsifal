@@ -18,14 +18,14 @@
       </form>
         Search Result
       </h2>
-      <table class="table">
+      <article>
         {% for article in articles %}
-          <div>
-            <h3><a href="{% url 'help:article' article.slug %}">{{ article.title }}</a></h3>
-            <p>{{ article.content|truncatechars:"255" }}</p>
-          </div>
+          <h3><a href="{% url 'help:article' article.slug %}">{{ article.title }}</a></h3>
+          <p>{{ article.raw_content|truncatechars:"255" }}</p>
+          <hr>
         {% endfor %}
-      </table>
+      </article>
+      <p>If you didn't find what you were looking for, contact us <a href="mailto:support@parsif.al">support@parsif.al</a>.</p>
     </div>
   </div>
 {% endblock content %}
