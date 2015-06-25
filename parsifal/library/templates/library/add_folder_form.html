@@ -1,0 +1,7 @@
+
+<div class="form-group{% if form.name.errors %} has-error{% endif %}">
+  {{ form.name  }}
+  {% for error in form.name.errors %}
+    <span class="help-block">{{ error }}</span>
+  {% endfor %}
+</div>

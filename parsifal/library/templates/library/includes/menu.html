@@ -4,9 +4,18 @@
       <h3 class="panel-title"><span class="fa fa-folder-open"></span> Folders</h3>
     </div>
     <div class="list-group">
-      <a href="{% url 'library:index' %}" class="list-group-item active">All documents</a>
-      <a href="#" class="list-group-item">
+      <a href="{% url 'library:index' %}" class="list-group-item{% if active_folder == 'all' %} active{% endif %}">All documents</a>
+      {% for folder in user.library_folders.all %}
+        <a href="{% url 'library:folder' folder.slug %}" class="list-group-item{% if active_folder == folder.slug %} active{% endif %}">{{ folder.name }}</a>
+      {% endfor %}
+      <a href="javascript:void(0);" class="list-group-item js-add-folder">
         <small><span class="glyphicon glyphicon-plus"></span> Add folder…</small>
+      </a>
+      <a href="javascript:void(0);" class="list-group-item js-add-folder-input" data-remote-url="{% url 'library:save_folder' %}" style="display: none;">
+        <div class="form-group">
+          <input type="text" class="form-control input-sm" name="name" maxlength="50">
+          <span class="help-block"></span>
+        </div>
       </a>
     </div>
   </div>

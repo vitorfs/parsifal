@@ -3,8 +3,9 @@ from django.contrib.auth.models import User
 
 
 class Folder(models.Model):
-    name = models.CharField(max_length=50)
-    user = models.ForeignKey(User)
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=50)
+    user = models.ForeignKey(User, related_name='library_folders')
 
     class Meta:
         verbose_name = 'Folder'

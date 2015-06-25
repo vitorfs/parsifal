@@ -133,4 +133,35 @@ $(function () {
     }
   };
 
+  /* Folder Management */
+
+  $(".js-add-folder").click(function () {
+    var url = $(this).attr("data-remote-url");
+    //$("#modal-add-folder .modal-body").load(url);
+  });
+
+  $("#form-add-folder").submit(function () {
+    var form = $(this);
+    var submitButton = $("button[type='submit']", form);
+    $.ajax({
+      url: $(form).attr("action"),
+      data: $(form).serialize(),
+      type: $(form).attr("method"),
+      cache: false,
+      beforeSend: function () {
+        $(submitButton).ajaxDisable();
+      },
+      success: function (data) {
+        $("#modal-add-folder .modal-body").html(data)
+      },
+      error: function () {
+
+      },
+      complete: function () {
+        $(submitButton).ajaxEnable();
+      }
+    });
+    return false;
+  });
+
 });
