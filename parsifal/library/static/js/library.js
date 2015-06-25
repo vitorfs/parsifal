@@ -12,21 +12,62 @@ $(function () {
     }
   });
 
+  var hideAllSelectionMessages = function () {
+    $(".js-message-select-all-pages").hide();
+    $(".js-message-clear-selection").hide();
+  };
+
+  var showSelectAllPagesMessage = function () {
+    hideAllSelectionMessages();
+    $(".js-message-select-all-pages").show();
+  };
+
+  var showClearSelectionMessage = function () {
+    hideAllSelectionMessages();
+    $(".js-message-clear-selection").show();
+  };
+
+  var clearSelection = function () {
+    $("#library-documents .js-document-checkbox").each(function () {
+      $(this).unselectDocument();
+    });
+    $(".js-toggle-select-documents .glyphicon").removeClass().addClass("glyphicon glyphicon-unchecked");
+    $(".select-all-pages").val("");
+    hideAllSelectionMessages();
+    modifyToolbarButtonsState();
+  };
+
+  var selectAllInPage = function () {
+    $("#library-documents .js-document-checkbox").each(function () {
+      $(this).selectDocument();
+    });
+    $(".js-toggle-select-documents .glyphicon").removeClass().addClass("glyphicon glyphicon-check");
+    $(".select-all-pages").val("");
+    showSelectAllPagesMessage();
+    modifyToolbarButtonsState();
+  };
+
   $(".js-toggle-select-documents").click(function () {
     var isChecked = $(".glyphicon", this).hasClass("glyphicon-check");
-    var btnSelectAll = $(this);
     if (isChecked) {
-      $("#library-documents .js-document-checkbox").each(function () {
-        $(this).unselectDocument();
-      });
-      $(".glyphicon", btnSelectAll).removeClass().addClass("glyphicon glyphicon-unchecked");
+      clearSelection();
     }
     else {
-      $("#library-documents .js-document-checkbox").each(function () {
-        $(this).selectDocument();
-      });
-      $(".glyphicon", btnSelectAll).removeClass().addClass("glyphicon glyphicon-check");
+      selectAllInPage();
     }
+  });
+
+  $(".js-select-all-documents-in-page").click(function () {
+    selectAllInPage();
+  });
+
+  $(".js-select-all-documents").click(function () {
+    showClearSelectionMessage();
+    $(".select-all-pages").val("all");
+  });
+
+  $(".js-clear-selection").click(function () {
+    clearSelection();
   });
 
   $.fn.selectDocument = function () {
@@ -50,18 +91,46 @@ $(function () {
   };
 
   $(".js-document-checkbox").click(function () {
-    var row = $(this).closest("tr");
     var checkbox = $("input[type='checkbox']", this);
-    var icon = $(".glyphicon", this);
     var isChecked = $(checkbox).is(":checked");
 
     if (isChecked) {
       $(this).unselectDocument();
+      $(".select-all-pages").val("");
+      hideAllSelectionMessages();
     }
     else {
       $(this).selectDocument();
     }
-
+    modifyToolbarButtonsState();
+    modifySelectAllCheckboxState();
   });
+
+  var modifySelectAllCheckboxState = function () {
+    // Ensure the integrity of the check all button icon
+    var totalDocumentsInThisPage = parseInt($("#library-documents").attr("data-num-documents"));
+    var selectedDocuments = $("[name='document']:checked").length;
+    var allDocumentsInThisPageAreSelected = (selectedDocuments === totalDocumentsInThisPage);
+
+    if (allDocumentsInThisPageAreSelected) {
+      $(".js-toggle-select-documents .glyphicon").removeClass().addClass("glyphicon glyphicon-check");
+    }
+    else {
+      $(".js-toggle-select-documents .glyphicon").removeClass().addClass("glyphicon glyphicon-unchecked");
+    }
+  };
+
+  var modifyToolbarButtonsState = function () {
+    // Ensure the integrity of the delete and move buttons disabled state
+    var selectedDocuments = $("[name='document']:checked").length;
+    var atLeastOneDocumentIsSelected = (selectedDocuments > 0);
+
+    if (atLeastOneDocumentIsSelected) {
+      $(".js-selection-action").prop("disabled", false);
+    }
+    else {
+      $(".js-selection-action").prop("disabled", true);
+    }
+  };
 
 });

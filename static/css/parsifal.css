@@ -227,6 +227,10 @@ article .table, article .alert {
   margin-bottom: 0;
 }
 
+#library-documents .bg-warning:hover {
+  background-color: #fcf8e3;
+}
+
 #library-menu div.list-group a.list-group-item.active {
   background-color: transparent;
   color: #555;
