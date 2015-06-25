@@ -95,6 +95,10 @@ article {
   margin-bottom: 20px;
 }
 
+article .table, article .alert {
+  font-size: 14px;
+}
+
 .references {
   font-size: 14px;
 }

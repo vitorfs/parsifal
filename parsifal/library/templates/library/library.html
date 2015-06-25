@@ -1,20 +1,11 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block title %}Parsifal · Library{% endblock %}
 
 {% block javascript %}
-<script>
-$(function () {
-  $(".js-jump-page").popover({
-    html: true,
-    content: function () {
-      var html = "<div><small><a href='?page=1'>First page</a></small></div>";
-      html += "<div><small><a href='?page={{ documents.paginator.num_pages }}'>Last page</a></small></div>";
-      return html;
-    }
-  });
-});
-</script>
+  <script src="{% static 'js/library.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -107,23 +98,27 @@ $(function () {
           </div>
 
         </div>
-        <table class="table table-hover" id="library-documents">
-          {% for document in documents %}
-            <tr>
-              <td style="text-align: center; vertical-align: middle; width: 35px;">
-                <span class="glyphicon glyphicon-unchecked"></span>
-              </td>
-              <td>
-                <p style="margin: 0;">{{ document.title }}</p>
-                {% if document.author or document.journal %}
-                  <p class="text-muted" style="margin-top: 5px; margin-bottom: 0;">
-                    <span class="text-info">{{ document.author }}</span>{% if document.journal %}, {{ document.journal }}{% endif %}
-                  </p>
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </table>
+        <form>
+          {% csrf_token %}
+          <table class="table table-hover" id="library-documents">
+            {% for document in documents %}
+              <tr>
+                <td style="text-align: center; vertical-align: middle; width: 35px;" class="js-document-checkbox">
+                  <span class="glyphicon glyphicon-unchecked"></span>
+                  <input type="checkbox" name="document" class="hide" value="{{ document.pk }}">
+                </td>
+                <td>
+                  <p style="margin: 0;">{{ document.title }}</p>
+                  {% if document.author or document.journal %}
+                    <p class="text-muted" style="margin-top: 5px; margin-bottom: 0;">
+                      <span class="text-info">{{ document.author }}</span>{% if document.journal %}, {{ document.journal }}{% endif %}
+                    </p>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </form>
       </div>
     </div>
   </div>
