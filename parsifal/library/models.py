@@ -1,7 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+
+class Folder(models.Model):
+    name = models.CharField(max_length=50)
+    user = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = 'Folder'
+        verbose_name_plural = 'Folders'
+
+    def __unicode__(self):
+        return self.name
+
 
 class Document(models.Model):
-
     ARTICLE = u'article'
     BOOK = u'book'
     BOOKLET = u'booklet'
@@ -35,9 +48,9 @@ class Document(models.Model):
         )
 
     # Bibtex required fields
-    entry_type = models.CharField(max_length=13, choices=ENTRY_TYPES)
     bibtexkey = models.CharField(max_length=50)
-
+    entry_type = models.CharField(max_length=13, choices=ENTRY_TYPES)
+    
     # Bibtex base fields
     address = models.CharField(max_length=255, null=True, blank=True)
     annote = models.CharField(max_length=255, null=True, blank=True)
@@ -62,9 +75,22 @@ class Document(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     publication_type = models.CharField(max_length=255, null=True, blank=True) # Type
     volume = models.CharField(max_length=255, null=True, blank=True)
-    year = models.CharField(max_length=255, null=True, blank=True)
+    year = models.CharField(max_length=10, null=True, blank=True)
 
     # Extra fields
+    abstract = models.TextField(max_length=4000, null=True, blank=True)
+    coden = models.CharField(max_length=255, null=True, blank=True)
+    doi = models.CharField(max_length=50, null=True, blank=True)
+    isbn = models.CharField(max_length=30, null=True, blank=True)
+    issn = models.CharField(max_length=30, null=True, blank=True)
+    keywords = models.CharField(max_length=255, null=True, blank=True)
+    language = models.CharField(max_length=255, null=True, blank=True)
+    url = models.CharField(max_length=255, null=True, blank=True)
+
+    # Parsifal management field
+    user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Document'
@@ -73,3 +99,20 @@ class Document(models.Model):
     def __unicode__(self):
         return self.title
 
+def document_file_upload_to(instance, filename):
+    return u'library/{0}/'.format(instance.document.user.pk)
+
+class DocumentFile(models.Model):
+    document = models.ForeignKey(Document)
+    document_file = models.FileField(upload_to=document_file_upload_to)
+    filename = models.CharField(max_length=255)
+    size = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)    
+
+    class Meta:
+        verbose_name = 'Document File'
+        verbose_name_plural = 'Document Files'
+
+    def __unicode__(self):
+        return self.filename
