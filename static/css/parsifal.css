@@ -224,6 +224,16 @@ article .table, article .alert {
 
 #library-documents {
   font-size: 12px;
+  margin-bottom: 0;
+}
+
+#library-menu div.list-group a.list-group-item.active {
+  background-color: transparent;
+  color: #555;
+  border-color: #ddd;
+  border-left: 2px solid #df5e00;
+  padding-left: 13px;
+  cursor: default;
 }
 
 /* Parsifal cover */

@@ -26,7 +26,7 @@
         <div class="panel-body">
           <div class="btn-toolbar" role="toolbar" aria-label="Library Toolbar">
             <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm">
+              <button type="button" class="btn btn-default btn-sm js-toggle-select-documents">
                 <span class="glyphicon glyphicon-unchecked"></span>
               </button>
               <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -100,9 +100,9 @@
         </div>
         <form>
           {% csrf_token %}
-          <table class="table table-hover" id="library-documents">
+          <table class="table table-hover" id="library-documents" data-num-pages="{{ documents.paginator.num_pages }}">
             {% for document in documents %}
-              <tr>
+              <tr data-id="{{ document.id }}">
                 <td style="text-align: center; vertical-align: middle; width: 35px;" class="js-document-checkbox">
                   <span class="glyphicon glyphicon-unchecked"></span>
                   <input type="checkbox" name="document" class="hide" value="{{ document.pk }}">

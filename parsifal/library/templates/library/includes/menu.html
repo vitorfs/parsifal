@@ -1,38 +1,33 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><span class="fa fa-navicon"></span> Menu</h3>
+<div id="library-menu">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span class="fa fa-folder-open"></span> Folders</h3>
+    </div>
+    <div class="list-group">
+      <a href="{% url 'library:index' %}" class="list-group-item active">All documents</a>
+      <a href="#" class="list-group-item">
+        <small><span class="glyphicon glyphicon-plus"></span> Add folder…</small>
+      </a>
+    </div>
   </div>
-  <div class="list-group">
-    <a href="#" class="list-group-item">All documents</a>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span class="fa fa-book"></span> Reviews</h3>
+    </div>
+    <div class="list-group">
+      {% for review in reviews %}
+        <a href="#" class="list-group-item">{{ review.title }}</a>
+      {% endfor %}
+    </div>
   </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><span class="fa fa-folder-open"></span> Folders</h3>
-  </div>
-  <div class="list-group">
-    <a href="#" class="list-group-item">
-      <span class="glyphicon glyphicon-plus"></span> Add folder…
-    </a>
-  </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><span class="fa fa-book"></span> Reviews</h3>
-  </div>
-  <div class="list-group">
-    {% for review in reviews %}
-      <a href="#" class="list-group-item">{{ review.title }}</a>
-    {% endfor %}
-  </div>
-</div>
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title"><span class="fa fa-dropbox"></span> Dropbox</h3>
-  </div>
-  <div class="list-group">
-    <a href="#" class="list-group-item">
-      <span class="glyphicon glyphicon-link"></span> Connect to Dropbox…
-    </a>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span class="fa fa-dropbox"></span> Dropbox</h3>
+    </div>
+    <div class="list-group">
+      <a href="#" class="list-group-item">
+        <small><span class="glyphicon glyphicon-link"></span> Connect to Dropbox…</small>
+      </a>
+    </div>
   </div>
 </div>
