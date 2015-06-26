@@ -5,9 +5,18 @@ $(function () {
   $(".js-jump-page").popover({
     html: true,
     content: function () {
-      var last_page = $("#library-documents").attr("data-num-pages");
-      var html = "<div><small><a href='?page=1'>First page</a></small></div>";
-      html += "<div><small><a href='?page=" + last_page + "'>Last page</a></small></div>";
+      var first_page = "?page=1";
+      var last_page_number = $("#library-documents").attr("data-num-pages");
+      var last_page = "?page=" + last_page_number;
+
+      var querystring = $("#search-form [name='q']").val();
+      if (querystring.length > 0) {
+        first_page += "&q=" + querystring;
+        last_page += "&q=" + querystring;
+      }
+
+      var html = "<div><small><a href='" + first_page + "'>First page</a></small></div>";
+      html += "<div><small><a href='" + last_page + "'>Last page</a></small></div>";
       return html;
     }
   });

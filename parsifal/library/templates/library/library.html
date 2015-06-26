@@ -18,13 +18,20 @@
     <div class="col-md-8 col-lg-9">
       <div class="panel panel-default">
         <div class="panel-heading">
+          <form action="." method="get" id="search-form">
+            <div class="input-group pull-right" style="width: 300px; font-weight: normal; margin-top: -6px;">
+              <input type="text" name="q" class="form-control input-sm" placeholder="Search" value="{{ querystring }}">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-sm" type="submit">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </form>
           <h3 class="panel-title">
-            <span class="fa fa-files-o"></span>
+            <span class="fa fa-files-o" style="margin-right: 5px;"></span>
             {% if active_folder %}
               {{ active_folder.name }}
-              <a href="javascript:void(0);" class="pull-right" data-toggle="modal" data-target="#modal-folder-settings">
-                <span class="glyphicon glyphicon-cog text-muted" data-toggle="tooltip" title="Folder settings" data-placement="bottom" data-container="body"></span>
-              </a>
             {% else %}
               All documents
             {% endif %}
@@ -77,9 +84,17 @@
               </ul>
             </div>
 
+            {% if active_folder %}
+              <div class="btn-group pull-right">
+                <a href="javascript:void(0);" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-folder-settings">
+                  <span class="glyphicon glyphicon-cog"></span> Settings
+                </a>
+              </div>
+            {% endif %}
+
             <div class="btn-group pull-right" role="group" aria-label="Pager">
               {% if documents.has_previous %}
-                <a href="?page={{ documents.previous_page_number }}" class="btn btn-default btn-sm">
+                <a href="?page={{ documents.previous_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
                   <span class="glyphicon glyphicon-arrow-left"></span>
                 </a>
               {% else %}
@@ -88,7 +103,7 @@
                 </button>
               {% endif %}
               {% if documents.has_next %}
-                <a href="?page={{ documents.next_page_number }}" class="btn btn-default btn-sm">
+                <a href="?page={{ documents.next_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
                   <span class="glyphicon glyphicon-arrow-right"></span>
                 </a>
               {% else %}

@@ -6,16 +6,16 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <h2 class="page-header">
-      <form action="{% url 'help:search' %}" method="get">
-        <div class="input-group pull-right" style="width: 300px; font-weight: normal;">
-          <input type="text" name="q" class="form-control" placeholder="Search" value="{{ querystring }}">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="submit">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </span>
-        </div>
-      </form>
+        <form action="{% url 'help:search' %}" method="get">
+          <div class="input-group pull-right" style="width: 300px; font-weight: normal;">
+            <input type="text" name="q" class="form-control" placeholder="Search" value="{{ querystring }}">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
         Search Result
       </h2>
       <article>

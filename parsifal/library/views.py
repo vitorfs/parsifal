@@ -25,28 +25,33 @@ def get_paginated_documents(request, queryset):
         documents = paginator.page(paginator.num_pages)
     return documents
 
-def library(request, documents, active_folder=None):
+def library(request, documents, querystring, active_folder=None):
     reviews = Review.objects.filter(author=request.user)
     folder_form = FolderForm()
     return render(request, 'library/library.html', { 
             'reviews': reviews, 
-            'documents': documents, 
+            'documents': documents,
+            'querystring': querystring,
             'active_folder': active_folder,
             'folder_form': folder_form
         })
 
 @login_required
 def index(request):
+    querystring = request.GET.get('q', '')
     queryset = Article.objects.filter(review__author=request.user)
+    if querystring:
+        queryset = queryset.filter(title__icontains=querystring)
     documents = get_paginated_documents(request, queryset)
-    return library(request, documents)
+    return library(request, documents, querystring)
 
 @login_required
 def folder(request, slug):
+    querystring = request.GET.get('q', '')
     folder = get_object_or_404(Folder, slug=slug)
     queryset = Document.objects.filter(user=request.user)
     documents = get_paginated_documents(request, queryset)
-    return library(request, documents, folder)
+    return library(request, documents, querystring, folder)
 
 def save_folder(form):
     base_slug = slugify(form.instance.name)
