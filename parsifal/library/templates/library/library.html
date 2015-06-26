@@ -88,7 +88,7 @@
                     {% else %}
                       <span class="glyphicon glyphicon-duplicate"></span>
                       <h4>There is no documents in this folder.</h4>
-                      <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add a document</button>
+                      <button type="button" class="btn btn-primary js-new-document"><span class="glyphicon glyphicon-plus"></span> Add a document</button>
                     {% endif %}
                   </td>
                 </tr>
@@ -101,5 +101,11 @@
   </div>
 
   {% include 'library/edit_folder.html' with folder=active_folder %}
+
+  <div class="modal fade" id="modal-document" data-remote-url="{% url 'library:new_document' %}">
+    <div class="modal-dialog modal-lg">
+
+    </div>
+  </div>
 
 {% endblock %}

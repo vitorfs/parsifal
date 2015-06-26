@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 
 from reviews.models import Review, Article
 from parsifal.library.models import Folder, Document
-from parsifal.library.forms import FolderForm
+from parsifal.library.forms import FolderForm, DocumentForm
 
 
 def get_paginated_documents(request, queryset):
@@ -96,3 +96,17 @@ def edit_folder(request):
         else:
             messages.error(request, u'An error ocurred while trying to save folder {0}'.format(folder.name))
     return redirect(r('library:folder', args=(folder.slug,)))
+
+@login_required
+def document(request, slug):
+    pass
+
+@login_required
+def new_document(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST)
+        if form.is_valid():
+            document = form.save()
+    else:
+        form = DocumentForm()
+    return render(request, 'library/new_document.html', { 'form': form })

@@ -50,19 +50,19 @@ class Document(models.Model):
         )
 
     # Bibtex required fields
-    bibtexkey = models.CharField(max_length=50)
-    entry_type = models.CharField(max_length=13, choices=ENTRY_TYPES)
+    bibtexkey = models.CharField('Bibtex key', max_length=50, null=True, blank=True)
+    entry_type = models.CharField('Document type', max_length=13, choices=ENTRY_TYPES, null=True, blank=True)
     
     # Bibtex base fields
     address = models.CharField(max_length=255, null=True, blank=True)
     annote = models.CharField(max_length=255, null=True, blank=True)
-    author = models.CharField(max_length=255, null=True, blank=True)
+    author = models.TextField(max_length=500, null=True, blank=True)
     booktitle = models.CharField(max_length=255, null=True, blank=True)
     chapter = models.CharField(max_length=255, null=True, blank=True)
-    crossref = models.CharField(max_length=255, null=True, blank=True)
+    crossref = models.CharField('Cross-referenced', max_length=255, null=True, blank=True)
     edition = models.CharField(max_length=255, null=True, blank=True)
     editor = models.CharField(max_length=255, null=True, blank=True)
-    howpublished = models.CharField(max_length=255, null=True, blank=True)
+    howpublished = models.CharField('How it was published', max_length=255, null=True, blank=True)
     institution = models.CharField(max_length=255, null=True, blank=True)
     journal = models.CharField(max_length=255, null=True, blank=True)
     key = models.CharField(max_length=255, null=True, blank=True)
@@ -82,12 +82,12 @@ class Document(models.Model):
     # Extra fields
     abstract = models.TextField(max_length=4000, null=True, blank=True)
     coden = models.CharField(max_length=255, null=True, blank=True)
-    doi = models.CharField(max_length=50, null=True, blank=True)
-    isbn = models.CharField(max_length=30, null=True, blank=True)
-    issn = models.CharField(max_length=30, null=True, blank=True)
-    keywords = models.CharField(max_length=255, null=True, blank=True)
+    doi = models.CharField('DOI', max_length=50, null=True, blank=True)
+    isbn = models.CharField('ISBN', max_length=30, null=True, blank=True)
+    issn = models.CharField('ISSN', max_length=30, null=True, blank=True)
+    keywords = models.CharField(max_length=500, null=True, blank=True)
     language = models.CharField(max_length=255, null=True, blank=True)
-    url = models.CharField(max_length=255, null=True, blank=True)
+    url = models.CharField('URL', max_length=255, null=True, blank=True)
 
     # Parsifal management field
     user = models.ForeignKey(User)

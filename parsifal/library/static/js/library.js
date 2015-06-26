@@ -216,4 +216,15 @@ $(function () {
     }
   });
 
+  $(".js-new-document").click(function () {
+    var url = $("#modal-document").attr("data-remote-url");
+    $.ajax({
+      url: url,
+      success: function (data) {
+        $("#modal-document .modal-dialog").html(data);
+      }
+    });
+    $("#modal-document").modal('show');
+  });
+
 });
