@@ -127,41 +127,84 @@ $(function () {
 
     if (atLeastOneDocumentIsSelected) {
       $(".js-selection-action").prop("disabled", false);
+      $(".js-selection-action").closest(".btn-group").removeClass("not-allowed");      
     }
     else {
       $(".js-selection-action").prop("disabled", true);
+      $(".js-selection-action").closest(".btn-group").addClass("not-allowed");
     }
   };
 
   /* Folder Management */
 
+  var clearNewFolderFormState = function () {
+    $(".js-add-folder-input").hide();
+    $(".js-add-folder").show();
+    $("#form-new-folder .form-group").removeClass().addClass("form-group has-feedback");
+    $("#form-new-folder .form-control-feedback").removeClass().addClass("form-control-feedback")
+    $("#form-new-folder .form-control-feedback").hide();
+    $("#form-new-folder .errors").html("");
+    $("#form-new-folder #id_name").val("");
+  };
+
   $(".js-add-folder").click(function () {
-    var url = $(this).attr("data-remote-url");
-    //$("#modal-add-folder .modal-body").load(url);
+    $(".js-add-folder").fadeOut(100, function () {
+      $(".js-add-folder-input").fadeIn(100, function () {
+        $(".js-add-folder-input #id_name").focus();
+      });
+    })
   });
 
-  $("#form-add-folder").submit(function () {
+  $("#form-new-folder").submit(function () {
     var form = $(this);
-    var submitButton = $("button[type='submit']", form);
     $.ajax({
       url: $(form).attr("action"),
       data: $(form).serialize(),
       type: $(form).attr("method"),
       cache: false,
       beforeSend: function () {
-        $(submitButton).ajaxDisable();
+        $("#form-new-folder .form-group").removeClass().addClass("form-group has-feedback");
+        $("#form-new-folder .form-control-feedback").removeClass().addClass("glyphicon glyphicon-refresh spin form-control-feedback");
+        $("#form-new-folder #id_name").prop("readonly", true);
       },
       success: function (data) {
-        $("#modal-add-folder .modal-body").html(data)
+        $("#form-new-folder .form-group").removeClass().addClass("form-group has-feedback has-success");
+        $("#form-new-folder .form-control-feedback").removeClass().addClass("glyphicon glyphicon-ok form-control-feedback");
+        $("#form-new-folder .form-control-feedback").show();
+        setTimeout(function () {
+          $(".js-add-folder").before("<a href='/library/folders/" + data.folder.slug + "/' class='list-group-item'>" + data.folder.name + "</a>");
+          clearNewFolderFormState();
+        }, 200);
       },
-      error: function () {
-
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#form-new-folder .form-group").removeClass().addClass("form-group has-feedback has-error");
+        $("#form-new-folder .form-control-feedback").removeClass().addClass("glyphicon glyphicon-remove form-control-feedback");
+        $("#form-new-folder .form-control-feedback").show();
+        $("#form-new-folder .errors").html("");
+        jqXHR.responseJSON.name.forEach(function (error) {
+          $("#form-new-folder .errors").append("<span class='help-block' style='margin-bottom: 0;'><small>" + error + "</small></span>");
+        });
       },
       complete: function () {
-        $(submitButton).ajaxEnable();
+        $("#form-new-folder #id_name").prop("readonly", false);
       }
     });
     return false;
+  });
+
+  $("#form-new-folder #id_name").blur(function () {
+    var isEmpty = ($(this).val().trim().length === 0);
+    if (isEmpty) {
+      clearNewFolderFormState();
+    }
+  });
+
+  
+  $("#form-new-folder #id_name").keyup(function(e) {
+    var KEYCODE_ESC = 27;
+    if (e.keyCode == KEYCODE_ESC) {
+      clearNewFolderFormState();
+    }
   });
 
 });

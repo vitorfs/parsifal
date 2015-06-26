@@ -222,6 +222,10 @@ article .table, article .alert {
   }
 }
 
+.not-allowed {
+  cursor: not-allowed;
+}
+
 #library-documents {
   font-size: 12px;
   margin-bottom: 0;
