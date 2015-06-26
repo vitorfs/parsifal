@@ -4,12 +4,13 @@ from django.contrib.auth.models import User
 
 class Folder(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=50)
+    slug = models.SlugField(max_length=55)
     user = models.ForeignKey(User, related_name='library_folders')
 
     class Meta:
         verbose_name = 'Folder'
         verbose_name_plural = 'Folders'
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name

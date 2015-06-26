@@ -1,18 +1,28 @@
 <div id="library-menu">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"><span class="fa fa-folder-open"></span> Folders</h3>
+      <h3 class="panel-title"><span class="fa fa-folder-open"></span> My documents</h3>
     </div>
     <div class="list-group">
-      <a href="{% url 'library:index' %}" class="list-group-item{% if active_folder == 'all' %} active{% endif %}">All documents</a>
+      <a href="{% url 'library:index' %}" class="list-group-item{% if active_folder == None %} active{% endif %}">All documents</a>
       {% for folder in user.library_folders.all %}
-        <a href="{% url 'library:folder' folder.slug %}" class="list-group-item{% if active_folder == folder.slug %} active{% endif %}">{{ folder.name }}</a>
+        <a href="{% url 'library:folder' folder.slug %}" class="list-group-item{% if active_folder.slug == folder.slug %} active{% endif %}">{{ folder.name }}</a>
       {% endfor %}
       <a href="javascript:void(0);" class="list-group-item js-add-folder">
         <small><span class="glyphicon glyphicon-plus"></span> Add folder…</small>
       </a>
       <a href="javascript:void(0);" class="list-group-item js-add-folder-input" style="display: none; background-color: transparent!important;">
         {% include 'library/new_folder.html' with form=folder_form %}
+      </a>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><span class="fa fa-users"></span> Shared documents</h3>
+    </div>
+    <div class="list-group">
+      <a href="javascript:void(0);" class="list-group-item">
+        <small><span class="glyphicon glyphicon-plus"></span> Add shared folder…</small>
       </a>
     </div>
   </div>
