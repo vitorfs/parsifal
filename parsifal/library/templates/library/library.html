@@ -22,7 +22,12 @@
             <div class="input-group pull-right" style="width: 300px; font-weight: normal; margin-top: -6px;">
               <input type="text" name="q" class="form-control input-sm" placeholder="Search" value="{{ querystring }}">
               <span class="input-group-btn">
-                <button class="btn btn-default btn-sm" type="submit">
+                {% if querystring %}
+                  <a href="." class="btn btn-default btn-sm" data-toggle="tooltip" title="Clear search" data-placement="bottom" data-container="body">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+                {% endif %}
+                <button class="btn btn-default btn-sm" type="submit" data-toggle="tooltip" title="Search" data-placement="bottom" data-container="body">
                   <span class="glyphicon glyphicon-search"></span>
                 </button>
               </span>
@@ -55,26 +60,30 @@
 
             <div class="btn-group not-allowed">
               <button type="button" class="btn btn-default btn-sm js-selection-action" disabled="disabled">
-                <span class="glyphicon glyphicon-trash"></span> Delete
+                <span class="glyphicon glyphicon-trash"></span>
+                <span class="hidden-xs hidden-sm hidden-md">Delete</span>
               </button>
-            </div>
-
-            <div class="btn-group not-allowed">
-              <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
-                <span class="glyphicon glyphicon glyphicon-folder-close"></span> Move <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
+                  <span class="glyphicon glyphicon glyphicon-folder-close"></span>
+                  <span class="hidden-xs hidden-sm hidden-md">Move</span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
             </div>
 
             <div class="btn-group">
               <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-sort-by-attributes"></span> Sort by <span class="caret"></span>
+                <span class="glyphicon glyphicon-sort-by-attributes"></span>
+                <span class="hidden-xs hidden-sm hidden-md">Sort by</span>
+                <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
                 <li><a href="#">Title (a - z)</a></li>
@@ -87,7 +96,8 @@
             {% if active_folder %}
               <div class="btn-group pull-right">
                 <a href="javascript:void(0);" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-folder-settings">
-                  <span class="glyphicon glyphicon-cog"></span> Settings
+                  <span class="glyphicon glyphicon-cog"></span> 
+                  <span class="hidden-xs hidden-sm hidden-md">Settings</span>
                 </a>
               </div>
             {% endif %}
@@ -118,6 +128,27 @@
                 <strong>{{ documents.start_index }}</strong> – <strong>{{ documents.end_index }}</strong> of <strong>{{ documents.paginator.count }}</strong>
               </a>
             </div>
+
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-sm btn-default">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm hidden-md">Add</span>
+              </button>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon-cloud-upload"></span>
+                  <span class="hidden-xs hidden-sm hidden-md">Import</span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Title (a - z)</a></li>
+                  <li><a href="#">Title (z - a)</a></li>
+                  <li><a href="#">Publication year (0 - 9)</a></li>
+                  <li><a href="#">Publication year (9 - 0)</a></li>
+                </ul>
+              </div>
+            </div>
+
           </div>
 
         </div>
