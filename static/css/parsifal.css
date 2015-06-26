@@ -260,6 +260,12 @@ article .table, article .alert {
   font-size: 28px;
 }
 
+a.library-documents-indexes,
+a.library-documents-indexes:hover,
+a.library-documents-indexes:active  {
+  color: #333;
+}
+
 /* Parsifal cover */
 
 .cover {
