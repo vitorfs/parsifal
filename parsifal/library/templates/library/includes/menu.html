@@ -1,7 +1,7 @@
 <div id="library-menu">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"><span class="fa fa-folder-open"></span> My documents</h3>
+      <h3 class="panel-title"><span class="fa fa-folder-open" style="margin-right: 5px;"></span> My documents</h3>
     </div>
     <div class="list-group">
       <a href="{% url 'library:index' %}" class="list-group-item{% if active_folder == None %} active{% endif %}">All documents</a>
@@ -18,7 +18,7 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"><span class="fa fa-users"></span> Shared documents</h3>
+      <h3 class="panel-title"><span class="fa fa-users" style="margin-right: 5px;"></span> Shared documents</h3>
     </div>
     <div class="list-group">
       <a href="javascript:void(0);" class="list-group-item">
@@ -28,7 +28,7 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title"><span class="fa fa-book"></span> Reviews</h3>
+      <h3 class="panel-title"><span class="fa fa-book" style="margin-right: 5px;"></span> Reviews</h3>
     </div>
     <div class="list-group">
       {% for review in reviews %}
@@ -38,7 +38,7 @@
   </div>
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title"><span class="fa fa-dropbox"></span> Dropbox</h3>
+      <h3 class="panel-title"><span class="fa fa-dropbox" style="margin-right: 5px;"></span> Dropbox</h3>
     </div>
     <div class="list-group">
       <a href="#" class="list-group-item">

@@ -34,123 +34,15 @@
             </div>
           </form>
           <h3 class="panel-title">
-            <span class="fa fa-files-o" style="margin-right: 5px;"></span>
             {% if active_folder %}
-              {{ active_folder.name }}
+              <span class="glyphicon glyphicon-folder-close" style="margin-right: 5px;"></span> {{ active_folder.name }}
             {% else %}
-              All documents
+              <span class="glyphicon glyphicon-inbox" style="margin-right: 5px;"></span> All documents
             {% endif %}
           </h3>
         </div>
         <div class="panel-body">
-          <div class="btn-toolbar" id="library-toolbar" role="toolbar" aria-label="Library Toolbar">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm js-toggle-select-documents">
-                <span class="glyphicon glyphicon-unchecked"></span>
-              </button>
-              <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="js-select-all-documents-in-page">All</a></li>
-                <li><a href="javascript:void(0);" class="js-clear-selection">None</a></li>
-              </ul>
-            </div>
-
-            <div class="btn-group not-allowed">
-              <button type="button" class="btn btn-default btn-sm js-selection-action" disabled="disabled">
-                <span class="glyphicon glyphicon-trash"></span>
-                <span class="hidden-xs hidden-sm hidden-md">Delete</span>
-              </button>
-              <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
-                  <span class="glyphicon glyphicon glyphicon-folder-close"></span>
-                  <span class="hidden-xs hidden-sm hidden-md">Move</span>
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-sort-by-attributes"></span>
-                <span class="hidden-xs hidden-sm hidden-md">Sort by</span>
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Title (a - z)</a></li>
-                <li><a href="#">Title (z - a)</a></li>
-                <li><a href="#">Publication year (0 - 9)</a></li>
-                <li><a href="#">Publication year (9 - 0)</a></li>
-              </ul>
-            </div>
-
-            {% if active_folder %}
-              <div class="btn-group pull-right">
-                <a href="javascript:void(0);" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-folder-settings">
-                  <span class="glyphicon glyphicon-cog"></span> 
-                  <span class="hidden-xs hidden-sm hidden-md">Settings</span>
-                </a>
-              </div>
-            {% endif %}
-
-            <div class="btn-group pull-right" role="group" aria-label="Pager">
-              {% if documents.has_previous %}
-                <a href="?page={{ documents.previous_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
-                  <span class="glyphicon glyphicon-arrow-left"></span>
-                </a>
-              {% else %}
-                <button type="button" class="btn btn-default btn-sm" disabled>
-                  <span class="glyphicon glyphicon-arrow-left"></span>
-                </button>
-              {% endif %}
-              {% if documents.has_next %}
-                <a href="?page={{ documents.next_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
-                  <span class="glyphicon glyphicon-arrow-right"></span>
-                </a>
-              {% else %}
-                <button type="button" class="btn btn-default btn-sm" disabled>
-                  <span class="glyphicon glyphicon-arrow-right"></span>
-                </button>
-              {% endif %}
-            </div>
-
-            <div class="btn-group pull-right">
-              <a href="javascript:void(0);" class="btn btn-sm btn-link js-jump-page" data-container="body" data-placement="bottom">
-                <strong>{{ documents.start_index }}</strong> – <strong>{{ documents.end_index }}</strong> of <strong>{{ documents.paginator.count }}</strong>
-              </a>
-            </div>
-
-            <div class="btn-group pull-right">
-              <button type="button" class="btn btn-sm btn-default">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="hidden-xs hidden-sm hidden-md">Add</span>
-              </button>
-              <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="glyphicon glyphicon-cloud-upload"></span>
-                  <span class="hidden-xs hidden-sm hidden-md">Import</span>
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Title (a - z)</a></li>
-                  <li><a href="#">Title (z - a)</a></li>
-                  <li><a href="#">Publication year (0 - 9)</a></li>
-                  <li><a href="#">Publication year (9 - 0)</a></li>
-                </ul>
-              </div>
-            </div>
-
-          </div>
-
+          {% include 'library/includes/toolbar.html' with documents=documents active_folder=active_folder %}
         </div>
         <form>
           {% csrf_token %}
@@ -159,12 +51,16 @@
             <tbody>
               <tr class="bg-warning text-center js-message-select-all-pages" style="display: none;">
                 <td colspan="2">
-                  All <strong>{{ documents.object_list.count }}</strong> documents selected on this page. <a href="javascript:void(0);" class="js-select-all-documents">Select all <strong>{{ documents.paginator.count }}</strong> documents in this folder.</a>
+                  All <strong>{{ documents.object_list.count }}</strong> documents selected on this page.
+                  {% if documents.paginator.num_pages > 1 %}
+                    <a href="javascript:void(0);" class="js-select-all-documents">Select all <strong>{{ documents.paginator.count }}</strong> documents in this folder.</a>
+                  {% endif %}
                 </td>
               </tr>
               <tr class="bg-warning text-center js-message-clear-selection" style="display: none;">
                 <td colspan="2">
-                  All <strong>{{ documents.paginator.count }}</strong> documents selected in this folder. <a href="javascript:void(0);" class="js-clear-selection">Clear selection.</a>
+                  All <strong>{{ documents.paginator.count }}</strong> documents selected in this folder.
+                  <a href="javascript:void(0);" class="js-clear-selection">Clear selection.</a>
                 </td>
               </tr>
               {% for document in documents %}
@@ -182,6 +78,20 @@
                     {% endif %}
                   </td>
                 </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="2" class="empty-library">
+                    {% if querystring %}
+                      <span class="glyphicon glyphicon-search"></span>
+                      <h4>The search returned no result.</h4>
+                      <a href="." class="btn btn-default">Clear search</a>
+                    {% else %}
+                      <span class="glyphicon glyphicon-duplicate"></span>
+                      <h4>There is no documents in this folder.</h4>
+                      <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add a document</button>
+                    {% endif %}
+                  </td>
+                </tr>
               {% endfor %}
             </tbody>
           </table>
@@ -190,37 +100,6 @@
     </div>
   </div>
 
-  <form id="form-folder-settings" method="post" action="{% url 'library:edit_folder' %}">
-    {% csrf_token %}
-    <input type="hidden" name="id" value="{{ active_folder.id }}">
-    <div class="modal fade" id="modal-folder-settings">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{ active_folder.name }} Settings</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label class="control-label">Name</label>
-              <input type="text" name="name" class="form-control" value="{{ active_folder.name }}">
-            </div>
-            <div class="form-group">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="delete" value="delete" autocomplete="off">
-                  Delete this folder
-                </label>
-              </div>
-              <span class="help-block">The associated documents won't be deleted.</span>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+  {% include 'library/edit_folder.html' with folder=active_folder %}
+
 {% endblock %}

@@ -1,0 +1,33 @@
+<form id="form-folder-settings" method="post" action="{% url 'library:edit_folder' %}">
+  {% csrf_token %}
+  <input type="hidden" name="id" value="{{ folder.id }}">
+  <div class="modal fade" id="modal-folder-settings">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{{ folder.name }} Settings</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="control-label">Name</label>
+            <input type="text" name="name" class="form-control" value="{{ folder.name }}">
+          </div>
+          <div class="form-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="delete" value="delete" autocomplete="off">
+                Delete this folder
+              </label>
+            </div>
+            <span class="help-block">The associated documents won't be deleted.</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

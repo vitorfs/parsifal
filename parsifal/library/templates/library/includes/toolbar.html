@@ -1,0 +1,102 @@
+<div class="btn-toolbar" id="library-toolbar" role="toolbar" aria-label="Library Toolbar">
+  <div class="btn-group">
+    <button type="button" class="btn btn-default btn-sm js-toggle-select-documents">
+      <span class="glyphicon glyphicon-unchecked"></span>
+    </button>
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="javascript:void(0);" class="js-select-all-documents-in-page">All</a></li>
+      <li><a href="javascript:void(0);" class="js-clear-selection">None</a></li>
+    </ul>
+  </div>
+
+  <div class="btn-group not-allowed">
+    <button type="button" class="btn btn-default btn-sm js-selection-action" disabled="disabled">
+      <span class="glyphicon glyphicon-trash"></span>
+      <span class="hidden-xs hidden-sm hidden-md">Delete</span>
+    </button>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
+        <span class="glyphicon glyphicon glyphicon-folder-close"></span>
+        <span class="hidden-xs hidden-sm hidden-md">Move</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {% for folder in user.library_folders.all %}
+          <li><a href="{% url 'library:folder' folder.slug %}">{{ folder.name }}</a>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-sort-by-attributes"></span>
+      <span class="hidden-xs hidden-sm hidden-md">Sort by</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Title (a - z)</a></li>
+      <li><a href="#">Title (z - a)</a></li>
+      <li><a href="#">Publication year (0 - 9)</a></li>
+      <li><a href="#">Publication year (9 - 0)</a></li>
+    </ul>
+  </div>
+
+  {% if active_folder %}
+    <div class="btn-group pull-right">
+      <a href="javascript:void(0);" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-folder-settings">
+        <span class="glyphicon glyphicon-cog"></span> 
+        <span class="hidden-xs hidden-sm hidden-md">Settings</span>
+      </a>
+    </div>
+  {% endif %}
+
+  <div class="btn-group pull-right" role="group" aria-label="Pager">
+    {% if documents.has_previous %}
+      <a href="?page={{ documents.previous_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+      </a>
+    {% else %}
+      <button type="button" class="btn btn-default btn-sm" disabled>
+        <span class="glyphicon glyphicon-arrow-left"></span>
+      </button>
+    {% endif %}
+    {% if documents.has_next %}
+      <a href="?page={{ documents.next_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-arrow-right"></span>
+      </a>
+    {% else %}
+      <button type="button" class="btn btn-default btn-sm" disabled>
+        <span class="glyphicon glyphicon-arrow-right"></span>
+      </button>
+    {% endif %}
+  </div>
+
+  <div class="btn-group pull-right">
+    <a href="javascript:void(0);" class="btn btn-sm btn-link js-jump-page" data-container="body" data-placement="bottom">
+      <strong>{{ documents.start_index }}</strong> – <strong>{{ documents.end_index }}</strong> of <strong>{{ documents.paginator.count }}</strong>
+    </a>
+  </div>
+
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-sm btn-default">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="hidden-xs hidden-sm hidden-md">Add</span>
+    </button>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-cloud-upload"></span>
+        <span class="hidden-xs hidden-sm hidden-md">Import</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">BibTeX</a></li>
+        <li><a href="#">PDF</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
