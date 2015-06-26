@@ -8,6 +8,9 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.defaultfilters import slugify
 from django.views.decorators.http import require_POST
+from django.template.loader import render_to_string
+from django.core.context_processors import csrf
+from django.utils.safestring import mark_safe
 
 from reviews.models import Review, Article
 from parsifal.library.models import Folder, Document
@@ -103,10 +106,24 @@ def document(request, slug):
 
 @login_required
 def new_document(request):
+    json_context = {}
+
     if request.method == 'POST':
         form = DocumentForm(request.POST)
         if form.is_valid():
+            form.instance.user = request.user
             document = form.save()
+            messages.success(request, 'Document added successfully!')
+            json_context['status'] = 'success'
+            json_context['redirect_to'] = r('library:index')
+        else:
+            json_context['status'] = 'error'
     else:
         form = DocumentForm()
-    return render(request, 'library/new_document.html', { 'form': form })
+        json_context['status'] = 'ok'
+
+    csrf_token = unicode(csrf(request)['csrf_token'])
+    html = render_to_string('library/new_document.html', { 'form': form, 'csrf_token': csrf_token })
+    json_context['html'] = html
+    dump = json.dumps(json_context)
+    return HttpResponse(dump, content_type='application/json')

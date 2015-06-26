@@ -221,10 +221,32 @@ $(function () {
     $.ajax({
       url: url,
       success: function (data) {
-        $("#modal-document .modal-dialog").html(data);
+        $("#modal-document .modal-dialog").html(data.html);
       }
     });
     $("#modal-document").modal('show');
+  });
+
+  $("#modal-document").on("shown.bs.modal", function () {
+    $("#modal-document textarea").expanding();
+  });
+
+  $("#modal-document").on("click", ".js-save-new-document", function () {
+    var form = $("#form-new-document");
+    $.ajax({
+      url: $(form).attr("action"),
+      data: $(form).serialize(),
+      type: $(form).attr("method"),
+      success: function (data) {
+        if (data.status === 'success') {
+          location.href = data.redirect_to;
+        }
+        else {
+          $("#modal-document .modal-dialog").html(data.html);
+        }
+      }
+    });
+
   });
 
 });

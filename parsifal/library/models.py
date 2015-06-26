@@ -55,7 +55,6 @@ class Document(models.Model):
     
     # Bibtex base fields
     address = models.CharField(max_length=255, null=True, blank=True)
-    annote = models.CharField(max_length=255, null=True, blank=True)
     author = models.TextField(max_length=500, null=True, blank=True)
     booktitle = models.CharField(max_length=255, null=True, blank=True)
     chapter = models.CharField(max_length=255, null=True, blank=True)
@@ -65,8 +64,7 @@ class Document(models.Model):
     howpublished = models.CharField('How it was published', max_length=255, null=True, blank=True)
     institution = models.CharField(max_length=255, null=True, blank=True)
     journal = models.CharField(max_length=255, null=True, blank=True)
-    key = models.CharField(max_length=255, null=True, blank=True)
-    month = models.CharField(max_length=255, null=True, blank=True)
+    month = models.CharField(max_length=30, null=True, blank=True)
     note = models.CharField(max_length=255, null=True, blank=True)
     number = models.CharField(max_length=255, null=True, blank=True)
     organization = models.CharField(max_length=255, null=True, blank=True)
