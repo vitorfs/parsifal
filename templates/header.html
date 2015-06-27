@@ -19,8 +19,10 @@
         {% if user.is_authenticated %}
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'reviews' user.username %}">{{ user.profile.get_screen_name }}</a></li>
+            {% comment %}
             <li><a href="{% url 'library:index' %}">My Library</a></li>
             <li><a href="#">TeX Editor</a></li>
+            {% endcomment %}
             <li><a href="{% url 'settings:settings' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Account settings"><span class="glyphicon glyphicon-cog"></span></a></li>
             <li><a href="{% url 'signout' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Log out"><span class="glyphicon glyphicon-log-out"></span></a></li>
           </ul>
