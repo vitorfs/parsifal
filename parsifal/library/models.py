@@ -2,20 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Folder(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=55)
-    user = models.ForeignKey(User, related_name='library_folders')
-
-    class Meta:
-        verbose_name = 'Folder'
-        verbose_name_plural = 'Folders'
-        ordering = ('name',)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Document(models.Model):
     ARTICLE = u'article'
     BOOK = u'book'
@@ -102,6 +88,7 @@ class Document(models.Model):
 def document_file_upload_to(instance, filename):
     return u'library/{0}/'.format(instance.document.user.pk)
 
+
 class DocumentFile(models.Model):
     document = models.ForeignKey(Document)
     document_file = models.FileField(upload_to=document_file_upload_to)
@@ -116,3 +103,18 @@ class DocumentFile(models.Model):
 
     def __unicode__(self):
         return self.filename
+
+
+class Folder(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=55)
+    user = models.ForeignKey(User, related_name='library_folders')
+    documents = models.ManyToManyField(Document)
+
+    class Meta:
+        verbose_name = 'Folder'
+        verbose_name_plural = 'Folders'
+        ordering = ('name',)
+
+    def __unicode__(self):
+        return self.name

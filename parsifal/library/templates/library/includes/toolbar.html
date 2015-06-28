@@ -18,15 +18,29 @@
       <span class="glyphicon glyphicon-trash"></span>
       <span class="hidden-xs hidden-sm hidden-md">Delete</span>
     </button>
+  </div>
+  <div class="btn-group">
     <div class="btn-group">
       <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
         <span class="glyphicon glyphicon glyphicon-folder-close"></span>
         <span class="hidden-xs hidden-sm hidden-md">Move</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu js-move-to">
         {% for folder in user.library_folders.all %}
-          <li><a href="{% url 'library:folder' folder.slug %}">{{ folder.name }}</a>
+          <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
+        <span class="glyphicon glyphicon glyphicon-duplicate"></span>
+        <span class="hidden-xs hidden-sm hidden-md">Copy</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu js-move-to">
+        {% for folder in user.library_folders.all %}
+          <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a>
         {% endfor %}
       </ul>
     </div>

@@ -42,7 +42,7 @@ def library(request, documents, querystring, active_folder=None):
 @login_required
 def index(request):
     querystring = request.GET.get('q', '')
-    queryset = Article.objects.filter(review__author=request.user)
+    queryset = Document.objects.filter(user=request.user)
     if querystring:
         queryset = queryset.filter(title__icontains=querystring)
     documents = get_paginated_documents(request, queryset)
@@ -52,7 +52,9 @@ def index(request):
 def folder(request, slug):
     querystring = request.GET.get('q', '')
     folder = get_object_or_404(Folder, slug=slug)
-    queryset = Document.objects.filter(user=request.user)
+    queryset = folder.documents.all()
+    if querystring:
+        queryset = queryset.filter(title__icontains=querystring)
     documents = get_paginated_documents(request, queryset)
     return library(request, documents, querystring, folder)
 
@@ -101,13 +103,28 @@ def edit_folder(request):
     return redirect(r('library:folder', args=(folder.slug,)))
 
 @login_required
-def document(request, slug):
-    pass
+def document(request, document_id):
+    document = Document.objects.get(pk=document_id)
+    json_context = {}
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, instance=document)
+        if form.is_valid():
+            document = form.save()
+            json_context['status'] = 'success'
+            json_context['html'] = render_to_string('library/partial_document_summary.html', { 'document': document })
+            return HttpResponse(json.dumps(json_context), content_type='application/json')
+        else:
+            json_context['status'] = 'error'
+    else:
+        form = DocumentForm(instance=document)
+        json_context['status'] = 'ok'
+    csrf_token = unicode(csrf(request)['csrf_token'])
+    json_context['html'] = render_to_string('library/document.html', { 'form': form, 'csrf_token': csrf_token })
+    return HttpResponse(json.dumps(json_context), content_type='application/json')
 
 @login_required
 def new_document(request):
     json_context = {}
-
     if request.method == 'POST':
         form = DocumentForm(request.POST)
         if form.is_valid():
@@ -121,9 +138,17 @@ def new_document(request):
     else:
         form = DocumentForm()
         json_context['status'] = 'ok'
-
     csrf_token = unicode(csrf(request)['csrf_token'])
     html = render_to_string('library/new_document.html', { 'form': form, 'csrf_token': csrf_token })
     json_context['html'] = html
     dump = json.dumps(json_context)
     return HttpResponse(dump, content_type='application/json')
+
+@login_required
+@require_POST
+def move(request):
+    move_to_folder_id = request.POST.get('move-to')
+    move_to_folder = Folder.objects.get(pk=move_to_folder_id)
+    documents = request.POST.getlist('document')
+    move_to_folder.documents.add(*documents)
+    return HttpResponse('', content_type='text/plain')

@@ -246,7 +246,53 @@ $(function () {
         }
       }
     });
+  });
 
+  $(".js-document-details").click(function () {
+    var document_id = $(this).closest("tr").attr("data-id");
+    var url = "/library/documents/" + document_id + "/";
+    $.ajax({
+      url: url,
+      success: function (data) {
+        $("#modal-document .modal-dialog").html(data.html);
+      }
+    });
+    $("#modal-document").modal('show');
+  });
+
+  $("#modal-document").on("click", ".js-save-document", function () {
+    var form = $("#form-document");
+    var document_id = $(form).attr("data-document-id");
+    $.ajax({
+      url: $(form).attr("action"),
+      data: $(form).serialize(),
+      type: $(form).attr("method"),
+      success: function (data) {
+        if (data.status === 'success') {
+          $("#library-documents tr[data-id='" + document_id + "'] td.js-document-details").html(data.html);
+          $("#modal-document").modal('hide');
+        }
+        else {
+          $("#modal-document .modal-dialog").html(data.html);
+        }
+      }
+    });
+  });
+
+  $(".js-move-to a").click(function () {
+    var folder_id = $(this).attr("data-folder-id");
+    var url = $("#form-library").attr("data-move-url");
+    var data = $("#form-library").serialize();
+    data += "&move-to=" + folder_id;
+    $.ajax({
+      url: url,
+      data: data,
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        
+      }
+    });
   });
 
 });

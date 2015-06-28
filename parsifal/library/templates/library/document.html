@@ -1,12 +1,12 @@
 <div class="modal-content">
-  <form id="form-new-document" action="{% url 'library:new_document' %}" method="post">
+  <form id="form-document" action="{% url 'library:document' form.instance.pk %}" method="post" data-document-id="{{ form.instance.pk }}">
     {% csrf_token %}
     {% for hidden in form.hidden_fields %}
       {{ hidden }}
     {% endfor %}
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title">Add document</h4>
+      <h4 class="modal-title">Document details</h4>
     </div>
     <div class="modal-body">
       <ul class="nav nav-tabs" role="tablist">
@@ -31,7 +31,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      <button type="button" class="btn btn-success js-save-new-document">Save changes</button>
+      <button type="button" class="btn btn-success js-save-document">Save changes</button>
     </div>
   </form>
 </div>

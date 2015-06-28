@@ -1,0 +1,6 @@
+<p style="margin: 0;">{{ document.title }}</p>
+{% if document.author or document.journal %}
+  <p class="text-muted" style="margin-top: 5px; margin-bottom: 0;">
+    <span class="text-info">{{ document.author }}</span>{% if document.journal %}, {{ document.journal }}{% endif %}
+  </p>
+{% endif %}
