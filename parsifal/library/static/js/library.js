@@ -47,13 +47,16 @@ $(function () {
   };
 
   var selectAllInPage = function () {
-    $("#library-documents .js-document-checkbox").each(function () {
-      $(this).selectDocument();
-    });
-    $(".js-toggle-select-documents .glyphicon").removeClass().addClass("glyphicon glyphicon-check");
-    $(".select-all-pages").val("");
-    showSelectAllPagesMessage();
-    modifyToolbarButtonsState();
+    var hasAtLeastOneDocument = $("#library-documents .js-document-checkbox").length > 0;
+    if (hasAtLeastOneDocument) {
+      $("#library-documents .js-document-checkbox").each(function () {
+        $(this).selectDocument();
+      });
+      $(".js-toggle-select-documents .glyphicon").removeClass().addClass("glyphicon glyphicon-check");
+      $(".select-all-pages").val("");
+      showSelectAllPagesMessage();
+      modifyToolbarButtonsState();
+    }
   };
 
   $(".js-toggle-select-documents").click(function () {
@@ -290,7 +293,7 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        
+
       }
     });
   });

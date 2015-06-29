@@ -14,34 +14,40 @@
   </div>
 
   <div class="btn-group not-allowed">
-    <button type="button" class="btn btn-default btn-sm js-selection-action" disabled="disabled">
-      <span class="glyphicon glyphicon-trash"></span>
-      <span class="hidden-xs hidden-sm hidden-md">Delete</span>
-    </button>
-  </div>
-  <div class="btn-group">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
+        <span class="glyphicon glyphicon glyphicon-trash"></span>
+        <span class="hidden-xs hidden-sm hidden-md">Delete</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu js-remove-from-folder">
+        {% if active_folder %}
+          <li><a href="javascript:void(0);">Remove from folder</a></li>
+        {% endif %}
+        <li><a href="javascript:void(0);">Delete completely</a></li>
+      </ul>
+    </div>
+
     <div class="btn-group">
       <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
         <span class="glyphicon glyphicon glyphicon-folder-close"></span>
-        <span class="hidden-xs hidden-sm hidden-md">Move</span>
+        <span class="hidden-xs hidden-sm hidden-md">Organize</span>
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu js-move-to">
-        {% for folder in user.library_folders.all %}
-          <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="btn-group">
-      <button type="button" class="btn btn-default btn-sm dropdown-toggle js-selection-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled">
-        <span class="glyphicon glyphicon glyphicon-duplicate"></span>
-        <span class="hidden-xs hidden-sm hidden-md">Copy</span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu js-move-to">
-        {% for folder in user.library_folders.all %}
-          <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a>
-        {% endfor %}
+        {% if user.library_folders.exists %}
+          <li role="presentation" class="dropdown-header">Move documents to…</li>
+          {% for folder in user.library_folders.all %}
+            <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+          {% endfor %}
+          <li class="divider"></li>
+          <li role="presentation" class="dropdown-header">Copy documents to…</li>
+          {% for folder in user.library_folders.all %}
+            <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+          {% endfor %}
+        {% else %}
+          <li class="dropdown-header">Your library has no folder yet.</li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -49,7 +55,7 @@
   <div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-sort-by-attributes"></span>
-      <span class="hidden-xs hidden-sm hidden-md">Sort by</span>
+      <span class="hidden-xs hidden-sm hidden-md">Sort</span>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
