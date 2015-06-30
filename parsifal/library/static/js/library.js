@@ -282,18 +282,46 @@ $(function () {
     });
   });
 
-  $(".js-move-to a").click(function () {
-    var folder_id = $(this).attr("data-folder-id");
-    var url = $("#form-library").attr("data-move-url");
-    var data = $("#form-library").serialize();
-    data += "&move-to=" + folder_id;
+  var displayMessage = function (type, message) {
+    var template = $("#alert-template").html();
+    var alert_message = Mustache.render(template, { 
+      'message': message,
+      'alert-class': type
+    });
+    $(".messages-container").append(alert_message);
+  };
+
+  $(".js-move-to").click(function () {
+    var url = $(this).closest("ul").attr("data-move-to-url");
+    var from_folder_id = $(this).attr("data-from-folder-id");
+    var to_folder_id = $(this).attr("data-to-folder-id");
+    var data = $("#form-library").serialize() + "&" + $.param({ "move_from": from_folder_id, "move_to": to_folder_id });
     $.ajax({
       url: url,
       data: data,
       type: 'post',
       cache: false,
       success: function (data) {
+        displayMessage('alert-success', data.message);
+        data.documents.forEach(function (document_id) {
+          $("#library-documents tbody tr[data-id=" + document_id + "]").remove();
+        });
+        modifyToolbarButtonsState();
+      }
+    });
+  });
 
+  $(".js-copy-to").click(function () {
+    var url = $(this).closest("ul").attr("data-copy-to-url");
+    var folder_id = $(this).attr("data-folder-id");
+    var data = $("#form-library").serialize() + "&" + $.param({ "copy_to": folder_id });
+    $.ajax({
+      url: url,
+      data: data,
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        displayMessage('alert-success', data.message);
       }
     });
   });
@@ -305,11 +333,13 @@ $(function () {
       data: data,
       type: 'post',
       cache: false,
-      success: function (documents) {
-        documents.forEach(function (document_row) {
-          $("#library-documents tbody tr[data-id=" + document_row + "]").remove();
+      success: function (data) {
+        displayMessage('alert-success', data.message);
+        data.documents.forEach(function (document_id) {
+          $("#library-documents tbody tr[data-id=" + document_id + "]").remove();
         });
         modifyToolbarButtonsState();
+        clearSelection();
       }
     });
   };

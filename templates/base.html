@@ -33,7 +33,9 @@
     {% block fullwidthheader %}{% endblock %}
     <main>
       <div class="container">
-        {% include 'messages.html' %}
+        <div class="messages-container">
+          {% include 'messages.html' %}
+        </div>
         {% block content %}{% endblock %}
       </div>
     </main>
@@ -48,6 +50,8 @@
       <div class="bounce3"></div>
     </div>
   </div>
+
+  <script src="{% static 'js/mustache.min.js' %}"></script>
   <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/jquery.tablesorter.min.js' %}"></script>
@@ -61,5 +65,15 @@
   </script>
   <script src="{% static 'js/ga.js' %}"></script>
   {% block javascript %}{% endblock %}
+
+  {% verbatim %}
+    <script id="alert-template" type="x-tmpl-mustache">
+      <div class="alert alert-dismissible fade in {{ alert-class }}" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ message }}
+      </div>
+    </script>
+  {% endverbatim %}
+  {% block mustache %}{% endblock %}
 </body>
 </html>

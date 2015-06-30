@@ -34,16 +34,18 @@
         <span class="hidden-xs hidden-sm hidden-md">Organize</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu js-move-to">
+      <ul class="dropdown-menu" data-move-to-url="{% url 'library:move' %}" data-copy-to-url="{% url 'library:copy' %}">
         {% if user.library_folders.exists %}
-          <li role="presentation" class="dropdown-header">Move documents to…</li>
-          {% for folder in user.library_folders.all %}
-            <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
-          {% endfor %}
-          <li class="divider"></li>
+          {% if active_folder %}
+            <li role="presentation" class="dropdown-header">Move documents to…</li>
+            {% for folder in user.library_folders.all %}
+              <li><a href="javascript:void(0);" class="js-move-to" data-from-folder-id="{{ active_folder.pk }}" data-to-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+            {% endfor %}
+            <li class="divider"></li>
+          {% endif %}
           <li role="presentation" class="dropdown-header">Copy documents to…</li>
           {% for folder in user.library_folders.all %}
-            <li><a href="javascript:void(0);" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+            <li><a href="javascript:void(0);" class="js-copy-to" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
           {% endfor %}
         {% else %}
           <li class="dropdown-header">Your library has no folder yet.</li>
