@@ -39,13 +39,17 @@
           {% if active_folder %}
             <li role="presentation" class="dropdown-header">Move documents to…</li>
             {% for folder in user.library_folders.all %}
-              <li><a href="javascript:void(0);" class="js-move-to" data-from-folder-id="{{ active_folder.pk }}" data-to-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+              {% if folder != active_folder %}
+                <li><a href="javascript:void(0);" class="js-move-to" data-from-folder-id="{{ active_folder.pk }}" data-to-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+              {% endif %}
             {% endfor %}
             <li class="divider"></li>
           {% endif %}
           <li role="presentation" class="dropdown-header">Copy documents to…</li>
           {% for folder in user.library_folders.all %}
-            <li><a href="javascript:void(0);" class="js-copy-to" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+            {% if folder != active_folder %}
+              <li><a href="javascript:void(0);" class="js-copy-to" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+            {% endif %}
           {% endfor %}
         {% else %}
           <li class="dropdown-header">Your library has no folder yet.</li>

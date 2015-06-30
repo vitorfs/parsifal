@@ -144,9 +144,9 @@ def new_document(request):
     dump = json.dumps(json_context)
     return HttpResponse(dump, content_type='application/json')
 
-def get_document_verbose_name(documents):
+def get_document_verbose_name(documents_size):
     document_verbose_name = 'document'
-    if len(documents) > 1:
+    if documents_size > 1:
         document_verbose_name = 'documents'
     return document_verbose_name
 
@@ -160,16 +160,43 @@ def move(request):
     move_to_folder = Folder.objects.get(pk=move_to_folder_id)
 
     documents = request.POST.getlist('document')
-    move_to_folder.documents.add(*documents)
-    move_from_folder.documents.remove(*documents)
 
-    message = u'{0} {1} successfully moved from folder {2} to {3}!'.format(
-            len(documents), 
-            get_document_verbose_name(documents), 
-            move_from_folder.name,
-            move_to_folder.name)
+    documents_feedback = {}
+    documents_feedback['success'] = 0
+    documents_feedback['warning'] = 0
 
-    return HttpResponse(json.dumps({ 'documents': documents, 'message': message }), content_type='application/json')
+    document_list = []
+    for document in documents:
+        try:
+            move_to_folder.documents.add(document)
+            move_from_folder.documents.remove(document)
+            documents_feedback['success'] += 1
+            document_list.append(document)
+        except:
+            documents_feedback['warning'] += 1
+
+    success_message = ''
+    if documents_feedback['success'] > 0:
+        success_message = u'{0} {1} moved from folder {2} to {3}!'.format(
+                documents_feedback['success'], 
+                get_document_verbose_name(documents_feedback['success']), 
+                move_from_folder.name,
+                move_to_folder.name
+                )
+
+    warning_message = ''
+    if documents_feedback['warning'] > 0:
+        warning_message = u'{0} {1} couldn\'t be moved because they were already in folder {2}'.format(
+                documents_feedback['warning'], 
+                get_document_verbose_name(documents_feedback['warning']),
+                move_to_folder.name
+                )
+
+    return HttpResponse(json.dumps({ 
+            'documents': document_list,
+            'success_message': success_message, 
+            'warning_message': warning_message 
+        }), content_type='application/json')
 
 @login_required
 @require_POST
@@ -177,12 +204,35 @@ def copy(request):
     copy_to_folder_id = request.POST.get('copy_to')
     copy_to_folder = Folder.objects.get(pk=copy_to_folder_id)
     documents = request.POST.getlist('document')
-    copy_to_folder.documents.add(*documents)
-    message = u'{0} {1} successfully copied to folder {2}!'.format(
-            len(documents), 
-            get_document_verbose_name(documents), 
-            copy_to_folder.name)
-    return HttpResponse(json.dumps({ 'message': message }), content_type='application/json')
+
+    documents_feedback = {}
+    documents_feedback['success'] = 0
+    documents_feedback['warning'] = 0
+
+    for document in documents:
+        try:
+            copy_to_folder.documents.add(document)
+            documents_feedback['success'] += 1
+        except:
+            documents_feedback['warning'] += 1
+
+    success_message = ''
+    if documents_feedback['success'] > 0:
+        success_message = u'{0} {1} successfully copied to folder {2}!'.format(
+                documents_feedback['success'], 
+                get_document_verbose_name(documents_feedback['success']), 
+                copy_to_folder.name
+                )
+
+    warning_message = ''
+    if documents_feedback['warning'] > 0:
+        warning_message = u'{0} {1} couldn\'t be copied because they were already in folder {2}'.format(
+                documents_feedback['warning'], 
+                get_document_verbose_name(documents_feedback['warning']),
+                copy_to_folder.name
+                )
+
+    return HttpResponse(json.dumps({ 'success_message': success_message, 'warning_message': warning_message }), content_type='application/json')
 
 @login_required
 @require_POST
@@ -191,9 +241,10 @@ def remove_from_folder(request):
     folder = Folder.objects.get(pk=remove_from_folder_id)
     documents = request.POST.getlist('document')
     folder.documents.remove(*documents)
+    documents_size = len(documents)
     message = u'{0} {1} successfully removed from folder {2}!'.format(
-            len(documents), 
-            get_document_verbose_name(documents), 
+            documents_size, 
+            get_document_verbose_name(documents_size), 
             folder.name)
     return HttpResponse(json.dumps({ 'documents': documents, 'message': message }), content_type='application/json')
 
@@ -202,6 +253,7 @@ def remove_from_folder(request):
 def delete_documents(request):
     document_ids = request.POST.getlist('document')
     documents = Document.objects.filter(id__in=document_ids)
+    documents_size = documents.count()
     documents.delete()
-    message = u'{0} {1} successfully deleted!'.format(len(documents), get_document_verbose_name(document_ids))
+    message = u'{0} {1} successfully deleted!'.format(documents_size, get_document_verbose_name(documents_size))
     return HttpResponse(json.dumps({ 'documents': document_ids, 'message': message }), content_type='application/json')

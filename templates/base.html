@@ -68,7 +68,7 @@
 
   {% verbatim %}
     <script id="alert-template" type="x-tmpl-mustache">
-      <div class="alert alert-dismissible fade in {{ alert-class }}" role="alert">
+      <div id="{{ id }}" class="alert alert-dismissible fade in {{ alert-class }}" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         {{ message }}
       </div>

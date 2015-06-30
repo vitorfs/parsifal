@@ -284,11 +284,16 @@ $(function () {
 
   var displayMessage = function (type, message) {
     var template = $("#alert-template").html();
+    var id = $.parsifal.uuid();
     var alert_message = Mustache.render(template, { 
+      'id': id,
       'message': message,
       'alert-class': type
     });
     $(".messages-container").append(alert_message);
+    setTimeout(function () {
+      $("#" + id).alert('close');
+    }, 5000);
   };
 
   $(".js-move-to").click(function () {
@@ -302,11 +307,17 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        displayMessage('alert-success', data.message);
+        if ("success_message" in data && data["success_message"] !== undefined && data["success_message"] !== "") {
+          displayMessage("alert-success", data.success_message);
+        }
+        if ("warning_message" in data && data["warning_message"] !== undefined && data["warning_message"] !== "") {
+          displayMessage("alert-warning", data.warning_message);
+        }
         data.documents.forEach(function (document_id) {
           $("#library-documents tbody tr[data-id=" + document_id + "]").remove();
         });
         modifyToolbarButtonsState();
+        clearSelection();
       }
     });
   });
@@ -321,7 +332,12 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        displayMessage('alert-success', data.message);
+        if ("success_message" in data && data["success_message"] !== undefined && data["success_message"] !== "") {
+          displayMessage("alert-success", data.success_message);
+        }
+        if ("warning_message" in data && data["warning_message"] !== undefined && data["warning_message"] !== "") {
+          displayMessage("alert-warning", data.warning_message);
+        }
       }
     });
   });
