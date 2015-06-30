@@ -152,3 +152,20 @@ def move(request):
     documents = request.POST.getlist('document')
     move_to_folder.documents.add(*documents)
     return HttpResponse('', content_type='text/plain')
+
+@login_required
+@require_POST
+def remove_from_folder(request):
+    remove_from_folder_id = request.POST.get('remove_from')
+    folder = Folder.objects.get(pk=remove_from_folder_id)
+    documents = request.POST.getlist('document')
+    folder.documents.remove(*documents)
+    return HttpResponse(json.dumps(documents), content_type='application/json')
+
+@login_required
+@require_POST
+def delete_documents(request):
+    document_ids = request.POST.getlist('document')
+    documents = Document.objects.filter(id__in=document_ids)
+    documents.delete()
+    return HttpResponse(json.dumps(document_ids), content_type='application/json')

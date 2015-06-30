@@ -298,4 +298,31 @@ $(function () {
     });
   });
 
+  $.fn.removeFromFolderOrDelete = function (data) {
+    var url = $(this).attr("data-remote");
+    $.ajax({
+      url: url,
+      data: data,
+      type: 'post',
+      cache: false,
+      success: function (documents) {
+        documents.forEach(function (document_row) {
+          $("#library-documents tbody tr[data-id=" + document_row + "]").remove();
+        });
+        modifyToolbarButtonsState();
+      }
+    });
+  };
+
+  $(".js-remove-from-folder").click(function () {
+    var folder_id = $(this).attr("data-folder-id");
+    var data = $("#form-library").serialize() + "&" + $.param({ "remove_from": folder_id });
+    $(this).removeFromFolderOrDelete(data);
+  });
+
+  $(".js-delete-completely").click(function () {
+    var data = $("#form-library").serialize();
+    $(this).removeFromFolderOrDelete(data);
+  });
+
 });

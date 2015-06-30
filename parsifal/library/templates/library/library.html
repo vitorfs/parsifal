@@ -44,7 +44,7 @@
         <div class="panel-body">
           {% include 'library/includes/toolbar.html' with documents=documents active_folder=active_folder %}
         </div>
-        <form id="form-library" method="post" data-move-url="{% url 'library:move' %}" data-delete-url="">
+        <form id="form-library" method="post" data-move-url="{% url 'library:move' %}">
           {% csrf_token %}
           <input type="hidden" name="select-all-pages" id="select-all-pages">
           <input type="hidden" name="active-folder-id" id="active-folder-id">

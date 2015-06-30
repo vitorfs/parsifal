@@ -20,11 +20,11 @@
         <span class="hidden-xs hidden-sm hidden-md">Delete</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu js-remove-from-folder">
+      <ul class="dropdown-menu">
         {% if active_folder %}
-          <li><a href="javascript:void(0);">Remove from folder</a></li>
+          <li><a href="javascript:void(0);" class="js-remove-from-folder" data-remote="{% url 'library:remove_from_folder' %}" data-folder-id="{{ active_folder.pk }}">Remove from folder</a></li>
         {% endif %}
-        <li><a href="javascript:void(0);">Delete completely</a></li>
+        <li><a href="javascript:void(0);" class="js-delete-completely" data-remote="{% url 'library:delete_documents' %}">Delete completely</a></li>
       </ul>
     </div>
 

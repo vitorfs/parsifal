@@ -10,4 +10,6 @@ urlpatterns = patterns('parsifal.library.views',
     url(r'^new_document/$', 'new_document', name='new_document'),
     url(r'^documents/(?P<document_id>\d+)/$', 'document', name='document'),
     url(r'^move/$', 'move', name='move'),
+    url(r'^remove_from_folder/$', 'remove_from_folder', name='remove_from_folder'),
+    url(r'^delete_documents/$', 'delete_documents', name='delete_documents'),
 )
