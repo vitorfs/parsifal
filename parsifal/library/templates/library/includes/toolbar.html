@@ -127,7 +127,7 @@
   </div>
 </div>
 
-<form id="form-import-bibtex" method="post" action="{% url 'library:import_bibtex' %}">
+<form id="form-import-bibtex" method="post" action="{% url 'library:import_bibtex' %}" enctype="multipart/form-data">
   {% csrf_token %}
   <input id="input-bibtex" type="file" name="bibtex" style="display: none;">
 </form>

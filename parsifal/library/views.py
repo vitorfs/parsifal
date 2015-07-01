@@ -261,4 +261,5 @@ def delete_documents(request):
 @login_required
 @require_POST
 def import_bibtex(request):
-    bibtex_file = request.FILES['bibtex'].read()
+    b = request.FILES['bibtex']
+    return HttpResponse(u'{0} _ {1} _ {2}'.format(b.name, b.size, b.content_type))
