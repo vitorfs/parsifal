@@ -11,6 +11,6 @@ There is no rule on how the researcher works during this process. He might want 
 
 Technology
 ----------
-* Python 2.7
-* Django 1.6
-* jQuery 1.10
+* Python 2.7.10
+* Django 1.8.2
+* jQuery 1.11.3
