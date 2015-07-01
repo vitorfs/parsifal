@@ -257,3 +257,8 @@ def delete_documents(request):
     documents.delete()
     message = u'{0} {1} successfully deleted!'.format(documents_size, get_document_verbose_name(documents_size))
     return HttpResponse(json.dumps({ 'documents': document_ids, 'message': message }), content_type='application/json')
+
+@login_required
+@require_POST
+def import_bibtex(request):
+    bibtex_file = request.FILES['bibtex'].read()

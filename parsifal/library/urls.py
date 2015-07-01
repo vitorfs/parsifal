@@ -13,4 +13,5 @@ urlpatterns = patterns('parsifal.library.views',
     url(r'^copy/$', 'copy', name='copy'),
     url(r'^remove_from_folder/$', 'remove_from_folder', name='remove_from_folder'),
     url(r'^delete_documents/$', 'delete_documents', name='delete_documents'),
+    url(r'^import_bibtex/$', 'import_bibtex', name='import_bibtex'),
 )

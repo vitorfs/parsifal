@@ -371,4 +371,13 @@ $(function () {
     $(this).removeFromFolderOrDelete(data);
   });
 
+  $(".js-import-bibtex").click(function () {
+    $("#input-bibtex").click();
+  });
+
+  $("#input-bibtex").change(function () {
+    var form = $(this).closest("form");
+    $(form).submit();
+  });
+
 });

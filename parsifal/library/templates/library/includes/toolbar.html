@@ -120,9 +120,14 @@
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="#">BibTeX</a></li>
+        <li><a href="javascript:void(0);" class="js-import-bibtex">BibTeX</a></li>
         <li><a href="#">PDF</a></li>
       </ul>
     </div>
   </div>
 </div>
+
+<form id="form-import-bibtex" method="post" action="{% url 'library:import_bibtex' %}">
+  {% csrf_token %}
+  <input id="input-bibtex" type="file" name="bibtex" style="display: none;">
+</form>
