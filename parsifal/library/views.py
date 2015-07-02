@@ -1,8 +1,13 @@
 import json
 import os
+import bibtexparser
+from bibtexparser.bparser import BibTexParser
+from bibtexparser.customization import convert_to_unicode
 
+from django.db import transaction
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse as r
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -10,7 +15,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.defaultfilters import slugify
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
-from django.core.context_processors import csrf
 from django.utils.safestring import mark_safe
 
 from reviews.models import Review, Article
@@ -264,10 +268,58 @@ def delete_documents(request):
 def import_bibtex(request):
     redirect_to = request.POST.get('redirect', r('library:index'))
     bibtex_file = request.FILES['bibtex']
+
     ext = os.path.splitext(bibtex_file.name)[1]
     valid_extensions = ['.bib', '.bibtex']
+
     if ext in valid_extensions or bibtex_file.content_type == 'application/x-bibtex':
-        messages.success(request, u'Documents imported successfully!')
+        parser = BibTexParser()
+        parser.customization = convert_to_unicode
+        bib_database = bibtexparser.load(bibtex_file, parser=parser)
+
+        documents = []
+        with transaction.atomic():
+            for entry in bib_database.entries:
+                document = Document(user=request.user)
+                document.bibtexkey = entry.get('id', None)
+                document.address = entry.get('address', entry.get('correspondence_address1', None))
+                document.author = entry.get('authors', entry.get('author', None))
+                document.booktitle = entry.get('booktitle', None)
+                document.chapter = entry.get('chapter', None)
+                document.crossref = entry.get('crossref', None)
+                document.edition = entry.get('edition', None)
+                document.editor = entry.get('editor', None)
+                document.howpublished = entry.get('howpublished', None)
+                document.institution = entry.get('institution', None)
+                document.journal = entry.get('journal', None)
+                document.month = entry.get('month', None)
+                document.note = entry.get('note', None)
+                document.number = entry.get('number', None)
+                document.organization = entry.get('organization', None)
+                document.pages = entry.get('pages', None)
+                document.publisher = entry.get('publisher', None)
+                document.school = entry.get('school', None)
+                document.series = entry.get('series', None)
+                document.title = entry.get('title', None)
+                document.publication_type = entry.get('type', entry.get('publication_type', None))
+                document.volume = entry.get('volume', None)
+                document.year = entry.get('year', None)
+                document.abstract = entry.get('abstract', None)
+                document.coden = entry.get('coden', None)
+                document.doi = entry.get('doi', None)
+                document.isbn = entry.get('isbn', None)
+                document.issn = entry.get('issn', None)
+                document.keywords = entry.get('author_keywords', entry.get('keywords', None))
+                document.language = entry.get('language', None)
+                document.url = entry.get('url', entry.get('link', None))
+                document.save()
+                documents.append(document)
+
+        if any(documents):
+            messages.success(request, u'{0} documents imported!'.format(len(documents)))
+        else:
+            messages.warning(request, u'The bibtex file had no valid entry!')
     else:
         messages.error(request, u'Invalid file type. Only .bib or .bibtex files are accepted.')
+
     return redirect(redirect_to)

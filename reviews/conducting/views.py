@@ -369,9 +369,6 @@ def data_extraction(request, username, review_name):
     return render_to_response('conducting/conducting_data_extraction.html', context)
 
 def bibtex_to_article_object(filename, review, source):
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
-
     articles = []
 
     with codecs.open(filename, 'r', 'utf-8-sig') as bibtex_file:
@@ -379,10 +376,7 @@ def bibtex_to_article_object(filename, review, source):
         parser.customization = convert_to_unicode
         bib_database = bibtexparser.load(bibtex_file, parser=parser)
 
-    pp.pprint(bib_database.entries)
-
     for entry in bib_database.entries:
-        pp.pprint(entry)
         article = Article()
         try:
             if 'id'              in entry: article.bibtex_key      = entry['id'][:100]

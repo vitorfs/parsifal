@@ -51,7 +51,7 @@ class Document(models.Model):
     institution = models.CharField(max_length=255, null=True, blank=True)
     journal = models.CharField(max_length=255, null=True, blank=True)
     month = models.CharField(max_length=30, null=True, blank=True)
-    note = models.CharField(max_length=255, null=True, blank=True)
+    note = models.CharField(max_length=2000, null=True, blank=True)
     number = models.CharField(max_length=255, null=True, blank=True)
     organization = models.CharField(max_length=255, null=True, blank=True)
     pages = models.CharField(max_length=255, null=True, blank=True)
