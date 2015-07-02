@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -261,5 +262,12 @@ def delete_documents(request):
 @login_required
 @require_POST
 def import_bibtex(request):
-    b = request.FILES['bibtex']
-    return HttpResponse(u'{0} _ {1} _ {2}'.format(b.name, b.size, b.content_type))
+    redirect_to = request.POST.get('redirect', r('library:index'))
+    bibtex_file = request.FILES['bibtex']
+    ext = os.path.splitext(bibtex_file.name)[1]
+    valid_extensions = ['.bib', '.bibtex']
+    if ext in valid_extensions or bibtex_file.content_type == 'application/x-bibtex':
+        messages.success(request, u'Documents imported successfully!')
+    else:
+        messages.error(request, u'Invalid file type. Only .bib or .bibtex files are accepted.')
+    return redirect(redirect_to)
