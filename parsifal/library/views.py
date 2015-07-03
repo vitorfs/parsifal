@@ -36,12 +36,14 @@ def get_paginated_documents(request, queryset):
 def library(request, documents, querystring, active_folder=None):
     reviews = Review.objects.filter(author=request.user)
     folder_form = FolderForm()
+    current_full_path = request.get_full_path()
     return render(request, 'library/library.html', { 
             'reviews': reviews, 
             'documents': documents,
             'querystring': querystring,
             'active_folder': active_folder,
-            'folder_form': folder_form
+            'folder_form': folder_form,
+            'current_full_path': current_full_path
         })
 
 @login_required
