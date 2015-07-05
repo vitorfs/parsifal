@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('parsifal.library.views',
     url(r'^$', 'index', name='index'),
+    url(r'^list_actions/$', 'list_actions', name='list_actions'),
     url(r'^new_folder/$', 'new_folder', name='new_folder'),
     url(r'^edit_folder/$', 'edit_folder', name='edit_folder'),
     url(r'^folders/(?P<slug>[-\w]+)/$', 'folder', name='folder'),

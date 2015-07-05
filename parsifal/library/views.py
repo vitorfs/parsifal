@@ -56,6 +56,17 @@ def index(request):
     return library(request, documents, querystring)
 
 @login_required
+@require_POST
+def list_actions(request):
+    action = request.POST.get('action')
+    if action == 'remove_from_folder':
+        return remove_from_folder(request)
+    if action == 'delete_documents':
+        return delete_documents(request)
+    redirect_to = request.POST.get('redirect', r('library:index'))
+    return redirect(redirect_to)
+
+@login_required
 def folder(request, slug):
     querystring = request.GET.get('q', '')
     folder = get_object_or_404(Folder, slug=slug)
@@ -262,8 +273,12 @@ def delete_documents(request):
     documents = Document.objects.filter(id__in=document_ids)
     documents_size = documents.count()
     documents.delete()
-    message = u'{0} {1} successfully deleted!'.format(documents_size, get_document_verbose_name(documents_size))
-    return HttpResponse(json.dumps({ 'documents': document_ids, 'message': message }), content_type='application/json')
+    messages.success(request, u'{0} {1} successfully deleted!'.format(
+            documents_size, 
+            get_document_verbose_name(documents_size))
+        )
+    redirect_to = request.POST.get('redirect', r('library:index'))
+    return redirect(redirect_to)
 
 @login_required
 @require_POST

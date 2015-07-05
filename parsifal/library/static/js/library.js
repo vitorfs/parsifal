@@ -367,8 +367,8 @@ $(function () {
   });
 
   $(".js-delete-completely").click(function () {
-    var data = $("#form-library").serialize();
-    $(this).removeFromFolderOrDelete(data);
+    $("#library-action").val("delete_documents");
+    $("#form-library").submit();
   });
 
   $(".js-import-bibtex").click(function () {
