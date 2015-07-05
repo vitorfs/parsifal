@@ -255,22 +255,45 @@ def copy(request):
 @login_required
 @require_POST
 def remove_from_folder(request):
-    remove_from_folder_id = request.POST.get('remove_from')
+    remove_from_folder_id = request.POST.get('active-folder-id')
     folder = Folder.objects.get(pk=remove_from_folder_id)
-    documents = request.POST.getlist('document')
-    folder.documents.remove(*documents)
-    documents_size = len(documents)
-    message = u'{0} {1} successfully removed from folder {2}!'.format(
+    select_all_pages = request.POST.get('select-all-pages')
+
+    if select_all_pages == 'all':
+        documents_size = folder.documents.count()
+        folder.documents.clear()
+    else:
+        documents = request.POST.getlist('document')
+        documents_size = len(documents)
+        folder.documents.remove(*documents)
+
+    messages.success(request, u'{0} {1} successfully removed from folder {2}!'.format(
             documents_size, 
             get_document_verbose_name(documents_size), 
             folder.name)
-    return HttpResponse(json.dumps({ 'documents': documents, 'message': message }), content_type='application/json')
+        )
+    redirect_to = request.POST.get('redirect', r('library:index'))
+    return redirect(redirect_to)
 
 @login_required
 @require_POST
 def delete_documents(request):
+    select_all_pages = request.POST.get('select-all-pages')
     document_ids = request.POST.getlist('document')
-    documents = Document.objects.filter(id__in=document_ids)
+    folder_id = request.POST.get('active-folder-id')
+
+    if folder_id:
+        folder = Folder.objects.get(pk=folder_id)
+        if select_all_pages == 'all':
+            documents = folder.documents.all()
+        else:
+            documents = folder.documents.filter(id__in=document_ids)
+    else:
+        if select_all_pages == 'all':
+            documents = Document.objects.filter(user=request.user)
+        else:
+            documents = Document.objects.filter(user=request.user, id__in=document_ids)
+        
     documents_size = documents.count()
     documents.delete()
     messages.success(request, u'{0} {1} successfully deleted!'.format(

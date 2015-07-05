@@ -75,7 +75,7 @@ $(function () {
 
   $(".js-select-all-documents").click(function () {
     showClearSelectionMessage();
-    $(".select-all-pages").val("all");
+    $("#select-all-pages").val("all");
   });
 
   $(".js-clear-selection").click(function () {
@@ -342,28 +342,9 @@ $(function () {
     });
   });
 
-  $.fn.removeFromFolderOrDelete = function (data) {
-    var url = $(this).attr("data-remote");
-    $.ajax({
-      url: url,
-      data: data,
-      type: 'post',
-      cache: false,
-      success: function (data) {
-        displayMessage('alert-success', data.message);
-        data.documents.forEach(function (document_id) {
-          $("#library-documents tbody tr[data-id=" + document_id + "]").remove();
-        });
-        modifyToolbarButtonsState();
-        clearSelection();
-      }
-    });
-  };
-
   $(".js-remove-from-folder").click(function () {
-    var folder_id = $(this).attr("data-folder-id");
-    var data = $("#form-library").serialize() + "&" + $.param({ "remove_from": folder_id });
-    $(this).removeFromFolderOrDelete(data);
+    $("#library-action").val("remove_from_folder");
+    $("#form-library").submit();
   });
 
   $(".js-delete-completely").click(function () {
