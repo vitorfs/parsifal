@@ -21,10 +21,15 @@ from reviews.models import Review, Article
 from parsifal.library.models import Folder, Document
 from parsifal.library.forms import FolderForm, DocumentForm
 
+def get_order(request):
+    order = request.GET.get('o', '').lower()
+    if order in ['title', '-title', 'author', '-author', 'year', '-year']:
+        return order
+    return 'title'
 
 def get_paginated_documents(request, queryset):
     paginator = Paginator(queryset, 25)
-    page = request.GET.get('page')
+    page = request.GET.get('p')
     try:
         documents = paginator.page(page)
     except PageNotAnInteger:
@@ -33,7 +38,12 @@ def get_paginated_documents(request, queryset):
         documents = paginator.page(paginator.num_pages)
     return documents
 
-def library(request, documents, querystring, active_folder=None):
+def get_filtered_documents(queryset, querystring):
+    if querystring:
+        queryset = queryset.filter(title__icontains=querystring)
+    return queryset
+
+def library(request, documents, querystring, order, active_folder=None):
     reviews = Review.objects.filter(author=request.user)
     folder_form = FolderForm()
     current_full_path = request.get_full_path()
@@ -41,6 +51,7 @@ def library(request, documents, querystring, active_folder=None):
             'reviews': reviews, 
             'documents': documents,
             'querystring': querystring,
+            'order': order,
             'active_folder': active_folder,
             'folder_form': folder_form,
             'current_full_path': current_full_path
@@ -49,11 +60,12 @@ def library(request, documents, querystring, active_folder=None):
 @login_required
 def index(request):
     querystring = request.GET.get('q', '')
+    order = get_order(request)
     queryset = Document.objects.filter(user=request.user)
-    if querystring:
-        queryset = queryset.filter(title__icontains=querystring)
+    queryset = get_filtered_documents(queryset, querystring)
+    queryset = queryset.order_by(order)
     documents = get_paginated_documents(request, queryset)
-    return library(request, documents, querystring)
+    return library(request, documents, querystring, order)
 
 @login_required
 @require_POST
@@ -73,12 +85,13 @@ def list_actions(request):
 @login_required
 def folder(request, slug):
     querystring = request.GET.get('q', '')
+    order = get_order(request)
     folder = get_object_or_404(Folder, slug=slug)
     queryset = folder.documents.all()
-    if querystring:
-        queryset = queryset.filter(title__icontains=querystring)
+    queryset = get_filtered_documents(queryset, querystring)
+    queryset = queryset.order_by(order)
     documents = get_paginated_documents(request, queryset)
-    return library(request, documents, querystring, folder)
+    return library(request, documents, querystring, order, folder)
 
 def save_folder(form):
     base_slug = slugify(form.instance.name)
@@ -183,6 +196,8 @@ def move(request):
 
     if request.POST.get('select-all-pages') == 'all':
         documents = move_from_folder.documents.all()
+        querystring = request.POST.get('querystring', '')
+        documents = get_filtered_documents(documents, querystring)
     else:
         documents = request.POST.getlist('document')
 
@@ -244,7 +259,10 @@ def copy(request):
     else:
         documents = Document.objects.filter(user=request.user)
 
-    if select_all_pages != 'all':
+    if select_all_pages == 'all':
+        querystring = request.POST.get('querystring', '')
+        documents = get_filtered_documents(documents, querystring)
+    else:
         documents = documents.filter(id__in=document_ids)
 
 
@@ -283,8 +301,11 @@ def remove_from_folder(request):
     select_all_pages = request.POST.get('select-all-pages')
 
     if select_all_pages == 'all':
-        documents_size = folder.documents.count()
-        folder.documents.clear()
+        querystring = request.POST.get('querystring', '')
+        documents = folder.documents.all()
+        documents = get_filtered_documents(documents, querystring)
+        documents_size = documents.count()
+        folder.documents.remove(*documents)
     else:
         documents = request.POST.getlist('document')
         documents_size = len(documents)
@@ -316,6 +337,9 @@ def delete_documents(request):
             documents = Document.objects.filter(user=request.user)
         else:
             documents = Document.objects.filter(user=request.user, id__in=document_ids)
+
+    querystring = request.POST.get('querystring', '')
+    documents = get_filtered_documents(documents, querystring)
         
     documents_size = documents.count()
     documents.delete()

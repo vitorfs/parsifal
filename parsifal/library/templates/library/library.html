@@ -19,6 +19,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <form action="." method="get" id="search-form">
+            <input type="hidden" name="o" value="{{ order }}">
             <div class="input-group pull-right" style="width: 300px; font-weight: normal; margin-top: -6px;">
               <input type="text" name="q" class="form-control input-sm" placeholder="Search" value="{{ querystring }}">
               <span class="input-group-btn">
@@ -48,6 +49,7 @@
           {% csrf_token %}
           <input type="hidden" name="action" id="library-action">
           <input type="hidden" name="select-all-pages" id="select-all-pages" value="">
+          <input type="hidden" name="querystring" value="{{ querystring }}">
           <input type="hidden" name="action-folder-id" id="action-folder-id" value="">
           <input type="hidden" name="active-folder-id" id="active-folder-id" value="{{ active_folder.pk }}">
           <input type="hidden" name="redirect" value="{{ current_full_path }}">

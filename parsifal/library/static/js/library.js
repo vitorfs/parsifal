@@ -5,9 +5,9 @@ $(function () {
   $(".js-jump-page").popover({
     html: true,
     content: function () {
-      var first_page = "?page=1";
+      var first_page = "?p=1";
       var last_page_number = $("#library-documents").attr("data-num-pages");
-      var last_page = "?page=" + last_page_number;
+      var last_page = "?p=" + last_page_number;
 
       var querystring = $("#search-form [name='q']").val();
       if (querystring.length > 0) {
@@ -249,6 +249,10 @@ $(function () {
         }
       }
     });
+  });
+
+  $(".js-document-details a").click(function (e) {
+    e.stopPropagation();
   });
 
   $(".js-document-details").click(function () {

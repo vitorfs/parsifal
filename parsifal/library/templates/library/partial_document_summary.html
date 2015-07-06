@@ -1,6 +1,7 @@
-<p style="margin: 0;">{{ document.title }}</p>
+<p style="margin: 0;">{{ document.title }}{% if document.year %} ({{ document.year }}){% endif %}</p>
 {% if document.author or document.journal %}
-  <p class="text-muted" style="margin-top: 5px; margin-bottom: 0;">
-    <span class="text-info">{{ document.author }}</span>{% if document.journal %}, {{ document.journal }}{% endif %}
+  <p style="margin-top: 5px; margin-bottom: 0;">
+    {% if document.author %}<span class="">{{ document.author }}</span>{% endif %}{% if document.journal %}, <strong>{{ document.journal }}</strong>.{% else %}.{% endif %}
+    {% if document.doi %} doi: <a href="http://dx.doi.org/{{ document.doi }}" target="_blank"><small>{{ document.doi }} <span class="glyphicon glyphicon-new-window"></span></small></a>{% endif %}
   </p>
 {% endif %}

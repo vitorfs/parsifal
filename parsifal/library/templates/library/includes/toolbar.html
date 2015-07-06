@@ -60,15 +60,28 @@
 
   <div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-option-horizontal visible-xs-inline visible-sm-inline visible-md-inline"></span>
+      <span class="hidden-xs hidden-sm hidden-md">More</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Export as bibtex</a></li>
+    </ul>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-sort-by-attributes"></span>
       <span class="hidden-xs hidden-sm hidden-md">Sort</span>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li><a href="#">Title (a - z)</a></li>
-      <li><a href="#">Title (z - a)</a></li>
-      <li><a href="#">Publication year (0 - 9)</a></li>
-      <li><a href="#">Publication year (9 - 0)</a></li>
+      <li{% if order == 'title' %} class="active"{% endif %}><a href="?o=title{% if querystring %}&q={{ querystring }}{% endif %}">Title (a - z)</a></li>
+      <li{% if order == '-title' %} class="active"{% endif %}><a href="?o=-title{% if querystring %}&q={{ querystring }}{% endif %}">Title (z - a)</a></li>
+      <li{% if order == 'author' %} class="active"{% endif %}><a href="?o=author{% if querystring %}&q={{ querystring }}{% endif %}">Author (a - z)</a></li>
+      <li{% if order == '-author' %} class="active"{% endif %}><a href="?o=-author{% if querystring %}&q={{ querystring }}{% endif %}">Author (z - a)</a></li>
+      <li{% if order == 'year' %} class="active"{% endif %}><a href="?o=year{% if querystring %}&q={{ querystring }}{% endif %}">Publication year (0 - 9)</a></li>
+      <li{% if order == '-year' %} class="active"{% endif %}><a href="?o=-year{% if querystring %}&q={{ querystring }}{% endif %}">Publication year (9 - 0)</a></li>
     </ul>
   </div>
 
@@ -76,14 +89,13 @@
     <div class="btn-group pull-right">
       <a href="javascript:void(0);" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-folder-settings">
         <span class="glyphicon glyphicon-cog"></span> 
-        <span class="hidden-xs hidden-sm hidden-md">Settings</span>
       </a>
     </div>
   {% endif %}
 
   <div class="btn-group pull-right" role="group" aria-label="Pager">
     {% if documents.has_previous %}
-      <a href="?page={{ documents.previous_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
+      <a href="?p={{ documents.previous_page_number }}{% if order %}&o={{ order }}{% endif %}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
         <span class="glyphicon glyphicon-arrow-left"></span>
       </a>
     {% else %}
@@ -92,7 +104,7 @@
       </button>
     {% endif %}
     {% if documents.has_next %}
-      <a href="?page={{ documents.next_page_number }}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
+      <a href="?p={{ documents.next_page_number }}{% if order %}&o={{ order }}{% endif %}{% if querystring %}&q={{ querystring }}{% endif %}" class="btn btn-default btn-sm">
         <span class="glyphicon glyphicon-arrow-right"></span>
       </a>
     {% else %}
