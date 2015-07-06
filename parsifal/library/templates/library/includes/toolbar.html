@@ -34,7 +34,7 @@
         <span class="hidden-xs hidden-sm hidden-md">Organize</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" data-move-to-url="{% url 'library:move' %}" data-copy-to-url="{% url 'library:copy' %}">
+      <ul class="dropdown-menu">
         {% if user.library_folders.exists %}
           {% if active_folder %}
             <li role="presentation" class="dropdown-header">Move documents to…</li>
@@ -48,7 +48,7 @@
           <li role="presentation" class="dropdown-header">Copy documents to…</li>
           {% for folder in user.library_folders.all %}
             {% if folder != active_folder %}
-              <li><a href="javascript:void(0);" class="js-copy-to" data-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
+              <li><a href="javascript:void(0);" class="js-copy-to" data-to-folder-id="{{ folder.pk }}">{{ folder.name }}</a></li>
             {% endif %}
           {% endfor %}
         {% else %}
@@ -129,6 +129,7 @@
 
 <form id="form-import-bibtex" method="post" action="{% url 'library:import_bibtex' %}" enctype="multipart/form-data">
   {% csrf_token %}
+  <input type="hidden" name="add-to-folder-id" value="{{ active_folder.pk }}">
   <input type="hidden" name="redirect" value="{{ request.path }}">
   <input id="input-bibtex" type="file" name="bibtex" style="display: none;">
 </form>

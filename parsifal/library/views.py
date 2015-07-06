@@ -61,8 +61,12 @@ def list_actions(request):
     action = request.POST.get('action')
     if action == 'remove_from_folder':
         return remove_from_folder(request)
-    if action == 'delete_documents':
+    elif action == 'delete_documents':
         return delete_documents(request)
+    elif action == 'move':
+        return move(request)
+    elif action == 'copy':
+        return copy(request)
     redirect_to = request.POST.get('redirect', r('library:index'))
     return redirect(redirect_to)
 
@@ -171,61 +175,80 @@ def get_document_verbose_name(documents_size):
 @login_required
 @require_POST
 def move(request):
-    move_from_folder_id = request.POST.get('move_from')
+    move_from_folder_id = request.POST.get('active-folder-id')
     move_from_folder = Folder.objects.get(pk=move_from_folder_id)
 
-    move_to_folder_id = request.POST.get('move_to')
+    move_to_folder_id = request.POST.get('action-folder-id')
     move_to_folder = Folder.objects.get(pk=move_to_folder_id)
 
-    documents = request.POST.getlist('document')
+    if request.POST.get('select-all-pages') == 'all':
+        documents = move_from_folder.documents.all()
+    else:
+        documents = request.POST.getlist('document')
 
-    documents_feedback = {}
-    documents_feedback['success'] = 0
-    documents_feedback['warning'] = 0
+    documents_feedback = { 'success': 0, 'warning': 0 }
 
-    document_list = []
     for document in documents:
         try:
             move_to_folder.documents.add(document)
             move_from_folder.documents.remove(document)
             documents_feedback['success'] += 1
-            document_list.append(document)
         except:
             documents_feedback['warning'] += 1
 
-    success_message = ''
     if documents_feedback['success'] > 0:
-        success_message = u'{0} {1} moved from folder {2} to {3}!'.format(
+        messages.success(request, u'{0} {1} moved from folder {2} to {3}!'.format(
                 documents_feedback['success'], 
                 get_document_verbose_name(documents_feedback['success']), 
                 move_from_folder.name,
                 move_to_folder.name
                 )
+        )
 
-    warning_message = ''
     if documents_feedback['warning'] > 0:
-        warning_message = u'{0} {1} couldn\'t be moved because they were already in folder {2}'.format(
+        messages.warning(request, u'{0} {1} couldn\'t be moved because they were already in folder {2}'.format(
                 documents_feedback['warning'], 
                 get_document_verbose_name(documents_feedback['warning']),
                 move_to_folder.name
                 )
+        )
 
-    return HttpResponse(json.dumps({ 
-            'documents': document_list,
-            'success_message': success_message, 
-            'warning_message': warning_message 
-        }), content_type='application/json')
+    redirect_to = request.POST.get('redirect', r('library:index'))
+    return redirect(redirect_to)
 
 @login_required
 @require_POST
 def copy(request):
-    copy_to_folder_id = request.POST.get('copy_to')
-    copy_to_folder = Folder.objects.get(pk=copy_to_folder_id)
-    documents = request.POST.getlist('document')
+    redirect_to = request.POST.get('redirect', r('library:index'))
 
-    documents_feedback = {}
-    documents_feedback['success'] = 0
-    documents_feedback['warning'] = 0
+    copy_from_folder_id = request.POST.get('active-folder-id')
+    copy_to_folder_id = request.POST.get('action-folder-id')
+
+    try:
+        copy_to_folder = Folder.objects.get(pk=copy_to_folder_id)
+    except Folder.DoesNotExist:
+        messages.error(u'The folder you are trying to copy does not exist.')
+        return redirect(redirect_to)
+
+    select_all_pages = request.POST.get('select-all-pages')
+    document_ids = request.POST.getlist('document')
+
+
+    if copy_from_folder_id:
+        try:
+            copy_from_folder = Folder.objects.get(pk=copy_from_folder_id)
+            documents = copy_from_folder.documents.all()
+        except Folder.DoesNotExist:
+            messages.error(u'The folder you are trying to copy does not exist.')
+            return redirect(redirect_to)
+    else:
+        documents = Document.objects.filter(user=request.user)
+
+    if select_all_pages != 'all':
+        documents = documents.filter(id__in=document_ids)
+
+
+    documents_feedback = { 'success': 0, 'warning': 0 }
 
     for document in documents:
         try:
@@ -234,23 +257,23 @@ def copy(request):
         except:
             documents_feedback['warning'] += 1
 
-    success_message = ''
     if documents_feedback['success'] > 0:
-        success_message = u'{0} {1} successfully copied to folder {2}!'.format(
+        messages.success(request, u'{0} {1} successfully copied to folder {2}!'.format(
                 documents_feedback['success'], 
                 get_document_verbose_name(documents_feedback['success']), 
                 copy_to_folder.name
                 )
+        )
 
-    warning_message = ''
     if documents_feedback['warning'] > 0:
-        warning_message = u'{0} {1} couldn\'t be copied because they were already in folder {2}'.format(
+        messages.warning(request, u'{0} {1} couldn\'t be copied because they were already in folder {2}'.format(
                 documents_feedback['warning'], 
                 get_document_verbose_name(documents_feedback['warning']),
                 copy_to_folder.name
                 )
+        )
 
-    return HttpResponse(json.dumps({ 'success_message': success_message, 'warning_message': warning_message }), content_type='application/json')
+    return redirect(redirect_to)
 
 @login_required
 @require_POST
@@ -356,6 +379,13 @@ def import_bibtex(request):
                 documents.append(document)
 
         if any(documents):
+            folder_id = request.POST.get('add-to-folder-id')
+            if folder_id:
+                try:
+                    folder = Folder.objects.get(pk=folder_id)
+                    folder.documents.add(*documents)
+                except Folder.DoesNotExist:
+                    messages.error(request, u'Folder does not exists.')
             messages.success(request, u'{0} documents imported!'.format(len(documents)))
         else:
             messages.warning(request, u'The bibtex file had no valid entry!')

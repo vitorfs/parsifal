@@ -282,64 +282,18 @@ $(function () {
     });
   });
 
-  var displayMessage = function (type, message) {
-    var template = $("#alert-template").html();
-    var id = $.parsifal.uuid();
-    var alert_message = Mustache.render(template, { 
-      'id': id,
-      'message': message,
-      'alert-class': type
-    });
-    $(".messages-container").append(alert_message);
-    setTimeout(function () {
-      $("#" + id).alert('close');
-    }, 5000);
-  };
-
   $(".js-move-to").click(function () {
-    var url = $(this).closest("ul").attr("data-move-to-url");
-    var from_folder_id = $(this).attr("data-from-folder-id");
     var to_folder_id = $(this).attr("data-to-folder-id");
-    var data = $("#form-library").serialize() + "&" + $.param({ "move_from": from_folder_id, "move_to": to_folder_id });
-    $.ajax({
-      url: url,
-      data: data,
-      type: 'post',
-      cache: false,
-      success: function (data) {
-        if ("success_message" in data && data["success_message"] !== undefined && data["success_message"] !== "") {
-          displayMessage("alert-success", data.success_message);
-        }
-        if ("warning_message" in data && data["warning_message"] !== undefined && data["warning_message"] !== "") {
-          displayMessage("alert-warning", data.warning_message);
-        }
-        data.documents.forEach(function (document_id) {
-          $("#library-documents tbody tr[data-id=" + document_id + "]").remove();
-        });
-        modifyToolbarButtonsState();
-        clearSelection();
-      }
-    });
+    $("#library-action").val("move");
+    $("#action-folder-id").val(to_folder_id);
+    $("#form-library").submit();
   });
 
   $(".js-copy-to").click(function () {
-    var url = $(this).closest("ul").attr("data-copy-to-url");
-    var folder_id = $(this).attr("data-folder-id");
-    var data = $("#form-library").serialize() + "&" + $.param({ "copy_to": folder_id });
-    $.ajax({
-      url: url,
-      data: data,
-      type: 'post',
-      cache: false,
-      success: function (data) {
-        if ("success_message" in data && data["success_message"] !== undefined && data["success_message"] !== "") {
-          displayMessage("alert-success", data.success_message);
-        }
-        if ("warning_message" in data && data["warning_message"] !== undefined && data["warning_message"] !== "") {
-          displayMessage("alert-warning", data.warning_message);
-        }
-      }
-    });
+    var to_folder_id = $(this).attr("data-to-folder-id");
+    $("#library-action").val("copy");
+    $("#action-folder-id").val(to_folder_id);
+    $("#form-library").submit();
   });
 
   $(".js-remove-from-folder").click(function () {
