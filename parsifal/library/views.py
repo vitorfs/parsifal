@@ -28,7 +28,7 @@ def get_order(request):
     return 'title'
 
 def get_paginated_documents(request, queryset):
-    paginator = Paginator(queryset, 25)
+    paginator = Paginator(queryset, 100)
     page = request.GET.get('p')
     try:
         documents = paginator.page(page)
@@ -369,6 +369,7 @@ def import_bibtex(request):
             for entry in bib_database.entries:
                 document = Document(user=request.user)
                 document.bibtexkey = entry.get('id', None)
+                document.entry_type = entry.get('type', None)
                 document.address = entry.get('address', entry.get('correspondence_address1', None))
                 document.author = entry.get('authors', entry.get('author', None))
                 document.booktitle = entry.get('booktitle', None)
@@ -388,7 +389,7 @@ def import_bibtex(request):
                 document.school = entry.get('school', None)
                 document.series = entry.get('series', None)
                 document.title = entry.get('title', None)
-                document.publication_type = entry.get('type', entry.get('publication_type', None))
+                document.publication_type = entry.get('document_type', entry.get('publication_type', None))
                 document.volume = entry.get('volume', None)
                 document.year = entry.get('year', None)
                 document.abstract = entry.get('abstract', None)

@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <div class="btn-group">
+  {% comment %}<div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-option-horizontal visible-xs-inline visible-sm-inline visible-md-inline"></span>
       <span class="hidden-xs hidden-sm hidden-md">More</span>
@@ -67,7 +67,7 @@
     <ul class="dropdown-menu">
       <li><a href="#">Export as bibtex</a></li>
     </ul>
-  </div>
+  </div>{% endcomment %}
 
   <div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -88,7 +88,8 @@
   {% if active_folder %}
     <div class="btn-group pull-right">
       <a href="javascript:void(0);" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal-folder-settings">
-        <span class="glyphicon glyphicon-cog"></span> 
+        <span class="glyphicon glyphicon-cog"></span>
+        <span class="hidden-xs hidden-sm hidden-md">Settings</span>
       </a>
     </div>
   {% endif %}
@@ -121,22 +122,19 @@
   </div>
 
   <div class="btn-group pull-right">
-    <button type="button" class="btn btn-sm btn-default js-new-document">
-      <span class="glyphicon glyphicon-plus"></span>
-      <span class="hidden-xs hidden-sm hidden-md">Add</span>
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-cloud-upload"></span>
+      <span class="hidden-xs hidden-sm hidden-md">Import</span>
+      <span class="caret"></span>
     </button>
-    <div class="btn-group">
-      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="glyphicon glyphicon-cloud-upload"></span>
-        <span class="hidden-xs hidden-sm hidden-md">Import</span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="javascript:void(0);" class="js-import-bibtex">BibTeX</a></li>
-        <li><a href="#">PDF</a></li>
-      </ul>
-    </div>
+    <ul class="dropdown-menu">
+      <li><a href="javascript:void(0);" class="js-import-bibtex">BibTeX <small>(.bib, .bibtex)</small></a></li>
+      <li><a href="#">PDF <small>(.pdf)</small></a></li>
+      <li class="divider"></li>
+      <li><a href="javascript:void(0);" class="js-new-document">Add document</a></li>
+    </ul>
   </div>
+
 </div>
 
 <form id="form-import-bibtex" method="post" action="{% url 'library:import_bibtex' %}" enctype="multipart/form-data">
