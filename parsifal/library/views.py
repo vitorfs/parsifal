@@ -196,38 +196,17 @@ def move(request):
 
     if request.POST.get('select-all-pages') == 'all':
         documents = move_from_folder.documents.all()
-        querystring = request.POST.get('querystring', '')
-        documents = get_filtered_documents(documents, querystring)
     else:
-        documents = request.POST.getlist('document')
+        document_ids = request.POST.getlist('document')
+        documents = Document.objects.filter(id__in=document_ids)
 
-    documents_feedback = { 'success': 0, 'warning': 0 }
+    querystring = request.POST.get('querystring', '')
+    documents = get_filtered_documents(documents, querystring)
 
-    for document in documents:
-        try:
-            move_to_folder.documents.add(document)
-            move_from_folder.documents.remove(document)
-            documents_feedback['success'] += 1
-        except:
-            documents_feedback['warning'] += 1
+    move_to_folder.documents.add(*documents)
+    move_from_folder.documents.remove(*documents)
 
-    if documents_feedback['success'] > 0:
-        messages.success(request, u'{0} {1} moved from folder {2} to {3}!'.format(
-                documents_feedback['success'], 
-                get_document_verbose_name(documents_feedback['success']), 
-                move_from_folder.name,
-                move_to_folder.name
-                )
-        )
-
-    if documents_feedback['warning'] > 0:
-        messages.warning(request, u'{0} {1} couldn\'t be moved because they were already in folder {2}'.format(
-                documents_feedback['warning'], 
-                get_document_verbose_name(documents_feedback['warning']),
-                move_to_folder.name
-                )
-        )
-
+    messages.success(request, u'Documents moved from folder {0} to {1} successfully!'.format(move_from_folder.name, move_to_folder.name))
     redirect_to = request.POST.get('redirect', r('library:index'))
     return redirect(redirect_to)
 
@@ -248,7 +227,6 @@ def copy(request):
     select_all_pages = request.POST.get('select-all-pages')
     document_ids = request.POST.getlist('document')
 
-
     if copy_from_folder_id:
         try:
             copy_from_folder = Folder.objects.get(pk=copy_from_folder_id)
@@ -265,32 +243,8 @@ def copy(request):
     else:
         documents = documents.filter(id__in=document_ids)
 
-
-    documents_feedback = { 'success': 0, 'warning': 0 }
-
-    for document in documents:
-        try:
-            copy_to_folder.documents.add(document)
-            documents_feedback['success'] += 1
-        except:
-            documents_feedback['warning'] += 1
-
-    if documents_feedback['success'] > 0:
-        messages.success(request, u'{0} {1} successfully copied to folder {2}!'.format(
-                documents_feedback['success'], 
-                get_document_verbose_name(documents_feedback['success']), 
-                copy_to_folder.name
-                )
-        )
-
-    if documents_feedback['warning'] > 0:
-        messages.warning(request, u'{0} {1} couldn\'t be copied because they were already in folder {2}'.format(
-                documents_feedback['warning'], 
-                get_document_verbose_name(documents_feedback['warning']),
-                copy_to_folder.name
-                )
-        )
-
+    copy_to_folder.documents.add(*documents)
+    messages.success(request, u'Documents copied to folder {0} successfully!'.format(copy_to_folder.name))
     return redirect(redirect_to)
 
 @login_required
