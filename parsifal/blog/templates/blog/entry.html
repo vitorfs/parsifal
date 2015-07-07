@@ -5,6 +5,10 @@
 {% block content %}
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
+      <ol class="breadcrumb">
+        <li><a href="{% url 'blog:entries' %}">The Parsifal Blog</a></li>
+        <li class="active">{{ entry.title }}</li>
+      </ol>
       <article class="single-entry">
         <h2 class="page-header">{{ entry.title }}</h2>
         <p class="text-muted">
