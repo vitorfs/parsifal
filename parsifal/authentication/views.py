@@ -1,4 +1,5 @@
 # coding: utf-8
+
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.shortcuts import render_to_response, get_object_or_404, render
@@ -7,8 +8,10 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import password_reset, password_reset_confirm
+
+from parsifal.authentication.forms import SignUpForm
 from reviews.models import Review
-from parsifal_auth.forms import SignUpForm
+
 
 def signup(request):
     if request.method == 'POST':

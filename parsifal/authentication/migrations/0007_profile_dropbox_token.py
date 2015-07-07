@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('parsifal_auth', '0004_profile_mendeley_session'),
+        ('authentication', '0006_remove_profile_mendeley_session'),
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.AddField(
             model_name='profile',
-            name='mendeley_session',
-            field=models.CharField(max_length=4000, null=True, blank=True),
+            name='dropbox_token',
+            field=models.CharField(max_length=2000, null=True, blank=True),
         ),
     ]

@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+
 def ForbiddenUsernamesValidator(value):
     forbidden_usernames = ['admin', 'settings', 'news', 'about', 'help', 'signin', 'signup', 
         'signout', 'terms', 'privacy', 'cookie', 'new', 'login', 'logout', 'administrator', 

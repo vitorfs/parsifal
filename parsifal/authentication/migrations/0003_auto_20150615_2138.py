@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('parsifal_auth', '0001_initial'),
+        ('authentication', '0002_profile_mendeley_token'),
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='profile',
             name='mendeley_token',
-            field=models.CharField(max_length=255, null=True, blank=True),
+            field=models.CharField(max_length=2000, null=True, blank=True),
         ),
     ]

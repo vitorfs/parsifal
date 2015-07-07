@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('parsifal_auth', '0003_auto_20150615_2138'),
+        ('authentication', '0003_auto_20150615_2138'),
     ]
 
     operations = [

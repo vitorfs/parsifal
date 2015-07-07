@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
-from parsifal_auth.models import Profile
+from parsifal.authentication.models import Profile
 
 
 class ProfileForm(forms.ModelForm):
