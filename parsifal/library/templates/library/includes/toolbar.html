@@ -52,36 +52,22 @@
             {% endif %}
           {% endfor %}
         {% else %}
-          <li class="dropdown-header">Your library has no folder yet.</li>
+          <li class="dropdown-header">Your library has no folder yet</li>
         {% endif %}
       </ul>
     </div>
   </div>
 
-  {% comment %}<div class="btn-group">
+  <div class="btn-group">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <span class="glyphicon glyphicon-option-horizontal visible-xs-inline visible-sm-inline visible-md-inline"></span>
       <span class="hidden-xs hidden-sm hidden-md">More</span>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li><a href="#">Export as bibtex</a></li>
-    </ul>
-  </div>{% endcomment %}
-
-  <div class="btn-group">
-    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-sort-by-attributes"></span>
-      <span class="hidden-xs hidden-sm hidden-md">Sort</span>
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li{% if order == 'title' %} class="active"{% endif %}><a href="?o=title{% if querystring %}&q={{ querystring }}{% endif %}">Title (a - z)</a></li>
-      <li{% if order == '-title' %} class="active"{% endif %}><a href="?o=-title{% if querystring %}&q={{ querystring }}{% endif %}">Title (z - a)</a></li>
-      <li{% if order == 'author' %} class="active"{% endif %}><a href="?o=author{% if querystring %}&q={{ querystring }}{% endif %}">Author (a - z)</a></li>
-      <li{% if order == '-author' %} class="active"{% endif %}><a href="?o=-author{% if querystring %}&q={{ querystring }}{% endif %}">Author (z - a)</a></li>
-      <li{% if order == 'year' %} class="active"{% endif %}><a href="?o=year{% if querystring %}&q={{ querystring }}{% endif %}">Publication year (0 - 9)</a></li>
-      <li{% if order == '-year' %} class="active"{% endif %}><a href="?o=-year{% if querystring %}&q={{ querystring }}{% endif %}">Publication year (9 - 0)</a></li>
+      <li><a href="#">Export all as bibtex</a></li>
+      <li class="divider"></li>
+      <li class="dropdown-header">Select documents to see more options</li>
     </ul>
   </div>
 
@@ -123,8 +109,24 @@
 
   <div class="btn-group pull-right">
     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-cloud-upload"></span>
-      <span class="hidden-xs hidden-sm hidden-md">Import</span>
+      <span class="glyphicon glyphicon-sort-by-attributes"></span>
+      <span class="hidden-xs hidden-sm hidden-md">Sort</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li{% if order == 'title' %} class="active"{% endif %}><a href="?o=title{% if querystring %}&q={{ querystring }}{% endif %}">Title (a - z)</a></li>
+      <li{% if order == '-title' %} class="active"{% endif %}><a href="?o=-title{% if querystring %}&q={{ querystring }}{% endif %}">Title (z - a)</a></li>
+      <li{% if order == 'author' %} class="active"{% endif %}><a href="?o=author{% if querystring %}&q={{ querystring }}{% endif %}">Author (a - z)</a></li>
+      <li{% if order == '-author' %} class="active"{% endif %}><a href="?o=-author{% if querystring %}&q={{ querystring }}{% endif %}">Author (z - a)</a></li>
+      <li{% if order == 'year' %} class="active"{% endif %}><a href="?o=year{% if querystring %}&q={{ querystring }}{% endif %}">Publication year (0 - 9)</a></li>
+      <li{% if order == '-year' %} class="active"{% endif %}><a href="?o=-year{% if querystring %}&q={{ querystring }}{% endif %}">Publication year (9 - 0)</a></li>
+    </ul>
+  </div>
+
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span class="hidden-xs hidden-sm hidden-md">Add</span>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
