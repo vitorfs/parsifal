@@ -16,7 +16,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404, re
 from django.conf import settings as django_settings
 from django.contrib.auth import update_session_auth_hash
 
-from parsifal_settings.forms import ProfileForm, PasswordForm
+from parsifal.account_settings.forms import ProfileForm, PasswordForm
 
 
 @login_required
