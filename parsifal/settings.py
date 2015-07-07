@@ -80,7 +80,6 @@ INSTALLED_APPS = (
     'activities',
     'parsifal_auth',
     'core',
-    'blog',
     'reviews',
     'reviews.planning',
     'reviews.conducting',
@@ -88,6 +87,7 @@ INSTALLED_APPS = (
     'reviews.settings',
     'reviews.publish',
     'parsifal_settings',
+    'parsifal.blog',
     'parsifal.help',
     'parsifal.library',
 )

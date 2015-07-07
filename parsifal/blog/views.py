@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from blog.models import Entry
+from parsifal.blog.models import Entry
 
 def entries(request):
     entries = Entry.objects.filter(status=Entry.PUBLISHED).order_by('-start_publication',)

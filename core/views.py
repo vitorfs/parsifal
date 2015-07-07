@@ -7,7 +7,7 @@ from django.template import RequestContext
 from activities.models import Activity
 
 from reviews.models import Review
-from blog.models import Entry
+from parsifal.blog.models import Entry
 
 
 def get_following_feeds(user):

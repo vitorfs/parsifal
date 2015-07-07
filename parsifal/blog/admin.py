@@ -3,7 +3,7 @@
 from django.contrib import admin
 from django.template.defaultfilters import slugify
 
-from blog.models import Entry
+from parsifal.blog.models import Entry
 
 
 class EntryAdmin(admin.ModelAdmin):
