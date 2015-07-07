@@ -4,8 +4,8 @@ from datetime import datetime
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from activities.models import Activity
 
+from parsifal.activities.models import Activity
 from reviews.models import Review
 from parsifal.blog.models import Entry
 

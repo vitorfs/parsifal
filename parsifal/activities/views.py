@@ -1,9 +1,10 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
-from activities.models import Activity
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+
+from parsifal.activities.models import Activity
 
 
 @login_required
@@ -72,3 +73,4 @@ def followers(request, username):
         user_following = request.user.profile.get_following()
     context = RequestContext(request, {'page_user': user, 'page_title': page_title, 'follow_list': followers, 'user_following': user_following })
     return render_to_response('activities/follow.html', context)
+    
