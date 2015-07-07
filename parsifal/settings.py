@@ -78,7 +78,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'parsifal_auth',
-    'core',
     'reviews',
     'reviews.planning',
     'reviews.conducting',
@@ -88,6 +87,7 @@ INSTALLED_APPS = (
     'parsifal.account_settings',
     'parsifal.activities',
     'parsifal.blog',
+    'parsifal.core',
     'parsifal.help',
     'parsifal.library',
 )

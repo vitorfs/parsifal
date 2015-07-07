@@ -1,13 +1,10 @@
 # coding: utf-8
 
-from datetime import datetime
-
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
 from parsifal.activities.models import Activity
-from reviews.models import Review
 from parsifal.blog.models import Entry
+from reviews.models import Review
 
 
 def get_following_feeds(user):
@@ -53,20 +50,10 @@ def home(request):
             latest_news = Entry.objects.filter(status=Entry.PUBLISHED).order_by('-start_publication',)[0]
         except:
             latest_news = None
-        context = RequestContext(request, {'user_reviews': user_reviews, 'feeds': feeds, 'latest_news': latest_news })
-        return render_to_response('core/home.html', context)
+        return render(request, 'core/home.html', { 
+                'user_reviews': user_reviews, 
+                'feeds': feeds, 
+                'latest_news': latest_news 
+            })
     else:
-        context = RequestContext(request)
-        return render_to_response('core/cover.html', context)
-
-def about(request):
-    context = RequestContext(request)
-    return render_to_response('core/about.html', context)
-
-def support(request):
-    context = RequestContext(request)
-    return render_to_response('core/support.html', context)
-
-def explore(request):
-    context = RequestContext(request)
-    return render_to_response('core/explore.html', context)
+        return render(request, 'core/cover.html')

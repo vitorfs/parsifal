@@ -9,10 +9,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'core.views.home', name='home'),
-    url(r'^about/$', 'core.views.about', name='about'),
-    url(r'^support/$', 'core.views.support', name='support'),
-    url(r'^explore/$', 'core.views.explore', name='explore'),
+    url(r'^$', 'parsifal.core.views.home', name='home'),
+    url(r'^about/$', TemplateView.as_view(template_name='core/about.html'), name='about'),
     url(r'^signup/$', 'parsifal_auth.views.signup', name='signup'),
     url(r'^signin/$', 'parsifal_auth.views.signin', name='signin'),
     url(r'^signout/$', 'parsifal_auth.views.signout', name='signout'),
