@@ -333,9 +333,9 @@ class QualityAnswer(models.Model):
     weight = models.FloatField()
 
     class Meta:
-        verbose_name = "Quality Assessment Answer"
-        verbose_name_plural = "Quality Assessment Answers"
-        ordering = ("-weight",)
+        verbose_name = 'Quality Assessment Answer'
+        verbose_name_plural = 'Quality Assessment Answers'
+        ordering = ('-weight',)
 
     def __unicode__(self):
         return self.description
@@ -344,10 +344,12 @@ class QualityAnswer(models.Model):
 class QualityQuestion(models.Model):
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=255)
+    order = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = "Quality Assessment Question"
-        verbose_name_plural = "Quality Assessment Questions"
+        verbose_name = 'Quality Assessment Question'
+        verbose_name_plural = 'Quality Assessment Questions'
+        ordering = ('order',)
 
     def __unicode__(self):
         return self.description
@@ -384,6 +386,12 @@ class DataExtractionField(models.Model):
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=255)
     field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Data Extraction Field'
+        verbose_name_plural = 'Data Extraction Fields'
+        ordering = ('order',)
 
     def get_select_values(self):
         return DataExtractionLookup.objects.filter(field__id=self.id)
