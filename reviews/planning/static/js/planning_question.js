@@ -15,7 +15,8 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        $("#question-form table tbody").prepend(data);
+        $("#question-form table tbody").append(data);
+        $("#question-form table tbody input[type='text']").last().focus();
       }
     });
   });
@@ -53,7 +54,13 @@ $(function () {
         $(btn).ajaxDisable();
       },
       success: function(data) {
-        $(tr).replaceWith(data);
+        var newRow = $(tr).replaceWith(data);
+        var input = $("tr[data-question-id='" + question_id + "'] input[type='text']");
+        $(input).focus();
+        /* This trick is done to put the cursor in the end of the input value */
+        var tmpVal = $(input).val();
+        $(input).val("");
+        $(input).val(tmpVal);
       },
       complete: function () {
         $(btn).ajaxEnable();
@@ -121,6 +128,68 @@ $(function () {
         $(btn).ajaxEnable();
       }
     });
+  });
+
+  $("#question-form").on("keydown", "input[name='question-description']", function (event) {
+    if (event.keyCode == 13) { // Enter, Return
+      var tr = $(this).closest("tr");
+      $(".btn-save-question", tr).click();
+      return false;
+    } else if (event.keyCode == 27) { // ESC
+      var tr = $(this).closest("tr");
+      $(".btn-cancel-question", tr).click();
+      return false;
+    }
+  });
+
+  var manageQuestionsOrder = function () {
+    var orders = "";
+    $("#question-form table tbody tr").each(function () {
+      var questionId = $(this).attr("data-question-id");
+      var rowOrder = $(this).index();
+      orders += questionId + ":" + rowOrder + ",";
+      $("[name='question-order']", this).val(rowOrder);
+    });
+
+    var review_id = $("#review-id").val();
+    var csrf_token = $("#question-form input[name='csrfmiddlewaretoken']").val();
+
+    $.ajax({
+      url: '/reviews/planning/save_question_order/',
+      type: 'post',
+      cache: false,
+      data: {
+        'csrfmiddlewaretoken': csrf_token,
+        'review-id': review_id,
+        'orders': orders
+      }
+    });
+  };
+
+  manageQuestionsOrder();
+
+  $("#question-form").on("click", ".js-order-research-question-up", function () {
+    var i = $(this).closest("tr").index();
+    if (i > 0) {
+      var sibling = $("#question-form table tbody tr:eq(" + (i - 1) + ")");
+      var row = $(this).closest("tr").detach();
+      $(sibling).before(row);
+      manageQuestionsOrder();
+    }
+    return false;
+  });
+
+  $("#question-form").on("click", ".js-order-research-question-down", function () {
+    var container = $(this).closest("tbody");
+    var rows = $("tr", container).length - 1;
+    var i = $(this).closest("tr").index();
+    if (i < rows) {
+      var sibling = $("#question-form table tbody tr:eq(" + (i + 1) + ")");
+      var row = $(this).closest("tr").detach();
+      $(sibling).after(row);
+      manageQuestionsOrder();
+    }
+    return false;
   });
 
 });

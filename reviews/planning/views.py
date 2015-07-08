@@ -70,6 +70,23 @@ def save_question(request):
     except:
         return HttpResponseBadRequest()
 
+@author_required
+@login_required
+def save_question_order(request):
+    try:
+        review_id = request.POST.get('review-id')
+        review = Review.objects.get(pk=review_id)
+        orders = request.POST.get('orders')
+        question_orders = orders.split(',')
+        for question_order in question_orders:
+            if question_order:
+                question_id, order = question_order.split(':')
+                question = Question.objects.get(pk=question_id)
+                question.order = order
+                question.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
 
 @author_required
 @login_required

@@ -17,15 +17,15 @@
 {% endblock stylesheet %}
 
 {% block javascript %}
-  <script src="{% static 'js/planning.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_question.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_picoc.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_keyword.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_source.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_search_string.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_criteria.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_quality_assessment.js' %}?_=1"></script>
-  <script src="{% static 'js/planning_data_extraction.js' %}?_=1"></script>
+  <script src="{% static 'js/planning.js' %}"></script>
+  <script src="{% static 'js/planning_question.js' %}"></script>
+  <script src="{% static 'js/planning_picoc.js' %}"></script>
+  <script src="{% static 'js/planning_keyword.js' %}"></script>
+  <script src="{% static 'js/planning_source.js' %}"></script>
+  <script src="{% static 'js/planning_search_string.js' %}"></script>
+  <script src="{% static 'js/planning_criteria.js' %}"></script>
+  <script src="{% static 'js/planning_quality_assessment.js' %}"></script>
+  <script src="{% static 'js/planning_data_extraction.js' %}"></script>
   <script>
     $(function () {
       $("#protocol").affix({

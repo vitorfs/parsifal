@@ -1,14 +1,5 @@
 <tr data-question-id="{{ question.id|default:'None' }}">
-  <td style="width: 50px; text-align: center;">
-    <input type="hidden" name="question-order" value="{{ question.order }}">
-    <a href="javascript:void(0);" style="display: block;" class="js-order-research-question-up">
-      <span class="glyphicon glyphicon-chevron-up"></span>
-    </a>
-    <a href="javascript:void(0);" style="display: block;" class="js-order-research-question-down">
-      <span class="glyphicon glyphicon-chevron-down"></span>
-    </a>
-  </td>
-  <td style="vertical-align: middle;">
+  <td style="vertical-align: middle;" colspan="2">
     <input class="form-control" type="text" name="question-description" maxlength="500" value="{{ question.question }}">
   </td>
   <td style="width: 180px; text-align: right; vertical-align: middle;">
