@@ -170,10 +170,12 @@ class Question(models.Model):
     review = models.ForeignKey(Review)
     question = models.CharField(max_length=500)
     parent_question = models.ForeignKey('self', null=True, related_name='+')
+    order = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = "Question"
-        verbose_name_plural = "Questions"
+        verbose_name = 'Question'
+        verbose_name_plural = 'Questions'
+        ordering = ('order',)
 
     def __unicode__(self):
         return self.question

@@ -54,15 +54,28 @@
         $("span.btn-ajax-loading", this).show();
       };
 
-      $.fn.ajaxEnable = function () {
+      $.fn.ajaxEnable = function (callback) {
+        callback = callback || function () {};
+        
         var btn = $(this);
         $(this).prop("disabled", false);
         $("span[class^='btn-ajax-']", this).hide();
-        $("span.btn-ajax-complete", this).show();
-        setTimeout(function () {
-          $("span[class^='btn-ajax-']", btn).hide();
+
+        var hasCompleteState = $("span.btn-ajax-complete", this).length > 0;
+
+        if (hasCompleteState) {
+          $("span.btn-ajax-complete", this).show();
+          setTimeout(function () {
+            $("span[class^='btn-ajax-']", btn).hide();
+            $("span.btn-ajax-normal", btn).show();
+            callback();
+          }, 1500);
+        }
+        else {
           $("span.btn-ajax-normal", btn).show();
-        }, 1500);
+          callback();
+        }
+
       };
 
       $.fn.spinner = function (alignCenter) {

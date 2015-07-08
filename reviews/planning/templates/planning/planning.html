@@ -217,13 +217,15 @@
                 </a>
               </h3>
             </div>
-            <ul class="list-group">
-              {% for question in review.get_questions %}
-                {% include "planning/partial_planning_question.html" with question=question %}
-              {% empty %}
-                {% include "planning/partial_planning_question_form.html" %}
-              {% endfor %}
-            </ul>
+            <table class="table">
+              <tbody>
+                {% for question in review.get_questions %}
+                  {% include "planning/partial_planning_question.html" with question=question %}
+                {% empty %}
+                  {% include "planning/partial_planning_question_form.html" %}
+                {% endfor %}
+              </tbody>
+            </table>
             <div class="panel-footer">
               <button type="button" class="btn btn-primary" id="btn-add-question">Add Question</button>
             </div>
