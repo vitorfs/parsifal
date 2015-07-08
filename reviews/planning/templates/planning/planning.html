@@ -564,18 +564,12 @@
           </div>
           <div class="panel-body">
             <div class="alert alert-info">
-              <p>The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
+              <p><strong><span class="glyphicon glyphicon-info-sign"></span></strong> The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
             </div>
 
             <div class="panel panel-default">
               <div class="panel-heading">Questions</div>
               <table class="table" id="tbl-quality-questions">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th style="width: 150px;"></th>
-                  </tr>
-                </thead>
                 <tbody>
                   {% for quality_question in review.get_quality_assessment_questions %}
                     {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
@@ -610,7 +604,7 @@
               <div class="panel-footer">
                 <button type="button" class="btn btn-sm btn-primary" id="btn-add-quality-answer">Add Answer</button>
                 {% if not review.get_quality_assessment_answers %}
-                  <soan class="help-block">No idea how to fill? How about <strong>Yes</strong> (1.0), <strong>Partially</strong> (0.5) and <strong>No</strong> (0.0)? :) <button type="button" class="btn btn-link" id="add-suggested-answers">(Add Suggested Answers)</button></span>
+                  <button type="button" class="btn btn-sm btn-link" id="add-suggested-answers">(Add Suggested Answers)</button>
                 {% endif %}                
               </div>
             </div>

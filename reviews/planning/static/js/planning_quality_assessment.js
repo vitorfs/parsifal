@@ -80,7 +80,10 @@ $(function () {
 
     $.ajax({
       url: '/reviews/planning/edit_quality_assessment_question/',
-      data: {'review-id': review_id, 'quality-question-id': quality_question_id},
+      data: {
+        'review-id': review_id, 
+        'quality-question-id': quality_question_id
+      },
       type: 'get',
       cache: false,
       success: function (data) {
@@ -108,6 +111,57 @@ $(function () {
       }
     });
 
+  });
+
+
+  var manageQualityAssementQuestionsOrder = function () {
+    var orders = "";
+    $("table#tbl-quality-questions tbody tr").each(function () {
+      var questionId = $(this).attr("data-question-id");
+      var rowOrder = $(this).index();
+      orders += questionId + ":" + rowOrder + ",";
+      $("[name='quality-question-order']", this).val(rowOrder);
+    });
+
+    var review_id = $("#review-id").val();
+    var csrf_token = $("table#tbl-quality-questions input[name='csrfmiddlewaretoken']").val();
+
+    /*$.ajax({
+      url: '/reviews/planning/save_question_order/',
+      type: 'post',
+      cache: false,
+      data: {
+        'csrfmiddlewaretoken': csrf_token,
+        'review-id': review_id,
+        'orders': orders
+      }
+    });*/
+  };
+
+  manageQualityAssementQuestionsOrder();
+
+  $("table#tbl-quality-questions").on("click", ".js-order-quality-question-up", function () {
+    var i = $(this).closest("tr").index();
+    if (i > 0) {
+      var sibling = $("table#tbl-quality-questions tbody tr:eq(" + (i - 1) + ")");
+      var row = $(this).closest("tr").detach();
+      $(sibling).before(row);
+      manageQualityAssementQuestionsOrder();
+    }
+    return false;
+  });
+
+  $("table#tbl-quality-questions").on("click", ".js-order-quality-question-down", function () {
+    var container = $(this).closest("tbody");
+    var rows = $("tr", container).length - 1;
+    var i = $(this).closest("tr").index();
+    if (i < rows) {
+      var sibling = $("table#tbl-quality-questions tbody tr:eq(" + (i + 1) + ")");
+      var row = $(this).closest("tr").detach();
+      $(sibling).after(row);
+      manageQualityAssementQuestionsOrder();
+    }
+    return false;
   });
 
 

@@ -1,7 +1,32 @@
 <tr oid="{{ quality_question.id }}">
-  <td>{{ quality_question.description }}</td>
-  <td>
-    <button type="button" class="btn btn-warning btn-sm btn-edit-quality-question">edit</button>
-    <button type="button" class="btn btn-danger btn-sm btn-remove-quality-question">remove</button>
+  <td style="width: 50px; text-align: center;">
+    <input type="hidden" name="quality-question-order" value="{{ question.order }}">
+    <a href="javascript:void(0);" style="display: block;" class="js-order-quality-question-up">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <a href="javascript:void(0);" style="display: block;" class="js-order-quality-question-down">
+      <span class="glyphicon glyphicon-chevron-down"></span>
+    </a>
+  </td>
+  <td style="vertical-align: middle;">
+    {{ quality_question.description }}
+  </td>
+  <td style="width: 200px; text-align: right; vertical-align: middle;">
+    <button type="button" class="btn btn-sm btn-warning btn-edit-quality-question">
+      <span class="btn-ajax-normal">
+        <span class="glyphicon glyphicon-pencil"></span> edit
+      </span>
+      <span class="btn-ajax-loading">
+        <span class="glyphicon glyphicon-refresh spin"></span> loading…
+      </span>
+    </button>
+    <button type="button" class="btn btn-sm btn-danger btn-remove-quality-question">
+      <span class="btn-ajax-normal">
+        <span class="glyphicon glyphicon-trash"></span> remove
+      </span>
+      <span class="btn-ajax-loading">
+        <span class="glyphicon glyphicon-refresh spin"></span> removing…
+      </span>
+    </button>
   </td>
 </tr>
