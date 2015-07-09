@@ -21,7 +21,7 @@ class ReviewForm(forms.ModelForm):
             widget=forms.TextInput(attrs={ 'class': 'form-control' }), 
             max_length=255)
     description = forms.CharField(
-            widget=forms.Textarea(attrs={ 'class': 'form-control expanding', 'rows': '1' }), 
+            widget=forms.Textarea(attrs={ 'class': 'form-control expanding', 'rows': '4' }), 
             max_length=500, 
             required=False)
 

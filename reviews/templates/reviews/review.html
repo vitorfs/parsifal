@@ -35,7 +35,10 @@
             {% include 'form_vertical.html' with form=form %}
           </div>
           <div class="panel-footer">
-            <button type="submit" class="btn btn-success">Save changes</button>
+            <button type="submit" class="btn btn-success">
+              <span class="glyphicon glyphicon-ok"></span>
+              Save
+            </button>
           </div>
         </div>
       </form>
@@ -71,7 +74,10 @@
         </ul>
         {% if user.id == review.author.id %}
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-author-modal">Add author</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-author-modal">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add author
+            </button>
             <form method="post" action="{% url 'reviews:add_author_to_review' %}">
               {% csrf_token %}
               <input type="hidden" name="review-id" value="{{ review.pk }}">
