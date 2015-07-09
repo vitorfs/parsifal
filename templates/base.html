@@ -43,6 +43,17 @@
     <div class="push"></div>
   </div>
   {% include 'footer.html' %}
+  <div class="modal fade" id="modal-alert">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+  </div>
   <div class="page-loading">
     <div class="spinner">
       <div class="bounce1"></div>
@@ -50,7 +61,6 @@
       <div class="bounce3"></div>
     </div>
   </div>
-
   <script src="{% static 'js/mustache.min.js' %}"></script>
   <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>

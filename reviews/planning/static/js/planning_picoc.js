@@ -7,16 +7,14 @@ $(function () {
       type: 'post',
       cache: false,
       beforeSend: function () {
-        $(btn).disable();
+        $(btn).ajaxDisable();
       },
       success: function (data) {
-        displayFormMessage(btn, "text-success", "Your review have been saved successfully!");
+        $(btn).ajaxEnable();
       },
       error: function () {
-        displayFormMessage(btn, "text-error", "Something went wrong! Please contact the administrator.");
-      },
-      complete: function () {
-        $(btn).enable();
+        $(btn).ajaxEnableError();
+        $.parsifal.alert("An error ocurred", "Something went wrong! Please contact the administrator.");
       }
     });
   });

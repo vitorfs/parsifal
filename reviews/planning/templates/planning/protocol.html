@@ -89,12 +89,24 @@
             </div>
             <div class="panel-body">
               <div class="form-group">
-                <textarea rows="5" name="objective" class="form-control">{{ review.objective }}</textarea>
+                <textarea rows="4" name="objective" class="form-control expanding">{{ review.objective }}</textarea>
               </div>
             </div>
             <div class="panel-footer">
-              <button type="button" class="btn btn-success btn-save-objective" data-loading="Saving...">Save</button>
-              <span class="form-status-message"></span>
+              <button type="button" class="btn btn-success btn-save-objective">
+                <span class="btn-ajax-normal">
+                  <span class="glyphicon glyphicon-ok"></span> Save
+                </span>
+                <span class="btn-ajax-loading">
+                  <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                </span>
+                <span class="btn-ajax-error">
+                  <span class="glyphicon glyphicon-remove"></span> Error!
+                </span>
+                <span class="btn-ajax-complete">
+                  <span class="glyphicon glyphicon-ok"></span> Saved!
+                </span>
+              </button>
             </div>
           </div>
         </form>
@@ -174,8 +186,20 @@
               </div>              
             </div>
             <div class="panel-footer">
-              <button type="button" class="btn btn-success btn-save-picoc" data-loading="Saving...">Save</button>
-              <span class="form-status-message"></span>              
+              <button type="button" class="btn btn-success btn-save-picoc" data-loading="Saving...">
+                <span class="btn-ajax-normal">
+                  <span class="glyphicon glyphicon-ok"></span> Save
+                </span>
+                <span class="btn-ajax-loading">
+                  <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                </span>
+                <span class="btn-ajax-error">
+                  <span class="glyphicon glyphicon-remove"></span> Error!
+                </span>
+                <span class="btn-ajax-complete">
+                  <span class="glyphicon glyphicon-ok"></span> Saved!
+                </span>
+              </button>
             </div>
           </div>
         </form>
@@ -412,9 +436,21 @@
               <textarea rows="4" name="search-string" class="form-control expanding search-string">{{ review.get_generic_search_string.search_string }}</textarea>  
             </div>
             <div class="panel-footer">
-              <button type="button" class="btn btn-success btn-save-generic-search-string">Save</button>
+              <button type="button" class="btn btn-success btn-save-generic-search-string">
+                <span class="btn-ajax-normal">
+                  <span class="glyphicon glyphicon-ok"></span> Save
+                </span>
+                <span class="btn-ajax-loading">
+                  <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                </span>
+                <span class="btn-ajax-error">
+                  <span class="glyphicon glyphicon-remove"></span> Error!
+                </span>
+                <span class="btn-ajax-complete">
+                  <span class="glyphicon glyphicon-ok"></span> Saved!
+                </span>
+              </button>
               <button type="button" class="btn btn-primary btn-suggested-search-string">Suggested Search String</button>
-              <span class="form-status-message"></span>
             </div>
           </div>
         </form>

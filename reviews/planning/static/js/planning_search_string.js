@@ -22,23 +22,15 @@ $(function () {
       data: $(form).serialize(),
       cache: false,
       type: 'post',
+      beforeSend: function () {
+        $(btn).ajaxDisable();
+      },
       success: function (data) {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-error").addClass("text-success");
-        msg.text('Your search string have been saved successfully!');
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+        $(btn).ajaxEnable();
       },
       error: function () {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-success").addClass("text-error");
-        msg.text('Something went wrong! Please contact the administrator.');
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+        $(btn).ajaxEnableError();
+        $.parsifal.alert("An error ocurred", "Something went wrong! Please contact the administrator.");
       }
     });
   });

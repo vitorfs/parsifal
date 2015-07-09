@@ -7,28 +7,14 @@ $(function () {
       type: 'post',
       cache: false,
       beforeSend: function () {
-        $(btn).disable();
+        $(btn).ajaxDisable();
       },
       success: function (data) {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-error").addClass("text-success");
-        msg.text(data);
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+        $(btn).ajaxEnable();
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-success").addClass("text-error");
-        msg.text(jqXHR.responseText);
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
-      },
-      complete: function () {
-        $(btn).enable();
+        $(btn).ajaxEnableError();
+        $.parsifal.alert("An error ocurred", jqXHR.responseText);
       }
     });
   });

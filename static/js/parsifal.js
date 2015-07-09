@@ -78,6 +78,30 @@
 
       };
 
+      $.fn.ajaxEnableError = function (callback) {
+        callback = callback || function () {};
+        
+        var btn = $(this);
+        $(this).prop("disabled", false);
+        $("span[class^='btn-ajax-']", this).hide();
+
+        var hasErrorState = $("span.btn-ajax-error", this).length > 0;
+
+        if (hasErrorState) {
+          $("span.btn-ajax-error", this).show();
+          setTimeout(function () {
+            $("span[class^='btn-ajax-']", btn).hide();
+            $("span.btn-ajax-normal", btn).show();
+            callback();
+          }, 1500);
+        }
+        else {
+          $("span.btn-ajax-normal", btn).show();
+          callback();
+        }
+
+      };
+
       $.fn.spinner = function (alignCenter) {
         alignCenter = typeof alignCenter !== 'undefined' ? alignCenter : true;
         if ($(this).hasClass("loading")) {
@@ -104,6 +128,12 @@
           return v.toString(16);
       });
       return _uuid;
+    },
+
+    alert: function (title, message) {
+      $("#modal-alert .modal-title").text(title);
+      $("#modal-alert .modal-body").text(message);
+      $("#modal-alert").modal("show");
     },
 
     /* Apps */

@@ -423,7 +423,7 @@ ul.review-menu li.active {
   font-size: 12px;
 }
 
-.btn-ajax-loading, .btn-ajax-complete {
+.btn-ajax-loading, .btn-ajax-error, .btn-ajax-complete {
   display: none;
 }
 
