@@ -6,10 +6,10 @@
   {% block meta %}
     <meta name="Description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review.">
     <meta property="og:description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review." />
-    <meta property="og:image" content="{% static 'img/facebook_parsifal.png' %}" />
+    <meta property="og:image" content="https://parsif.al{% static 'img/facebook_parsifal.png' %}" />
   {% endblock %}
   <meta property="og:site_name" content="Parsifal" />
-  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:url" content="https://parsif.al{{ request.path }}" />
   <meta property="og:locale" content="en_US" />
   <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/apple-touch-icon-57x57.png' %}">
   <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/apple-touch-icon-60x60.png' %}">
