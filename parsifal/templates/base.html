@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
-  <meta name="description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review.">
+  {% block meta %}
+    <meta name="Description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review.">
+  {% endblock %}
   <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/apple-touch-icon-57x57.png' %}">
   <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/apple-touch-icon-60x60.png' %}">
   <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/apple-touch-icon-72x72.png' %}">

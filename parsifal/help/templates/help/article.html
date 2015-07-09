@@ -2,6 +2,10 @@
 
 {% block title %}{{ article.category.name }} · {{ article.title }}{% endblock %}
 
+{% block meta %}
+  <meta content="{{ article.raw_content|truncatechars:'255' }}" name="Description">
+{% endblock %}
+
 {% block content %}
   <div class="row">
     <div class="col-md-8 col-md-offset-2">

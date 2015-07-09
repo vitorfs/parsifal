@@ -21,7 +21,7 @@
       <article>
         {% for article in articles %}
           <h3><a href="{% url 'help:article' article.slug %}">{{ article.title }}</a></h3>
-          <p>{{ article.raw_content|truncatechars:"255" }}</p>
+          <p>{{ article.raw_content|truncatechars:'255' }}</p>
           <hr>
         {% endfor %}
       </article>
