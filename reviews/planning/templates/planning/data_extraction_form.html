@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Data Extraction Form · Parsifal{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'js/planning.js' %}"></script>
+  <script src="{% static 'js/planning_data_extraction.js' %}"></script>
+{% endblock javascript %}
+
+{% block content %}
+
+  {% include 'reviews/review_header.html' with active_menu='planning' %}
+  {% include 'planning/planning_header.html' with active_tab='extraction' %}
+      
+  <section id="data-extraction-section" style="margin-bottom: 20px;">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Data Extraction Form</h3>
+      </div>
+      <table class="table" id="tbl-data-extraction">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Values</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for field in review.get_data_extraction_fields %}
+            {% include "planning/partial_data_extraction_field.html" with field=field %}
+          {% empty %}
+            {% include "planning/partial_data_extraction_field_form.html" with field=empty_field %}
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="panel-footer">
+        <button type="button" class="btn btn-primary" id="btn-add-field">Add Field</button>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

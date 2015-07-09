@@ -1,12 +1,16 @@
 # coding: utf-8
+
 import time
+
+from django.core.urlresolvers import reverse as r
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
+
 from reviews.models import *
 from reviews.decorators import main_author_required, author_required
 
@@ -14,10 +18,26 @@ from reviews.decorators import main_author_required, author_required
 @author_required
 @login_required
 def planning(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username__iexact=username)
+    return redirect(r('protocol', args=(username, review_name)))
+
+@author_required
+@login_required
+def protocol(request, username, review_name):
+    review = get_object_or_404(Review, name=review_name, author__username__iexact=username)
+    return render(request, 'planning/protocol.html', { 'review': review })
+
+@author_required
+@login_required
+def quality_assessment_checklist(request, username, review_name):
+    review = get_object_or_404(Review, name=review_name, author__username__iexact=username)
+    return render(request, 'planning/quality_assessment_checklist.html', { 'review': review })
+
+@author_required
+@login_required
+def data_extraction_form(request, username, review_name):
+    review = get_object_or_404(Review, name=review_name, author__username__iexact=username)
     empty_field = DataExtractionField()
-    context = RequestContext(request, {'review': review, 'empty_field': empty_field})
-    return render_to_response('planning/planning.html', context)
+    return render(request, 'planning/data_extraction_form.html', { 'review': review, 'empty_field': empty_field })
 
 
 ###############################################################################

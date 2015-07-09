@@ -2,17 +2,13 @@
 
 {% load staticfiles %}
 
-{% block title %}Parsifal - Planning{% endblock %}
+{% block title %}Protocol · Parsifal{% endblock %}
 
 {% block stylesheet %}
   <style>
     body,html,.wrapper{height:auto;}
-    section {
-      padding-top: 20px;
-    }
-    ul.review-menu, section > .panel, section form > .panel {
-      margin-bottom: 0;
-    }
+    section {padding-top:20px;}
+    #planning-tab,section>.panel,section form>.panel{margin-bottom:0;}
   </style>
 {% endblock stylesheet %}
 
@@ -24,8 +20,6 @@
   <script src="{% static 'js/planning_source.js' %}"></script>
   <script src="{% static 'js/planning_search_string.js' %}"></script>
   <script src="{% static 'js/planning_criteria.js' %}"></script>
-  <script src="{% static 'js/planning_quality_assessment.js' %}"></script>
-  <script src="{% static 'js/planning_data_extraction.js' %}"></script>
   <script>
     $(function () {
       $("#protocol").affix({
@@ -40,7 +34,8 @@
 
 {% block content %}
 
-  {% include "reviews/review_header.html" with active_menu="planning" %}
+  {% include 'reviews/review_header.html' with active_menu='planning' %}
+  {% include 'planning/planning_header.html' with active_tab='protocol' %}
 
   <div class="row">
     <div class="hidden-sm col-md-4 col-lg-3" style="padding-top: 20px;">
@@ -56,8 +51,6 @@
           <a href="#search-string-section" class="list-group-item">Search String</a>
           <a href="#sources-section" class="list-group-item">Sources</a>
           <a href="#selection-section" class="list-group-item">Selection Criteria</a>
-          <a href="#quality-assessment-section" class="list-group-item">Quality Assessment Checklist</a>
-          <a href="#data-extraction-section" class="list-group-item">Data Extraction Form</a>
         </div>
       </div>
     </div>
@@ -516,7 +509,7 @@
         </div>
       </section>
       
-      <section id="selection-section">
+      <section id="selection-section" style="margin-bottom: 20px;">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Selection Criteria</h3>
@@ -555,112 +548,6 @@
             </div>
           </div>
         </div>  
-      </section>
-      
-      <section id="quality-assessment-section">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Quality Assessment Checklist</h3>
-          </div>
-          <div class="panel-body">
-            <div class="alert alert-info">
-              <p><strong><span class="glyphicon glyphicon-info-sign"></span></strong> The quality assessment checklist will generate a form with the given questions to assign the given answers.</p>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading">Questions</div>
-              <table class="table" id="tbl-quality-questions">
-                <tbody>
-                  {% for quality_question in review.get_quality_assessment_questions %}
-                    {% include "planning/partial_quality_assessment_question.html" with quality_question=quality_question %}
-                  {% empty %}
-                    {% include "planning/partial_quality_assessment_question_form.html" %}
-                  {% endfor %}
-                </tbody>
-              </table>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-primary btn-sm" id="btn-add-quality-question">Add Question</button>
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading">Answers</div>
-              <table class="table" id="tbl-quality-answers">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Weight</th>
-                    <th style="width: 150px;"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for quality_answer in review.get_quality_assessment_answers %}
-                    {% include "planning/partial_quality_assessment_answer.html" with quality_answer=quality_answer %}
-                  {% empty %}
-                    {% include "planning/partial_quality_assessment_answer_form.html" %}
-                  {% endfor %}
-                </tbody>
-              </table>
-              <div class="panel-footer">
-                <button type="button" class="btn btn-sm btn-primary" id="btn-add-quality-answer">Add Answer</button>
-                {% if not review.get_quality_assessment_answers %}
-                  <button type="button" class="btn btn-sm btn-link" id="add-suggested-answers">(Add Suggested Answers)</button>
-                {% endif %}                
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading">Quality Assessment Scores</div>
-              <table class="table" id="tbl-cutoff-score">
-                <tbody>
-                  <tr>
-                    <td style="white-space: nowrap; vertical-align: middle;"><strong>Max Score</strong></td>
-                    <td><input type="text" class="form-control" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}" style="width: 70px; text-align: right;"></td>
-                    <td>
-                      <span class="help-block">Calculated based on the number of questions and on the answer of greater weight</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="white-space: nowrap; vertical-align: middle;"><strong>Cutoff Score</strong></td>
-                    <td><input type="text" class="form-control" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}" style="width: 70px; text-align: right;"></td>
-                    <td>
-                      <button type="button" class="btn btn-success btn-sm" id="save-cutoff-score">save</button>
-                      <span class="form-status-message" style="font-size:1em"></span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <section id="data-extraction-section" style="margin-bottom: 20px;">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Data Extraction Form</h3>
-          </div>
-          <table class="table" id="tbl-data-extraction">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Values</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for field in review.get_data_extraction_fields %}
-                {% include "planning/partial_data_extraction_field.html" with field=field %}
-              {% empty %}
-                {% include "planning/partial_data_extraction_field_form.html" with field=empty_field %}
-              {% endfor %}
-            </tbody>
-          </table>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-primary" id="btn-add-field">Add Field</button>
-          </div>
-        </div>
       </section>
 
     </div>

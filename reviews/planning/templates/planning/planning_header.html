@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs" id="planning-tab">
+  <li role="presentation"{% if active_tab == 'protocol' %} class="active"{% endif %}>
+    <a href="{% url 'protocol' review.author.username review.name %}">Protocol</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'quality' %} class="active"{% endif %}>
+    <a href="{% url 'quality_assessment_checklist' review.author.username review.name %}">Quality Assessment Checklist</a>
+  </li>
+  <li role="presentation"{% if active_tab == 'extraction' %} class="active"{% endif %}>
+    <a href="{% url 'data_extraction_form' review.author.username review.name %}">Data Extraction Form</a>
+  </li>
+</ul>
