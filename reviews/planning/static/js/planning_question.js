@@ -166,8 +166,6 @@ $(function () {
     });
   };
 
-  manageQuestionsOrder();
-
   $("#question-form").on("click", ".js-order-research-question-up", function () {
     var i = $(this).closest("tr").index();
     if (i > 0) {

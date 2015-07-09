@@ -54,6 +54,7 @@ $(function () {
     var description = $(".quality-question-description", row).val();
     var quality_question_id = $(row).attr("oid");
     var csrf_token = $(row).attr("csrf-token");
+    var btn = $(this);
 
     $.ajax({
       url: '/reviews/planning/save_quality_assessment_question/',
@@ -64,8 +65,12 @@ $(function () {
       },
       type: 'post',
       cache: false,
+      beforeSend: function () {
+        $(btn).ajaxDisable();
+      },
       success: function (data) {
         $(row).replaceWith(data);
+        $(btn).ajaxEnable();
         update_max_score();
       }
     });
@@ -117,17 +122,17 @@ $(function () {
   var manageQualityAssementQuestionsOrder = function () {
     var orders = "";
     $("table#tbl-quality-questions tbody tr").each(function () {
-      var questionId = $(this).attr("data-question-id");
+      var questionId = $(this).attr("oid");
       var rowOrder = $(this).index();
       orders += questionId + ":" + rowOrder + ",";
       $("[name='quality-question-order']", this).val(rowOrder);
     });
 
     var review_id = $("#review-id").val();
-    var csrf_token = $("table#tbl-quality-questions input[name='csrfmiddlewaretoken']").val();
+    var csrf_token = $("[name='csrfmiddlewaretoken']").val();
 
-    /*$.ajax({
-      url: '/reviews/planning/save_question_order/',
+    $.ajax({
+      url: '/reviews/planning/save_quality_assessment_question_order/',
       type: 'post',
       cache: false,
       data: {
@@ -135,10 +140,9 @@ $(function () {
         'review-id': review_id,
         'orders': orders
       }
-    });*/
-  };
+    });
 
-  manageQualityAssementQuestionsOrder();
+  };
 
   $("table#tbl-quality-questions").on("click", ".js-order-quality-question-up", function () {
     var i = $(this).closest("tr").index();

@@ -1,9 +1,19 @@
 <tr oid="{{ quality_question.id|default:'None' }}" csrf-token="{{ csrf_token }}">
-  <td>
+  <td style="vertical-align: middle;" colspan="2">
     <input type="text" maxlength="255" class="form-control quality-question-description" value="{{ quality_question.description }}">
   </td>
-  <td>
-    <button type="button" class="btn btn-sm btn-success btn-save-quality_question">save</button>
+  <td style="width: 180px; text-align: right; vertical-align: middle;">
+    <button type="button" class="btn btn-sm btn-success btn-save-quality_question">
+      <span class="btn-ajax-normal">
+        <span class="glyphicon glyphicon-ok"></span> save
+      </span>
+      <span class="btn-ajax-loading">
+        <span class="glyphicon glyphicon-refresh spin"></span> saving…
+      </span>
+      <span class="btn-ajax-complete">
+        <span class="glyphicon glyphicon-ok"></span> saved!
+      </span>
+    </button>
     <button type="button" class="btn btn-sm btn-default btn-cancel-quality_question">cancel</button>
   </td>
 </tr>

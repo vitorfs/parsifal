@@ -31,6 +31,8 @@
   {% include 'reviews/review_header.html' with active_menu='planning' %}
   {% include 'planning/planning_header.html' with active_tab='quality' %}
 
+  {% csrf_token %}
+
   <div class="row">
     <div class="hidden-sm col-md-4 col-lg-3" style="padding-top: 20px;">
       <div id="protocol" class="panel panel-default">

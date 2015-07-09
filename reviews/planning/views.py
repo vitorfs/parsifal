@@ -94,8 +94,6 @@ def save_question(request):
 @login_required
 def save_question_order(request):
     try:
-        review_id = request.POST.get('review-id')
-        review = Review.objects.get(pk=review_id)
         orders = request.POST.get('orders')
         question_orders = orders.split(',')
         for question_order in question_orders:
@@ -605,6 +603,23 @@ def save_quality_assessment_question(request):
         
         context = RequestContext(request, {'quality_question': quality_question})
         return render_to_response('planning/partial_quality_assessment_question.html', context)
+    except:
+        return HttpResponseBadRequest()
+
+
+@author_required
+@login_required
+def save_quality_assessment_question_order(request):
+    try:
+        orders = request.POST.get('orders')
+        question_orders = orders.split(',')
+        for question_order in question_orders:
+            if question_order:
+                question_id, order = question_order.split(':')
+                question = QualityQuestion.objects.get(pk=question_id)
+                question.order = order
+                question.save()
+        return HttpResponse()
     except:
         return HttpResponseBadRequest()
 
