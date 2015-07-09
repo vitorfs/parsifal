@@ -8,7 +8,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
 
-PROJECT_DIR = Path(__file__).parent.parent
+PROJECT_DIR = Path(__file__).parent
 
 DEBUG = config('DEBUG', default=False, cast=bool) 
 TEMPLATE_DEBUG = DEBUG
@@ -33,13 +33,13 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-MEDIA_ROOT = PROJECT_DIR.parent.child('media')
+MEDIA_ROOT = PROJECT_DIR.parent.parent.child('media')
 MEDIA_URL = '/media/'
 FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0644
 FILE_UPLOAD_MAX_MEMORY_SIZE = 33554432
 
-STATIC_ROOT = PROJECT_DIR.parent.child('static')
+STATIC_ROOT = PROJECT_DIR.parent.parent.child('static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     PROJECT_DIR.child('static'),
