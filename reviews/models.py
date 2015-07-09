@@ -140,7 +140,7 @@ class Review(models.Model):
 
     def get_final_selection_articles(self):
         accepted_articles = Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
-        if self.quality_assessment_cutoff_score > 0.0:
+        if self.has_quality_assessment_checklist() and self.quality_assessment_cutoff_score > 0.0:
             articles = accepted_articles
             for article in accepted_articles:
                 if article.get_score() <= self.quality_assessment_cutoff_score:
@@ -148,6 +148,11 @@ class Review(models.Model):
             return articles
         else:
             return accepted_articles
+
+    def has_quality_assessment_checklist(self):
+        has_questions = self.qualityquestion_set.exists()
+        has_answers = self.qualityanswer_set.exists()
+        return has_questions and has_answers
 
     def get_data_extraction_fields(self):
         return DataExtractionField.objects.filter(review__id=self.id)

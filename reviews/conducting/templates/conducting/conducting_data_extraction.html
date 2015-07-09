@@ -8,11 +8,15 @@
 
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="extraction" %}
-  <h2>Data Extraction</h2>
+  <h3>Data Extraction</h3>
 
   {% if finished_all_steps %}
     {% csrf_token %}
-    {{ data_extraction_table|safe }}
+    {% if data_extraction_table %}
+      {{ data_extraction_table|safe }}
+    {% else %}
+      <h4>No study above the quality cutoff score.</h4>
+    {% endif %}
   {% else %}
     <p>There is a few steps you have to finish before extract data of the studies:</p>
     <ul>

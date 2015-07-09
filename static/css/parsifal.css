@@ -427,6 +427,10 @@ ul.review-menu li.active {
   display: none;
 }
 
+.data-extraction-panel .form-group:last-child {
+  margin-bottom: 0;
+}
+
 /* Selectize options */
 
 .selectize-control.contacts .selectize-input > div {

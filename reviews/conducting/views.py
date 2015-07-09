@@ -242,11 +242,11 @@ def quality_assessment(request, username, review_name):
 
     steps_messages = []
 
-    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
+    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/#sources-section">planning tab</a> to add sources to your review.')
     if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/import/">import studies tab</a>.')
     if not select_articles: steps_messages.append('Classify the imported studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
-    if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
-    if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+    if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/quality/#questions">planning tab</a>.')
+    if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/quality/#answers">planning tab</a>.')
 
     finished_all_steps = len(steps_messages) == 0
 
@@ -316,14 +316,22 @@ def build_data_extraction_field_row(article, field):
 def build_data_extraction_table(review):
     selected_studies = review.get_final_selection_articles()
     data_extraction_fields = review.get_data_extraction_fields()
-    if data_extraction_fields:
+    has_quality_assessment = review.has_quality_assessment_checklist()
+    if selected_studies and data_extraction_fields:
         str_table = u'<div class="panel-group">'
         for study in selected_studies:
-            str_table += u'''<div class="panel panel-success data-extraction-panel">
-              <div class="panel-heading">
-                <h3 class="panel-title">{1} <span class="badge pull-right">{2}</span></h3>
-              </div>
-              <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, study.title, study.get_score())
+            if has_quality_assessment:
+                str_table += u'''<div class="panel panel-success data-extraction-panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">{1} <span class="badge pull-right">{2}</span></h3>
+                  </div>
+                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, study.title, study.get_score())
+            else:
+                str_table += u'''<div class="panel panel-default data-extraction-panel">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">{1}</h3>
+                  </div>
+                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, study.title)
             for field in data_extraction_fields:
                 str_table += u'''<div class="form-group" data-field-id="{0}">
                     <label class="control-label col-md-2">{1}</label>
@@ -345,28 +353,29 @@ def data_extraction(request, username, review_name):
     add_sources = review.sources.count()
     import_articles = review.get_source_articles().count()
     select_articles = review.get_accepted_articles().count()
-    create_questions = review.get_quality_assessment_questions().count()
-    create_answers = review.get_quality_assessment_answers().count()
     create_fields = review.get_data_extraction_fields().count()
 
     steps_messages = []
 
-    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a> to add sources to your review.')
+    if not add_sources: steps_messages.append('Use the <a href="/'+ username +'/'+ review_name +'/planning/#sources-section">planning tab</a> to add sources to your review.')
     if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/import/">import studies tab</a>.')
     if not select_articles: steps_messages.append('Classify the imported studies using the <a href="/'+ username +'/'+ review_name +'/conducting/studies/">study selection tab</a>.')
-    if not create_questions: steps_messages.append('Create quality assessment questions using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
-    if not create_answers: steps_messages.append('Create quality assessment answers using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
-    if not create_fields: steps_messages.append('Create data extraction fields using the <a href="/'+ username +'/'+ review_name +'/planning/">planning tab</a>.')
+    if not create_fields: steps_messages.append('Create data extraction fields using the <a href="/'+ username +'/'+ review_name +'/planning/extraction/">planning tab</a>.')
 
-    finished_all_steps = len(steps_messages) == 0
+    finished_all_steps = not steps_messages
 
     try:
         data_extraction_table = build_data_extraction_table(review)
     except Exception, e:
+        raise e
         data_extraction_table = '<h3>Something went wrong while rendering the data extraction form.</h3>'
 
-    context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'data_extraction_table': data_extraction_table, 'finished_all_steps': finished_all_steps })
-    return render_to_response('conducting/conducting_data_extraction.html', context)
+    return render(request, 'conducting/conducting_data_extraction.html', {
+            'review': review, 
+            'steps_messages': steps_messages, 
+            'data_extraction_table': data_extraction_table, 
+            'finished_all_steps': finished_all_steps
+        })
 
 def bibtex_to_article_object(filename, review, source):
     articles = []
