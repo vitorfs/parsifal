@@ -220,7 +220,9 @@
               </tbody>
             </table>
             <div class="panel-footer">
-              <button type="button" class="btn btn-primary" id="btn-add-question">Add Question</button>
+              <button type="button" class="btn btn-primary" id="btn-add-question">
+                <span class="glyphicon glyphicon-plus"></span> Add Question
+              </button>
             </div>
           </div>
         </form>
@@ -352,8 +354,13 @@
             </tbody>
           </table>
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary" id="add-keyword">Add Keyword</button>
-            <button type="button" class="btn btn-primary" id="import-pico-keywords">Import PICO Keywods</button>
+            <button type="button" class="btn btn-primary" id="add-keyword">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add Keyword
+            </button>
+            <button type="button" class="btn btn-primary" id="import-pico-keywords">
+              <span class="glyphicon glyphicon-import"></span>
+              Import PICO Keywods</button>
           </div>
         </div>
       </section>
@@ -503,7 +510,10 @@
             </tbody>
           </table>
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary" id="btn-add-source">Add Source</button>
+            <button type="button" class="btn btn-primary" id="btn-add-source">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add Source
+            </button>
             <button type="button" class="btn btn-primary" id="btn-suggested-sources" data-toggle="modal" data-target="#modal-suggested-sources">Add a Digital Library</button>
           </div>
         </div>
@@ -529,7 +539,10 @@
                     {% endfor %}
                   </select>                  
                 </div>
-                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#inclusion-criteria">remove selected</button>
+                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#inclusion-criteria">
+                  <span class="glyphicon glyphicon-trash"></span>
+                  remove selected
+                </button>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
@@ -543,7 +556,10 @@
                     {% endfor %}
                   </select>
                 </div>
-                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#exclusion-criteria">remove selected</button>
+                <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#exclusion-criteria">
+                  <span class="glyphicon glyphicon-trash"></span>
+                  remove selected
+                </button>
               </div>
             </div>
           </div>
