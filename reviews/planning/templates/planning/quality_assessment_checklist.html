@@ -63,7 +63,10 @@
             </tbody>
           </table>
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary btn-sm" id="btn-add-quality-question">Add Question</button>
+            <button type="button" class="btn btn-primary" id="btn-add-quality-question">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add Question
+            </button>
           </div>
         </div>
       </section>
@@ -90,9 +93,12 @@
             </tbody>
           </table>
           <div class="panel-footer">
-            <button type="button" class="btn btn-sm btn-primary" id="btn-add-quality-answer">Add Answer</button>
+            <button type="button" class="btn btn-primary" id="btn-add-quality-answer">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add Answer
+            </button>
             {% if not review.get_quality_assessment_answers %}
-              <button type="button" class="btn btn-sm btn-link" id="add-suggested-answers">(Add Suggested Answers)</button>
+              <button type="button" class="btn btn-link" id="add-suggested-answers">(Add Suggested Answers)</button>
             {% endif %}                
           </div>
         </div>
@@ -116,8 +122,17 @@
                 <td style="white-space: nowrap; vertical-align: middle;"><strong>Cutoff Score</strong></td>
                 <td><input type="text" class="form-control" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}" style="width: 70px; text-align: right;"></td>
                 <td>
-                  <button type="button" class="btn btn-success btn-sm" id="save-cutoff-score">save</button>
-                  <span class="form-status-message" style="font-size:1em"></span>
+                  <button type="button" class="btn btn-sm btn-success" id="save-cutoff-score">
+                    <span class="btn-ajax-normal">
+                      <span class="glyphicon glyphicon-ok"></span> save
+                    </span>
+                    <span class="btn-ajax-loading">
+                      <span class="glyphicon glyphicon-refresh spin"></span> saving…
+                    </span>
+                    <span class="btn-ajax-complete">
+                      <span class="glyphicon glyphicon-ok"></span> saved!
+                    </span>
+                  </button>
                 </td>
               </tr>
             </tbody>

@@ -12,6 +12,8 @@
 
   {% include 'reviews/review_header.html' with active_menu='planning' %}
   {% include 'planning/planning_header.html' with active_tab='extraction' %}
+
+  {% csrf_token %}
       
   <section id="data-extraction-section" style="margin-bottom: 20px;">
     <div class="panel panel-default">
@@ -21,6 +23,7 @@
       <table class="table" id="tbl-data-extraction">
         <thead>
           <tr>
+            <th></th>
             <th>Description</th>
             <th>Type</th>
             <th>Values</th>
@@ -36,7 +39,10 @@
         </tbody>
       </table>
       <div class="panel-footer">
-        <button type="button" class="btn btn-primary" id="btn-add-field">Add Field</button>
+        <button type="button" class="btn btn-primary" id="btn-add-field">
+          <span class="glyphicon glyphicon-plus"></span>
+          Add Field
+        </button>
       </div>
     </div>
   </section>

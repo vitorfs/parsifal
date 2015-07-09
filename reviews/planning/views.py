@@ -833,6 +833,23 @@ def save_data_extraction_field(request):
 
 @author_required
 @login_required
+def save_data_extraction_field_order(request):
+    try:
+        orders = request.POST.get('orders')
+        field_orders = orders.split(',')
+        for field_order in field_orders:
+            if field_order:
+                field_id, order = field_order.split(':')
+                field = DataExtractionField.objects.get(pk=field_id)
+                field.order = order
+                field.save()
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+
+@author_required
+@login_required
 def remove_data_extraction_field(request):
     try:
         field_id = request.GET['field-id']

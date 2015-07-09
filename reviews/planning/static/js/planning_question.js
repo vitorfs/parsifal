@@ -90,6 +90,7 @@ $(function () {
       },
       success: function(data) {
         $(tr).replaceWith(data);
+        manageQuestionsOrder();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         

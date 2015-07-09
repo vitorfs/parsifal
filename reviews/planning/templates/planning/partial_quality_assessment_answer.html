@@ -1,8 +1,14 @@
 <tr oid="{{ quality_answer.id }}">
-  <td>{{ quality_answer.description }}</td>
-  <td>{{ quality_answer.weight }}</td>
-  <td>
-    <button type="button" class="btn btn-warning btn-sm btn-edit-quality-answer">edit</button>
-    <button type="button" class="btn btn-danger btn-sm btn-remove-quality-answer">remove</button>
+  <td style="vertical-align: middle;">{{ quality_answer.description }}</td>
+  <td style="vertical-align: middle;">{{ quality_answer.weight }}</td>
+  <td style="width: 200px; text-align: right; vertical-align: middle;">
+    <button type="button" class="btn btn-warning btn-sm btn-edit-quality-answer">
+      <span class="glyphicon glyphicon-pencil"></span>
+      edit
+    </button>
+    <button type="button" class="btn btn-danger btn-sm btn-remove-quality-answer">
+      <span class="glyphicon glyphicon-trash"></span>
+      remove
+    </button>
   </td>
 </tr>

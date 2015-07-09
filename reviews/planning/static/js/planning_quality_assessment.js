@@ -29,7 +29,7 @@ $(function () {
       type: 'get',
       cache: false,
       success: function (data) {
-        $("#tbl-quality-questions tbody").prepend(data);
+        $("#tbl-quality-questions tbody").append(data);
         $("#tbl-quality-questions tbody tr:first-child .quality-question-description").focus();
       }
     });
@@ -183,7 +183,7 @@ $(function () {
       type: 'get',
       cache: false,
       success: function (data) {
-        $("#tbl-quality-answers tbody").prepend(data);
+        $("#tbl-quality-answers tbody").append(data);
         $("#tbl-quality-answers tbody tr:first-child .quality-answer-description").focus();
       }
     });
@@ -288,23 +288,11 @@ $(function () {
       data: {'review-id': review_id, 'cutoff-score': cutoff_score},
       type: 'get',
       cache: false,
-      success: function (data) {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-error").addClass("text-success");
-        msg.text(data);
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+      beforeSend: function () {
+        $(btn).ajaxDisable();
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        var msg = btn.siblings('.form-status-message');
-        msg.removeClass("text-success").addClass("text-error");
-        msg.text(jqXHR.responseText);
-        msg.fadeIn();
-        window.setTimeout(function () {
-          msg.fadeOut();
-        }, 2000);
+      complete: function () {
+        $(btn).ajaxEnable();
       }
     });
 

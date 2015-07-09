@@ -1,7 +1,16 @@
 <tr oid="{{ field.id }}">
-  <td>{{ field.description }}</td>
-  <td>{{ field.get_field_type_display }}</td>
-  <td>
+  <td style="width: 50px; text-align: center;">
+    <input type="hidden" name="data-extraction-field-order" value="{{ question.order }}">
+    <a href="javascript:void(0);" style="display: block;" class="js-order-field-up">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <a href="javascript:void(0);" style="display: block;" class="js-order-field-down">
+      <span class="glyphicon glyphicon-chevron-down"></span>
+    </a>
+  </td>
+  <td style="vertical-align: middle;">{{ field.description }}</td>
+  <td style="vertical-align: middle;">{{ field.get_field_type_display }}</td>
+  <td style="vertical-align: middle;">
     {% if field.is_select_field %}
       <ul>
         {% for value in field.get_select_values %}
@@ -12,8 +21,22 @@
       n/a
     {% endif %}
   </td>
-  <td style="width: 150px;">
-    <button type="button" class="btn btn-warning btn-sm btn-edit-data-extraction-field">edit</button>
-    <button type="button" class="btn btn-danger btn-sm btn-remove-data-extraction-field">remove</a>
+  <td style="width: 200px; text-align: right; vertical-align: middle;">
+    <button type="button" class="btn btn-sm btn-warning btn-edit-data-extraction-field">
+      <span class="btn-ajax-normal">
+        <span class="glyphicon glyphicon-pencil"></span> edit
+      </span>
+      <span class="btn-ajax-loading">
+        <span class="glyphicon glyphicon-refresh spin"></span> loading…
+      </span>
+    </button>
+    <button type="button" class="btn btn-sm btn-danger btn-remove-data-extraction-field">
+      <span class="btn-ajax-normal">
+        <span class="glyphicon glyphicon-trash"></span> remove
+      </span>
+      <span class="btn-ajax-loading">
+        <span class="glyphicon glyphicon-refresh spin"></span> removing…
+      </span>
+    </button>
   </td>
 </tr>
