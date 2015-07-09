@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block title %}Parsifal - {{ page_user.profile.get_screen_name }} {{ page_title }}{% endblock %}
+{% block title %}{{ page_user.profile.get_screen_name }} {{ page_title }}{% endblock %}
 
 {% block javascript %}
   <script src="{% static 'js/activities.js' %}?_=1"></script>

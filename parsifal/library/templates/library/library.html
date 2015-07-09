@@ -2,7 +2,13 @@
 
 {% load staticfiles %}
 
-{% block title %}Parsifal · Library{% endblock %}
+{% block title %}
+{% if active_folder %}
+{{ active_folder.name }}
+{% else %}
+Library · Parsifal
+{% endif %}
+{% endblock %}
 
 {% block javascript %}
   <script src="{% static 'js/library.js' %}"></script>
