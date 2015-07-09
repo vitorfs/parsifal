@@ -300,6 +300,20 @@ section.features article span.glyphicon {
 
 /* Parsifal reviews app */
 
+.review-title {
+  margin-top: 0; 
+  margin-bottom: 20px; 
+  line-height: 1.42857;
+}
+
+.review-title span.text-muted {
+  font-weight: normal;
+}
+
+.review-title-user {
+  font-weight: 300;
+}
+
 ul.review-menu {
   width: 100%;
   margin: 0;

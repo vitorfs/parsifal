@@ -116,3 +116,7 @@ DROPBOX_SECRET = config('DROPBOX_SECRET')
 DROPBOX_REDIRECT_URI = config('DROPBOX_REDIRECT_URI')
 
 ELSEVIER_API_KEY = config('ELSEVIER_API_KEY')
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: '/%s/' % u.username,
+}

@@ -70,6 +70,10 @@ class Review(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('review', args=(str(self.author.username), str(self.name)))
+
     def save(self):
         self.last_update = datetime.datetime.now()
         super(Review, self).save()

@@ -1,16 +1,23 @@
-{% if user == review.author %}
-  <a href="/{{ review.author.username }}/{{ review.name }}/settings/" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-cog"></span> Review settings</a>
-{% endif %}
-<h2 style="margin-top: 0;">
-  <a href="/{{ review.author.username }}/">{{ review.author.profile.get_screen_name }}</a> 
-  <span class="text-muted" style="font-weight: normal;">/</span>
-  <a href="/{{ review.author.username }}/{{ review.name }}/">{{ review.title }}</a>
-</h2>
+<h3 class="review-title">
+  {% if user == review.author %}
+    <a href="{% url 'settings' review.author.username review.name %}" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-cog"></span> Review settings</a>
+  {% endif %}
+  <a href="{{ review.author.get_absolute_url }}" class="review-title-user">{{ review.author.profile.get_screen_name }}</a> 
+  <span class="text-muted">/</span>
+  <a href="{{ review.get_absolute_url }}">{{ review.title }}</a>
+</h3>
 <ul class="review-menu">
-  <li{% if active_menu == "review"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/">Review</a></li>
-  <li{% if active_menu == "planning"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/planning/">Planning</a></li>
-  <li{% if active_menu == "conducting"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/conducting/">Conducting</a></li>
-  <li{% if active_menu == "reporting"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/reporting/">Reporting</a></li>
-  <!--li{% if active_menu == "publish"%} class="active"{% endif %}><a href="/{{ review.author.username }}/{{ review.name }}/publish/">Publish</a></li-->
+  <li{% if active_menu == "review"%} class="active"{% endif %}>
+    <a href="{{ review.get_absolute_url }}">Review</a>
+  </li>
+  <li{% if active_menu == "planning"%} class="active"{% endif %}>
+    <a href="{% url 'planning' review.author.username review.name %}">Planning</a>
+  </li>
+  <li{% if active_menu == "conducting"%} class="active"{% endif %}>
+    <a href="{% url 'conducting' review.author.username review.name %}">Conducting</a>
+  </li>
+  <li{% if active_menu == "reporting"%} class="active"{% endif %}>
+    <a href="{% url 'reporting' review.author.username review.name %}">Reporting</a>
+  </li>
 </ul>
 <input type="hidden" id="review-id" value="{{ review.id }}">
