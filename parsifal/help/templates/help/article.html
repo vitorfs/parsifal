@@ -9,6 +9,9 @@
 <meta property="og:type" content="article" />
 <meta property="og:title" content="{{ article.title }}" />
 <meta property="og:description" content="{{ article.raw_content|truncatechars:'255' }}" />
+{% for media in article.medias.all %}
+{{ media.get_fb_og_metatags|safe }}
+{% endfor %}
 {% endblock %}
 
 {% block content %}
