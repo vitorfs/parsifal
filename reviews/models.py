@@ -223,6 +223,17 @@ class SearchSession(models.Model):
         return html
 
 
+def search_result_file_upload_to(instance, filename):
+    return u'reviews/{0}/search_result/'.format(instance.review.pk)
+
+class SearchResult(models.Model):
+    review = models.ForeignKey(Review)
+    source = models.ForeignKey(Source)
+    search_session = models.ForeignKey(SearchSession, null=True)
+    imported_file = models.FileField(upload_to=search_result_file_upload_to, null=True)
+    documents = models.ManyToManyField(Document)
+
+
 class StudySelection(models.Model):
     review = models.ForeignKey(Review)
     user = models.ForeignKey(User, null=True)
