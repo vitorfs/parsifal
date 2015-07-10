@@ -226,7 +226,7 @@
                     {% if 'scopus' in sources_names %}
                       <a href="#search-strings" class="btn btn-link">Add a search string for Scopus to perform automatic searches</a>
                     {% else %}
-                      <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                      <a href="{% url 'protocol' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
                     {% endif %}
                   {% endif %}
                 </div>
@@ -324,7 +324,7 @@
                     {% if 'science@direct' in sources_names %}
                       <a href="#search-strings" class="btn btn-link">Add a search string for Science@Direct to perform automatic searches</a>
                     {% else %}
-                      <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-link">Add Science@Direct to your sources to perform automatic searches</a>
+                      <a href="{% url 'protocol' review.author.username review.name %}#sources-section" class="btn btn-link">Add Science@Direct to your sources to perform automatic searches</a>
                     {% endif %}
                   {% endif %}
                 </div>
