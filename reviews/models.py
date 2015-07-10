@@ -51,7 +51,7 @@ class Review(models.Model):
     description = models.CharField(max_length=500, null=True, blank=True)
     author = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
-    last_update = models.DateTimeField()
+    last_update = models.DateTimeField(auto_now=True)
     objective = models.TextField(max_length=1000)
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
@@ -77,10 +77,6 @@ class Review(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('review', args=(str(self.author.username), str(self.name)))
-
-    def save(self):
-        self.last_update = datetime.datetime.now()
-        super(Review, self).save()
 
     def get_questions(self):
         questions = Question.objects.filter(review__id=self.id)
