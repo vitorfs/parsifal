@@ -322,16 +322,8 @@ class Article(models.Model):
 
     def get_status_html(self):
         label = { Article.UNCLASSIFIED: 'default', Article.REJECTED: 'danger', Article.ACCEPTED: 'success', Article.DUPLICATED: 'warning' }
-        return u'<span class="label label-{0}">{1}</span>'.format(label[self.status], self.get_status_display())
+        return u'<span class="label label-{0}">{1}</span>'.format(label[self.status], self.get_status_display()) 
 
-class ArticleFile(models.Model):
-    review = models.ForeignKey(Review)
-    article = models.ForeignKey(Article)
-    user = models.ForeignKey(User)
-    name = models.CharField(max_length=255)
-    size = models.IntegerField(default=0)
-    article_file = models.FileField(upload_to='library/')
-    
 
 class Keyword(models.Model):
     POPULATION = 'P'

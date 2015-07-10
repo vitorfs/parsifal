@@ -36,18 +36,18 @@ class Document(models.Model):
         )
 
     # Bibtex required fields
-    bibtexkey = models.CharField('Bibtex key', max_length=255, null=True, blank=True)
-    entry_type = models.CharField('Document type', max_length=13, choices=ENTRY_TYPES, null=True, blank=True)
+    bibtexkey = models.CharField(u'Bibtex key', max_length=255, null=True, blank=True)
+    entry_type = models.CharField(u'Document type', max_length=13, choices=ENTRY_TYPES, null=True, blank=True)
     
     # Bibtex base fields
     address = models.CharField(max_length=2000, null=True, blank=True)
     author = models.TextField(max_length=1000, null=True, blank=True)
     booktitle = models.CharField(max_length=1000, null=True, blank=True)
     chapter = models.CharField(max_length=1000, null=True, blank=True)
-    crossref = models.CharField('Cross-referenced', max_length=1000, null=True, blank=True)
+    crossref = models.CharField(u'Cross-referenced', max_length=1000, null=True, blank=True)
     edition = models.CharField(max_length=1000, null=True, blank=True)
     editor = models.CharField(max_length=1000, null=True, blank=True)
-    howpublished = models.CharField('How it was published', max_length=1000, null=True, blank=True)
+    howpublished = models.CharField(u'How it was published', max_length=1000, null=True, blank=True)
     institution = models.CharField(max_length=1000, null=True, blank=True)
     journal = models.CharField(max_length=1000, null=True, blank=True)
     month = models.CharField(max_length=50, null=True, blank=True)
@@ -66,40 +66,41 @@ class Document(models.Model):
     # Extra fields
     abstract = models.TextField(max_length=4000, null=True, blank=True)
     coden = models.CharField(max_length=1000, null=True, blank=True)
-    doi = models.CharField('DOI', max_length=255, null=True, blank=True)
-    isbn = models.CharField('ISBN', max_length=255, null=True, blank=True)
-    issn = models.CharField('ISSN', max_length=255, null=True, blank=True)
+    doi = models.CharField(u'DOI', max_length=255, null=True, blank=True)
+    isbn = models.CharField(u'ISBN', max_length=255, null=True, blank=True)
+    issn = models.CharField(u'ISSN', max_length=255, null=True, blank=True)
     keywords = models.CharField(max_length=2000, null=True, blank=True)
     language = models.CharField(max_length=1000, null=True, blank=True)
-    url = models.CharField('URL', max_length=1000, null=True, blank=True)
+    url = models.CharField(u'URL', max_length=1000, null=True, blank=True)
 
     # Parsifal management field
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Document'
-        verbose_name_plural = 'Documents'
+        verbose_name = u'Document'
+        verbose_name_plural = u'Documents'
 
     def __unicode__(self):
         return self.title
+
 
 def document_file_upload_to(instance, filename):
     return u'library/{0}/'.format(instance.document.user.pk)
 
 
 class DocumentFile(models.Model):
-    document = models.ForeignKey(Document)
-    document_file = models.FileField(upload_to=document_file_upload_to)
+    document = models.ForeignKey(Document, related_name=u'files')
+    document_file = models.FileField(upload_to=u'library/')
     filename = models.CharField(max_length=255)
     size = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
 
     class Meta:
-        verbose_name = 'Document File'
-        verbose_name_plural = 'Document Files'
+        verbose_name = u'Document File'
+        verbose_name_plural = u'Document Files'
 
     def __unicode__(self):
         return self.filename
@@ -108,13 +109,13 @@ class DocumentFile(models.Model):
 class Folder(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=55)
-    user = models.ForeignKey(User, related_name='library_folders')
+    user = models.ForeignKey(User, related_name=u'library_folders')
     documents = models.ManyToManyField(Document)
 
     class Meta:
-        verbose_name = 'Folder'
-        verbose_name_plural = 'Folders'
-        ordering = ('name',)
+        verbose_name = u'Folder'
+        verbose_name_plural = u'Folders'
+        ordering = (u'name',)
 
     def __unicode__(self):
         return self.name
