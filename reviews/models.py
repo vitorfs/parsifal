@@ -252,6 +252,7 @@ class Study(models.Model):
     source = models.ForeignKey(Source, null=True)
     status = models.CharField(max_length=1, choices=STUDY_STATUS, default=UNCLASSIFIED)
     updated_at = models.DateTimeField(auto_now=True)
+    comments = models.TextField(max_length=2000, blank=True, null=True)
 
 
 class Article(models.Model):
