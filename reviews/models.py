@@ -1,11 +1,15 @@
 # coding: utf-8
 
 import datetime
+
 from django.utils import timezone
 from django.utils.html import escape
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
+
+from parsifal.library.models import Document
+
 
 class Source(models.Model):
     name = models.CharField(max_length=100)
@@ -231,6 +235,38 @@ class SearchSession(models.Model):
         escaped_string = escape(self.search_string)
         html = escaped_string.replace(' OR ', ' <strong>OR</strong> ').replace(' AND ', ' <strong>AND</strong> ')
         return html
+
+
+class StudySelection(models.Model):
+    review = models.ForeignKey(Review)
+    user = models.ForeignKey(User, null=True)
+    has_finished = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        if self.user:
+            selection = u'{0}\'s Selection'.format(self.user.username)
+        else:
+            selection = u'Final Selection'
+        return u'{0} ({1})'.format(selection, self.review.title)
+
+
+class Study(models.Model):
+    UNCLASSIFIED = u'U'
+    REJECTED = u'R'
+    ACCEPTED = u'A'
+    DUPLICATED = u'D'
+    STUDY_STATUS = (
+        (UNCLASSIFIED, u'Unclassified'),
+        (REJECTED, u'Rejected'),
+        (ACCEPTED, u'Accepted'),
+        (DUPLICATED, u'Duplicated'),
+        )
+    study_selection = models.ForeignKey(StudySelection, related_name=u'studies')
+    document = models.ForeignKey(Document)
+    source = models.ForeignKey(Source, null=True)
+    status = models.CharField(max_length=1, choices=STUDY_STATUS, default=UNCLASSIFIED)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class Article(models.Model):
     UNCLASSIFIED = 'U'
