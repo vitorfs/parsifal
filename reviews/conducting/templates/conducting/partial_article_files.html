@@ -3,9 +3,7 @@
     <h3 class="panel-title">Library</h3>
   </div>
   <ul class="list-group" id="files">
-    {% for article_file in article.articlefile_set.all %}
-      <li class="list-group-item">{{ article_file.name }}</li>
-    {% endfor %}
+
   </ul>
   <div id="progress" class="progress" style="margin-bottom: 0; border-radius: 0;">
       <div class="progress-bar progress-bar-success"></div>

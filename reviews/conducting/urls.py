@@ -1,5 +1,7 @@
 # coding: utf-8
+
 from django.conf.urls import patterns, include, url
+
 
 urlpatterns = patterns('reviews.conducting.views',
     url(r'^add_source_string/$', 'add_source_string', name='add_source_string'),
@@ -22,7 +24,7 @@ urlpatterns = patterns('reviews.conducting.views',
     url(r'^multiple_articles_action/remove/$', 'multiple_articles_action_remove', name='multiple_articles_action_remove'),
     url(r'^multiple_articles_action/accept/$', 'multiple_articles_action_accept', name='multiple_articles_action_accept'),
     url(r'^multiple_articles_action/reject/$', 'multiple_articles_action_reject', name='multiple_articles_action_reject'),
-    url(r'^articles/upload/$', 'articles_upload', name='articles_upload'),
+    #url(r'^articles/upload/$', 'articles_upload', name='articles_upload'),
     url(r'^save_data_extraction/$', 'save_data_extraction', name='save_data_extraction'),
     url(r'^articles_selection_chart/$', 'articles_selection_chart', name='articles_selection_chart'),
     url(r'^articles_per_year/$', 'articles_per_year', name='articles_per_year'),

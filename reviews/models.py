@@ -32,18 +32,11 @@ class Source(models.Model):
 
 
 class Review(models.Model):
-    UNPUBLISHED = 'U'
-    PUBLISHED = 'P'
+    UNPUBLISHED = u'U'
+    PUBLISHED = u'P'
     REVIEW_STATUS = (
-        (UNPUBLISHED, 'Unpublished'),
-        (PUBLISHED, 'Published'),
-        )
-
-    SINGLE_FORM = 'S'
-    MULTIPLE_FORMS = 'M'
-    CONDUCTING_STRATEGY = (
-        (SINGLE_FORM, 'Single Form'),
-        (MULTIPLE_FORMS, 'Multiple Forms'),
+        (UNPUBLISHED, u'Unpublished'),
+        (PUBLISHED, u'Published'),
         )
 
     name = models.SlugField(max_length=255)
@@ -55,11 +48,8 @@ class Review(models.Model):
     objective = models.TextField(max_length=1000)
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
-    co_authors = models.ManyToManyField(User, related_name="co_authors")
+    co_authors = models.ManyToManyField(User, related_name=u'co_authors')
     quality_assessment_cutoff_score = models.FloatField(default=0.0)
-    study_selection_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
-    quality_assessment_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
-    data_extraction_strategy = models.CharField(max_length=1, choices=CONDUCTING_STRATEGY, default=SINGLE_FORM)
     population = models.CharField(max_length=200, blank=True)
     intervention = models.CharField(max_length=200, blank=True)
     comparison = models.CharField(max_length=200, blank=True)
@@ -67,8 +57,8 @@ class Review(models.Model):
     context = models.CharField(max_length=200, blank=True)
 
     class Meta:
-        verbose_name = "Review"
-        verbose_name_plural = "Reviews"
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
         unique_together = (('name', 'author'),)
 
     def __unicode__(self):

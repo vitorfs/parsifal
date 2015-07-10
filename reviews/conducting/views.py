@@ -20,7 +20,6 @@ from django.db.models import Count
 
 from reviews.models import *
 from reviews.decorators import main_author_required, author_required
-from reviews.forms import ArticleUploadForm
 
 from parsifal.utils.elsevier.client import ElsevierClient
 from parsifal.utils.elsevier.exceptions import *
@@ -461,14 +460,13 @@ def source_articles(request):
 def article_details(request):
     article_id = request.GET['article-id']
     article = Article.objects.get(pk=article_id)
-    upload_form = ArticleUploadForm()
     user = request.user
     mendeley_files = []
     if user.profile.mendeley_token:
         mendeley_files = user.profile.get_mendeley_session().files.list().items
-    context = RequestContext(request, { 'article': article, 'upload_form': upload_form, 'mendeley_files': mendeley_files })
+    context = RequestContext(request, { 'article': article, 'mendeley_files': mendeley_files })
     return render_to_response('conducting/partial_conducting_article_details.html', context)
-
+'''
 @author_required
 @login_required
 def articles_upload(request):
@@ -497,7 +495,7 @@ def articles_upload(request):
             return HttpResponseBadRequest()
     else:
         return HttpResponseBadRequest()
-
+'''
 def build_article_table_row(article):
     row = u'''<tr oid="{0}" article-status="{1}">
             <td><input type="checkbox" value="{0}""></td>
