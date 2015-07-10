@@ -82,7 +82,6 @@ INSTALLED_APPS = (
     'reviews.conducting',
     'reviews.reporting',
     'reviews.settings',
-    'reviews.publish',
     'parsifal.account_settings',
     'parsifal.activities',
     'parsifal.authentication',
