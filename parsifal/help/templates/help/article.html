@@ -5,11 +5,11 @@
 {% block title %}{{ article.category.name }} · {{ article.title }}{% endblock %}
 
 {% block meta %}
-  <meta name="Description" content="{{ article.raw_content|truncatechars:'255' }}">
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="{{ article.title }}" />
-  <meta property="og:description" content="{{ article.raw_content|truncatechars:'255' }}" />
-  <meta property="og:image" content="https://parsif.al{% static 'img/facebook_parsifal.png' %}" />
+<meta name="Description" content="{{ article.raw_content|truncatechars:'255' }}">
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{ article.title }}" />
+<meta property="og:description" content="{{ article.raw_content|truncatechars:'255' }}" />
+<meta property="og:image" content="https://parsif.al{% static 'img/facebook_parsifal.png' %}" />
 {% endblock %}
 
 {% block content %}
