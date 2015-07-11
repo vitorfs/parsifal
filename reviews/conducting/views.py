@@ -1,7 +1,7 @@
 # coding: utf-8
 
-import codecs 
 import json
+import os
 import bibtexparser
 from bibtexparser.bparser import BibTexParser
 from bibtexparser.customization import convert_to_unicode
@@ -376,43 +376,38 @@ def data_extraction(request, username, review_name):
             'finished_all_steps': finished_all_steps
         })
 
-def bibtex_to_article_object(filename, review, source):
+def bibtex_to_article_object(bib_database, review, source):
     articles = []
-
-    with codecs.open(filename, 'r', 'utf-8-sig') as bibtex_file:
-        parser = BibTexParser()
-        parser.customization = convert_to_unicode
-        bib_database = bibtexparser.load(bibtex_file, parser=parser)
-
-    for entry in bib_database.entries:
-        article = Article()
-        try:
-            if 'id'              in entry: article.bibtex_key      = entry['id'][:100]
-            if 'title'           in entry: article.title           = entry['title'][:1000]
-            if 'journal'         in entry: article.journal         = entry['journal'][:1000]
-            if 'year'            in entry: article.year            = entry['year'][:10]
-            if 'author'          in entry: article.author          = entry['author'][:1000]
-            if 'abstract'        in entry: article.abstract        = entry['abstract'][:4000]
-            if 'pages'           in entry: article.pages           = entry['pages'][:20]
-            if 'volume'          in entry: article.volume          = entry['volume'][:100]
-            if 'type'            in entry: article.document_type   = entry['type'][:100]
-            elif 'document_type' in entry: article.document_type   = entry['document_type'][:100]
-            if 'doi'             in entry: article.doi             = entry['doi'][:50]
-            if 'link'            in entry: article.url             = entry['link'][:500]
-            elif 'url'           in entry: article.url             = entry['url'][:500]
-            if 'affiliation'     in entry: article.affiliation     = entry['affiliation'][:500]
-            if 'author_keywords' in entry: article.author_keywords = entry['author_keywords'][:500]
-            if 'keywords'        in entry: article.keywords        = entry['keywords'][:500]
-            elif 'keyword'       in entry: article.keywords        = entry['keyword'][:500]
-            if 'publisher'       in entry: article.publisher       = entry['publisher'][:100]
-            if 'issn'            in entry: article.issn            = entry['issn'][:50]
-            if 'language'        in entry: article.language        = entry['language'][:50]
-            if 'note'            in entry: article.note            = entry['note'][:500]
-            article.review = review
-            article.source = source
-        except:
-            continue
-        articles.append(article)
+    if bib_database:
+        for entry in bib_database.entries:
+            article = Article()
+            try:
+                if 'id'              in entry: article.bibtex_key      = entry['id'][:100]
+                if 'title'           in entry: article.title           = entry['title'][:1000]
+                if 'journal'         in entry: article.journal         = entry['journal'][:1000]
+                if 'year'            in entry: article.year            = entry['year'][:10]
+                if 'author'          in entry: article.author          = entry['author'][:1000]
+                if 'abstract'        in entry: article.abstract        = entry['abstract'][:4000]
+                if 'pages'           in entry: article.pages           = entry['pages'][:20]
+                if 'volume'          in entry: article.volume          = entry['volume'][:100]
+                if 'type'            in entry: article.document_type   = entry['type'][:100]
+                elif 'document_type' in entry: article.document_type   = entry['document_type'][:100]
+                if 'doi'             in entry: article.doi             = entry['doi'][:50]
+                if 'link'            in entry: article.url             = entry['link'][:500]
+                elif 'url'           in entry: article.url             = entry['url'][:500]
+                if 'affiliation'     in entry: article.affiliation     = entry['affiliation'][:500]
+                if 'author_keywords' in entry: article.author_keywords = entry['author_keywords'][:500]
+                if 'keywords'        in entry: article.keywords        = entry['keywords'][:500]
+                elif 'keyword'       in entry: article.keywords        = entry['keyword'][:500]
+                if 'publisher'       in entry: article.publisher       = entry['publisher'][:100]
+                if 'issn'            in entry: article.issn            = entry['issn'][:50]
+                if 'language'        in entry: article.language        = entry['language'][:50]
+                if 'note'            in entry: article.note            = entry['note'][:500]
+                article.review = review
+                article.source = source
+            except:
+                continue
+            articles.append(article)
     return articles
 
 @author_required
@@ -425,17 +420,25 @@ def import_bibtex(request):
     review = Review.objects.get(pk=review_id)
     source = Source.objects.get(pk=source_id)
 
-    f = request.FILES['bibtex']
-    filename = django_settings.FILE_UPLOAD_TEMP_DIR + request.user.username + '.bib'
-    
-    with codecs.open(filename, 'w', 'utf-8-sig') as temp:
-        for chunk in f.chunks():
-            temp.write(unicode(chunk, 'utf-8-sig'))
-    articles = bibtex_to_article_object(filename, review, source)
-    if any(articles):
-        for article in articles:
-            article.save()
-        messages.success(request, u'{0} articles successfully imported to {1}!'.format(len(articles), source.name))
+    bibtex_file = request.FILES['bibtex']
+
+    ext = os.path.splitext(bibtex_file.name)[1]
+    valid_extensions = ['.bib', '.bibtex']
+
+    if ext in valid_extensions or bibtex_file.content_type == 'application/x-bibtex':
+        parser = BibTexParser()
+        parser.customization = convert_to_unicode
+        bib_database = bibtexparser.load(bibtex_file, parser=parser)
+        articles = bibtex_to_article_object(bib_database, review, source)
+        if any(articles):
+            for article in articles:
+                article.save()
+            messages.success(request, u'{0} articles successfully imported to {1}!'.format(len(articles), source.name))
+        else:
+            messages.warning(request, u'The bibtex file had no valid entry!')
+    else:
+        messages.error(request, u'Invalid file type. Only .bib or .bibtex files are accepted.')
+
     return redirect(r('import_studies', args=(review.author.username, review.name)))
 
 @author_required
