@@ -17,16 +17,16 @@ class Source(models.Model):
     is_default = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "Source"
-        verbose_name_plural = "Sources"
-        ordering = ("name",)
+        verbose_name = u'Source'
+        verbose_name_plural = u'Sources'
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
 
     def set_url(self, value):
-        if "http://" not in value and "https://" not in value and len(value) > 0:
-            self.url = "http://" + str(value)
+        if 'http://' not in value and 'https://' not in value and len(value) > 0:
+            self.url = u'http://{0}'.format(value)
         else:
             self.url = value
 
@@ -48,7 +48,7 @@ class Review(models.Model):
     objective = models.TextField(max_length=1000)
     sources = models.ManyToManyField(Source)
     status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
-    co_authors = models.ManyToManyField(User, related_name=u'co_authors')
+    co_authors = models.ManyToManyField(User, related_name='co_authors')
     quality_assessment_cutoff_score = models.FloatField(default=0.0)
     population = models.CharField(max_length=200, blank=True)
     intervention = models.CharField(max_length=200, blank=True)
@@ -57,8 +57,8 @@ class Review(models.Model):
     context = models.CharField(max_length=200, blank=True)
 
     class Meta:
-        verbose_name = 'Review'
-        verbose_name_plural = 'Reviews'
+        verbose_name = u'Review'
+        verbose_name_plural = u'Reviews'
         unique_together = (('name', 'author'),)
 
     def __unicode__(self):
@@ -172,8 +172,8 @@ class Question(models.Model):
     order = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = 'Question'
-        verbose_name_plural = 'Questions'
+        verbose_name = u'Question'
+        verbose_name_plural = u'Questions'
         ordering = ('order',)
 
     def __unicode__(self):
@@ -184,11 +184,11 @@ class Question(models.Model):
 
 
 class SelectionCriteria(models.Model):
-    INCLUSION = 'I'
-    EXCLUSION = 'E'
+    INCLUSION = u'I'
+    EXCLUSION = u'E'
     SELECTION_TYPES = (
-        (INCLUSION, 'Inclusion'),
-        (EXCLUSION, 'Exclusion'),
+        (INCLUSION, u'Inclusion'),
+        (EXCLUSION, u'Exclusion'),
         )
 
     review = models.ForeignKey(Review)
@@ -196,9 +196,9 @@ class SelectionCriteria(models.Model):
     description = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name = "Selection Criteria"
-        verbose_name_plural = "Selection Criterias"
-        ordering = ("description",)
+        verbose_name = u'Selection Criteria'
+        verbose_name_plural = u'Selection Criterias'
+        ordering = ('description',)
 
     def __unicode__(self):
         return self.description
@@ -267,15 +267,15 @@ class Study(models.Model):
 
 
 class Article(models.Model):
-    UNCLASSIFIED = 'U'
-    REJECTED = 'R'
-    ACCEPTED = 'A'
-    DUPLICATED = 'D'
+    UNCLASSIFIED = u'U'
+    REJECTED = u'R'
+    ACCEPTED = u'A'
+    DUPLICATED = u'D'
     ARTICLE_STATUS = (
-        (UNCLASSIFIED, 'Unclassified'),
-        (REJECTED, 'Rejected'),
-        (ACCEPTED, 'Accepted'),
-        (DUPLICATED, 'Duplicated'),
+        (UNCLASSIFIED, u'Unclassified'),
+        (REJECTED, u'Rejected'),
+        (ACCEPTED, u'Accepted'),
+        (DUPLICATED, u'Duplicated'),
         )
 
     review = models.ForeignKey(Review)
@@ -302,8 +302,8 @@ class Article(models.Model):
     note = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
-        verbose_name = "Article"
-        verbose_name_plural = "Articles"
+        verbose_name = 'Article'
+        verbose_name_plural = 'Articles'
 
     def __unicode__(self):
         return self.title
@@ -324,15 +324,15 @@ class Article(models.Model):
 
 
 class Keyword(models.Model):
-    POPULATION = 'P'
-    INTERVENTION = 'I'
-    COMPARISON = 'C'
-    OUTCOME = 'O'
+    POPULATION = u'P'
+    INTERVENTION = u'I'
+    COMPARISON = u'C'
+    OUTCOME = u'O'
     RELATED_TO = (
-        (POPULATION, 'Population'),
-        (INTERVENTION, 'Intervention'),
-        (COMPARISON, 'Comparison'),
-        (OUTCOME, 'Outcome'),
+        (POPULATION, u'Population'),
+        (INTERVENTION, u'Intervention'),
+        (COMPARISON, u'Comparison'),
+        (OUTCOME, u'Outcome'),
         )
 
     review = models.ForeignKey(Review)
@@ -341,9 +341,9 @@ class Keyword(models.Model):
     related_to = models.CharField(max_length=1, choices=RELATED_TO, blank=True)
 
     class Meta:
-        verbose_name = "Keyword"
-        verbose_name_plural = "Keywords"
-        ordering = ("description",)
+        verbose_name = u'Keyword'
+        verbose_name_plural = u'Keywords'
+        ordering = ('description',)
 
     def __unicode__(self):
         return self.description
@@ -440,9 +440,9 @@ class DataExtractionLookup(models.Model):
     value = models.CharField(max_length=1000)
 
     class Meta:
-        verbose_name = "Lookup Value"
-        verbose_name_plural = "Lookup Values"
-        ordering = ("value",)
+        verbose_name = 'Lookup Value'
+        verbose_name_plural = 'Lookup Values'
+        ordering = ('value',)
 
     def __unicode__(self):
         return self.value
