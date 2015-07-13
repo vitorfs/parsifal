@@ -159,8 +159,10 @@ def import_studies(request, username, review_name):
             'source': source, 
             'count': Article.objects.filter(source=source, review=review).count()
             })
-    context = RequestContext(request, { 'review': review, 'sources': sources })
-    return render_to_response('conducting/conducting_import_studies.html', context)
+    return render(request, 'conducting/conducting_import_studies.html', { 
+            'review': review, 
+            'sources': sources 
+        })
 
 @author_required
 @login_required
@@ -177,12 +179,16 @@ def study_selection(request, username, review_name):
     steps_messages = []
 
     if not add_sources: steps_messages.append(u'Use the <a href="{0}#sources-section">planning tab</a> to add sources to your review.'.format(r('protocol', args=(username, review_name))))
-    if not import_articles: steps_messages.append('Import the studies using the <a href="/'+ username +'/'+ review_name +'/conducting/import/">import studies tab</a>.')
+    if not import_articles: steps_messages.append(u'Import the studies using the <a href="{0}">import studies tab</a>.'.format(r('import_studies', args=(username, review_name))))
 
     finished_all_steps = len(steps_messages) == 0
 
-    context = RequestContext(request, {'review': review, 'active_tab': active_tab, 'steps_messages': steps_messages, 'finished_all_steps': finished_all_steps})
-    return render_to_response('conducting/conducting_study_selection.html', context)
+    return render(request, 'conducting/conducting_study_selection.html', {
+            'review': review, 
+            'active_tab': active_tab, 
+            'steps_messages': steps_messages, 
+            'finished_all_steps': finished_all_steps,
+        })
 
 def get_workflow_steps(self, review):
     pass
