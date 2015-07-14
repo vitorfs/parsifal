@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404, render
 from django.conf import settings as django_settings
 from django.contrib.auth import update_session_auth_hash
 
@@ -67,7 +67,7 @@ def upload_picture(request):
     filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '_tmp.jpg'
     with open(filename, 'wb+') as destination:
         for chunk in f.chunks():
-            destination.write(chunk)    
+            destination.write(chunk)
     im = Image.open(filename)
     width, height = im.size
     if width > 560:
@@ -99,14 +99,14 @@ def save_uploaded_picture(request):
 
 def get_dropbox_auth_flow(session):
     return DropboxOAuth2Flow(
-            django_settings.DROPBOX_APP_KEY, 
-            django_settings.DROPBOX_SECRET, 
-            django_settings.DROPBOX_REDIRECT_URI, 
-            session, 
+            django_settings.DROPBOX_APP_KEY,
+            django_settings.DROPBOX_SECRET,
+            django_settings.DROPBOX_REDIRECT_URI,
+            session,
             'dropbox-auth-csrf-token')
 
 @login_required
-def connections(request):    
+def connections(request):
     return render(request, 'settings/connections.html')
 
 @login_required

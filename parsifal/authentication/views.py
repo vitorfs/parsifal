@@ -2,7 +2,7 @@
 
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.shortcuts import render_to_response, get_object_or_404, render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -18,8 +18,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'There was some problems while creating your account. Please review some fields before submiting again.')
-            context = RequestContext(request, {'form': form})
-            return render_to_response('auth/signup.html', context)
+            return render(request, 'auth/signup.html', { 'form': form })
         else:
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
@@ -30,8 +29,7 @@ def signup(request):
             messages.add_message(request, messages.SUCCESS, 'Your account were successfully created.')
             return HttpResponseRedirect('/' + username + '/')
     else:
-        context = RequestContext(request,  {'form': SignUpForm() })
-        return render_to_response('auth/signup.html', context)
+        return render(request, 'auth/signup.html', { 'form': SignUpForm() })
 
 def signin(request):
     if request.user.is_authenticated():
@@ -50,15 +48,12 @@ def signin(request):
                         return HttpResponseRedirect('/')
                 else:
                     messages.add_message(request, messages.ERROR, 'Your account is desactivated.')
-                    context = RequestContext(request)
-                    return render_to_response('auth/signin.html', context)
+                    return render(request, 'auth/signin.html')
             else:
                 messages.add_message(request, messages.ERROR, 'Username or password invalid.')
-                context = RequestContext(request)
-                return render_to_response('auth/signin.html', context)
+                return render(request, 'auth/signin.html')
         else:
-            context = RequestContext(request)
-            return render_to_response('auth/signin.html', context)
+            return render(request, 'auth/signin.html')
 
 def signout(request):
     logout(request)

@@ -1,5 +1,5 @@
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -59,18 +59,30 @@ def following(request, username):
     page_title = 'following'
     following = page_user.profile.get_following()
     user_following = None
+
     if request.user.is_authenticated():
         user_following = request.user.profile.get_following()
-    context = RequestContext(request, {'page_user': page_user, 'page_title': page_title, 'follow_list': following, 'user_following': user_following })
-    return render_to_response('activities/follow.html', context)
+
+    return render(request, 'activities/follow.html', {
+            'page_user': page_user,
+            'page_title': page_title,
+            'follow_list': following,
+            'user_following': user_following
+        })
 
 def followers(request, username):
     user = get_object_or_404(User, username=username)
     page_title = 'followers'
     followers = user.profile.get_followers()
     user_following = None
+
     if request.user.is_authenticated():
         user_following = request.user.profile.get_following()
-    context = RequestContext(request, {'page_user': user, 'page_title': page_title, 'follow_list': followers, 'user_following': user_following })
-    return render_to_response('activities/follow.html', context)
-    
+
+    return render(request, 'activities/follow.html', {
+            'page_user': user,
+            'page_title': page_title,
+            'follow_list': followers,
+            'user_following': user_following
+         })
+
