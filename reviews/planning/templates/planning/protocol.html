@@ -360,17 +360,20 @@
             <tbody>
               {% for keyword in review.get_keywords %}
                 <tr keyword-id="{{ keyword.id }}">
-                  <td class="keyword-row">{{ keyword.description }}</td>
-                  <td>
-                    <ul>
+                  <td class="keyword-row" style="vertical-align: middle;">{{ keyword.description }}</td>
+                  <td style="vertical-align: middle;">
+                    <ul style="margin-bottom: 0;">
                       {% for synonym in keyword.get_synonyms %}
                         <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
                       {% endfor %}
                     </ul>
-                    <input type="text" class="add-synonym form-control" maxlength="200">
+                    <input type="text" class="add-synonym form-control input-sm" maxlength="200">
                   </td>
-                  <td>
-                    <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button>
+                  <td style="vertical-align: middle;">
+                    <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">
+                      <span class="glyphicon glyphicon-trash"></span>
+                      remove
+                    </button>
                   </td>
                   <td class="no-border"></td>
                 </tr>
