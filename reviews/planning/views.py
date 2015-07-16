@@ -12,6 +12,7 @@ from django.template import RequestContext
 from django.utils.html import escape
 
 from reviews.models import *
+from reviews.planning.forms import KeywordForm
 from reviews.decorators import main_author_required, author_required
 
 
@@ -41,7 +42,7 @@ def data_extraction_form(request, username, review_name):
 
 
 ###############################################################################
-# OBJECTIVE FUNCTIONS 
+# OBJECTIVE FUNCTIONS
 ###############################################################################
 
 
@@ -63,7 +64,7 @@ def save_objective(request):
 
 
 ###############################################################################
-# QUESTION FUNCTIONS 
+# QUESTION FUNCTIONS
 ###############################################################################
 
 
@@ -149,7 +150,7 @@ def remove_question(request):
 
 
 ###############################################################################
-# PICOC FUNCTIONS 
+# PICOC FUNCTIONS
 ###############################################################################
 
 
@@ -171,7 +172,7 @@ def save_picoc(request):
 
 
 ###############################################################################
-# KEYWORDS/SYNONYM FUNCTIONS 
+# KEYWORDS/SYNONYM FUNCTIONS
 ###############################################################################
 
 
@@ -314,7 +315,7 @@ def save_synonym(request):
 
 
 ###############################################################################
-# SEARCH STRING FUNCTIONS 
+# SEARCH STRING FUNCTIONS
 ###############################################################################
 
 def extract_keyword_to_search_string(term_list, query_list, keywords):
@@ -391,7 +392,7 @@ def save_generic_search_string(request):
 
 
 ###############################################################################
-# SOURCE FUNCTIONS 
+# SOURCE FUNCTIONS
 ###############################################################################
 
 def html_source(source):
@@ -520,7 +521,7 @@ def add_suggested_sources(request):
 
 
 ###############################################################################
-# INCLUSION/EXCLUSION CRITERIA FUNCTIONS 
+# INCLUSION/EXCLUSION CRITERIA FUNCTIONS
 ###############################################################################
 
 
@@ -556,7 +557,7 @@ def remove_criteria(request):
 
 
 ###############################################################################
-# QUALITY ASSESSMENT FUNCTIONS 
+# QUALITY ASSESSMENT FUNCTIONS
 ###############################################################################
 
 
@@ -600,7 +601,7 @@ def save_quality_assessment_question(request):
 
         quality_question.description = description
         quality_question.save()
-        
+
         context = RequestContext(request, {'quality_question': quality_question})
         return render_to_response('planning/partial_quality_assessment_question.html', context)
     except:
@@ -648,7 +649,7 @@ def add_quality_assessment_answer(request):
 
 
 @author_required
-@login_required        
+@login_required
 def edit_quality_assessment_answer(request):
     try:
         quality_answer_id = request.GET['quality-answer-id']
@@ -660,7 +661,7 @@ def edit_quality_assessment_answer(request):
 
 
 @author_required
-@login_required        
+@login_required
 def save_quality_assessment_answer(request):
     try:
         description = request.POST['description']
@@ -684,7 +685,7 @@ def save_quality_assessment_answer(request):
         quality_answer.description = description
         quality_answer.weight = weight
         quality_answer.save()
-        
+
         context = RequestContext(request, {'quality_answer': quality_answer})
         return render_to_response('planning/partial_quality_assessment_answer.html', context)
     except:
@@ -692,7 +693,7 @@ def save_quality_assessment_answer(request):
 
 
 @author_required
-@login_required        
+@login_required
 def remove_quality_assessment_answer(request):
     try:
         quality_answer_id = request.GET['quality-answer-id']
@@ -756,7 +757,7 @@ def save_cutoff_score(request):
 
 
 ###############################################################################
-# DATA EXTRACTION FUNCTIONS 
+# DATA EXTRACTION FUNCTIONS
 ###############################################################################
 
 

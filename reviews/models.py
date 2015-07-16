@@ -76,7 +76,7 @@ class Review(models.Model):
         return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='I')
 
     def get_exclusion_criterias(self):
-        return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='E')    
+        return SelectionCriteria.objects.filter(review__id=self.id, criteria_type='E')
 
     def get_keywords(self):
         return Keyword.objects.filter(review__id=self.id, synonym_of=None)
@@ -320,7 +320,7 @@ class Article(models.Model):
 
     def get_status_html(self):
         label = { Article.UNCLASSIFIED: 'default', Article.REJECTED: 'danger', Article.ACCEPTED: 'success', Article.DUPLICATED: 'warning' }
-        return u'<span class="label label-{0}">{1}</span>'.format(label[self.status], self.get_status_display()) 
+        return u'<span class="label label-{0}">{1}</span>'.format(label[self.status], self.get_status_display())
 
 
 class Keyword(models.Model):
@@ -358,8 +358,8 @@ class Keyword(models.Model):
 
 class QualityAnswer(models.Model):
     SUGGESTED_ANSWERS = (
-        ('Yes', 1.0), 
-        ('Partially', 0.5), 
+        ('Yes', 1.0),
+        ('Partially', 0.5),
         ('No', 0.0)
         )
 
