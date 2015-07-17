@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.utils.html import escape
+from django.views.decorators.http import require_POST
 
 from reviews.models import *
 from reviews.planning.forms import KeywordForm
@@ -312,6 +313,15 @@ def save_synonym(request):
             return HttpResponse(escape(synonym.description))
     except:
         return HttpResponseBadRequest()
+
+def new_keyword(request):
+    if request.method == 'POST':
+        form = KeywordForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = KeywordForm()
+    return HttpResponse()
 
 
 ###############################################################################
