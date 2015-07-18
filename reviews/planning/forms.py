@@ -10,7 +10,8 @@ class KeywordForm(forms.ModelForm):
             required=True
         )
     related_to = forms.ChoiceField(
-            widget=forms.Select(attrs={ 'class': 'form-control' }, choices=Keyword.RELATED_TO),
+            widget=forms.Select(attrs={ 'class': 'form-control' }),
+            choices=Keyword.RELATED_TO,
             required=False
         )
 

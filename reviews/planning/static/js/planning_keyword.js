@@ -184,9 +184,25 @@ $(function () {
   };
 
   $("#add-keyword").click(function () {
+    $.ajax({
+      url: '/reviews/planning/new_keyword/',
+      data: {
+        'review-id': $("#review-id").val()
+      },
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $("#modal-keyword").modal("show");
+      },
+      success: function (data) {
+        $("#modal-keyword .modal-dialog").html(data);
+      }
+    });
+    /*
     $("#tbl-keywords tbody").prepend("<tr><td><input type='text' id='input-add-keyword' maxlength='200'></td><td></td><td></td><td class='no-border'>Press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel.</td></tr>");
     $("#input-add-keyword").addKeywordSettings();
     $("#input-add-keyword").focus();
+    */
   });
 
   $("#tbl-keywords td.keyword-row").click(editKeyword);

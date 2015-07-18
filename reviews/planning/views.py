@@ -42,10 +42,9 @@ def data_extraction_form(request, username, review_name):
     return render(request, 'planning/data_extraction_form.html', { 'review': review, 'empty_field': empty_field })
 
 
-###############################################################################
-# OBJECTIVE FUNCTIONS
-###############################################################################
-
+'''
+    OBJECTIVE FUNCTIONS
+'''
 
 @author_required
 @login_required
@@ -64,10 +63,9 @@ def save_objective(request):
         return HttpResponseBadRequest()
 
 
-###############################################################################
-# QUESTION FUNCTIONS
-###############################################################################
-
+'''
+    QUESTION FUNCTIONS
+'''
 
 @author_required
 @login_required
@@ -150,10 +148,9 @@ def remove_question(request):
         return HttpResponseBadRequest()
 
 
-###############################################################################
-# PICOC FUNCTIONS
-###############################################################################
-
+'''
+    PICOC FUNCTIONS
+'''
 
 @author_required
 @login_required
@@ -172,10 +169,9 @@ def save_picoc(request):
         return HttpResponseBadRequest()
 
 
-###############################################################################
-# KEYWORDS/SYNONYM FUNCTIONS
-###############################################################################
-
+'''
+    KEYWORDS/SYNONYM FUNCTIONS
+'''
 
 @author_required
 @login_required
@@ -314,19 +310,26 @@ def save_synonym(request):
     except:
         return HttpResponseBadRequest()
 
+@author_required
+@login_required
 def new_keyword(request):
+    review_id = request.GET.get('review-id', request.POST.get('review-id'))
+    review = Review.objects.get(pk=review_id)
     if request.method == 'POST':
         form = KeywordForm(request.POST)
         if form.is_valid():
             form.save()
     else:
         form = KeywordForm()
-    return HttpResponse()
+    return render(request, 'planning/partial_keyword_form.html', { 
+            'review': review,
+            'form': form
+        })
 
 
-###############################################################################
-# SEARCH STRING FUNCTIONS
-###############################################################################
+'''
+    SEARCH STRING FUNCTIONS
+'''
 
 def extract_keyword_to_search_string(term_list, query_list, keywords):
     for keyword in term_list:
@@ -401,9 +404,9 @@ def save_generic_search_string(request):
         return HttpResponseBadRequest()
 
 
-###############################################################################
-# SOURCE FUNCTIONS
-###############################################################################
+'''
+    SOURCE FUNCTIONS
+'''
 
 def html_source(source):
     html = '<tr source-id="' + str(source.id) + '"><td>' + escape(source.name) + '</td>'
@@ -530,10 +533,9 @@ def add_suggested_sources(request):
         return HttpResponseBadRequest()
 
 
-###############################################################################
-# INCLUSION/EXCLUSION CRITERIA FUNCTIONS
-###############################################################################
-
+'''
+    INCLUSION/EXCLUSION CRITERIA FUNCTIONS
+'''
 
 @author_required
 @login_required
@@ -566,10 +568,9 @@ def remove_criteria(request):
         return HttpResponseBadRequest()
 
 
-###############################################################################
-# QUALITY ASSESSMENT FUNCTIONS
-###############################################################################
-
+'''
+    QUALITY ASSESSMENT FUNCTIONS
+'''
 
 @author_required
 @login_required
@@ -766,10 +767,9 @@ def save_cutoff_score(request):
         return HttpResponseBadRequest('Invalid value.')
 
 
-###############################################################################
-# DATA EXTRACTION FUNCTIONS
-###############################################################################
-
+'''
+    DATA EXTRACTION FUNCTIONS
+'''
 
 @author_required
 @login_required
