@@ -11,9 +11,10 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 from django.template import RequestContext
 from django.utils.html import escape
 from django.views.decorators.http import require_POST
+from django.forms.formsets import formset_factory
 
 from reviews.models import *
-from reviews.planning.forms import KeywordForm
+from reviews.planning.forms import KeywordForm, SynonymForm
 from reviews.decorators import main_author_required, author_required
 
 
@@ -315,15 +316,19 @@ def save_synonym(request):
 def new_keyword(request):
     review_id = request.GET.get('review-id', request.POST.get('review-id'))
     review = Review.objects.get(pk=review_id)
+    SynonymFormSet = formset_factory(SynonymForm)
     if request.method == 'POST':
         form = KeywordForm(request.POST)
+        formset = SynonymFormSet(request.POST)
         if form.is_valid():
             form.save()
     else:
         form = KeywordForm()
+        formset = SynonymFormSet()
     return render(request, 'planning/partial_keyword_form.html', { 
             'review': review,
-            'form': form
+            'form': form,
+            'formset': formset
         })
 
 

@@ -6,6 +6,34 @@
     </div>
     <div class="modal-body">
       {% include 'form_vertical.html' with form=form %}
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Synonyms</th>
+            <th style="width: 45px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for form in formset %}
+            <tr>
+              <td>{{ form.description }}</td>
+              <td style="vertical-align: middle; text-align: center;">
+                <a href="javascript:void(0);"><span class="glyphicon glyphicon-remove-sign"></span></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              <button type="button" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add synonym
+              </button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
