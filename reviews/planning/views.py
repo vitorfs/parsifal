@@ -2,6 +2,7 @@
 
 import time
 
+from django.db import transaction
 from django.core.urlresolvers import reverse as r
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.contrib import messages
@@ -311,6 +312,7 @@ def save_synonym(request):
     except:
         return HttpResponseBadRequest()
 
+@transaction.atomic
 @author_required
 @login_required
 def new_keyword(request):
@@ -320,8 +322,13 @@ def new_keyword(request):
     if request.method == 'POST':
         form = KeywordForm(request.POST)
         formset = SynonymFormSet(request.POST)
-        if form.is_valid():
-            form.save()
+        if form.is_valid() and formset.is_valid():
+            form.instance.review = review
+            keyword = form.save()
+            for form in formset:
+                form.instance.review = review
+                form.instance.synonym_of = keyword
+                form.save()
     else:
         form = KeywordForm()
         formset = SynonymFormSet()
@@ -331,7 +338,7 @@ def new_keyword(request):
             'formset': formset
         })
 
-
+    
 '''
     SEARCH STRING FUNCTIONS
 '''

@@ -1,4 +1,6 @@
-<form>
+<form method="post" action="{% url 'reviews:planning:new_keyword' %}">
+  {% csrf_token %}
+  <input type="hidden" name="review-id" value="{{ review.pk }}">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -6,6 +8,7 @@
     </div>
     <div class="modal-body">
       {% include 'form_vertical.html' with form=form %}
+      {{ formset.management_form }}
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
