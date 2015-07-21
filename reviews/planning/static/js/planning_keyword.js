@@ -195,7 +195,7 @@ $(function () {
         $("#modal-keyword").modal("show");
       },
       success: function (data) {
-        $("#modal-keyword .modal-dialog").html(data);
+        $("#modal-keyword .modal-dialog").html(data.html);
       }
     });
     /*
