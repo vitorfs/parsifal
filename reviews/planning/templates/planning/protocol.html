@@ -351,32 +351,14 @@
           <table class="table" id="tbl-keywords">
             <thead>
               <tr>
-                <th style="width:200px">Keyword</th>
+                <th>Keyword</th>
                 <th>Synonyms</th>
                 <th></th>
-                <th class="no-border"></th>
               </tr>
             </thead>
             <tbody>
-              {% for keyword in review.get_keywords %}
-                <tr keyword-id="{{ keyword.id }}">
-                  <td class="keyword-row" style="vertical-align: middle;">{{ keyword.description }}</td>
-                  <td style="vertical-align: middle;">
-                    <ul style="margin-bottom: 0;">
-                      {% for synonym in keyword.get_synonyms %}
-                        <li synonym-id="{{ synonym.id }}">{{ synonym.description }}</li>
-                      {% endfor %}
-                    </ul>
-                    <input type="text" class="add-synonym form-control input-sm" maxlength="200">
-                  </td>
-                  <td style="vertical-align: middle;">
-                    <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">
-                      <span class="glyphicon glyphicon-trash"></span>
-                      remove
-                    </button>
-                  </td>
-                  <td class="no-border"></td>
-                </tr>
+              {% for keyword in review.keyword_set.all %}
+                {% include 'planning/partial_keyword.html' with keyword=keyword %}
               {% endfor %}
             </tbody>
           </table>

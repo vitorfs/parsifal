@@ -1,0 +1,22 @@
+<tr keyword-id="{{ keyword.pk }}">
+  <td style="vertical-align: middle;">
+    {{ keyword.description }}
+  </td>
+  <td style="vertical-align: middle;">
+    <ul class="list-unstyled" style="margin-bottom: 0;">
+      {% for synonym in keyword.synonyms.all %}
+        <li>{{ synonym.description }}</li>
+      {% endfor %}
+    </ul>
+  </td>
+  <td style="width: 200px; text-align: right; vertical-align: middle;">
+    <button type="button" class="btn btn-sm btn-warning">
+      <span class="glyphicon glyphicon-pencil"></span>
+      edit
+    </button>
+    <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">
+      <span class="glyphicon glyphicon-trash"></span>
+      remove
+    </button>
+  </td>
+</tr>

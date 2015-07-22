@@ -198,11 +198,6 @@ $(function () {
         $("#modal-keyword .modal-dialog").html(data.html);
       }
     });
-    /*
-    $("#tbl-keywords tbody").prepend("<tr><td><input type='text' id='input-add-keyword' maxlength='200'></td><td></td><td></td><td class='no-border'>Press <strong>Enter</strong> to confirm or <strong>Esc</strong> to cancel.</td></tr>");
-    $("#input-add-keyword").addKeywordSettings();
-    $("#input-add-keyword").focus();
-    */
   });
 
   $("#tbl-keywords td.keyword-row").click(editKeyword);

@@ -338,7 +338,7 @@ class Keyword(models.Model):
 
     review = models.ForeignKey(Review)
     description = models.CharField(max_length=200)
-    synonym_of = models.ForeignKey('self', null=True)
+    synonym_of = models.ForeignKey('self', null=True, related_name='synonyms')
     related_to = models.CharField(max_length=1, choices=RELATED_TO, blank=True)
 
     class Meta:
