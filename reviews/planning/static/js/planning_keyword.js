@@ -200,6 +200,12 @@ $(function () {
     });
   });
 
+  $("#keywords-section").on("click", ".js-remove-synonym", function () {
+    var container = $(this).closest("form");
+    $(this).closest("tr").remove();
+    $(container).updateFormsetIndex();
+  });
+
   $("#tbl-keywords td.keyword-row").click(editKeyword);
 
   $("table#tbl-keywords tbody").on("click", ".btn-remove-keyword", removeKeyword);

@@ -21,7 +21,7 @@
             <tr>
               <td>{{ form.description }}</td>
               <td style="vertical-align: middle; text-align: center;">
-                <a href="javascript:void(0);"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
               </td>
             </tr>
           {% endfor %}
@@ -53,7 +53,7 @@
       <input type="text" name="form-{{ i }}-description" maxlength="200" id="id_form-{{ i }}-description" class="form-control input-sm">
     </td>
     <td style="vertical-align: middle; text-align: center;">
-      <a href="javascript:void(0);"><span class="glyphicon glyphicon-remove-sign"></span></a>
+      <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
     </td>
   </tr>
 </script>
