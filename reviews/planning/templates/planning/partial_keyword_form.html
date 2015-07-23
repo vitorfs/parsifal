@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'reviews:planning:new_keyword' %}">
+<form id="new-keyword-form" method="post" action="{% url 'reviews:planning:new_keyword' %}">
   {% csrf_token %}
   <input type="hidden" name="review-id" value="{{ review.pk }}">
   <div class="modal-content">
@@ -9,7 +9,7 @@
     <div class="modal-body">
       {% include 'form_vertical.html' with form=form %}
       {{ formset.management_form }}
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped" style="margin-bottom: 0;">
         <thead>
           <tr>
             <th>Synonyms</th>
@@ -47,3 +47,13 @@
     </div>
   </div>
 </form>
+<script id="synonym-tr" type="x-tmpl-mustache">
+  <tr>
+    <td>
+      <input type="text" name="form-{{ i }}-description" maxlength="200" id="id_form-{{ i }}-description" class="form-control input-sm">
+    </td>
+    <td style="vertical-align: middle; text-align: center;">
+      <a href="javascript:void(0);"><span class="glyphicon glyphicon-remove-sign"></span></a>
+    </td>
+  </tr>
+</script>

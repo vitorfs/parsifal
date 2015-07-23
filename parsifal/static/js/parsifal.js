@@ -119,6 +119,23 @@
           $(this).html("<div class='block-spinner' style='margin-top: " + center + "px;'></div>");
         }
       };
+
+      $.fn.updateFormsetIndex = function () {
+        var tableRows = $("table tbody tr", this);
+        var totalForms = $(tableRows).length;
+        $("[id$='TOTAL_FORMS']", this).val(totalForms);
+
+        $(tableRows).each(function () {
+          var rowIndex = $(this).index();
+          $("td input", this).each(function () {
+            var name = $(this).attr("name");
+            $(this).attr("name", name.replace(/-(.*?)-/, "-" + rowIndex + "-"));
+            var id = $(this).attr("id");
+            $(this).attr("id", id.replace(/-(.*?)-/, "-" + rowIndex + "-"));
+          });
+        });
+
+      };
       
     },
 
