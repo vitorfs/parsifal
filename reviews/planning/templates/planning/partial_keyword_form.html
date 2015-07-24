@@ -9,7 +9,7 @@
     <div class="modal-body">
       {% include 'form_vertical.html' with form=form %}
       {{ formset.management_form }}
-      <table class="table table-bordered table-striped" style="margin-bottom: 0;">
+      <table id="table-synonyms" class="table table-bordered table-striped" style="margin-bottom: 0;">
         <thead>
           <tr>
             <th>Synonyms</th>
@@ -19,7 +19,12 @@
         <tbody>
           {% for form in formset %}
             <tr>
-              <td>{{ form.description }}</td>
+              <td{% if form.description.errors %} class="bg-danger has-error"{% endif %}>
+                {{ form.description }}
+                {% for error in form.description.errors %}
+                  <p class="help-block">{{ error }}</p>
+                {% endfor %}
+              </td>
               <td style="vertical-align: middle; text-align: center;">
                 <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
               </td>
@@ -29,7 +34,7 @@
         <tfoot>
           <tr>
             <td colspan="2">
-              <button type="button" class="btn btn-primary btn-sm">
+              <button type="button" class="btn btn-primary btn-sm js-add-synonym">
                 <span class="glyphicon glyphicon-plus"></span>
                 Add synonym
               </button>
@@ -48,12 +53,14 @@
   </div>
 </form>
 <script id="synonym-tr" type="x-tmpl-mustache">
-  <tr>
-    <td>
-      <input type="text" name="form-{{ i }}-description" maxlength="200" id="id_form-{{ i }}-description" class="form-control input-sm">
-    </td>
-    <td style="vertical-align: middle; text-align: center;">
-      <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
-    </td>
-  </tr>
+  {% verbatim %}
+    <tr>
+      <td>
+        <input type="text" name="form-{{ i }}-description" maxlength="200" id="id_form-{{ i }}-description" class="form-control input-sm">
+      </td>
+      <td style="vertical-align: middle; text-align: center;">
+        <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
+      </td>
+    </tr>
+  {% endverbatim %}
 </script>

@@ -348,7 +348,7 @@
           <div class="panel-body">
             To edit or remove a certain keyword or synonym you may click on it's description to enable the field.
           </div>
-          <table class="table" id="tbl-keywords">
+          <table class="table" id="table-keywords">
             <thead>
               <tr>
                 <th>Keyword</th>
@@ -357,7 +357,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for keyword in review.keyword_set.all %}
+              {% for keyword in review.get_keywords %}
                 {% include 'planning/partial_keyword.html' with keyword=keyword %}
               {% endfor %}
             </tbody>

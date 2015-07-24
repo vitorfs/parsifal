@@ -332,7 +332,11 @@ def new_keyword(request):
                 form.instance.review = review
                 form.instance.synonym_of = keyword
                 form.save()
-                response['status'] = 'ok'
+            context = RequestContext(request, { 'keyword': keyword })
+            response['status'] = 'ok'
+            response['html'] = render_to_string('planning/partial_keyword.html', context)
+            dump = json.dumps(response)
+            return HttpResponse(dump, content_type='application/json')
         else:
             response['status'] = 'validation_error'
     else:

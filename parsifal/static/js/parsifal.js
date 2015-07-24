@@ -9,6 +9,7 @@
     /* General application initialization */
 
     init: function () {
+
       $("[data-toggle='tooltip']").tooltip();
 
       $("table.table-check-all thead tr th input[type='checkbox']").click(function () {
@@ -191,6 +192,7 @@ function displayFormMessage(ref, type, message) {
 
 var FORWARD = 1;
 var BACKWARD = -1;
+var TAB_KEY = 9;
 var UP_ARROW_KEY = 38;
 var DOWN_ARROW_KEY = 40;
 var ENTER_KEY = 13;

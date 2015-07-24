@@ -27,9 +27,8 @@ class SynonymForm(forms.ModelForm):
             max_length=200,
             required=True
         )
-    synonym_of = forms.CharField(widget=forms.HiddenInput())
 
     class Meta:
         model = Keyword
-        fields = ['description', 'synonym_of',]
+        fields = ['description',]
 
