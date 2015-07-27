@@ -1,4 +1,4 @@
-<tr data-keyword-id="{{ keyword.pk }}">
+<tr data-keyword-id="{{ keyword.pk }}" data-keyword-description="{{ keyword.description }}">
   <td style="vertical-align: middle;">
     {{ keyword.description }}
   </td>
@@ -14,7 +14,7 @@
       <span class="glyphicon glyphicon-pencil"></span>
       edit
     </button>
-    <button type="button" class="btn btn-sm btn-danger btn-remove-keyword">
+    <button type="button" class="btn btn-sm btn-danger js-start-keyword-deletion">
       <span class="glyphicon glyphicon-trash"></span>
       remove
     </button>

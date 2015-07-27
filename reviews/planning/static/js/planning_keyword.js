@@ -14,16 +14,30 @@ $(function () {
     });
   });
 
-  $("#table-keywords tbody").on("click", ".btn-remove-keyword", function removeKeyword() {
-    var row = $(this).closest("tr");
-    keyword_id = row.attr("data-keyword-id");
+  $("#table-keywords tbody").on("click", ".js-start-keyword-deletion", function () {
+    var keyword_id = $(this).closest("tr").attr("data-keyword-id");
+    var keyword_description = $(this).closest("tr").attr("data-keyword-description");
+
+    $("#confirm-keyword-deletion").attr("data-keyword-id", keyword_id);
+    $("#delete-keyword-name").text(keyword_description);
+
+    $("#modal-confirm-keyword-deletion").modal("show");
+  });
+
+  $("#confirm-keyword-deletion").click(function () {
+    var keyword_id = $(this).attr("data-keyword-id");
+    var row = $("#table-keywords tbody tr[data-keyword-id='" + keyword_id + "']");
     $.ajax({
       url: '/reviews/planning/remove_keyword/',
-      data: {'review-id': $('#review-id').val(), 'keyword-id': keyword_id },
+      data: {
+        'review-id': $('#review-id').val(), 
+        'keyword-id': keyword_id 
+      },
       type: 'get',
       cache: false,
       success: function (data) {
-        row.remove();
+        $(row).remove();
+        $("#modal-confirm-keyword-deletion").modal("hide");
       }
     });
   });
