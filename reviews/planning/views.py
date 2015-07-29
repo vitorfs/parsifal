@@ -177,21 +177,6 @@ def save_picoc(request):
     KEYWORDS/SYNONYM FUNCTIONS
 '''
 
-@author_required
-@login_required
-def add_synonym(request):
-    try:
-        review_id = request.GET['review-id']
-        keyword_id = request.GET['keyword-id']
-        description = request.GET['synonym']
-        review = Review.objects.get(pk=review_id)
-        keyword = Keyword.objects.get(pk=keyword_id)
-        synonym = Keyword(review=review, synonym_of=keyword, description=description)
-        synonym.save()
-        return HttpResponse('<li synonym-id="' + str(synonym.id) + '">' + escape(synonym.description) + '</li>')
-    except:
-        return HttpResponseBadRequest()
-
 def extract_keywords(review, pico):
     if pico == Keyword.POPULATION: keywords = review.population
     elif pico == Keyword.INTERVENTION: keywords = review.intervention
@@ -251,66 +236,6 @@ def remove_keyword(request):
             synonym.delete()
         keyword.delete()
         return HttpResponse()
-    except:
-        return HttpResponseBadRequest()
-
-
-@author_required
-@login_required
-def add_new_keyword(request):
-    try:
-        review_id = request.GET['review-id']
-        description = request.GET['description']
-        review = Review.objects.get(pk=review_id)
-        keyword = Keyword(review=review, description=description)
-        keyword.save()
-        str_return = '''
-        <tr keyword-id="''' + str(keyword.id) + '''">
-          <td class="keyword-row">''' + escape(keyword.description) + '''</td>
-          <td>
-            <ul></ul>
-            <input type="text" class="add-synonym" maxlength="200">
-          </td>
-          <td><button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button></td>
-          <td class="no-border"></td>
-        </tr>'''
-        return HttpResponse(str_return)
-    except:
-        return HttpResponseBadRequest()
-
-
-@author_required
-@login_required
-def save_keyword(request):
-    try:
-        review_id = request.GET['review-id']
-        keyword_id = request.GET['keyword-id']
-        description = request.GET['description']
-        review = Review.objects.get(pk=review_id)
-        keyword = Keyword.objects.get(pk=keyword_id)
-        keyword.description = description
-        keyword.save()
-        return HttpResponse(escape(keyword.description))
-    except:
-        return HttpResponseBadRequest()
-
-
-@author_required
-@login_required
-def save_synonym(request):
-    try:
-        review_id = request.GET['review-id']
-        synonym_id = request.GET['synonym-id']
-        description = request.GET['description']
-        review = Review.objects.get(pk=review_id)
-        synonym = Keyword.objects.get(pk=synonym_id)
-        if (len(description) == 0):
-            synonym.delete()
-            return HttpResponse()
-        else:
-            synonym.description = description
-            synonym.save()
-            return HttpResponse(escape(synonym.description))
     except:
         return HttpResponseBadRequest()
 
