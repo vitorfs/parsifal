@@ -63,20 +63,30 @@ def password(request):
 
 @login_required
 def upload_picture(request):
-    f = request.FILES['picture']
-    filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '_tmp.jpg'
-    with open(filename, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-    im = Image.open(filename)
-    width, height = im.size
-    if width > 560:
-        new_width = 560
-        new_height = (height * 560) / width
-        new_size = new_width, new_height
-        im.thumbnail(new_size, Image.ANTIALIAS)
-        im.save(filename)
-    return redirect('/settings/picture/?upload_picture=uploaded')
+    try:
+        f = request.FILES['picture']
+        ext = os.path.splitext(f.name)[1].lower()
+        valid_extensions = ['.gif', '.png', '.jpg', '.jpeg', '.bmp']
+
+        if ext in valid_extensions:
+            filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '_tmp.jpg'
+            with open(filename, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+            im = Image.open(filename)
+            width, height = im.size
+            if width > 560:
+                new_width = 560
+                new_height = (height * 560) / width
+                new_size = new_width, new_height
+                im.thumbnail(new_size, Image.ANTIALIAS)
+                im.save(filename)
+            return redirect('/settings/picture/?upload_picture=uploaded')
+        else:
+            messages.error(request, u'Invalid file format.')
+    except Exception, e:
+        messages.error(request, u'An expected error occurred.')
+    return redirect('/settings/picture/')
 
 
 @login_required
