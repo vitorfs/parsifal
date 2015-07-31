@@ -4,17 +4,9 @@ import dj_database_url
 from decouple import config
 from mendeley import Mendeley
 
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
-CSRF_COOKIE_HTTPONLY = config('CSRF_COOKIE_HTTPONLY', default=True, cast=bool)
-
-X_FRAME_OPTIONS = 'DENY'
-
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=True, cast=bool)
-SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=True, cast=bool)
-SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', default=True, cast=bool)
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
 
 PROJECT_DIR = Path(__file__).parent
 
@@ -26,7 +18,7 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['127.0.0.1', '162.243.206.171', '.parsif.al',]
+ALLOWED_HOSTS = ['127.0.0.1', '162.243.206.171', 'parsif.al']
 
 ADMINS = (
     ('Vitor Freitas', 'vitorfs@gmail.com'),
@@ -63,7 +55,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'parsifal.urls'
