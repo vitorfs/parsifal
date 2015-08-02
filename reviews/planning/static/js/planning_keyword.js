@@ -1,6 +1,5 @@
 $(function () {
 
-
   $("#import-pico-keywords").click(function () {
     $.ajax({
       url: '/reviews/planning/import_pico_keywords/',
@@ -9,10 +8,12 @@ $(function () {
       type: 'get',
       success: function (data) {
         $("#table-keywords tbody").append(data);
-        $("#table-keywords td.keyword-row").unbind("click").bind("click", editKeyword);
       }
     });
   });
+
+
+  /* Delete functions */
 
   $("#table-keywords tbody").on("click", ".js-start-keyword-deletion", function () {
     var keyword_id = $(this).closest("tr").attr("data-keyword-id");
@@ -42,9 +43,36 @@ $(function () {
     });
   });
 
+
+  /* Edit functions */
+
+  $("#table-keywords tbody").on("click", ".js-start-keyword-edit", function () {
+    var review_id = $("#review-id").val();
+    var keyword_id = $(this).closest("tr").attr("data-keyword-id");
+
+    $.ajax({
+      url: '/reviews/planning/edit_keyword/',
+      data: {
+        'review-id': review_id,
+        'keyword-id': keyword_id
+      },
+      type: 'get',
+      cache: false,
+      beforeSend: function () {
+        $("#modal-keyword").modal("show");
+      },
+      success: function (data) {
+        $("#modal-keyword .modal-dialog").html(data.html);
+      }
+    });
+  });
+
+
+  /* Add functions */
+
   $("#add-keyword").click(function () {
     $.ajax({
-      url: '/reviews/planning/new_keyword/',
+      url: '/reviews/planning/add_keyword/',
       data: {
         'review-id': $("#review-id").val()
       },

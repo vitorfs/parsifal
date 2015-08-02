@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.forms.formsets import formset_factory
+from django.forms.models import inlineformset_factory
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -242,7 +243,7 @@ def remove_keyword(request):
 @transaction.atomic
 @author_required
 @login_required
-def new_keyword(request):
+def add_keyword(request):
     review_id = request.GET.get('review-id', request.POST.get('review-id'))
     review = Review.objects.get(pk=review_id)
     SynonymFormSet = formset_factory(SynonymForm)
@@ -277,6 +278,31 @@ def new_keyword(request):
     dump = json.dumps(response)
     return HttpResponse(dump, content_type='application/json')
 
+@transaction.atomic
+@author_required
+@login_required
+def edit_keyword(request):
+    review_id = request.GET.get('review-id', request.POST.get('review-id'))
+    keyword_id = request.GET.get('keyword-id', request.POST.get('keyword-id'))
+    review = Review.objects.get(pk=review_id)
+    keyword = Keyword.objects.get(pk=keyword_id)
+
+    SynonymFormSet = inlineformset_factory(Keyword, Keyword, SynonymForm, extra=1)
+    response = {}
+    if request.method == 'POST':
+        pass
+    else:
+        form = KeywordForm(instance=keyword)
+        formset = SynonymFormSet(instance=keyword)
+        response['status'] = 'new'
+    context = RequestContext(request, {
+            'review': review,
+            'form': form,
+            'formset': formset
+        })
+    response['html'] = render_to_string('planning/partial_keyword_form.html', context)
+    dump = json.dumps(response)
+    return HttpResponse(dump, content_type='application/json')
 
 '''
     SEARCH STRING FUNCTIONS

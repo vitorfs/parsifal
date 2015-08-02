@@ -1,4 +1,4 @@
-<form id="new-keyword-form" method="post" action="{% url 'reviews:planning:new_keyword' %}">
+<form id="new-keyword-form" method="post" action="{% url 'reviews:planning:add_keyword' %}">
   {% csrf_token %}
   <input type="hidden" name="review-id" value="{{ review.pk }}">
   <div class="modal-content">

@@ -14,9 +14,12 @@ urlpatterns = patterns('reviews.planning.views',
     url(r'^save_objective/$', 'save_objective', name='save_objective'),
     url(r'^add_criteria/$', 'add_criteria', name='add_criteria'),
     url(r'^remove_criteria/$', 'remove_criteria', name='remove_criteria'),
-    url(r'^new_keyword/$', 'new_keyword', name='new_keyword'),
+
     url(r'^import_pico_keywords/$', 'import_pico_keywords', name='import_pico_keywords'),
+    url(r'^add_keyword/$', 'add_keyword', name='add_keyword'),
+    url(r'^edit_keyword/$', 'edit_keyword', name='edit_keyword'),
     url(r'^remove_keyword/$', 'remove_keyword', name='remove_keyword'),
+
     url(r'^add_quality_assessment_question/$', 'add_quality_assessment_question', name='add_quality_assessment_question'),
     url(r'^edit_quality_assessment_question/$', 'edit_quality_assessment_question', name='edit_quality_assessment_question'),
     url(r'^save_quality_assessment_question/$', 'save_quality_assessment_question', name='save_quality_assessment_question'),
