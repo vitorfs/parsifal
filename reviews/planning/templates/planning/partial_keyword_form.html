@@ -1,57 +1,66 @@
-<form id="new-keyword-form" method="post" action="{% url 'reviews:planning:add_keyword' %}">
-  {% csrf_token %}
-  <input type="hidden" name="review-id" value="{{ review.pk }}">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title">New Keyword</h4>
-    </div>
-    <div class="modal-body">
-      {% include 'form_vertical.html' with form=form %}
-      {{ formset.management_form }}
-      <table id="table-synonyms" class="table table-bordered table-striped" style="margin-bottom: 0;">
-        <thead>
+{% csrf_token %}
+<input type="hidden" name="review-id" value="{{ review.pk }}">
+<input type="hidden" name="keyword-id" value="{{ form.instance.pk }}">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">
+      {% if form.instance.pk %}
+        Edit Keyword
+      {% else %}
+        New Keyword
+      {% endif %}
+    </h4>
+  </div>
+  <div class="modal-body">
+    {% include 'form_vertical.html' with form=form %}
+    {{ formset.management_form }}
+    <table id="table-synonyms" class="table table-bordered table-striped" style="margin-bottom: 0;">
+      <thead>
+        <tr>
+          <th>Synonyms</th>
+          <th style="width: 45px;">Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in formset %}
           <tr>
-            <th>Synonyms</th>
-            <th style="width: 45px;"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for form in formset %}
-            <tr>
-              <td{% if form.description.errors %} class="bg-danger has-error"{% endif %}>
-                {{ form.description }}
-                {% for error in form.description.errors %}
-                  <p class="help-block">{{ error }}</p>
-                {% endfor %}
-              </td>
-              <td style="vertical-align: middle; text-align: center;">
-                <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="2">
-              <button type="button" class="btn btn-primary btn-sm js-add-synonym">
-                <span class="glyphicon glyphicon-plus"></span>
-                Add synonym
-              </button>
+            <td{% if form.description.errors %} class="bg-danger has-error"{% endif %}>
+              {{ form.description }}
+              {% for error in form.description.errors %}
+                <p class="help-block">{{ error }}</p>
+              {% endfor %}
+            </td>
+            <td style="vertical-align: middle; text-align: center;">
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+              <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
             </td>
           </tr>
-        </tfoot>
-      </table>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-      <button type="submit" class="btn btn-success">
-        <span class="glyphicon glyphicon-ok"></span>
-        Save
-      </button>
-    </div>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2">
+            <button type="button" class="btn btn-primary btn-sm js-add-synonym">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add synonym
+            </button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
-</form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-success">
+      <span class="glyphicon glyphicon-ok"></span>
+      Save
+    </button>
+  </div>
+</div>
+
 <script id="synonym-tr" type="x-tmpl-mustache">
   {% verbatim %}
     <tr>

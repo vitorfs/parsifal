@@ -372,9 +372,18 @@
               Import PICO Keywods</button>
           </div>
         </div>
-        <div class="modal fade" id="modal-keyword">
-          <div class="modal-dialog"></div>
-        </div>
+
+        <form id="add-keyword-form" method="post" action="{% url 'reviews:planning:add_keyword' %}">
+          <div class="modal fade" id="add-keyword-modal">
+            <div class="modal-dialog"></div>
+          </div>
+        </form>
+
+        <form id="edit-keyword-form" method="post" action="{% url 'reviews:planning:edit_keyword' %}">
+          <div class="modal fade" id="edit-keyword-modal">
+            <div class="modal-dialog"></div>
+          </div>
+        </form>
 
         <div class="modal fade" id="modal-confirm-keyword-deletion">
           <div class="modal-dialog">

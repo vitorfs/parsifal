@@ -59,12 +59,42 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $("#modal-keyword").modal("show");
+        $("#edit-keyword-modal").modal("show");
       },
       success: function (data) {
-        $("#modal-keyword .modal-dialog").html(data.html);
+        $("#edit-keyword-modal .modal-dialog").html(data.html);
       }
     });
+  });
+
+  $("#keywords-section").on("submit", "#edit-keyword-form", function () {
+    var form = $(this);
+    var keyword_id = $("[name='keyword-id']", form).val();
+    $.ajax({
+      url: $(form).attr("action"),
+      data: $(form).serialize(),
+      type: $(form).attr("method"),
+      cache: false,
+      beforeSend: function () {
+
+      },
+      success: function (data) {
+        if (data.status == "ok") {
+          $("#edit-keyword-modal").modal("hide");
+          $("#table-keywords tbody tr[data-keyword-id='" + keyword_id + "']").replaceWith(data.html);
+        }
+        else if (data.status == "validation_error") {
+          $("#edit-keyword-modal .modal-dialog").html(data.html);
+        }
+      },
+      error: function () {
+
+      },
+      complete: function () {
+
+      }
+    });
+    return false;
   });
 
 
@@ -79,10 +109,10 @@ $(function () {
       type: 'get',
       cache: false,
       beforeSend: function () {
-        $("#modal-keyword").modal("show");
+        $("#add-keyword-modal").modal("show");
       },
       success: function (data) {
-        $("#modal-keyword .modal-dialog").html(data.html);
+        $("#add-keyword-modal .modal-dialog").html(data.html);
       }
     });
   });
@@ -116,7 +146,7 @@ $(function () {
     }
   });
 
-  $("#keywords-section").on("submit", "#new-keyword-form", function () {
+  $("#keywords-section").on("submit", "#add-keyword-form", function () {
     var form = $(this);
     $.ajax({
       url: $(form).attr("action"),
@@ -128,11 +158,11 @@ $(function () {
       },
       success: function (data) {
         if (data.status == "ok") {
-          $("#modal-keyword").modal("hide");
+          $("#add-keyword-modal").modal("hide");
           $("#table-keywords tbody").append(data.html);
         }
         else if (data.status == "validation_error") {
-          $("#modal-keyword .modal-dialog").html(data.html);
+          $("#add-keyword-modal .modal-dialog").html(data.html);
         }
       },
       error: function () {

@@ -290,7 +290,22 @@ def edit_keyword(request):
     SynonymFormSet = inlineformset_factory(Keyword, Keyword, SynonymForm, extra=1)
     response = {}
     if request.method == 'POST':
-        pass
+        form = KeywordForm(request.POST, instance=keyword)
+        formset = SynonymFormSet(request.POST, instance=keyword)
+        if form.is_valid() and formset.is_valid():
+            form.instance.review = review
+            keyword = form.save()
+            for form in formset:
+                form.instance.review = review
+                form.instance.synonym_of = keyword
+                form.save()
+            context = RequestContext(request, { 'keyword': keyword })
+            response['status'] = 'ok'
+            response['html'] = render_to_string('planning/partial_keyword.html', context)
+            dump = json.dumps(response)
+            return HttpResponse(dump, content_type='application/json')
+        else:
+            response['status'] = 'validation_error'
     else:
         form = KeywordForm(instance=keyword)
         formset = SynonymFormSet(instance=keyword)
