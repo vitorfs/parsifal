@@ -329,7 +329,6 @@ class Keyword(models.Model):
     COMPARISON = u'C'
     OUTCOME = u'O'
     RELATED_TO = (
-        (u'', u'Select...'),
         (POPULATION, u'Population'),
         (INTERVENTION, u'Intervention'),
         (COMPARISON, u'Comparison'),
