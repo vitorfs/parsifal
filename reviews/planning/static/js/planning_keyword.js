@@ -140,10 +140,13 @@ $(function () {
   });
 
   $("#keywords-section").on("keydown", "#table-synonyms input", function (event) {
+    var tr = $(this).closest("tr");
     var keyCode = event.which?event.which:event.keyCode;
     if (keyCode == TAB_KEY) {
-      event.preventDefault();
-      $("#keywords-section .js-add-synonym").click();
+      if ($(tr).is(":last-child")) {
+        event.preventDefault();
+        $("#keywords-section .js-add-synonym").click();
+      }
     }
   });
 
