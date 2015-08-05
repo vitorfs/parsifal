@@ -437,9 +437,18 @@ def import_bibtex(request):
         bib_database = bibtexparser.load(bibtex_file, parser=parser)
         articles = bibtex_to_article_object(bib_database, review, source)
         if any(articles):
+            success = 0
+            error = 0
             for article in articles:
-                article.save()
-            messages.success(request, u'{0} articles successfully imported to {1}!'.format(len(articles), source.name))
+                try:
+                    article.save()
+                    success = success + 1
+                except:
+                    error = error + 1
+            if success > 0:
+                messages.success(request, u'{0} articles successfully imported to {1}!'.format(success, source.name))
+            if error > 0:
+                messages.warning(request, u'{0} articles could not be imported because of invalid format or invalid utf-8 string.'.format(error))
         else:
             messages.warning(request, u'The bibtex file had no valid entry!')
     else:

@@ -125,6 +125,7 @@ $(function () {
 
   $("#keywords-section").on("click", ".js-add-synonym", function () {
       var container = $(this).closest("form");
+      var keyword_id = $("[name='keyword-id']", container).val();
 
       var totalForms = $("[id$='TOTAL_FORMS']", container).val();
       totalForms = parseInt(totalForms) + 1;
@@ -132,7 +133,7 @@ $(function () {
 
       var formsetIndex = totalForms - 1;
       var template = $('#synonym-tr').html();
-      var rendered = Mustache.render(template, { 'i': formsetIndex });
+      var rendered = Mustache.render(template, { 'i': formsetIndex, 'synonym_of': keyword_id });
       $("table tbody", container).append(rendered);
 
       $("table tbody tr:last-child td:eq(0) input", container).focus();

@@ -242,12 +242,12 @@ def add_keyword(request):
     response = {}
     if request.method == 'POST':
         form = KeywordForm(request.POST)
-        formset = SynonymFormSet(request.POST)
+        formset = SynonymFormSet(request.POST, prefix='synonym')
         if form.is_valid() and formset.is_valid():
             form.instance.review = review
             keyword = form.save()
             for form in formset:
-                if form.is_valid():
+                if form.instance.description:
                     form.instance.review = review
                     form.instance.synonym_of = keyword
                     form.save()
@@ -260,7 +260,7 @@ def add_keyword(request):
             response['status'] = 'validation_error'
     else:
         form = KeywordForm()
-        formset = SynonymFormSet()
+        formset = SynonymFormSet(prefix='synonym')
         response['status'] = 'new'
     context = RequestContext(request, {
             'review': review,
@@ -284,7 +284,7 @@ def edit_keyword(request):
     response = {}
     if request.method == 'POST':
         form = KeywordForm(request.POST, instance=keyword)
-        formset = SynonymFormSet(request.POST, instance=keyword)
+        formset = SynonymFormSet(request.POST, instance=keyword, prefix='synonym')
         if form.is_valid() and formset.is_valid():
             form.instance.review = review
             keyword = form.save()
@@ -301,7 +301,7 @@ def edit_keyword(request):
             response['status'] = 'validation_error'
     else:
         form = KeywordForm(instance=keyword)
-        formset = SynonymFormSet(instance=keyword)
+        formset = SynonymFormSet(instance=keyword, prefix='synonym')
         response['status'] = 'new'
     context = RequestContext(request, {
             'review': review,
