@@ -35,7 +35,13 @@
               {% for hidden in form.hidden_fields %}
                 {{ hidden }}
               {% endfor %}
-              <a href="javascript:void(0);" class="js-remove-synonym"><span class="glyphicon glyphicon-remove-sign"></span></a>
+              {% if form.instance.pk %}
+                {{ form.DELETE }}
+              {% else %}
+                <a href="javascript:void(0);" class="js-remove-synonym">
+                  <span class="glyphicon glyphicon-remove-sign"></span>
+                </a>
+              {% endif %}
             </td>
           </tr>
         {% endfor %}

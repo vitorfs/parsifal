@@ -206,20 +206,12 @@ def import_pico_keywords(request):
         keywords += extract_keywords(review, Keyword.COMPARISON)
         keywords += extract_keywords(review, Keyword.OUTCOME)
 
-        str_return = ""
+        html = u''
 
         for keyword in keywords:
-            str_return += '''
-            <tr keyword-id="''' + str(keyword.id) + '''">
-              <td class="keyword-row">''' + escape(keyword.description) + '''</td>
-              <td>
-                <ul></ul>
-                <input type="text" class="form-control add-synonym" maxlength="200">
-              </td>
-              <td><button type="button" class="btn btn-sm btn-danger btn-remove-keyword">remove</button></td>
-              <td class="no-border"></td>
-            </tr>'''
-        return HttpResponse(str_return)
+            context = RequestContext(request, { 'keyword': keyword })
+            html += render_to_string('planning/partial_keyword.html', context)
+        return HttpResponse(html)
     except:
         return HttpResponseBadRequest()
 
@@ -255,9 +247,10 @@ def add_keyword(request):
             form.instance.review = review
             keyword = form.save()
             for form in formset:
-                form.instance.review = review
-                form.instance.synonym_of = keyword
-                form.save()
+                if form.is_valid():
+                    form.instance.review = review
+                    form.instance.synonym_of = keyword
+                    form.save()
             context = RequestContext(request, { 'keyword': keyword })
             response['status'] = 'ok'
             response['html'] = render_to_string('planning/partial_keyword.html', context)
@@ -298,7 +291,7 @@ def edit_keyword(request):
             for form in formset:
                 form.instance.review = review
                 form.instance.synonym_of = keyword
-                form.save()
+            formset.save()
             context = RequestContext(request, { 'keyword': keyword })
             response['status'] = 'ok'
             response['html'] = render_to_string('planning/partial_keyword.html', context)
