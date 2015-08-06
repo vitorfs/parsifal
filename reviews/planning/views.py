@@ -333,7 +333,8 @@ def generate_search_string(request):
             synonyms.append(u'"{0}"'.format(keyword.description))
             for synonym in keyword.synonyms.all():
                 synonyms.append(u'"{0}"'.format(synonym.description))
-        keywords.append(u'({0})'.format(u' OR '.join(synonyms)))
+        if any(synonyms):
+            keywords.append(u'({0})'.format(u' OR '.join(synonyms)))
 
     return HttpResponse(' AND '.join(keywords))
 
