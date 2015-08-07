@@ -23,17 +23,31 @@
           <h1>Parsifal</h1>
           <h2>500<br><small>Internal server error</small></h2>
           <p class="lead">Something went wrong. That's all we know.</p>
-          <a href="{% url 'home' %}" class="btn btn-link">Home</a>
+          <a href="/" class="btn btn-link">Home</a>
           <span class="divider">·</span>
-          <a href="{% url 'blog:entries' %}" class="btn btn-link">Blog</a>
+          <a href="/blog/" class="btn btn-link">Blog</a>
           <span class="divider">·</span>
-          <a href="{% url 'help:articles' %}" class="btn btn-link">Help</a>
+          <a href="/help/" class="btn btn-link">Help</a>
         </div>
       </div>
     </div>
     <div class="push"></div>
   </div>
-  {% include 'footer.html' %}
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 legal">
+          <span>© 2015 Parsifal Ltd.</span>
+        </div>
+        <div class="col-xs-6 social">
+          <a href="https://github.com/vitorfs/parsifal" target="_blank" data-toggle="tooltip" title="Github" data-placement="top"><span class="fa fa-github"></span></a>
+          <a href="https://twitter.com/parsif_al" target="_blank" data-toggle="tooltip" title="Twitter" data-placement="top"><span class="fa fa-twitter"></span></a>
+          <a href="https://youtube.com/ParsifalReviews/" target="_blank" data-toggle="tooltip" title="Youtube" data-placement="top"><span class="fa fa-youtube"></span></a>
+          <a href="https://plus.google.com/+ParsifalReviews/" target="_blank" data-toggle="tooltip" title="Google+" data-placement="top"><span class="fa fa-google-plus"></span></a>
+        </div>
+      </div>
+    </div>
+  </footer>
   <script src="/static/js/jquery-1.11.3.min.js"></script>
   <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/parsifal.js"></script>
