@@ -13,9 +13,9 @@ from django.utils.html import escape
 from django.views.decorators.http import require_POST
 from django.core.mail import EmailMultiAlternatives
 
-from reviews.models import Review
-from reviews.decorators import main_author_required, author_required
-from reviews.forms import CreateReviewForm, ReviewForm
+from parsifal.reviews.models import Review
+from parsifal.reviews.decorators import main_author_required, author_required
+from parsifal.reviews.forms import CreateReviewForm, ReviewForm
 
 
 def reviews(request, username):

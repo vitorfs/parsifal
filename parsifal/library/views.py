@@ -19,9 +19,10 @@ from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
-from reviews.models import Review, Article
+from parsifal.reviews.models import Review, Article
 from parsifal.library.models import Folder, Document
 from parsifal.library.forms import FolderForm, DocumentForm
+
 
 def get_order(request):
     order = request.GET.get('o', '').lower()

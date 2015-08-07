@@ -16,7 +16,7 @@ from django.db import models
 from django.conf import settings as django_settings
 
 from parsifal.activities.models import Activity
-from reviews.models import Review
+from parsifal.reviews.models import Review
 
 
 class Profile(models.Model):

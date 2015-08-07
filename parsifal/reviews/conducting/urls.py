@@ -3,7 +3,7 @@
 from django.conf.urls import patterns, include, url
 
 
-urlpatterns = patterns('reviews.conducting.views',
+urlpatterns = patterns('parsifal.reviews.conducting.views',
     url(r'^add_source_string/$', 'add_source_string', name='add_source_string'),
     url(r'^save_source_string/$', 'save_source_string', name='save_source_string'),
     url(r'^remove_source_string/$', 'remove_source_string', name='remove_source_string'),

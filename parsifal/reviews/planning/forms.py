@@ -1,6 +1,6 @@
 from django import forms
 
-from reviews.models import Keyword
+from parsifal.reviews.models import Keyword
 
 
 class KeywordForm(forms.ModelForm):

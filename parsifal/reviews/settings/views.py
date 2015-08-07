@@ -10,9 +10,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 
-from reviews.models import Review
-from reviews.decorators import main_author_required
-from reviews.settings.forms import ReviewSettingsForm
+from parsifal.reviews.models import Review
+from parsifal.reviews.decorators import main_author_required
+from parsifal.reviews.settings.forms import ReviewSettingsForm
 
 
 @main_author_required

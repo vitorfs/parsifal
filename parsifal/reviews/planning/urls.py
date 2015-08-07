@@ -1,7 +1,9 @@
 # coding: utf-8
+
 from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('reviews.planning.views',
+
+urlpatterns = patterns('parsifal.reviews.planning.views',
     url(r'^save_source/$', 'save_source', name='save_source'),
     url(r'^remove_source/$', 'remove_source_from_review', name='remove_source_from_review'),
     url(r'^suggested_sources/$', 'suggested_sources', name='suggested_sources'),

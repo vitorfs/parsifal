@@ -3,8 +3,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
-from reviews.models import *
-from reviews.decorators import author_required
+from parsifal.reviews.models import *
+from parsifal.reviews.decorators import author_required
 
 
 @author_required

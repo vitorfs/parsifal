@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from reviews.models import Review
+
+from parsifal.reviews.models import Review
+
 
 class Activity(models.Model):
     FOLLOW = 'F'

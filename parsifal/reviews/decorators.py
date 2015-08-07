@@ -1,7 +1,10 @@
+from functools import wraps
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest, Http404
-from reviews.models import Review
-from functools import wraps
+
+from parsifal.reviews.models import Review
+
 
 def main_author_required(f):
     def wrap(request, *args, **kwargs):

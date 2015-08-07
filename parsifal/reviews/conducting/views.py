@@ -18,9 +18,8 @@ from django.conf import settings as django_settings
 from django.core.context_processors import csrf
 from django.db.models import Count
 
-from reviews.models import *
-from reviews.decorators import main_author_required, author_required
-
+from parsifal.reviews.models import *
+from parsifal.reviews.decorators import main_author_required, author_required
 from parsifal.utils.elsevier.client import ElsevierClient
 from parsifal.utils.elsevier.exceptions import *
 

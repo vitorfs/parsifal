@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from parsifal.activities.models import Activity
 from parsifal.blog.models import Entry
-from reviews.models import Review
+from parsifal.reviews.models import Review
 
 
 def get_following_feeds(user):

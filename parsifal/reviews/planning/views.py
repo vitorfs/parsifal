@@ -17,9 +17,9 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.views.decorators.http import require_POST
 from django.utils.html import escape
 
-from reviews.models import *
-from reviews.planning.forms import KeywordForm, SynonymForm
-from reviews.decorators import main_author_required, author_required
+from parsifal.reviews.models import *
+from parsifal.reviews.planning.forms import KeywordForm, SynonymForm
+from parsifal.reviews.decorators import main_author_required, author_required
 
 
 @author_required

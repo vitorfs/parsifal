@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import password_reset, password_reset_confirm
 
 from parsifal.authentication.forms import SignUpForm
-from reviews.models import Review
+from parsifal.reviews.models import Review
 
 
 def signup(request):
@@ -70,4 +70,4 @@ def reset_confirm(request, uidb64=None, token=None):
         uidb64=uidb64, token=token, post_reset_redirect=reverse('signin'))
 
 def success(request):
-  return render(request, "auth/success.html")
+  return render(request, 'auth/success.html')
