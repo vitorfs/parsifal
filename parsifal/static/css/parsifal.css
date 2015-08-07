@@ -32,6 +32,14 @@ html, body {
 
 header .navbar {
   margin-bottom: 0;
+  border-radius: 0;
+}
+
+header .navbar .username-divider {
+  border-right: 1px solid #ccc;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .masthead {

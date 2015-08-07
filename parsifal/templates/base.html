@@ -41,12 +41,12 @@
 </head>
 <body>
   <div class="wrapper">
-    {% include 'header.html' %}
+    {% include 'includes/header.html' %}
     {% block fullwidthheader %}{% endblock %}
     <main>
       <div class="container">
         <div class="messages-container">
-          {% include 'messages.html' %}
+          {% include 'includes/messages.html' %}
         </div>
         {% block content %}{% endblock %}
       </div>
@@ -54,7 +54,7 @@
     {% block fullwidthfooter %}{% endblock %}
     <div class="push"></div>
   </div>
-  {% include 'footer.html' %}
+  {% include 'includes/footer.html' %}
   <div class="modal fade" id="modal-alert">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">

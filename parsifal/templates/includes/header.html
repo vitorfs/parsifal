@@ -19,33 +19,32 @@
         {% if user.is_authenticated %}
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="{% url 'reviews' user.username %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="My profile">
-                {{ user.profile.get_screen_name }}
+              <a href="{% url 'reviews' user.username %}">
+                <span data-toggle="tooltip" data-placement="bottom" data-container="body" title="My profile">{{ user.profile.get_screen_name }}</span>
               </a>
+            </li>
+            <li>
+              <span class="navbar-text username-divider"></span>
             </li>
             {% comment %}
             <li>
-              <a href="{% url 'library:index' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="My library">
-                <span class="glyphicon glyphicon-inbox"></span>
+              <a href="{% url 'library:index' %}">
+                Library
               </a>
             </li>
-            <li><a href="#">TeX Editor</a></li>
             {% endcomment %}
             <li>
-              <a href="{% url 'settings:settings' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Account settings">
-                <span class="glyphicon glyphicon-cog"></span>
+              <a href="{% url 'settings:settings' %}">
+                <span data-toggle="tooltip" data-placement="bottom" data-container="body" title="Account settings">
+                  <span class="glyphicon glyphicon-cog"></span>
+                </span>
               </a>
             </li>
-            {% if user.is_superuser %}
-              <li>
-                <a href="{% url 'admin:index' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Administration">
-                  <span class="glyphicon glyphicon-briefcase"></span>
-                </a>
-              </li>
-            {% endif %}
             <li>
-              <a href="{% url 'signout' %}" data-toggle="tooltip" data-placement="bottom" data-container="body" title="Log out">
-                <span class="glyphicon glyphicon-log-out"></span>
+              <a href="{% url 'signout' %}">
+                <span data-toggle="tooltip" data-placement="bottom" data-container="body" title="Sign out">
+                  <span class="glyphicon glyphicon-log-out"></span>
+                </span>
               </a>
             </li>
           </ul>

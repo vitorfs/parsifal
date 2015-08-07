@@ -2,6 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class SharedFolder(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=55)
+    owner = models.ForeignKey(User)
+    users = models.ManyToManyField(User, related_name='shared_folders')
+
+    class Meta:
+        verbose_name = u'Shared Folder'
+        verbose_name_plural = u'Shared Folders'
+        ordering = (u'name',)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Document(models.Model):
     ARTICLE = u'article'
     BOOK = u'book'
@@ -74,7 +89,10 @@ class Document(models.Model):
     url = models.CharField(u'URL', max_length=1000, null=True, blank=True)
 
     # Parsifal management field
-    user = models.ForeignKey(User, null=True)
+    user = models.ForeignKey(User, null=True, related_name='documents')
+    review = models.ForeignKey('reviews.Review', null=True, related_name='documents')
+    shared_folder = models.ForeignKey(SharedFolder, null=True, related_name='documents')
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -88,7 +106,6 @@ class Document(models.Model):
 
 def document_file_upload_to(instance, filename):
     return u'library/{0}/'.format(instance.document.user.pk)
-
 
 class DocumentFile(models.Model):
     document = models.ForeignKey(Document, related_name=u'files')
