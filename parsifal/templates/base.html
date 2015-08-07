@@ -73,6 +73,7 @@
       <div class="bounce3"></div>
     </div>
   </div>
+  <script src="{% static 'js/ga.js' %}"></script>
   <script src="{% static 'js/mustache.min.js' %}"></script>
   <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -85,7 +86,6 @@
       $.parsifal.init();
     });
   </script>
-  <script src="{% static 'js/ga.js' %}"></script>
   {% block javascript %}{% endblock %}
 
   {% verbatim %}
