@@ -1,7 +1,7 @@
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 from unipath import Path
 import dj_database_url
-from decouple import config
+from decouple import config, Csv
 from mendeley import Mendeley
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -18,7 +18,7 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['127.0.0.1', '162.243.206.171', 'parsif.al']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 ADMINS = (
     ('Vitor Freitas', 'vitorfs@gmail.com'),
