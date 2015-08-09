@@ -1,0 +1,19 @@
+{% extends 'reporting/reporting.html' %}
+
+{% block tab_content %}
+
+  {% include 'reporting/includes/header.html' with active_tab='export' %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Download a Report</h3>
+    </div>
+    <div class="panel-body">
+      <a href="{% url 'reviews:reporting:download_docx' %}?review-id={{ review.pk }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-download-alt"></span>
+        Download <em>.docx</em>
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
