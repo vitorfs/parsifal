@@ -17,6 +17,7 @@ from django.template import RequestContext
 from django.conf import settings as django_settings
 from django.core.context_processors import csrf
 from django.db.models import Count
+from django.utils.html import escape
 
 from parsifal.reviews.models import *
 from parsifal.reviews.decorators import main_author_required, author_required
@@ -207,13 +208,13 @@ def build_quality_assessment_table(request, review):
               </div>
 
             <table class="table" id="tbl-quality" article-id="{2}" csrf-token="{3}">
-                <tbody>'''.format(study.title, study.get_score(), study.id, unicode(csrf(request)['csrf_token']))
+                <tbody>'''.format(escape(study.title), study.get_score(), study.id, unicode(csrf(request)['csrf_token']))
 
             quality_assessment = study.get_quality_assesment()
 
             for question in quality_questions:
                 str_table += u'''<tr question-id="''' + str(question.id) + '''">
-                <td>''' + question.description + '''</td>'''
+                <td>''' + escape(question.description) + '''</td>'''
                 
                 try:
                     question_answer = quality_assessment.filter(question__id=question.id).get()
@@ -225,7 +226,7 @@ def build_quality_assessment_table(request, review):
                     if question_answer is not None:
                         if answer.id == question_answer.answer.id:
                             selected_answer = ' selected-answer'
-                    str_table += u'''<td class="answer'''+ selected_answer +'''" answer-id="''' + str(answer.id) + '''">''' + answer.description + '''</td>'''
+                    str_table += u'''<td class="answer'''+ selected_answer +'''" answer-id="''' + str(answer.id) + '''">''' + escape(answer.description) + '''</td>'''
                 str_table += u'''</tr>'''
 
             str_table += u'''</tbody></table></div>'''
@@ -287,7 +288,7 @@ def build_data_extraction_field_row(article, field):
             value = extraction.get_date_value_as_string()
         else:
             value = u''
-        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="10" value="{2}">'.format(article.id, field.id, value)
+        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="10" value="{2}">'.format(article.id, field.id, escape(value))
 
     elif field.field_type == field.SELECT_ONE_FIELD:
         str_field = u'''<select name="{0}-{1}-value" class="form-control">
@@ -297,7 +298,7 @@ def build_data_extraction_field_row(article, field):
                 selected = ' selected'
             else:
                 selected = ''
-            str_field += u'''<option value="{0}"{1}>{2}</option>'''.format(value.id, selected, value.value)
+            str_field += u'''<option value="{0}"{1}>{2}</option>'''.format(value.id, selected, escape(value.value))
         str_field += u'</select>'
 
     elif field.field_type == field.SELECT_MANY_FIELD:
@@ -306,14 +307,14 @@ def build_data_extraction_field_row(article, field):
                 checked = ' checked'
             else:
                 checked = ''
-            str_field += u'<label class="checkbox-inline"><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</label> '.format(article.id, field.id, value.id, checked, value.value)
+            str_field += u'<label class="checkbox-inline"><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</label> '.format(article.id, field.id, value.id, checked, escape(value.value))
 
     else:
         if extraction != None:
             value = extraction.get_value()
         else:
             value = u''
-        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="1000" value="{2}">'.format(article.id, field.id, value)
+        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="1000" value="{2}">'.format(article.id, field.id, escape(value))
 
     return str_field
 
@@ -329,20 +330,20 @@ def build_data_extraction_table(review):
                   <div class="panel-heading">
                     <h3 class="panel-title">{1} <span class="badge pull-right">{2}</span></h3>
                   </div>
-                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, study.title, study.get_score())
+                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, escape(study.title), study.get_score())
             else:
                 str_table += u'''<div class="panel panel-default data-extraction-panel">
                   <div class="panel-heading">
                     <h3 class="panel-title">{1}</h3>
                   </div>
-                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, study.title)
+                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, escape(study.title))
             for field in data_extraction_fields:
                 str_table += u'''<div class="form-group" data-field-id="{0}">
                     <label class="control-label col-md-2">{1}</label>
                     <div class="col-md-10">{2}<span class="help-block error" style="display: none;"></span>
                     </div>
                 </div>
-                '''.format(field.id, field.description, build_data_extraction_field_row(study, field))
+                '''.format(field.id, escape(field.description), build_data_extraction_field_row(study, field))
             str_table += u'</div></div>'
         str_table += "</div>"
         return str_table
@@ -524,11 +525,11 @@ def build_article_table_row(article):
             <td>{7}</td>
           </tr>'''.format(article.id,
             article.status,
-            article.bibtex_key,
-            article.title,
-            article.author,
-            article.journal,
-            article.year,
+            escape(article.bibtex_key),
+            escape(article.title),
+            escape(article.author),
+            escape(article.journal),
+            escape(article.year),
             article.get_status_html())
     return row
 
