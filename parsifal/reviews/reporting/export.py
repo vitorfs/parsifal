@@ -2,7 +2,7 @@
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Inches
+
 
 def export_review_to_docx(review):
     document = Document()
@@ -11,7 +11,7 @@ def export_review_to_docx(review):
     h.alignment = WD_ALIGN_PARAGRAPH.CENTER
     document.add_paragraph('')
 
-    authors = []
+    authors = list()
     authors.append(review.author.profile.get_screen_name())
     for author in review.co_authors.all():
         authors.append(author.profile.get_screen_name())
