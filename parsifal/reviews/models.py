@@ -166,7 +166,7 @@ class Review(models.Model):
 
 
 class Question(models.Model):
-    review = models.ForeignKey(Review)
+    review = models.ForeignKey(Review, related_name='research_questions')
     question = models.CharField(max_length=500)
     parent_question = models.ForeignKey('self', null=True, related_name='+')
     order = models.IntegerField(default=0)

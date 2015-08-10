@@ -19,12 +19,38 @@ def export_review_to_docx(review):
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     document.add_paragraph('')
 
-    print review.description
-
     if review.description:
         document.add_paragraph(review.description)
-        document.add_paragraph('')
 
-    document.add_heading('1 PROTOCOL', level=2)
+    document.add_heading('1 Protocol', level=2)
+
+    if review.objective:
+        document.add_paragraph(review.objective)
+
+    document.add_heading('1.1 PICOC', level=3)
+
+    p = document.add_paragraph('', style='List Bullet')
+    p.add_run('Population: ').bold = True
+    p.add_run(review.population)
+
+    p = document.add_paragraph('', style='List Bullet')
+    p.add_run('Intervention: ').bold = True
+    p.add_run(review.intervention)
+
+    p = document.add_paragraph('', style='List Bullet')
+    p.add_run('Comparison: ').bold = True
+    p.add_run(review.comparison)
+
+    p = document.add_paragraph('', style='List Bullet')
+    p.add_run('Outcome: ').bold = True
+    p.add_run(review.outcome)
+
+    p = document.add_paragraph('', style='List Bullet')
+    p.add_run('Context: ').bold = True
+    p.add_run(review.context)
+
+    document.add_heading('1.2 Research Questions', level=3)
+    for question in review.research_questions.all():
+        document.add_paragraph(question.question, style='List Number')
 
     return document

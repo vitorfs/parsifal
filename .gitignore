@@ -39,9 +39,9 @@ nosetests.xml
 reminder.md
 
 *.sqlite3
-venv
 
 .env
 
 *.bib
-maildumps/
+maildumps
+.idea
