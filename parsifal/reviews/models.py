@@ -581,16 +581,18 @@ class DataExtraction(models.Model):
             return []
 
     def get_value(self):
-        get_value_functions = {
-            DataExtractionField.BOOLEAN_FIELD: self._get_boolean_value,
-            DataExtractionField.STRING_FIELD: self._get_string_value,
-            DataExtractionField.FLOAT_FIELD: self._get_float_value,
-            DataExtractionField.INTEGER_FIELD: self._get_integer_value,
-            DataExtractionField.DATE_FIELD: self._get_date_value,
-            DataExtractionField.SELECT_ONE_FIELD: self._get_select_one_value,
-            DataExtractionField.SELECT_MANY_FIELD: self._get_select_many_value,
-        }
-        return get_value_functions[self.field.field_type]()
+        if self.field.field_type:
+            get_value_functions = {
+                DataExtractionField.BOOLEAN_FIELD: self._get_boolean_value,
+                DataExtractionField.STRING_FIELD: self._get_string_value,
+                DataExtractionField.FLOAT_FIELD: self._get_float_value,
+                DataExtractionField.INTEGER_FIELD: self._get_integer_value,
+                DataExtractionField.DATE_FIELD: self._get_date_value,
+                DataExtractionField.SELECT_ONE_FIELD: self._get_select_one_value,
+                DataExtractionField.SELECT_MANY_FIELD: self._get_select_many_value,
+            }
+            return get_value_functions[self.field.field_type]()
+        return self._get_string_value
 
     def get_date_value_as_string(self):
         try:

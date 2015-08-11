@@ -79,7 +79,7 @@ $(function () {
         manageFieldOrder();
       },
       error: function (jqXHR, textStatus, errorThrown) {
-
+        $(btn).ajaxEnableError();
       },
       complete: function () {
         

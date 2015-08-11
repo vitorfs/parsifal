@@ -748,6 +748,9 @@ def save_data_extraction_field(request):
         lookup_values = request.POST['lookup-values']
         field_id = request.POST['field-id']
 
+        if not field_type and not description:
+            return HttpResponseBadRequest('Description and Type are required fields.')
+
         lookup_values = lookup_values.split('\n')
         lookup_values = list(set(lookup_values))
 
