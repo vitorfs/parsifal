@@ -266,6 +266,18 @@ class Study(models.Model):
     comments = models.TextField(max_length=2000, blank=True, null=True)
 
 
+class CustomArticleStatus(models.Model):
+    name = models.CharField(max_length=255)
+    review = models.ForeignKey(Review, related_name='custom_article_status')
+
+    class Meta:
+        verbose_name = 'Custom Article Status'
+        verbose_name_plural = 'Custom Article Status'
+
+    def __unicode__(self):
+        return self.name
+
+
 class Article(models.Model):
     UNCLASSIFIED = u'U'
     REJECTED = u'R'
