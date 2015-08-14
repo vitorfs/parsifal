@@ -177,7 +177,6 @@ def study_selection(request, username, review_name):
     import_articles = review.get_source_articles().count()
 
     steps_messages = []
-
     if not add_sources: steps_messages.append(u'Use the <a href="{0}#sources-section">planning tab</a> to add sources to your review.'.format(r('protocol', args=(username, review_name))))
     if not import_articles: steps_messages.append(u'Import the studies using the <a href="{0}">import studies tab</a>.'.format(r('import_studies', args=(username, review_name))))
 
@@ -187,7 +186,7 @@ def study_selection(request, username, review_name):
             'review': review, 
             'active_tab': active_tab, 
             'steps_messages': steps_messages, 
-            'finished_all_steps': finished_all_steps,
+            'finished_all_steps': finished_all_steps
         })
 
 def get_workflow_steps(self, review):

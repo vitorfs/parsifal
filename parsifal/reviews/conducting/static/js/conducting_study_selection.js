@@ -275,6 +275,7 @@ $(function () {
 
   $(".source-tab-content").on("click", "input[name=filter]", function () {
     filter_articles($(this).val());
+    updateSelectedArticlesCount();
   });
 
   $(".source-tab-content").on("click", "table tbody tr td input[type=checkbox]", function (event) {
@@ -286,6 +287,7 @@ $(function () {
     if ($(this).is(":checked")) {
       $(".source-tab-content table tbody tr:visible td input[type=checkbox]").prop("checked", true);
     }
+    updateSelectedArticlesCount();
   });
 
   function multiple_articles_actions(article_ids, action) {
@@ -341,6 +343,7 @@ $(function () {
       complete: function () {
         $(".go-button").prop("disabled", false);
         $(".go-button").text("Go");
+        updateSelectedArticlesCount();
       }
     });
   }
@@ -373,15 +376,29 @@ $(function () {
   });
 
   $(".source-tab-content").on("click", "table tbody tr td input[type=checkbox]", function () {
-    var total = $(".source-articles table tbody tr td input[type=checkbox]").length;
-    var checked = $(".source-articles table tbody tr td input[type=checkbox]:checked").length;
+    var total = $(".source-articles table tbody tr td input[type='checkbox']:visible").length;
+    var checked = $(".source-articles table tbody tr td input[type='checkbox']:checked").length;
     if (checked == total) {
       $("#ck-all-articles").prop("checked", true);
     }
     else {
       $("#ck-all-articles").prop("checked", false);
     }
+    updateSelectedArticlesCount();
   });
+
+  $(".source-tab-content").on("click", "table tbody tr td:first-child", function (e) {
+    e.stopPropagation();
+    $("input[type='checkbox']", this).click();
+    return false;
+  });
+
+  var updateSelectedArticlesCount = function () {
+    var total = $(".source-articles table tbody tr td input[type='checkbox']:visible").length;
+    var checked = $(".source-articles table tbody tr td input[type='checkbox']:checked").length;
+    $(".articles-selected").text(checked);
+    $(".articles-total").text(total);
+  };
 
   $(".source-tab-content").on("click", ".btn-find-duplicates", function () {
     $.ajax({
