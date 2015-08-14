@@ -16,7 +16,7 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.conf import settings as django_settings
 from django.contrib.auth import update_session_auth_hash
 
-from parsifal.account_settings.forms import ProfileForm, PasswordForm
+from parsifal.account_settings.forms import UserEmailForm, ProfileForm, PasswordForm
 
 
 @login_required
@@ -45,6 +45,18 @@ def picture(request):
         uploaded_picture = False
     return render(request, 'settings/picture.html', { 'uploaded_picture': uploaded_picture })
 
+@login_required
+def emails(request):
+    if request.method == 'POST':
+        form = UserEmailForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, u'Account Email changed successfully.')
+        else:
+            messages.error(request, u'Please correct the error below.')
+    else:
+        form = UserEmailForm(instance=request.user)
+    return render(request, 'settings/emails.html', { 'form' : form })
 
 @login_required
 def password(request):

@@ -21,6 +21,7 @@ from parsifal.reviews.models import Review
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
+    public_email = models.EmailField(null=True, blank=True)
     location = models.CharField(max_length=50)
     url = models.CharField(max_length=50)
     institution = models.CharField(max_length=50)
