@@ -323,7 +323,14 @@ $(function () {
             $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
               var row = $(this).closest("tr");
               $(row).attr("article-status", "R");
-              $("span", row).replaceWith("<span class='label label-warning'>Rejected</span>");
+              $("span", row).replaceWith("<span class='label label-danger'>Rejected</span>");
+            });
+            break;
+          case "duplicated":
+            $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
+              var row = $(this).closest("tr");
+              $(row).attr("article-status", "R");
+              $("span", row).replaceWith("<span class='label label-warning'>Duplicated</span>");
             });
             break;
         }
@@ -355,6 +362,9 @@ $(function () {
             multiple_articles_actions(article_ids, action);
             break;
           case "reject":
+            multiple_articles_actions(article_ids, action);
+            break;
+          case "duplicated":
             multiple_articles_actions(article_ids, action);
             break;
         }

@@ -670,6 +670,19 @@ def multiple_articles_action_reject(request):
 
 @author_required
 @login_required
+def multiple_articles_action_duplicated(request):
+    try:
+        article_ids = request.POST['article_ids']
+        article_ids_list = article_ids.split('|')
+        if article_ids_list:
+            Article.objects.filter(pk__in=article_ids_list).update(status=Article.DUPLICATED)
+        return HttpResponse()
+    except:
+        return HttpResponseBadRequest()
+
+
+@author_required
+@login_required
 def save_data_extraction(request):
     try:
         article_id = request.POST['article-id']
