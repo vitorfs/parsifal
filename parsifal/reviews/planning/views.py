@@ -188,8 +188,9 @@ def extract_keywords(review, pico):
     for term in keyword_list:
         if len(term) > 0:
             keyword = Keyword(review=review, description=term.strip(), related_to=pico)
-            keyword.save()
-            keyword_objects.append(keyword)
+            if keyword.description not in review.get_keywords().values_list('description', flat=True):
+                keyword.save()
+                keyword_objects.append(keyword)
     return keyword_objects
 
 
