@@ -61,7 +61,7 @@ def new(request):
     return render(request, 'reviews/new.html', { 'form': form })
 
 
-
+@author_required
 @login_required
 def review(request, username, review_name):
     review = Review.objects.get(name=review_name, author__username__iexact=username)
