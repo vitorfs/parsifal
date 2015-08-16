@@ -17,7 +17,7 @@
   <script src="{% static 'js/planning_question.js' %}?v=1"></script>
   <script src="{% static 'js/planning_picoc.js' %}?v=1"></script>
   <script src="{% static 'js/planning_keyword.js' %}?v=2"></script>
-  <script src="{% static 'js/planning_source.js' %}?v=1"></script>
+  <script src="{% static 'js/planning_source.js' %}?v=2"></script>
   <script src="{% static 'js/planning_search_string.js' %}?v=1"></script>
   <script src="{% static 'js/planning_criteria.js' %}?v=1"></script>
   <script>
@@ -531,9 +531,9 @@
           <table class="table" id="tbl-sources">
             <thead>
               <tr>
-                <th style="width: 200px">Name</th>
-                <th style="width: 300px">URL</th>
-                <th></th>
+                <th>Name</th>
+                <th>URL</th>
+                <th style="width: 200px"></th>
               </tr>
             </thead>
             <tbody>
@@ -550,12 +550,21 @@
                   <td>
                     {% if source.is_default %}
                       <span data-toggle="tooltip" data-placement="top" data-container="body" title="It's not possible to edit Digital Library's details">
-                        <button type="button" class="btn btn-warning btn-sm" disabled>edit</button>
+                        <button type="button" class="btn btn-warning btn-sm" disabled>
+                          <span class="glyphicon glyphicon-pencil"></span>
+                          edit
+                        </button>
                       </span>
                     {% else %}
-                      <button type="button" class="btn btn-warning btn-sm btn-edit-source">edit</button>
+                      <button type="button" class="btn btn-warning btn-sm btn-edit-source">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        edit
+                      </button>
                     {% endif %}
-                    <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</button>
+                    <button type="button" class="btn btn-danger btn-sm js-start-remove">
+                      <span class="glyphicon glyphicon-trash"></span>
+                      remove
+                    </button>
                   </td>
                 </tr>
               {% endfor %}

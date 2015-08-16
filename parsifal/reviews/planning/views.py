@@ -368,7 +368,7 @@ def html_source(source):
     if source.is_default:
         html += '<td><span data-toggle="tooltip" data-placement="top" data-container="body" title="It\'s not possible to edit Digital Library\'s details"><button type="button" class="btn btn-sm btn-warning" disabled>edit</button></span> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
     else:
-        html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source">edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
+        html += '<td><button type="button" class="btn btn-sm btn-warning btn-edit-source"><span class="glyphicon glyphicon-pencil"></span> edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove"><span class="glyphicon glyphicon-trash"></span> remove</a></td></tr>'
     return html
 
 
@@ -393,14 +393,9 @@ def save_source(request):
         if source_id:
             try:
                 source = Source.objects.get(pk=source_id)
-                if source.is_default:
-                    default_source_articles = review.get_source_articles(source.id)
-                    review.sources.remove(source)
-                    source = Source()
-                source.name=name
+                source.name = name
                 source.set_url(url)
                 source.save()
-                default_source_articles.update(source=source)
                 review.sources.add(source)
                 review.save()
             except Source.DoesNotExist:
@@ -413,7 +408,8 @@ def save_source(request):
             review.sources.add(source)
             review.save()
         return HttpResponse(html_source(source))
-    except:
+    except Exception, e:
+        raise e
         return HttpResponseBadRequest()
 
 
