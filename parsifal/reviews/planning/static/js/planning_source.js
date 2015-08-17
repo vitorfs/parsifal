@@ -86,7 +86,7 @@ $(function () {
 
       var str_row = '<td><input value="' + name + '" id="name" class="form-control"></td>';
       str_row += '<td><input value="' + url + '" id="url" class="form-control"></td>';
-      str_row += '<td><button type="button" class="btn btn-success btn-sm btn-save-source"><span class="glyphicon glyphicon-ok"></span> save</button> <button type="button" class="btn btn-default btn-sm btn-cancel-source">cancel</button></td>';
+      str_row += '<td class="text-right"><button type="button" class="btn btn-success btn-sm btn-save-source"><span class="glyphicon glyphicon-ok"></span> save</button> <button type="button" class="btn btn-default btn-sm btn-cancel-source">cancel</button></td>';
       
       row.html(str_row);
 
@@ -97,7 +97,7 @@ $(function () {
   $("#btn-add-source").click(function () {
     if (!is_adding_or_editing_source) {
       is_adding_or_editing_source = true;
-      $("#tbl-sources tbody").prepend('<tr><td><input type="text" id="name" class="form-control"></td><td><input type="text" id="url" class="form-control"></td><td><button type="button" class="btn btn-success btn-sm btn-save-source"><span class="glyphicon glyphicon-ok"></span> save</button> <button type="button" class="btn btn-default btn-sm btn-cancel-source">cancel</button></td></tr>');
+      $("#tbl-sources tbody").prepend('<tr><td><input type="text" id="name" class="form-control"></td><td><input type="text" id="url" class="form-control"></td><td class="text-right"><button type="button" class="btn btn-success btn-sm btn-save-source"><span class="glyphicon glyphicon-ok"></span> save</button> <button type="button" class="btn btn-default btn-sm btn-cancel-source">cancel</button></td></tr>');
       $("#tbl-sources tbody tr:first-child td:first-child input").focus();
     }
   });  
