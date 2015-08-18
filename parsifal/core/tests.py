@@ -1,10 +1,14 @@
 # coding: utf-8
 
-from django.test import TestCase
+from django.test import TestCase, Client
 
+class HomeUnsignedUser(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.response = self.client.get('/')
 
-class HomepageTest(TestCase):
     def test_get(self):
-        response = self.client.get('/')
-        self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(response, 'core/cover.html')
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.response, 'core/cover.html')
