@@ -6,4 +6,4 @@ before_script:
   - cp .env.example .env
   - python manage.py migrate
 script:
-  - python manage.py test
+  - python manage.py test --settings=parsifal.test_settings
