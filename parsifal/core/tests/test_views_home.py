@@ -1,12 +1,11 @@
 # coding: utf-8
 
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.contrib.auth.models import User
 
 
 class HomeUnauthenticatedUser(TestCase):
     def setUp(self):
-        self.client = Client()
         self.response = self.client.get('/')
 
     def test_get(self):
@@ -19,7 +18,6 @@ class HomeUnauthenticatedUser(TestCase):
 class HomeAuthenticatedUser(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='john', password='s3cr3tp4ssw0rd', email='john@doe.com')
-        self.client = Client()
         self.client.login(username='john', password='s3cr3tp4ssw0rd')
         self.response = self.client.get('/')
 
