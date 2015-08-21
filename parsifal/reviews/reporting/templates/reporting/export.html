@@ -9,6 +9,82 @@
       <h3 class="panel-title">Download a Report</h3>
     </div>
     <div class="panel-body">
+
+      <div class="row">
+        <div class="col-sm-12">
+          <h4>Review <button type="button" class="btn btn-default btn-sm">Toggle all</button></h4>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Name</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Authors</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Description</label></div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <h4>Planning <button type="button" class="btn btn-default btn-sm">Toggle all</button></h4>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Objectives</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> PICOC</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Research Questions</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Keywords and Synonyms</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Search String</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Sources</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Quality Assessment Checklist</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Data Extraction Form</label></div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <h4>Conducting <button type="button" class="btn btn-default btn-sm">Toggle all</button></h4>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Source Search Strings</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Number of Imported Studies</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Study Selection</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Quality Assessment</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Data Extraction</label></div>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <div class="checkbox"><label><input type="checkbox" checked> Data Analysis</label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-footer">
       <a href="{% url 'reviews:reporting:download_docx' %}?review-id={{ review.pk }}" class="btn btn-primary">
         <span class="glyphicon glyphicon-cloud-download"></span>
         Download .docx
