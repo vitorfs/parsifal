@@ -103,10 +103,14 @@
     </div>
 
     <div class="panel-footer">
-      <a href="{% url 'reviews:reporting:download_docx' %}?review-id={{ review.pk }}" class="btn btn-primary">
-        <span class="glyphicon glyphicon-cloud-download"></span>
-        Download .docx
-      </a>
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="glyphicon glyphicon-cloud-download"></span> Download <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'reviews:reporting:download_docx' %}?review-id={{ review.pk }}"><em>.docx</em></a></li>
+        </ul>
+      </div>
     </div>
   </div>
 
