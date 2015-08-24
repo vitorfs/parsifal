@@ -107,4 +107,20 @@ def export_review_to_docx(review):
     for criteria in review.get_exclusion_criterias():
         document.add_paragraph(criteria.description, style='List Bullet')
 
+    '''
+        Quality Assessment Checklist
+    '''
+
+    document.add_heading('1.7 Quality Assessment Checklist', level=3)
+
+    p = document.add_paragraph()
+    p.add_run('Questions:').bold = True
+    for quality_question in review.get_quality_assessment_questions():
+        document.add_paragraph(quality_question.description, style='List Bullet')
+
+    p = document.add_paragraph()
+    p.add_run('Answers:').bold = True
+    for quality_answer in review.get_quality_assessment_answers():
+        document.add_paragraph(quality_answer.description, style='List Bullet')
+
     return document
