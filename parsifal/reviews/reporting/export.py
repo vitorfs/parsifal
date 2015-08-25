@@ -4,23 +4,27 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
-def export_review_to_docx(review):
+def export_review_to_docx(review, sections):
     document = Document()
 
-    h = document.add_heading(review.title, level=1)
-    h.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    document.add_paragraph('')
+    if 'name' in sections:
+        h = document.add_heading(review.title, level=1)
+        h.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        document.add_paragraph('')
 
-    authors = list()
-    authors.append(review.author.profile.get_screen_name())
-    for author in review.co_authors.all():
-        authors.append(author.profile.get_screen_name())
-    p = document.add_paragraph(', '.join(authors))
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    document.add_paragraph('')
+    if 'authors' in sections:
+        authors = list()
+        authors.append(review.author.profile.get_screen_name())
+        for author in review.co_authors.all():
+            authors.append(author.profile.get_screen_name())
+        p = document.add_paragraph(', '.join(authors))
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        document.add_paragraph('')
 
-    if review.description:
-        document.add_paragraph(review.description)
+    if 'description' in sections:
+        if review.description:
+            document.add_paragraph(review.description)
+
 
     document.add_heading('1 Protocol', level=2)
 
