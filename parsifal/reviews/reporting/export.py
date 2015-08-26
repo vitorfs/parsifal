@@ -127,4 +127,12 @@ def export_review_to_docx(review, sections):
     for quality_answer in review.get_quality_assessment_answers():
         document.add_paragraph(quality_answer.description, style='List Bullet')
 
+    '''
+        Data Extraction Form
+    '''
+
+    document.add_heading('1.8 Data Extraction Form', level=3)
+    for field in review.get_data_extraction_fields():
+        document.add_paragraph(field.description, style='List Bullet')
+
     return document
