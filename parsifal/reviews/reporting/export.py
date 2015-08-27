@@ -26,7 +26,7 @@ def export_review_to_docx(review, sections):
             document.add_paragraph(review.description)
 
 
-    document.add_heading('1 Protocol', level=2)
+    document.add_heading('1 Planning', level=2)
 
     if review.objective:
         document.add_paragraph(review.objective)
@@ -134,5 +134,14 @@ def export_review_to_docx(review, sections):
     document.add_heading('1.8 Data Extraction Form', level=3)
     for field in review.get_data_extraction_fields():
         document.add_paragraph(field.description, style='List Bullet')
+
+    document.add_heading('2 Conducting', level=2)
+
+    document.add_heading('2.1 Digital Libraries Search Strings', level=3)
+    for search_session in review.get_latest_source_search_strings():
+        p = document.add_paragraph()
+        p.add_run(u'{0}:'.format(search_session.source.name)).bold = True
+        document.add_paragraph(search_session.search_string)
+        document.add_paragraph()
 
     return document
