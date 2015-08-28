@@ -135,7 +135,15 @@ def export_review_to_docx(review, sections):
     for field in review.get_data_extraction_fields():
         document.add_paragraph(field.description, style='List Bullet')
 
+    '''
+        Conducting
+    '''
+
     document.add_heading('2 Conducting', level=2)
+
+    '''
+        Digital Libraries Search Strings
+    '''
 
     document.add_heading('2.1 Digital Libraries Search Strings', level=3)
     for search_session in review.get_latest_source_search_strings():
@@ -143,5 +151,11 @@ def export_review_to_docx(review, sections):
         p.add_run(u'{0}:'.format(search_session.source.name)).bold = True
         document.add_paragraph(search_session.search_string)
         document.add_paragraph()
+
+    document.add_heading('2.2 Imported Studies', level=3)
+    for source in review.sources.all():
+        p = document.add_paragraph(style='List Bullet')
+        p.add_run(u'{0}: '.format(source.name)).bold = True
+        p.add_run(str(source.article_set.count()))
 
     return document
