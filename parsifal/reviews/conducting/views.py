@@ -189,9 +189,6 @@ def study_selection(request, username, review_name):
             'finished_all_steps': finished_all_steps
         })
 
-def get_workflow_steps(self, review):
-    pass
-
 def build_quality_assessment_table(request, review):
     selected_studies = review.get_accepted_articles()
     quality_questions = review.get_quality_assessment_questions()
