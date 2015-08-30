@@ -176,4 +176,8 @@ def export_review_to_docx(review, sections):
         if article.year: row_cells[4].text = str(article.year)
         if article.status: row_cells[5].text = article.status
 
+    document.add_heading('2.4 Quality Assessment', level=3)
+    document.add_heading('2.5 Data Extraction', level=3)
+    document.add_heading('2.6 Data Analysis', level=3)
+
     return document
