@@ -26,7 +26,7 @@ def export_review_to_docx(review, sections):
             document.add_paragraph(review.description)
 
 
-    document.add_heading('1 Planning', level=2)
+    document.add_heading('Planning', level=2)
 
     if review.objective:
         document.add_paragraph(review.objective)
@@ -34,7 +34,7 @@ def export_review_to_docx(review, sections):
     '''
         PICOC
     '''
-    document.add_heading('1.1 PICOC', level=3)
+    document.add_heading('PICOC', level=3)
 
     p = document.add_paragraph('', style='List Bullet')
     p.add_run('Population: ').bold = True
@@ -59,7 +59,7 @@ def export_review_to_docx(review, sections):
     '''
         Research Questions
     '''
-    document.add_heading('1.2 Research Questions', level=3)
+    document.add_heading('Research Questions', level=3)
 
     for question in review.research_questions.all():
         document.add_paragraph(question.question, style='List Number')
@@ -67,7 +67,7 @@ def export_review_to_docx(review, sections):
     '''
         Keywords and Synonym
     '''
-    document.add_heading('1.3 Keywords and Synonyms', level=3)
+    document.add_heading('Keywords and Synonyms', level=3)
 
     table = document.add_table(rows=1, cols=2)
     hdr_cells = table.rows[0].cells
@@ -82,13 +82,13 @@ def export_review_to_docx(review, sections):
     '''
         Search String
     '''
-    document.add_heading('1.4 Search String', level=3)
+    document.add_heading('Search String', level=3)
     document.add_paragraph(review.get_generic_search_string().search_string)
 
     '''
         Sources
     '''
-    document.add_heading('1.5 Sources', level=3)
+    document.add_heading('Sources', level=3)
 
     for source in review.sources.all():
         text = source.name
@@ -99,7 +99,7 @@ def export_review_to_docx(review, sections):
     '''
         Selection Criteria
     '''
-    document.add_heading('1.6 Selection Criteria', level=3)
+    document.add_heading('Selection Criteria', level=3)
 
     p = document.add_paragraph()
     p.add_run('Inclusion Criteria:').bold = True
@@ -115,7 +115,7 @@ def export_review_to_docx(review, sections):
         Quality Assessment Checklist
     '''
 
-    document.add_heading('1.7 Quality Assessment Checklist', level=3)
+    document.add_heading('Quality Assessment Checklist', level=3)
 
     p = document.add_paragraph()
     p.add_run('Questions:').bold = True
@@ -131,7 +131,7 @@ def export_review_to_docx(review, sections):
         Data Extraction Form
     '''
 
-    document.add_heading('1.8 Data Extraction Form', level=3)
+    document.add_heading('Data Extraction Form', level=3)
     for field in review.get_data_extraction_fields():
         document.add_paragraph(field.description, style='List Bullet')
 
@@ -139,26 +139,26 @@ def export_review_to_docx(review, sections):
         Conducting
     '''
 
-    document.add_heading('2 Conducting', level=2)
+    document.add_heading('Conducting', level=2)
 
     '''
         Digital Libraries Search Strings
     '''
 
-    document.add_heading('2.1 Digital Libraries Search Strings', level=3)
+    document.add_heading('Digital Libraries Search Strings', level=3)
     for search_session in review.get_latest_source_search_strings():
         p = document.add_paragraph()
         p.add_run(u'{0}:'.format(search_session.source.name)).bold = True
         document.add_paragraph(search_session.search_string)
         document.add_paragraph()
 
-    document.add_heading('2.2 Imported Studies', level=3)
+    document.add_heading('Imported Studies', level=3)
     for source in review.sources.all():
         p = document.add_paragraph(style='List Bullet')
         p.add_run(u'{0}: '.format(source.name)).bold = True
         p.add_run(str(source.article_set.count()))
 
-    document.add_heading('2.3 Study Selection', level=3)
+    document.add_heading('Study Selection', level=3)
     table = document.add_table(rows=1, cols=6)
     hdr_cells = table.rows[0].cells
     hdr_cells[0].text = 'BibTeX Key'
@@ -176,8 +176,8 @@ def export_review_to_docx(review, sections):
         if article.year: row_cells[4].text = str(article.year)
         if article.status: row_cells[5].text = article.status
 
-    document.add_heading('2.4 Quality Assessment', level=3)
-    document.add_heading('2.5 Data Extraction', level=3)
-    document.add_heading('2.6 Data Analysis', level=3)
+    document.add_heading('Quality Assessment', level=3)
+    document.add_heading('Data Extraction', level=3)
+    document.add_heading('Data Analysis', level=3)
 
     return document
