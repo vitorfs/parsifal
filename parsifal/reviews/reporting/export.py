@@ -34,27 +34,28 @@ def export_review_to_docx(review, sections):
     '''
         PICOC
     '''
-    document.add_heading('PICOC', level=3)
+    if 'picoc' in sections:
+        document.add_heading('PICOC', level=3)
 
-    p = document.add_paragraph('', style='List Bullet')
-    p.add_run('Population: ').bold = True
-    p.add_run(review.population)
+        p = document.add_paragraph('', style='List Bullet')
+        p.add_run('Population: ').bold = True
+        p.add_run(review.population)
 
-    p = document.add_paragraph('', style='List Bullet')
-    p.add_run('Intervention: ').bold = True
-    p.add_run(review.intervention)
+        p = document.add_paragraph('', style='List Bullet')
+        p.add_run('Intervention: ').bold = True
+        p.add_run(review.intervention)
 
-    p = document.add_paragraph('', style='List Bullet')
-    p.add_run('Comparison: ').bold = True
-    p.add_run(review.comparison)
+        p = document.add_paragraph('', style='List Bullet')
+        p.add_run('Comparison: ').bold = True
+        p.add_run(review.comparison)
 
-    p = document.add_paragraph('', style='List Bullet')
-    p.add_run('Outcome: ').bold = True
-    p.add_run(review.outcome)
+        p = document.add_paragraph('', style='List Bullet')
+        p.add_run('Outcome: ').bold = True
+        p.add_run(review.outcome)
 
-    p = document.add_paragraph('', style='List Bullet')
-    p.add_run('Context: ').bold = True
-    p.add_run(review.context)
+        p = document.add_paragraph('', style='List Bullet')
+        p.add_run('Context: ').bold = True
+        p.add_run(review.context)
 
     '''
         Research Questions
