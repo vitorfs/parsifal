@@ -314,19 +314,28 @@ def build_data_extraction_field_row(article, field):
 
     return str_field
 
-def build_data_extraction_table(review):
+def build_data_extraction_table(review, is_finished):
     selected_studies = review.get_final_selection_articles()
+    if is_finished != None:
+        selected_studies = selected_studies.filter(finished_data_extraction=is_finished)
     data_extraction_fields = review.get_data_extraction_fields()
     has_quality_assessment = review.has_quality_assessment_checklist()
     if selected_studies and data_extraction_fields:
         str_table = u'<div class="panel-group">'
         for study in selected_studies:
             if has_quality_assessment:
-                str_table += u'''<div class="panel panel-success data-extraction-panel">
+                str_table += u'''<div class="panel panel-default data-extraction-panel">
                   <div class="panel-heading">
-                    <h3 class="panel-title">{1} <span class="badge pull-right">{2}</span></h3>
-                  </div>
-                  <div class="panel-body form-horizontal" data-article-id="{0}">'''.format(study.id, escape(study.title), study.get_score())
+                    <h3 class="panel-title">{0}
+                      <span class="badge">{1}</span>'''.format(escape(study.title), study.get_score())
+
+                if study.finished_data_extraction:
+                    str_table += u'<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-not-finished"><span class="glyphicon glyphicon-check"></span> <span class="action-text">mark as undone</span></a></span>'
+                else:
+                    str_table += u'<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-finished"><span class="glyphicon glyphicon-unchecked"></span> <span class="action-text">mark as done</span></a></span>'
+                
+                str_table += u'</h3></div>'
+                str_table += u'<div class="panel-body form-horizontal" data-article-id="{0}">'.format(study.id)
             else:
                 str_table += u'''<div class="panel panel-default data-extraction-panel">
                   <div class="panel-heading">
@@ -365,8 +374,21 @@ def data_extraction(request, username, review_name):
 
     finished_all_steps = not steps_messages
 
+    tab = request.GET.get('tab', 'todo')
+    if tab not in ['todo', 'done', 'all']:
+        tab = 'todo'
+
+    is_finished = None
+
+    if tab == 'todo':
+        is_finished = False
+    elif tab == 'done':
+        is_finished = True
+    elif tab == 'all':
+        is_finished = None
+
     try:
-        data_extraction_table = build_data_extraction_table(review)
+        data_extraction_table = build_data_extraction_table(review, is_finished)
     except Exception, e:
         raise e
         data_extraction_table = '<h3>Something went wrong while rendering the data extraction form.</h3>'
@@ -375,7 +397,8 @@ def data_extraction(request, username, review_name):
             'review': review, 
             'steps_messages': steps_messages, 
             'data_extraction_table': data_extraction_table, 
-            'finished_all_steps': finished_all_steps
+            'finished_all_steps': finished_all_steps,
+            'tab': tab
         })
 
 def bibtex_to_article_object(bib_database, review, source):
@@ -697,6 +720,20 @@ def save_data_extraction(request):
     except Exception, e:
         return HttpResponseBadRequest(e)
 
+@author_required
+@login_required
+def save_data_extraction_status(request):
+    try:
+        article_id = request.POST.get('article-id')
+        action = request.POST.get('action')
+        is_finished = (action == 'mark_as_done')
+
+        article = Article.objects.get(pk=article_id)
+        article.finished_data_extraction = is_finished
+        article.save()
+        return HttpResponse()
+    except Exception, e:
+        return HttpResponseBadRequest(e)
 
 @author_required
 @login_required

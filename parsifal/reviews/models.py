@@ -312,6 +312,7 @@ class Article(models.Model):
     issn = models.CharField(max_length=50, null=True, blank=True)
     language = models.CharField(max_length=50, null=True, blank=True)
     note = models.CharField(max_length=500, null=True, blank=True)
+    finished_data_extraction = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Article'
