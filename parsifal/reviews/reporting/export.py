@@ -185,10 +185,13 @@ def export_review_to_docx(review, sections):
             if article.year: row_cells[4].text = str(article.year)
             if article.status: row_cells[5].text = article.status
 
-    '''
-    document.add_heading('Quality Assessment', level=3)
-    document.add_heading('Data Extraction', level=3)
-    document.add_heading('Data Analysis', level=3)
-    '''
+    if 'quality_assessment' in sections:
+        document.add_heading('Quality Assessment', level=3)
+
+    if 'data_extraction' in sections:
+        document.add_heading('Data Extraction', level=3)
+
+    if 'data_analysis' in sections:
+        document.add_heading('Data Analysis', level=3)
 
     return document
