@@ -465,7 +465,7 @@ class DataExtraction(models.Model):
     user = models.ForeignKey(User, null=True)
     article = models.ForeignKey(Article)
     field = models.ForeignKey(DataExtractionField)
-    value = models.CharField(max_length=1000, blank=True)
+    value = models.TextField(blank=True, null=True)
     select_values = models.ManyToManyField(DataExtractionLookup)
 
     def _set_boolean_value(self, value):

@@ -31,15 +31,11 @@ $(function () {
     });
   }
 
-  $(".data-extraction-panel input[type=text]").change(function () {
+  $(".data-extraction-panel input[type='text'], .data-extraction-panel select, .data-extraction-panel textarea").change(function () {
     save_data_extraction_field($(this));
   });
 
-  $(".data-extraction-panel select").change(function () {
-    save_data_extraction_field($(this));
-  });
-
-  $(".data-extraction-panel input[type=checkbox]").click(function () {
+  $(".data-extraction-panel input[type='checkbox']").click(function () {
     save_data_extraction_field($(this));
   });
 

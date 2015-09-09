@@ -264,7 +264,7 @@ def build_data_extraction_field_row(article, field):
     except Exception, e:
         extraction = None
 
-    if field.field_type == field.BOOLEAN_FIELD:
+    if field.field_type == DataExtractionField.BOOLEAN_FIELD:
         true = u''
         false = u''
         if extraction != None:
@@ -279,14 +279,14 @@ def build_data_extraction_field_row(article, field):
             <option value="False"{1}>False</option>
           </select>'''.format(true, false)
 
-    elif field.field_type == field.DATE_FIELD:
+    elif field.field_type == DataExtractionField.DATE_FIELD:
         if extraction != None:
             value = extraction.get_date_value_as_string()
         else:
             value = u''
         str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="10" value="{2}">'.format(article.id, field.id, escape(value))
 
-    elif field.field_type == field.SELECT_ONE_FIELD:
+    elif field.field_type == DataExtractionField.SELECT_ONE_FIELD:
         str_field = u'''<select name="{0}-{1}-value" class="form-control">
             <option value="">Select...</option>'''.format(article.id, field.id)
         for value in field.get_select_values():
@@ -297,7 +297,7 @@ def build_data_extraction_field_row(article, field):
             str_field += u'''<option value="{0}"{1}>{2}</option>'''.format(value.id, selected, escape(value.value))
         str_field += u'</select>'
 
-    elif field.field_type == field.SELECT_MANY_FIELD:
+    elif field.field_type == DataExtractionField.SELECT_MANY_FIELD:
         for value in field.get_select_values():
             if extraction != None and value in extraction.get_value():
                 checked = ' checked'
@@ -305,12 +305,16 @@ def build_data_extraction_field_row(article, field):
                 checked = ''
             str_field += u'<label class="checkbox-inline"><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</label> '.format(article.id, field.id, value.id, checked, escape(value.value))
 
-    else:
+    elif field.field_type == DataExtractionField.STRING_FIELD:
+        value = ''
         if extraction != None:
             value = extraction.get_value()
-        else:
-            value = u''
-        str_field = u'<input type="text" class="form-control" name="{0}-{1}-value" maxlength="1000" value="{2}">'.format(article.id, field.id, escape(value))
+        str_field = u'<textarea class="form-control expanding" name="{0}-{1}-value" rows="1">{2}</textarea>'.format(article.id, field.id, escape(value))
+    else:
+        value = ''
+        if extraction != None:
+            value = extraction.get_value()          
+        str_field = u'<input type="text" class="form-control" maxlength="30" name="{0}-{1}-value" value="{2}">'.format(article.id, field.id, escape(value))
 
     return str_field
 
