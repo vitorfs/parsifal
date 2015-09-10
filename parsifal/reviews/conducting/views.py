@@ -309,7 +309,7 @@ def build_data_extraction_field_row(article, field):
         value = ''
         if extraction != None:
             value = extraction.get_value()
-        str_field = u'<textarea class="form-control expanding" name="{0}-{1}-value" rows="3">{2}</textarea>'.format(article.id, field.id, escape(value))
+        str_field = u'<textarea class="form-control" name="{0}-{1}-value" rows="3">{2}</textarea>'.format(article.id, field.id, escape(value))
     else:
         value = ''
         if extraction != None:
