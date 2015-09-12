@@ -166,25 +166,6 @@ def export_review_to_docx(review, sections):
             p.add_run(u'{0}: '.format(source.name)).bold = True
             p.add_run(str(source.article_set.count()))
 
-    if 'study_selection' in sections:
-        document.add_heading('Study Selection', level=3)
-        table = document.add_table(rows=1, cols=6)
-        hdr_cells = table.rows[0].cells
-        hdr_cells[0].text = 'BibTeX Key'
-        hdr_cells[1].text = 'Title'
-        hdr_cells[2].text = 'Authors'
-        hdr_cells[3].text = 'Journal'
-        hdr_cells[4].text = 'Year'
-        hdr_cells[5].text = 'Status'
-        for article in review.get_source_articles():
-            row_cells = table.add_row().cells
-            if article.bibtex_key: row_cells[0].text = article.bibtex_key
-            if article.title: row_cells[1].text = article.title
-            if article.author: row_cells[2].text = article.author
-            if article.journal: row_cells[3].text = article.journal
-            if article.year: row_cells[4].text = str(article.year)
-            if article.status: row_cells[5].text = article.status
-
     if 'quality_assessment' in sections:
         document.add_heading('Quality Assessment', level=3)
 
