@@ -189,8 +189,8 @@ def study_selection(request, username, review_name):
             'finished_all_steps': finished_all_steps
         })
 
-def build_quality_assessment_table(request, review):
-    selected_studies = review.get_accepted_articles()
+def build_quality_assessment_table(request, review, order):
+    selected_studies = review.get_accepted_articles().order_by(order)
     quality_questions = review.get_quality_assessment_questions()
     quality_answers = review.get_quality_assessment_answers()
 
@@ -200,11 +200,11 @@ def build_quality_assessment_table(request, review):
             str_table += u'''
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h3 class="panel-title">{0}<span class="badge score pull-right">{1}</span></h3>
+                <h3 class="panel-title">{0} <small>({4})</small><span class="badge score pull-right">{1}</span></h3>
               </div>
 
             <table class="table" id="tbl-quality" article-id="{2}" csrf-token="{3}">
-                <tbody>'''.format(escape(study.title), study.get_score(), study.id, unicode(csrf(request)['csrf_token']))
+                <tbody>'''.format(escape(study.title), study.get_score(), study.id, unicode(csrf(request)['csrf_token']), study.year)
 
             quality_assessment = study.get_quality_assesment()
 
@@ -251,10 +251,24 @@ def quality_assessment(request, username, review_name):
 
     finished_all_steps = len(steps_messages) == 0
 
-    quality_assessment_table = build_quality_assessment_table(request, review)
+    order = 'title'
+    if 'order' in request.GET:
+        order = request.GET.get('order')
+    elif 'quality_assessment_order' in request.session:
+        order = request.session.get('quality_assessment_order')
+    if order not in ('title', '-title', 'year', '-year'):
+        order = 'title'
+    request.session['quality_assessment_order'] = order
 
-    context = RequestContext(request, {'review': review, 'steps_messages': steps_messages, 'quality_assessment_table': quality_assessment_table, 'finished_all_steps': finished_all_steps})
-    return render_to_response('conducting/conducting_quality_assessment.html', context)
+    quality_assessment_table = build_quality_assessment_table(request, review, order)
+
+    return render(request, 'conducting/conducting_quality_assessment.html', {
+            'review': review, 
+            'steps_messages': steps_messages, 
+            'quality_assessment_table': quality_assessment_table, 
+            'finished_all_steps': finished_all_steps,
+            'order': order
+        })
 
 def build_data_extraction_field_row(article, field):
     str_field = u''
@@ -633,8 +647,9 @@ def quality_assessment_detailed(request):
     try:
         review_id = request.GET['review-id']
         review = Review.objects.get(pk=review_id)
-        quality_assessment_table = build_quality_assessment_table(request, review)
-        context = RequestContext(request, {'review': review, 'quality_assessment_table': quality_assessment_table})
+        order = request.session.get('quality_assessment_order', 'title')
+        quality_assessment_table = build_quality_assessment_table(request, review, order)
+        context = RequestContext(request, {'review': review, 'quality_assessment_table': quality_assessment_table, 'order': order})
         return render_to_response('conducting/partial_conducting_quality_assessment_detailed.html', context)
     except:
         return HttpResponseBadRequest()

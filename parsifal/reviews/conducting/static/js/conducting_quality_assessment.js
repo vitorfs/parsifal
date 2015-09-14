@@ -113,5 +113,9 @@ $(function () {
       }
     });
   });
+
+  $(".quality-container").on("change", "#quality-assessment-order", function () {
+    $(this).closest("form").submit();
+  });
       
 });
