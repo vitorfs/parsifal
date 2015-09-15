@@ -37,7 +37,17 @@
                       <input type="hidden" name="source-id" value="{{ source.source.id }}">
                       <input type="file" class="hide" name="bibtex">
                     </form>
-                    <button type="button" class="btn btn-sm btn-default btn-import-bibtex">Import Bibtex</button>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                        Import
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" class="btn-import-bibtex">BibTeX file <small>(.bib, .bibtex)</small></a></li>
+                        <li><a href="javascript:void(0);">Paste BibTeX content</a></li>
+                      </ul>
+                    </div>
                   </td>
                 </tr>
               {% endfor %}
