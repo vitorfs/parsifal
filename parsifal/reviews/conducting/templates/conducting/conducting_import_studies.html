@@ -30,15 +30,17 @@
                 <tr>
                   <td>{{ source.source.name }}</td>
                   <td>{{ source.count }}</td>
-                  <td>
+                  <td class="text-center">
                     <form enctype="multipart/form-data" method="post" action="{% url 'reviews:conducting:import_bibtex' %}">
                       {% csrf_token %}
                       <input type="hidden" name="review-id" value="{{ review.id }}">
                       <input type="hidden" name="source-id" value="{{ source.source.id }}">
                       <input type="file" class="hide" name="bibtex">
                     </form>
+                    <button type="button" class="btn btn-sm btn-default btn-import-bibtex">Import Bibtex</button>
+                    {% comment %}
                     <div class="btn-group">
-                      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                         Import
                         <span class="caret"></span>
@@ -48,6 +50,7 @@
                         <li><a href="javascript:void(0);">Paste BibTeX content</a></li>
                       </ul>
                     </div>
+                    {% endcomment %}
                   </td>
                 </tr>
               {% endfor %}

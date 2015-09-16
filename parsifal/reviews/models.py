@@ -114,6 +114,10 @@ class Review(models.Model):
         for i in range(0, len(articles)):
             temp_duplicates = []
             for j in range(0, len(articles)):
+                if not articles[i].title:
+                    articles[i].title = ''
+                if not articles[j].title:
+                    articles[j].title = ''
                 if i != j and articles[i].title.lower().strip() == articles[j].title.lower().strip():
                     if articles[j].id not in duplicates_control_id:
                         temp_duplicates.append(articles[j])
