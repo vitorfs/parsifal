@@ -37,8 +37,6 @@
                       <input type="hidden" name="source-id" value="{{ source.source.id }}">
                       <input type="file" class="hide" name="bibtex">
                     </form>
-                    <button type="button" class="btn btn-sm btn-default btn-import-bibtex">Import Bibtex</button>
-                    {% comment %}
                     <div class="btn-group">
                       <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
@@ -50,7 +48,6 @@
                         <li><a href="javascript:void(0);">Paste BibTeX content</a></li>
                       </ul>
                     </div>
-                    {% endcomment %}
                   </td>
                 </tr>
               {% endfor %}
