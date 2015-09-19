@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'parsifal.core',
     'parsifal.help',
     'parsifal.library',
+    'parsifal.search',
 )
 
 LOGIN_URL = '/signin/'
