@@ -453,6 +453,23 @@ def bibtex_to_article_object(bib_database, review, source):
             articles.append(article)
     return articles
 
+def _import_articles(request, source, articles):
+    if any(articles):
+        success = 0
+        error = 0
+        for article in articles:
+            try:
+                article.save()
+                success = success + 1
+            except:
+                error = error + 1
+        if success > 0:
+            messages.success(request, u'{0} articles successfully imported to {1}!'.format(success, source.name))
+        if error > 0:
+            messages.warning(request, u'{0} articles could not be imported because of invalid format or invalid utf-8 string.'.format(error))
+    else:
+        messages.warning(request, u'The bibtex file had no valid entry!')
+
 @author_required
 @login_required
 @require_POST
@@ -473,23 +490,28 @@ def import_bibtex(request):
         parser.customization = convert_to_unicode
         bib_database = bibtexparser.load(bibtex_file, parser=parser)
         articles = bibtex_to_article_object(bib_database, review, source)
-        if any(articles):
-            success = 0
-            error = 0
-            for article in articles:
-                try:
-                    article.save()
-                    success = success + 1
-                except:
-                    error = error + 1
-            if success > 0:
-                messages.success(request, u'{0} articles successfully imported to {1}!'.format(success, source.name))
-            if error > 0:
-                messages.warning(request, u'{0} articles could not be imported because of invalid format or invalid utf-8 string.'.format(error))
-        else:
-            messages.warning(request, u'The bibtex file had no valid entry!')
+        _import_articles(request, source, articles)
     else:
         messages.error(request, u'Invalid file type. Only .bib or .bibtex files are accepted.')
+
+    return redirect(r('import_studies', args=(review.author.username, review.name)))
+
+@author_required
+@login_required
+@require_POST
+def import_bibtex_raw_content(request):
+    review_id = request.POST.get('review-id')
+    source_id = request.POST.get('source-id')
+    bibtex_file = request.POST.get('bibtex_file')
+
+    review = Review.objects.get(pk=review_id)
+    source = Source.objects.get(pk=source_id)
+
+    parser = BibTexParser()
+    parser.customization = convert_to_unicode
+    bib_database = bibtexparser.loads(bibtex_file, parser=parser)
+    articles = bibtex_to_article_object(bib_database, review, source)
+    _import_articles(request, source, articles)
 
     return redirect(r('import_studies', args=(review.author.username, review.name)))
 
