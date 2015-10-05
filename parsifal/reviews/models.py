@@ -7,6 +7,7 @@ from django.utils.html import escape
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 from parsifal.library.models import Document
 
@@ -106,26 +107,20 @@ class Review(models.Model):
             return Article.objects.filter(review__id=self.id, source__id=source_id)
 
     def get_duplicate_articles(self):
-        articles = Article.objects.filter(review__id=self.id).exclude(status=Article.DUPLICATED)
+        articles = Article.objects.filter(review__id=self.id).exclude(status=Article.DUPLICATED).order_by('title')
+        grouped_articles = dict()
 
-        duplicates = []
-        duplicates_control_id = []
+        for article in articles:
+            slug = slugify(article.title)
+            if slug not in grouped_articles.keys():
+                grouped_articles[slug] = { 'size': 0, 'articles': list() }
+            grouped_articles[slug]['size'] += 1
+            grouped_articles[slug]['articles'].append(article)
 
-        for i in range(0, len(articles)):
-            temp_duplicates = []
-            for j in range(0, len(articles)):
-                if not articles[i].title:
-                    articles[i].title = ''
-                if not articles[j].title:
-                    articles[j].title = ''
-                if i != j and articles[i].title.lower().strip() == articles[j].title.lower().strip():
-                    if articles[j].id not in duplicates_control_id:
-                        temp_duplicates.append(articles[j])
-                        duplicates_control_id.append(articles[j].id)
-            if len(temp_duplicates) > 0:
-                duplicates_control_id.append(articles[i].id)
-                temp_duplicates.append(articles[i])
-                duplicates.append(temp_duplicates)
+        duplicates = list()
+        for slug, data in grouped_articles.iteritems():
+            if data['size'] > 1:
+                duplicates.append(data['articles'])
 
         return duplicates
 
