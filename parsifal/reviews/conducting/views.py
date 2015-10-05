@@ -535,13 +535,17 @@ def source_articles(request):
 @author_required
 @login_required
 def article_details(request):
+    review_id = request.GET['review-id']
     article_id = request.GET['article-id']
+
+    review = Review.objects.get(pk=review_id)
     article = Article.objects.get(pk=article_id)
+
     user = request.user
     mendeley_files = []
     if user.profile.mendeley_token:
         mendeley_files = user.profile.get_mendeley_session().files.list().items
-    context = RequestContext(request, { 'article': article, 'mendeley_files': mendeley_files })
+    context = RequestContext(request, { 'review': review, 'article': article, 'mendeley_files': mendeley_files })
     return render_to_response('conducting/partial_conducting_article_details.html', context)
 '''
 @author_required
@@ -633,6 +637,13 @@ def save_article_details(request):
             status = request.POST['status'][:1]
             if status in (Article.UNCLASSIFIED, Article.REJECTED, Article.ACCEPTED, Article.DUPLICATED):
                 article.status = status
+
+            selection_criteria_id = request.POST.get('selection_criteria')
+            try:
+                selection_criteria = SelectionCriteria.objects.get(pk=selection_criteria_id)
+                article.selection_criteria = selection_criteria
+            except:
+                article.selection_criteria = None
 
             article.save()
 

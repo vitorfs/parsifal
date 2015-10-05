@@ -25,14 +25,36 @@
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="tab-details">
-        <div class="form-group">
-          <label class="control-label">Status</label>
-          <select name="status" id="status" class="form-control" style="width: 200px;">
-            {% for status in article.ARTICLE_STATUS %}
-              <option value="{{ status.0 }}"{% if article.status == status.0 %} selected{% endif %}>{{ status.1 }}</option>
-            {% endfor %}
-          </select>
-        </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Status</label>
+                <select name="status" id="status" class="form-control">
+                  {% for status in article.ARTICLE_STATUS %}
+                    <option value="{{ status.0 }}"{% if article.status == status.0 %} selected{% endif %}>{{ status.1 }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Selection Criteria</label>
+                <select name="selection_criteria" class="form-control">
+                  <option value="">Select...</option>
+                  <optgroup label="Inclusion Criterias">
+                    {% for criteria in review.get_inclusion_criterias %}
+                      <option value="{{ criteria.id }}"{% if article.selection_criteria == criteria %} selected{% endif %}>{{ criteria.description }}</option>
+                    {% endfor %}
+                  </optgroup>
+                  <optgroup label="Exclusion Criterias">
+                    {% for criteria in review.get_exclusion_criterias %}
+                      <option value="{{ criteria.id }}"{% if article.selection_criteria == criteria %} selected{% endif %}>{{ criteria.description }}</option>
+                    {% endfor %}
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
         <div class="form-group">
           <label class="control-label">Title</label>
           <input type="text" class="form-control" name="title" id="title" value="{{ article.title }}">

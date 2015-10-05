@@ -545,3 +545,9 @@ th.headerSortUp:after {
   content: "\e156";
   font-weight: 300;
 }
+
+select optgroup {
+  font-family: inherit;
+  font-size: inherit;
+  margin-left: 4px;
+}

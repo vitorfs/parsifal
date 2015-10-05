@@ -317,6 +317,7 @@ class Article(models.Model):
     language = models.CharField(max_length=50, null=True, blank=True)
     note = models.CharField(max_length=500, null=True, blank=True)
     finished_data_extraction = models.BooleanField(default=False)
+    selection_criteria = models.ForeignKey(SelectionCriteria, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Article'
