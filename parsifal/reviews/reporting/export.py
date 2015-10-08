@@ -164,7 +164,8 @@ def export_review_to_docx(review, sections):
         for source in review.sources.all():
             p = document.add_paragraph(style='List Bullet')
             p.add_run(u'{0}: '.format(source.name)).bold = True
-            p.add_run(str(source.article_set.count()))
+            count = review.article_set.filter(source=source).count()
+            p.add_run(str(count))
 
     if 'quality_assessment' in sections:
         document.add_heading('Quality Assessment', level=3)
