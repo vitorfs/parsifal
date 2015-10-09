@@ -363,3 +363,14 @@ def import_bibtex(request):
         messages.error(request, u'Invalid file type. Only .bib or .bibtex files are accepted.')
 
     return redirect(redirect_to)
+
+@login_required
+def shared_folder(request, slug):
+    querystring = request.GET.get('q', '')
+    order = get_order(request)
+    shared_folder = get_object_or_404(SharedFolder, slug=slug)
+    queryset = shared_folder.documents.all()
+    queryset = get_filtered_documents(queryset, querystring)
+    queryset = queryset.order_by(order)
+    documents = get_paginated_documents(request, queryset)
+    return library(request, documents, querystring, order, shared_folder)
