@@ -19,13 +19,14 @@ class SharedFolder(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        super(SharedFolder, self).save(*args, **kwargs)
-        if slugify(self.name):
+        if not self.pk:
+            super(SharedFolder, self).save(*args, **kwargs)
+        slug = slugify(self.name)
+        if len(slug) > 0:
             self.slug = slugify(u'{0} {1}'.format(self.name, self.pk))
         else:
             self.slug = self.pk
         super(SharedFolder, self).save(*args, **kwargs)
-
 
 
 class Collaborator(models.Model):
@@ -178,7 +179,7 @@ class Folder(models.Model):
 
     def save(self, *args, **kwargs):
         base_slug = slugify(self.name)
-        if base_slug:
+        if len(base_slug) > 0:
             unique_slug = base_slug
         else:
             base_slug = unique_slug = 'untitled-folder'

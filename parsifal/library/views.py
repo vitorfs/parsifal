@@ -14,7 +14,6 @@ from django.core.urlresolvers import reverse as r
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.text import slugify
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
