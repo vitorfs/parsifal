@@ -21,11 +21,17 @@ class SharedFolder(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             super(SharedFolder, self).save(*args, **kwargs)
-        slug = slugify(self.name)
-        if len(slug) > 0:
-            self.slug = slugify(u'{0} {1}'.format(self.name, self.pk))
+        base_slug = slugify(self.name)
+        if len(base_slug) > 0:
+            base_slug = slugify(u'{0} {1}'.format(self.name, self.pk))
         else:
-            self.slug = self.pk
+            base_slug = self.pk
+        i = 0
+        unique_slug = base_slug
+        while SharedFolder.objects.filter(slug=unique_slug).exists():
+            i += 1
+            unique_slug = u'{0}-{1}'.format(base_slug, i)
+        self.slug = unique_slug
         super(SharedFolder, self).save(*args, **kwargs)
 
 
