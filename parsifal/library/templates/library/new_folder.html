@@ -1,5 +1,6 @@
 <form id="form-new-folder" action="{% url 'library:new_folder' %}" method="post">
   {% csrf_token %}
+  {{ form.user }}
   <div class="form-group has-feedback{% if form.name.errors %} has-error{% endif %}" style="margin-bottom: 0;">
     {{ form.name  }}
     <span class="form-control-feedback" aria-hidden="true" style="display: none;"></span>

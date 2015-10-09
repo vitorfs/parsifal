@@ -1,68 +1,106 @@
+# coding: utf-8
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class SharedFolder(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=55)
-    owner = models.ForeignKey(User)
-    users = models.ManyToManyField(User, related_name='shared_folders')
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=255, null=True, blank=True)
+    users = models.ManyToManyField(User, through='Collaborator', related_name='shared_folders')
 
     class Meta:
-        verbose_name = u'Shared Folder'
-        verbose_name_plural = u'Shared Folders'
-        ordering = (u'name',)
+        verbose_name = 'Shared Folder'
+        verbose_name_plural = 'Shared Folders'
+        ordering = ('name',)
 
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        super(SharedFolder, self).save(*args, **kwargs)
+        if slugify(self.name):
+            self.slug = slugify(u'{0} {1}'.format(self.name, self.pk))
+        else:
+            self.slug = self.pk
+        super(SharedFolder, self).save(*args, **kwargs)
+
+
+
+class Collaborator(models.Model):
+    READ = 'R'
+    WRITE = 'W'
+    ADMIN = 'A'
+
+    ACCESS_TYPES = (
+        (READ, 'Read'),
+        (WRITE, 'Write'),
+        (ADMIN, 'Admin'),
+        )
+
+    user = models.ForeignKey(User)
+    shared_folder = models.ForeignKey(SharedFolder)
+    joined_at = models.DateTimeField(auto_now_add=True)
+    is_owner = models.BooleanField(default=False)
+    access = models.CharField(max_length=1, choices=ACCESS_TYPES, default=READ)
+
+    class Meta:
+        verbose_name = 'Collaborator'
+        verbose_name_plural = 'Collaborators'
+
+    def save(self, *args, **kwargs):
+        if self.is_owner:
+            self.access = Collaborator.ADMIN
+        super(Collaborator, self).save(*args, **kwargs)
+
 
 class Document(models.Model):
-    ARTICLE = u'article'
-    BOOK = u'book'
-    BOOKLET = u'booklet'
-    CONFERENCE = u'conference'
-    INBOOK = u'inbook'
-    INCOLLECTION = u'incollection'
-    INPROCEEDINGS = u'inproceedings'
-    MANUAL = u'manual'
-    MASTERSTHESIS = u'mastersthesis'
-    MISC = u'misc'
-    PHDTHESIS = u'phdthesis'
-    PROCEEDINGS = u'proceedings'
-    TECHREPORT = u'techreport'
-    UNPUBLISHED = u'unpublished'
+    ARTICLE = 'article'
+    BOOK = 'book'
+    BOOKLET = 'booklet'
+    CONFERENCE = 'conference'
+    INBOOK = 'inbook'
+    INCOLLECTION = 'incollection'
+    INPROCEEDINGS = 'inproceedings'
+    MANUAL = 'manual'
+    MASTERSTHESIS = 'mastersthesis'
+    MISC = 'misc'
+    PHDTHESIS = 'phdthesis'
+    PROCEEDINGS = 'proceedings'
+    TECHREPORT = 'techreport'
+    UNPUBLISHED = 'unpublished'
 
     ENTRY_TYPES = (
-        (ARTICLE, u'Article'),
-        (BOOK, u'Book'),
-        (BOOKLET, u'Booklet'),
-        (CONFERENCE, u'Conference'),
-        (INBOOK, u'Inbook'),
-        (INCOLLECTION, u'Incollection'),
-        (INPROCEEDINGS, u'Inproceedings'),
-        (MANUAL, u'Manual'),
-        (MASTERSTHESIS, u'Master\'s Thesis'),
-        (MISC, u'Misc'),
-        (PHDTHESIS, u'Ph.D. Thesis'),
-        (PROCEEDINGS, u'Proceedings'),
-        (TECHREPORT, u'Tech Report'),
-        (UNPUBLISHED, u'Unpublished'),
+        (ARTICLE, 'Article'),
+        (BOOK, 'Book'),
+        (BOOKLET, 'Booklet'),
+        (CONFERENCE, 'Conference'),
+        (INBOOK, 'Inbook'),
+        (INCOLLECTION, 'Incollection'),
+        (INPROCEEDINGS, 'Inproceedings'),
+        (MANUAL, 'Manual'),
+        (MASTERSTHESIS, 'Master\'s Thesis'),
+        (MISC, 'Misc'),
+        (PHDTHESIS, 'Ph.D. Thesis'),
+        (PROCEEDINGS, 'Proceedings'),
+        (TECHREPORT, 'Tech Report'),
+        (UNPUBLISHED, 'Unpublished'),
         )
 
     # Bibtex required fields
-    bibtexkey = models.CharField(u'Bibtex key', max_length=255, null=True, blank=True)
-    entry_type = models.CharField(u'Document type', max_length=13, choices=ENTRY_TYPES, null=True, blank=True)
+    bibtexkey = models.CharField('Bibtex key', max_length=255, null=True, blank=True)
+    entry_type = models.CharField('Document type', max_length=13, choices=ENTRY_TYPES, null=True, blank=True)
     
     # Bibtex base fields
     address = models.CharField(max_length=2000, null=True, blank=True)
     author = models.TextField(max_length=1000, null=True, blank=True)
     booktitle = models.CharField(max_length=1000, null=True, blank=True)
     chapter = models.CharField(max_length=1000, null=True, blank=True)
-    crossref = models.CharField(u'Cross-referenced', max_length=1000, null=True, blank=True)
+    crossref = models.CharField('Cross-referenced', max_length=1000, null=True, blank=True)
     edition = models.CharField(max_length=1000, null=True, blank=True)
     editor = models.CharField(max_length=1000, null=True, blank=True)
-    howpublished = models.CharField(u'How it was published', max_length=1000, null=True, blank=True)
+    howpublished = models.CharField('How it was published', max_length=1000, null=True, blank=True)
     institution = models.CharField(max_length=1000, null=True, blank=True)
     journal = models.CharField(max_length=1000, null=True, blank=True)
     month = models.CharField(max_length=50, null=True, blank=True)
@@ -81,12 +119,12 @@ class Document(models.Model):
     # Extra fields
     abstract = models.TextField(max_length=4000, null=True, blank=True)
     coden = models.CharField(max_length=1000, null=True, blank=True)
-    doi = models.CharField(u'DOI', max_length=255, null=True, blank=True)
-    isbn = models.CharField(u'ISBN', max_length=255, null=True, blank=True)
-    issn = models.CharField(u'ISSN', max_length=255, null=True, blank=True)
+    doi = models.CharField('DOI', max_length=255, null=True, blank=True)
+    isbn = models.CharField('ISBN', max_length=255, null=True, blank=True)
+    issn = models.CharField('ISSN', max_length=255, null=True, blank=True)
     keywords = models.CharField(max_length=2000, null=True, blank=True)
     language = models.CharField(max_length=1000, null=True, blank=True)
-    url = models.CharField(u'URL', max_length=1000, null=True, blank=True)
+    url = models.CharField('URL', max_length=1000, null=True, blank=True)
 
     # Parsifal management field
     user = models.ForeignKey(User, null=True, related_name='documents')
@@ -97,8 +135,8 @@ class Document(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = u'Document'
-        verbose_name_plural = u'Documents'
+        verbose_name = 'Document'
+        verbose_name_plural = 'Documents'
 
     def __unicode__(self):
         return self.title
@@ -108,31 +146,45 @@ def document_file_upload_to(instance, filename):
     return u'library/{0}/'.format(instance.document.user.pk)
 
 class DocumentFile(models.Model):
-    document = models.ForeignKey(Document, related_name=u'files')
-    document_file = models.FileField(upload_to=u'library/')
+    document = models.ForeignKey(Document, related_name='files')
+    document_file = models.FileField(upload_to='library/')
     filename = models.CharField(max_length=255)
     size = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)    
 
     class Meta:
-        verbose_name = u'Document File'
-        verbose_name_plural = u'Document Files'
+        verbose_name = 'Document File'
+        verbose_name_plural = 'Document Files'
 
     def __unicode__(self):
         return self.filename
 
 
 class Folder(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=55)
-    user = models.ForeignKey(User, related_name=u'library_folders')
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, related_name='library_folders')
     documents = models.ManyToManyField(Document)
 
     class Meta:
-        verbose_name = u'Folder'
-        verbose_name_plural = u'Folders'
-        ordering = (u'name',)
+        verbose_name = 'Folder'
+        verbose_name_plural = 'Folders'
+        ordering = ('name',)
+        unique_together = (('name', 'user'),)
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        base_slug = slugify(self.name)
+        if base_slug:
+            unique_slug = base_slug
+        else:
+            base_slug = unique_slug = 'untitled-folder'
+        i = 0
+        while Folder.objects.filter(slug=unique_slug).exists():
+            i += 1
+            unique_slug = u'{0}-{1}'.format(base_slug, i)
+        self.slug = unique_slug
+        super(Folder, self).save(*args, **kwargs)

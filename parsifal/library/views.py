@@ -14,7 +14,7 @@ from django.core.urlresolvers import reverse as r
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from django.views.decorators.http import require_POST
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -48,7 +48,7 @@ def get_filtered_documents(queryset, querystring):
 
 def library(request, documents, querystring, order, active_folder=None):
     reviews = Review.objects.filter(author=request.user)
-    folder_form = FolderForm()
+    folder_form = FolderForm(initial={ 'user': request.user })
     current_full_path = request.get_full_path()
     return render(request, 'library/library.html', { 
             'reviews': reviews, 
@@ -96,24 +96,13 @@ def folder(request, slug):
     documents = get_paginated_documents(request, queryset)
     return library(request, documents, querystring, order, folder)
 
-def save_folder(form):
-    base_slug = slugify(form.instance.name)
-    unique_slug = base_slug
-    i = 0
-    while Folder.objects.filter(slug=unique_slug):
-        i = i + 1
-        unique_slug = u'{0}-{1}'.format(base_slug, i)
-    form.instance.slug = unique_slug
-    folder = form.save()
-    return folder
-
 @login_required
 @require_POST
 def new_folder(request):
     form = FolderForm(request.POST)
     if form.is_valid():
         form.instance.user = request.user
-        folder = save_folder(form)
+        folder = form.save()
         dump = json.dumps({ 'folder': { 'id': folder.id, 'name': folder.name, 'slug': folder.slug } })
         return HttpResponse(dump, content_type='application/json')
     else:
@@ -123,10 +112,10 @@ def new_folder(request):
 @login_required
 @require_POST
 def edit_folder(request):
-    deleteFolder = request.POST.get('delete', '') == 'delete'
+    delete_folder = request.POST.get('delete', '') == 'delete'
     folder_id = request.POST.get('id')
     folder = Folder.objects.get(pk=folder_id)
-    if deleteFolder:
+    if delete_folder:
         folder.delete()
         messages.success(request, u'The folder {0} was deleted successfully!'.format(folder.name))
         return redirect(r('library:index'))
@@ -134,7 +123,7 @@ def edit_folder(request):
         form = FolderForm(request.POST, instance=folder)
         if form.is_valid():
             form.instance.user = request.user
-            folder = save_folder(form)
+            folder = form.save()
             messages.success(request, u'The folder {0} was changed successfully!'.format(folder.name))
         else:
             messages.error(request, u'An error ocurred while trying to save folder {0}'.format(folder.name))

@@ -1,4 +1,7 @@
+# coding: utf-8
+
 from django import forms
+from django.contrib.auth.models import User
 
 from parsifal.library.models import Folder, Document
 
@@ -9,10 +12,19 @@ class FolderForm(forms.ModelForm):
             max_length=50, 
             required=True
         )
+    user = forms.ModelChoiceField(widget=forms.HiddenInput(), queryset=User.objects.all(), required=True)
 
     class Meta:
         model = Folder
-        fields = ['name',]
+        fields = ['name', 'user',]
+
+    def clean(self):
+        cleaned_data = super(FolderForm, self).clean()
+        name = cleaned_data.get('name')
+        user = cleaned_data.get('user')
+        if Folder.objects.filter(name=name, user=user).exists():
+            self.add_error('name', 'Folder with this name already exists.')
+
 
 class DocumentForm(forms.ModelForm):
     
