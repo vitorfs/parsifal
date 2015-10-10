@@ -376,3 +376,15 @@ def shared_folder(request, slug):
     queryset = queryset.order_by(order)
     documents = get_paginated_documents(request, queryset)
     return library(request, documents, querystring, order, shared_folder)
+
+@login_required
+@require_POST
+def new_shared_folder(request):
+    form = SharedFolderForm(request.POST)
+    if form.is_valid():
+        folder = form.save()
+        dump = json.dumps({ 'folder': { 'id': folder.id, 'name': folder.name, 'slug': folder.slug } })
+        return HttpResponse(dump, content_type='application/json')
+    else:
+        dump = json.dumps(form.errors)
+        return HttpResponseBadRequest(dump, content_type='application/json')

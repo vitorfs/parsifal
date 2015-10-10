@@ -14,6 +14,16 @@ Library · Parsifal
   <script src="{% static 'js/library.js' %}"></script>
 {% endblock %}
 
+{% block mustache %}
+  {% verbatim %}
+    <script id="folder-action-template" type="x-tmpl-mustache">
+      <li>
+        <a href="javascript:void(0);" class="{{ css_class }}" data-to-folder-id="{{ to }}" data-from-folder-id="{{ from }}">{{ name }}</a>
+      </li>
+    </script>
+  {% endverbatim %}
+{% endblock %}
+
 {% block content %}
   <h2 class="page-header">
     My Library
