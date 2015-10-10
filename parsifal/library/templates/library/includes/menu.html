@@ -24,8 +24,11 @@
       {% for shared_folder in user.shared_folders.all %}
         <a href="{% url 'library:shared_folder' shared_folder.slug %}" class="list-group-item{% if active_folder.slug == shared_folder.slug %} active{% endif %}">{{ shared_folder.name }}</a>
       {% endfor %}
-      <a href="javascript:void(0);" class="list-group-item">
+      <a href="javascript:void(0);" class="list-group-item js-add-shared-folder">
         <small><span class="glyphicon glyphicon-plus"></span> Add shared folder…</small>
+      </a>
+      <a href="javascript:void(0);" class="list-group-item js-add-shared-folder-input" style="display: none; background-color: transparent!important;">
+        {% include 'library/new_shared_folder.html' with form=shared_folder_form %}
       </a>
     </div>
   </div>

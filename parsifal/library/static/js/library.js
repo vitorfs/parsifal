@@ -167,6 +167,14 @@ $(function () {
     })
   });
 
+  $(".js-add-shared-folder").click(function () {
+    $(".js-add-shared-folder").fadeOut(100, function () {
+      $(".js-add-shared-folder-input").fadeIn(100, function () {
+        $(".js-add-shared-folder-input #id_name").focus();
+      });
+    });
+  });
+
   $("#form-new-folder").submit(function () {
     var form = $(this);
     $.ajax({

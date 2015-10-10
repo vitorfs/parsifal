@@ -20,7 +20,7 @@ from django.utils.safestring import mark_safe
 
 from parsifal.reviews.models import Review, Article
 from parsifal.library.models import Folder, Document
-from parsifal.library.forms import FolderForm, DocumentForm
+from parsifal.library.forms import FolderForm, DocumentForm, SharedFolderForm
 
 
 def get_order(request):
@@ -48,6 +48,7 @@ def get_filtered_documents(queryset, querystring):
 def library(request, documents, querystring, order, active_folder=None):
     reviews = Review.objects.filter(author=request.user)
     folder_form = FolderForm(initial={ 'user': request.user })
+    shared_folder_form = SharedFolderForm()
     current_full_path = request.get_full_path()
     return render(request, 'library/library.html', { 
             'reviews': reviews, 
@@ -56,6 +57,7 @@ def library(request, documents, querystring, order, active_folder=None):
             'order': order,
             'active_folder': active_folder,
             'folder_form': folder_form,
+            'shared_folder_form': shared_folder_form,
             'current_full_path': current_full_path
         })
 

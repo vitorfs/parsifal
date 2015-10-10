@@ -3,7 +3,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from parsifal.library.models import Folder, Document
+from parsifal.library.models import SharedFolder, Folder, Document
 
 
 class FolderForm(forms.ModelForm):
@@ -25,6 +25,11 @@ class FolderForm(forms.ModelForm):
         if Folder.objects.filter(name=name, user=user).exists():
             self.add_error('name', 'Folder with this name already exists.')
 
+
+class SharedFolderForm(forms.ModelForm):
+    class Meta:
+        model = SharedFolder
+        fields = ['name',]
 
 class DocumentForm(forms.ModelForm):
     

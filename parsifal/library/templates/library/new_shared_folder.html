@@ -1,0 +1,8 @@
+<form id="form-new-shared-folder" action="{% url 'library:new_shared_folder' %}" method="post">
+  {% csrf_token %}
+  <div class="form-group has-feedback{% if form.name.errors %} has-error{% endif %}" style="margin-bottom: 0;">
+    {{ form.name  }}
+    <span class="form-control-feedback" aria-hidden="true" style="display: none;"></span>
+    <span class="errors"></span>
+  </div>
+</form>
