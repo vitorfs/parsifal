@@ -25,4 +25,4 @@ class HomeAuthenticatedUser(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_template(self):
-        self.assertTemplateUsed(self.response, 'core/home.html')
+        self.assertTemplateUsed(self.response, 'core/home2.html')
