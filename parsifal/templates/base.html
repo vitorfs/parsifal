@@ -42,12 +42,14 @@
 <body>
   <div class="wrapper">
     {% include 'includes/header.html' %}
-    <div class="announcement">
-      <div class="container">
-        <strong>Scheduled Maintenance:</strong>
-        In order to upgrade our servers, the application will be offline for approximately 20 minutes on Oct 17, 2015 07:00 UTC.
+    {% comment %}
+      <div class="announcement">
+        <div class="container">
+          <strong>Scheduled Maintenance:</strong>
+          In order to upgrade our servers, the application will be offline for approximately 20 minutes on Oct 17, 2015 07:00 UTC.
+        </div>
       </div>
-    </div>
+    {% endcomment %}
     {% block fullwidthheader %}{% endblock %}
     <main>
       <div class="container">
