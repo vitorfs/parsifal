@@ -198,13 +198,13 @@ def build_quality_assessment_table(request, review, order):
         str_table = u'' 
         for study in selected_studies:
             str_table += u'''
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-quality-assessment">
               <div class="panel-heading">
                 <h3 class="panel-title">{0} <small>({4})</small><span class="badge score pull-right">{1}</span></h3>
               </div>
 
             <table class="table" id="tbl-quality" article-id="{2}" csrf-token="{3}">
-                <tbody>'''.format(escape(study.title), study.get_score(), study.id, unicode(csrf(request)['csrf_token']), study.year)
+                <tbody>'''.format(escape(study.title), study.get_score(), study.id, unicode(csrf(request)['csrf_token']), escape(study.year))
 
             quality_assessment = study.get_quality_assesment()
 

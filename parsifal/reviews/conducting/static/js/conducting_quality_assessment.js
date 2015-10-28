@@ -61,13 +61,13 @@ $(function () {
   });
 
   $(".quality-container").on("click", "#all-filter", function () {
-    $(".quality-assessment table").show();
+    $(".quality-assessment .panel-quality-assessment").show();
   });
 
   $(".quality-container").on("click", "#done-filter", function () {
     var questions_count = parseInt($("#questions-count").val());
-    $(".quality-assessment table").each(function () {
-      if ($("td.selected-answer", this).length != questions_count) {
+    $(".quality-assessment .panel-quality-assessment").each(function () {
+      if ($("table td.selected-answer", this).length != questions_count) {
         $(this).hide();
       }
       else {
@@ -78,8 +78,8 @@ $(function () {
 
   $(".quality-container").on("click", "#pending-filter", function () {
     var questions_count = parseInt($("#questions-count").val());
-    $(".quality-assessment table").each(function () {
-      if ($("td.selected-answer", this).length != questions_count) {
+    $(".quality-assessment .panel-quality-assessment").each(function () {
+      if ($("table td.selected-answer", this).length != questions_count) {
         $(this).show();
       }
       else {
@@ -90,7 +90,7 @@ $(function () {
 
   $(".quality-container").on("click", "#score-higher-filter", function () {
     var cutoff_score = parseFloat($("#cutoff-score").val());
-    $(".quality-assessment table").each(function () {
+    $(".quality-assessment .panel-quality-assessment").each(function () {
       var score = parseFloat($("span.score", this).text());
       if (score > cutoff_score) {
         $(this).show();
@@ -103,7 +103,7 @@ $(function () {
 
   $(".quality-container").on("click", "#score-lower-filter", function () {
     var cutoff_score = parseFloat($("#cutoff-score").val());
-    $(".quality-assessment table").each(function () {
+    $(".quality-assessment .panel-quality-assessment").each(function () {
       var score = parseFloat($("span.score", this).text());
       if (score <= cutoff_score) {
         $(this).show();
