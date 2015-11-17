@@ -301,6 +301,10 @@ class Article(models.Model):
     note = models.CharField(max_length=500, null=True, blank=True)
     finished_data_extraction = models.BooleanField(default=False)
     selection_criteria = models.ForeignKey(SelectionCriteria, null=True, blank=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    created_by = models.ForeignKey(User, null=True, blank=True, related_name='articles_created', on_delete=models.SET_NULL)
+    updated_by = models.ForeignKey(User, null=True, blank=True, related_name='articles_updated', on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Article'

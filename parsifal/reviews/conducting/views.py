@@ -459,6 +459,7 @@ def _import_articles(request, source, articles):
         error = 0
         for article in articles:
             try:
+                article.created_by = request.user
                 article.save()
                 success = success + 1
             except:
@@ -578,6 +579,13 @@ def articles_upload(request):
         return HttpResponseBadRequest()
 '''
 def build_article_table_row(article):
+    name = ''
+    if article.created_by:
+        name = escape(article.created_by.profile.get_screen_name())
+    date = ''
+    if article.created_at:
+        date = article.created_at.strftime('%d %b %Y %H:%M:%S')
+
     row = u'''<tr oid="{0}" article-status="{1}">
             <td><input type="checkbox" value="{0}""></td>
             <td>{2}</td>
@@ -586,6 +594,8 @@ def build_article_table_row(article):
             <td>{5}</td>
             <td>{6}</td>
             <td>{7}</td>
+            <td>{8}</td>
+            <td>{9}</td>
           </tr>'''.format(article.id,
             article.status,
             escape(article.bibtex_key),
@@ -593,6 +603,8 @@ def build_article_table_row(article):
             escape(article.author),
             escape(article.journal),
             escape(article.year),
+            name,
+            date,
             article.get_status_html())
     return row
 
@@ -645,6 +657,7 @@ def save_article_details(request):
             except:
                 article.selection_criteria = None
 
+            article.updated_by = request.user
             article.save()
 
             return HttpResponse(build_article_table_row(article))
