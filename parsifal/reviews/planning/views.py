@@ -386,8 +386,8 @@ def save_source(request):
     try:
         review_id = request.GET['review-id']
         source_id = request.GET['source-id']
-        name = request.GET['name']
-        url = request.GET['url']
+        name = request.GET['name'][:100]
+        url = request.GET['url'][:200]
 
         review = Review.objects.get(pk=review_id)
         if source_id:
@@ -409,7 +409,6 @@ def save_source(request):
             review.save()
         return HttpResponse(html_source(source))
     except Exception, e:
-        raise e
         return HttpResponseBadRequest()
 
 
