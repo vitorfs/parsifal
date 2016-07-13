@@ -50,8 +50,8 @@ def search_studies(request, username, review_name):
     sources_names = []
     for source in review.sources.all():
         sources_names.append(source.name.lower())
-    return render(request, 'conducting/conducting_search_studies.html', { 
-            'review': review, 
+    return render(request, 'conducting/conducting_search_studies.html', {
+            'review': review,
             'add_sources': add_sources,
             'database_queries': database_queries,
             'sources_names': sources_names
@@ -123,8 +123,6 @@ def elsevier_search(request, database):
     query = ' '.join(query.split())
     count = request.GET.get('count', '25')
     start = request.GET.get('start', '0')
-    print count
-    print start
     try:
         result = {}
         if database == 'scopus':
@@ -156,12 +154,12 @@ def import_studies(request, username, review_name):
     sources = []
     for source in review.sources.all():
         sources.append({
-            'source': source, 
+            'source': source,
             'count': Article.objects.filter(source=source, review=review).count()
             })
-    return render(request, 'conducting/conducting_import_studies.html', { 
-            'review': review, 
-            'sources': sources 
+    return render(request, 'conducting/conducting_import_studies.html', {
+            'review': review,
+            'sources': sources
         })
 
 @author_required
@@ -183,9 +181,9 @@ def study_selection(request, username, review_name):
     finished_all_steps = len(steps_messages) == 0
 
     return render(request, 'conducting/conducting_study_selection.html', {
-            'review': review, 
-            'active_tab': active_tab, 
-            'steps_messages': steps_messages, 
+            'review': review,
+            'active_tab': active_tab,
+            'steps_messages': steps_messages,
             'finished_all_steps': finished_all_steps
         })
 
@@ -194,8 +192,8 @@ def build_quality_assessment_table(request, review, order):
     quality_questions = review.get_quality_assessment_questions()
     quality_answers = review.get_quality_assessment_answers()
 
-    if quality_questions and quality_answers:   
-        str_table = u'' 
+    if quality_questions and quality_answers:
+        str_table = u''
         for study in selected_studies:
             str_table += u'''
             <div class="panel panel-default panel-quality-assessment">
@@ -211,7 +209,7 @@ def build_quality_assessment_table(request, review, order):
             for question in quality_questions:
                 str_table += u'''<tr question-id="''' + str(question.id) + '''">
                 <td>''' + escape(question.description) + '''</td>'''
-                
+
                 try:
                     question_answer = quality_assessment.filter(question__id=question.id).get()
                 except:
@@ -263,9 +261,9 @@ def quality_assessment(request, username, review_name):
     quality_assessment_table = build_quality_assessment_table(request, review, order)
 
     return render(request, 'conducting/conducting_quality_assessment.html', {
-            'review': review, 
-            'steps_messages': steps_messages, 
-            'quality_assessment_table': quality_assessment_table, 
+            'review': review,
+            'steps_messages': steps_messages,
+            'quality_assessment_table': quality_assessment_table,
             'finished_all_steps': finished_all_steps,
             'order': order
         })
@@ -327,7 +325,7 @@ def build_data_extraction_field_row(article, field):
     else:
         value = ''
         if extraction != None:
-            value = extraction.get_value()          
+            value = extraction.get_value()
         str_field = u'<input type="text" class="form-control" maxlength="30" name="{0}-{1}-value" value="{2}">'.format(article.id, field.id, escape(value))
 
     return str_field
@@ -351,7 +349,7 @@ def build_data_extraction_table(review, is_finished):
                     str_table += u'<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-not-finished"><span class="glyphicon glyphicon-check"></span> <span class="action-text">mark as undone</span></a></span>'
                 else:
                     str_table += u'<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-finished"><span class="glyphicon glyphicon-unchecked"></span> <span class="action-text">mark as done</span></a></span>'
-                
+
                 str_table += u'</h3></div>'
                 str_table += u'<div class="panel-body form-horizontal" data-article-id="{0}">'.format(study.id)
             else:
@@ -412,9 +410,9 @@ def data_extraction(request, username, review_name):
         data_extraction_table = '<h3>Something went wrong while rendering the data extraction form.</h3>'
 
     return render(request, 'conducting/conducting_data_extraction.html', {
-            'review': review, 
-            'steps_messages': steps_messages, 
-            'data_extraction_table': data_extraction_table, 
+            'review': review,
+            'steps_messages': steps_messages,
+            'data_extraction_table': data_extraction_table,
             'finished_all_steps': finished_all_steps,
             'tab': tab
         })
@@ -562,9 +560,9 @@ def articles_upload(request):
             article_id = request.POST.get('article-id')
             article = Article.objects.get(pk=article_id)
 
-            article_file = ArticleFile(review=review, 
-                    article=article, 
-                    user=request.user, 
+            article_file = ArticleFile(review=review,
+                    article=article,
+                    user=request.user,
                     article_file=uploaded_file,
                     name=uploaded_file.name,
                     size=uploaded_file.size)
@@ -903,3 +901,100 @@ def add_source_string(request):
     review.save()
     messages.success(request, 'Sources search string successfully added to the review!')
     return redirect(r('search_studies', args=(review.author.username, review.name)))
+
+
+@author_required
+@login_required
+@require_POST
+def export_results(request):
+    review_id = request.POST.get('review-id')
+    review = get_object_or_404(Review, pk=review_id)
+    articles = review.get_source_articles()
+
+    import xlwt
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=articles.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Articles")
+
+    row_num = 0
+
+    columns = [
+        ('bibtex_key', 2000),
+        ('title', 2000),
+        ('author', 2000),
+        ('journal', 2000),
+        ('year', 2000),
+        ('source', 2000),
+        ('pages', 2000),
+        ('volume', 2000),
+        ('abstract', 2000),
+        ('document_type', 2000),
+        ('doi', 2000),
+        ('url', 2000),
+        ('affiliation', 2000),
+        ('author_keywords', 2000),
+        ('keywords', 2000),
+        ('publisher', 2000),
+        ('issn', 2000),
+        ('language', 2000),
+        ('note', 2000),
+        ('selection_criteria', 2000),
+        ('created_at', 2000),
+        ('updated_at', 2000),
+        ('created_by', 2000),
+        ('updated_by', 2000),
+        ('status', 2000),
+        ('comments', 2000),
+    ]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    row_num += 1
+
+    for article in articles:
+        try:
+            row = [
+                article.bibtex_key,
+                article.title,
+                article.author,
+                article.journal,
+                article.year,
+                (article.source.name if article.source else ''),
+                article.pages,
+                article.volume,
+                article.abstract,
+                article.document_type,
+                article.doi,
+                article.url,
+                article.affiliation,
+                article.author_keywords,
+                article.keywords,
+                article.publisher,
+                article.issn,
+                article.language,
+                article.note,
+                (article.selection_criteria.description if article.selection_criteria else '' ),
+                article.created_at.replace(tzinfo=None),
+                article.updated_at.replace(tzinfo=None),
+                (article.created_by.username if article.created_by else ''),
+                (article.updated_by.username if article.updated_by else ''),
+                article.get_status_display(),
+                article.comments,
+            ]
+            for col_num in xrange(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+        except Exception, e:
+            ws.write(row_num, 0, u'Error: {0}'.format(e.message), font_style)
+
+        row_num += 1
+
+    wb.save(response)
+    return response

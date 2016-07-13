@@ -1,8 +1,19 @@
 <div class="articles clearfix">
   <div class="source-buttons">
     {% if not source.id %}
-      <div class="studies-import">
-        <button type="button" class="btn btn-sm btn-primary btn-find-duplicates">Find Duplicates</button>
+      <div style="margin-bottom: 20px">
+        <button type="button" class="btn btn-sm btn-default btn-find-duplicates">
+          <span class="glyphicon glyphicon-duplicate"></span>
+          Find Duplicates
+        </button>
+        <form method="post" action="{% url 'reviews:conducting:export_results' %}" style="display: inline-block;">
+          {% csrf_token %}
+          <input type="hidden" name="review-id" value="{{ review.id }}">
+          <button type="submit" class="btn btn-sm btn-default">
+            <span class="glyphicon glyphicon-download-alt"></span>
+            Export Articles
+          </button>
+        </form>
       </div>
     {% endif %}
     <div class="studies-action" style="margin: 10px 0;">
@@ -18,7 +29,7 @@
       <span class="text-muted"><span class="articles-selected">0</span> of <span class="articles-total">{{ articles.count }}</span> selected</span>
     </div>
     <p>
-      <strong>Show:</strong> 
+      <strong>Show:</strong>
       <label class="radio-inline">
         <input type="radio" name="filter" value="ALL" checked> All
       </label>

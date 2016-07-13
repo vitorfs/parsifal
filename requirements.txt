@@ -12,3 +12,4 @@ python-decouple==2.3
 python-docx==0.8.5
 pytz==2015.4
 beautifulsoup4==4.3.2
+xlwt==1.1.2
