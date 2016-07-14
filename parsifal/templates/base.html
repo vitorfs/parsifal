@@ -92,6 +92,7 @@
   <script>
     $(function () {
       $.parsifal.init();
+      {% if user.is_authenticated %}ga('set', 'userId', {{ user.username }});{% endif %}
     });
   </script>
   {% block javascript %}{% endblock %}
