@@ -22,6 +22,16 @@
       {% comment %}<li role="presentation">
         <a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab">Files</a>
       </li>{% endcomment %}
+      {% if article.url %}
+        <li class="pull-right">
+          <a href="{{ article.url|default_if_none:'' }}" target="_blank" role="tab" title="Change the URL via Article URL">
+            <small>
+              <span class="glyphicon glyphicon-new-window"></span>
+              External Link
+            </small>
+          </a>
+        </li>
+      {% endif %}
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="tab-details">
@@ -64,28 +74,28 @@
           <textarea name="abstract" id="abstract" rows="5" class="form-control">{{ article.abstract }}</textarea>
         </div>
         <div class="form-group">
-          <label class="control-label">BibTex Key</label>
-          <input type="text" class="form-control" name="bibtex-key" id="bibtex-key" value="{{ article.bibtex_key }}">
+          <label class="control-label">Year</label>
+          <input type="text" class="form-control" name="year" id="year" value="{{ article.year|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Author</label>
           <input type="text" class="form-control" name="author" id="author" value="{{ article.author|default_if_none:'' }}">
         </div>
         <div class="form-group">
-          <label class="control-label">Author Keywords</label>
-          <input type="text" class="form-control" name="author_keywords" id="author_keywords" value="{{ article.author_keywords|default_if_none:'' }}">
-        </div>
-        <div class="form-group">
           <label class="control-label">Keywords</label>
           <input type="text" class="form-control" name="keywords" id="keywords" value="{{ article.keywords|default_if_none:'' }}">
         </div>
         <div class="form-group">
-          <label class="control-label">Journal</label>
-          <input type="text" class="form-control" name="journal" id="journal" value="{{ article.journal|default_if_none:'' }}">
+          <label class="control-label">Author Keywords</label>
+          <input type="text" class="form-control" name="author_keywords" id="author_keywords" value="{{ article.author_keywords|default_if_none:'' }}">
         </div>
         <div class="form-group">
-          <label class="control-label">Year</label>
-          <input type="text" class="form-control" name="year" id="year" value="{{ article.year|default_if_none:'' }}">
+          <label class="control-label">BibTex Key</label>
+          <input type="text" class="form-control" name="bibtex-key" id="bibtex-key" value="{{ article.bibtex_key }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Journal</label>
+          <input type="text" class="form-control" name="journal" id="journal" value="{{ article.journal|default_if_none:'' }}">
         </div>
         <div class="form-group">
           <label class="control-label">Document Type</label>
