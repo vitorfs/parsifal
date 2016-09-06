@@ -8,7 +8,17 @@
 
 {% block tab_content %}
   {% include "conducting/conducting_header.html" with active_tab="extraction" %}
-  <h3>Data Extraction</h3>
+  <h3>
+    Data Extraction
+    <form method="post" action="{% url 'reviews:conducting:export_data_extraction' %}" class="pull-right" style="display: inline-block;">
+      {% csrf_token %}
+      <input type="hidden" name="review-id" value="{{ review.id }}">
+      <button type="submit" class="btn btn-sm btn-default">
+        <span class="glyphicon glyphicon-download-alt"></span>
+        Export Data
+      </button>
+    </form>
+  </h3>
 
   {% if finished_all_steps %}
     {% csrf_token %}

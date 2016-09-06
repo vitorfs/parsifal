@@ -5,6 +5,7 @@ import os
 import bibtexparser
 from bibtexparser.bparser import BibTexParser
 from bibtexparser.customization import convert_to_unicode
+import xlwt
 
 from django.views.decorators.http import require_POST
 from django.core.urlresolvers import reverse as r
@@ -911,7 +912,6 @@ def export_results(request):
     review = get_object_or_404(Review, pk=review_id)
     articles = review.get_source_articles()
 
-    import xlwt
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=articles.xls'
     wb = xlwt.Workbook(encoding='utf-8')
@@ -989,6 +989,71 @@ def export_results(request):
                 article.get_status_display(),
                 article.comments,
             ]
+            for col_num in xrange(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+        except Exception, e:
+            ws.write(row_num, 0, u'Error: {0}'.format(e.message), font_style)
+
+        row_num += 1
+
+    wb.save(response)
+    return response
+
+
+@author_required
+@login_required
+@require_POST
+def export_data_extraction(request):
+    review_id = request.POST.get('review-id')
+    review = get_object_or_404(Review, pk=review_id)
+
+    selected_studies = review.get_final_selection_articles()
+    data_extraction_fields = review.get_data_extraction_fields()
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=data_extraction.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Articles")
+
+    row_num = 0
+
+    columns = [
+        ('article', 2000),
+    ]
+    for field in data_extraction_fields:
+        columns.append((field.description, 2000))
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    row_num += 1
+
+    for article in selected_studies:
+        try:
+            row = [article.title,]
+            for field in data_extraction_fields:
+                field_value = None
+
+                try:
+                    de = DataExtraction.objects.get(article=article, field=field)
+                    if de.field.field_type == DataExtractionField.DATE_FIELD:
+                        field_value = de.get_date_value_as_string()
+                    elif de.field.field_type == DataExtractionField.SELECT_ONE_FIELD:
+                        field_value = de._get_select_one_value().value
+                    elif de.field.field_type == DataExtractionField.SELECT_MANY_FIELD:
+                        field_value = ', '.join(de._get_select_many_value().values_list('value', flat=True))
+                    else:
+                        field_value = de.value
+                except DataExtraction.DoesNotExist:
+                    field_value = ''
+                row.append(field_value)
+
             for col_num in xrange(len(row)):
                 ws.write(row_num, col_num, row[col_num], font_style)
         except Exception, e:
