@@ -1039,13 +1039,16 @@ def export_data_extraction(request):
             row = [article.title,]
             for field in data_extraction_fields:
                 field_value = None
-
                 try:
                     de = DataExtraction.objects.get(article=article, field=field)
                     if de.field.field_type == DataExtractionField.DATE_FIELD:
                         field_value = de.get_date_value_as_string()
                     elif de.field.field_type == DataExtractionField.SELECT_ONE_FIELD:
-                        field_value = de._get_select_one_value().value
+                        select_one_field = de._get_select_one_value()
+                        if select_one_field:
+                            field_value = select_one_field.value
+                        else:
+                            field_value = ''
                     elif de.field.field_type == DataExtractionField.SELECT_MANY_FIELD:
                         field_value = ', '.join(de._get_select_many_value().values_list('value', flat=True))
                     else:

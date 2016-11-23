@@ -597,7 +597,7 @@ class DataExtraction(models.Model):
                 DataExtractionField.SELECT_MANY_FIELD: self._get_select_many_value,
             }
             return get_value_functions[self.field.field_type]()
-        return self._get_string_value
+        return self._get_string_value()
 
     def get_date_value_as_string(self):
         try:
