@@ -101,10 +101,13 @@ class Review(models.Model):
         return self.searchsession_set.exclude(source=None).order_by('source__name')
 
     def get_source_articles(self, source_id=None):
-        if source_id is None:
-            return Article.objects.filter(review__id=self.id)
-        else:
-            return Article.objects.filter(review__id=self.id, source__id=source_id)
+        queryset = Article.objects \
+            .filter(review__id=self.id) \
+            .select_related('created_by__profile')
+
+        if source_id is not None:
+            queryset = queryset.filter(source__id=source_id)
+        return queryset
 
     def get_duplicate_articles(self):
         articles = Article.objects.filter(review__id=self.id).exclude(status=Article.DUPLICATED).order_by('title')
