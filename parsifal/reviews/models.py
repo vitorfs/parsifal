@@ -213,7 +213,7 @@ class SelectionCriteria(models.Model):
 class SearchSession(models.Model):
     review = models.ForeignKey(Review)
     source = models.ForeignKey(Source, null=True)
-    search_string = models.TextField(max_length=2000)
+    search_string = models.TextField(max_length=10000)
     version = models.IntegerField(default=1)
 
     def __unicode__(self):

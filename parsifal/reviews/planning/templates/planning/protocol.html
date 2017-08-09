@@ -23,7 +23,7 @@
   <script>
     $(function () {
       $("#protocol").affix({
-        offset: {     
+        offset: {
           top: $("#protocol").offset().top - 20,
           bottom: 70
         }
@@ -111,7 +111,7 @@
           </div>
         </form>
       </section>
-      
+
       <section id="picoc-section">
 
         <div class="modal fade" id="picoc-help">
@@ -145,7 +145,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                PICOC 
+                PICOC
                 <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
                   <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#picoc-help"></span>
                 </a>
@@ -183,7 +183,7 @@
                 <div class="col-md-10">
                   <input type="text" class="form-control" id="context" name="context" maxlength="200" value="{{ review.context }}">
                 </div>
-              </div>              
+              </div>
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success btn-save-picoc" data-loading="Saving...">
@@ -204,7 +204,7 @@
           </div>
         </form>
       </section>
-      
+
       <section id="question-section">
 
         <div class="modal fade" id="question-help">
@@ -404,7 +404,7 @@
         </div>
 
       </section>
-      
+
       <section id="search-string-section">
 
         <div class="modal fade" id="search-string-help">
@@ -449,7 +449,7 @@
               <div class="alert alert-info" role="alert">
                 <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Use uppercase for boolean operators (<strong>AND</strong>, <strong>OR</strong>), double quotes for composite words and parentheses to logically separate the keywords and synonyms.
               </div>
-              <textarea rows="4" name="search-string" class="form-control expanding search-string">{{ review.get_generic_search_string.search_string }}</textarea>  
+              <textarea rows="4" name="search-string" class="form-control expanding search-string" maxlength="10000">{{ review.get_generic_search_string.search_string }}</textarea>
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success btn-save-generic-search-string">
@@ -471,7 +471,7 @@
           </div>
         </form>
       </section>
-      
+
       <section id="sources-section">
 
         <div class="modal fade" id="modal-suggested-sources">
@@ -579,7 +579,7 @@
           </div>
         </div>
       </section>
-      
+
       <section id="selection-section" style="margin-bottom: 20px;">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -598,7 +598,7 @@
                     {% for criteria in review.get_inclusion_criterias %}
                       <option value="{{ criteria.id }}">{{ criteria.description }}</option>
                     {% endfor %}
-                  </select>                  
+                  </select>
                 </div>
                 <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#inclusion-criteria">
                   <span class="glyphicon glyphicon-trash"></span>
@@ -624,7 +624,7 @@
               </div>
             </div>
           </div>
-        </div>  
+        </div>
       </section>
 
     </div>

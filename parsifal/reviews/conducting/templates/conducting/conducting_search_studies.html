@@ -88,7 +88,7 @@
       </h3>
     </div>
     <div class="panel-body">
-              
+
       <div class="alert alert-info" role="alert">
         <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Add digital source-specific search strings. Use this space to save all search string formats used during the research.
       </div>
@@ -116,7 +116,7 @@
               <input type="hidden" name="review-id" value="{{ review.id }}">
               <input type="hidden" name="source-id" value="{{ search_session.source.pk }}">
               <div class="form-group">
-                <textarea name="search_string" class="form-control expanding" rows="4" autocomplete="off" maxlength="1000">{{ search_session.search_string }}</textarea>
+                <textarea name="search_string" class="form-control expanding" rows="4" autocomplete="off" maxlength="10000">{{ search_session.search_string }}</textarea>
               </div>
               <div class="form-group">
                 <button type="button" class="btn btn-sm btn-danger pull-right js-remove-source-string" data-remote="{% url 'reviews:conducting:remove_source_string' %}">
