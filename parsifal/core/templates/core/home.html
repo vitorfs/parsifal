@@ -14,7 +14,7 @@
       {% for feed in feeds %}
         <p>{{ feed.message|safe }} <small>{{ feed.date|naturaltime }}</small></p>
       {% empty %}
-        <p>There is no recent update on your network.</p>
+        <p>There are no recent updates to your network.</p>
       {% endfor %}
     </div>
     <div class="col-md-4">
