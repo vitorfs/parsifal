@@ -51,7 +51,9 @@ def transfer(request):
         try:
             transfer_user = User.objects.get(username=transfer_user_username)
         except Exception, e:
-            return HttpResponseBadRequest('User not found.')
+            messages.warning(request, 'User not found.')
+            return redirect('settings', review.author.username, review.name)
+
         current_user = request.user
         if current_user != transfer_user:
             if transfer_user in review.co_authors.all():
@@ -59,9 +61,11 @@ def transfer(request):
             review.author = transfer_user
             review.co_authors.add(current_user)
             review.save()
-            return HttpResponse('/' + review.author.username + '/' + review.name + '/')
+            return redirect('review', review.author.username, review.name)
         else:
-            return HttpResponseBadRequest('Hey! You can\'t transfer the review to yourself.')
+            messages.warning(request, 'Hey! You can\'t transfer the review to yourself.')
+            return redirect('settings', review.author.username, review.name)
+
     except Exception, e:
         return HttpResponseBadRequest('Something went wrong.')
 
