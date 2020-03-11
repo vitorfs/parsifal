@@ -538,8 +538,8 @@ def article_details(request):
     review_id = request.GET['review-id']
     article_id = request.GET['article-id']
 
-    review = Review.objects.get(pk=review_id)
-    article = Article.objects.get(pk=article_id)
+    review = get_object_or_404(Review, pk=review_id)
+    article = get_object_or_404(Article, pk=article_id, review_id=review_id)
 
     user = request.user
     mendeley_files = []
