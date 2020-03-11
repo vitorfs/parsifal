@@ -876,11 +876,14 @@ def articles_selection_chart(request):
 
 def articles_per_year(request):
     review_id = request.GET['review-id']
-    review = Review.objects.get(pk=review_id)
+    review = get_object_or_404(Review, pk=review_id)
     final_articles = review.get_final_selection_articles().values('year').annotate(count=Count('year')).order_by('-year')
     articles = []
     for article in final_articles:
-        articles.append(article['year'] + ':' + str(article['count']))
+        try:
+            articles.append(article['year'] + ':' + str(article['count']))
+        except Exception:
+            pass
     return HttpResponse(','.join(articles))
 
 @author_required
