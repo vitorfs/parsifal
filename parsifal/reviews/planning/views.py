@@ -278,8 +278,9 @@ def add_keyword(request):
 def edit_keyword(request):
     review_id = request.GET.get('review-id', request.POST.get('review-id'))
     keyword_id = request.GET.get('keyword-id', request.POST.get('keyword-id'))
-    review = Review.objects.get(pk=review_id)
-    keyword = Keyword.objects.get(pk=keyword_id)
+
+    review = get_object_or_404(Review, pk=review_id)
+    keyword = get_object_or_404(Keyword, pk=keyword_id, review_id=review_id)
 
     SynonymFormSet = inlineformset_factory(Keyword, Keyword, SynonymForm, extra=1)
     response = {}
