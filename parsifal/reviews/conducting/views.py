@@ -614,14 +614,14 @@ def save_article_details(request):
     if request.method == 'POST':
         try:
             article_id = request.POST['article-id']
+            review_id = request.POST['review-id']
 
             if article_id != 'None':
-                article = Article.objects.get(pk=article_id)
+                article = get_object_or_404(Article, pk=article_id, review_id=review_id)
             else:
-                review_id = request.POST['review-id']
                 source_id = request.POST['source-id']
-                review = Review.objects.get(pk=review_id)
-                source = Source.objects.get(pk=source_id)
+                review = get_object_or_404(Review, pk=review_id)
+                source = get_object_or_404(Source, pk=source_id)
                 article = Article(review=review, source=source)
 
             article.bibtex_key = request.POST['bibtex-key'][:100]
