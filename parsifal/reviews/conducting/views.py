@@ -9,7 +9,7 @@ import xlwt
 
 from django.views.decorators.http import require_POST
 from django.core.urlresolvers import reverse as r
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -146,7 +146,8 @@ def search_scopus(request):
 @author_required
 @login_required
 def search_science_direct(request):
-    return elsevier_search(request, 'science_direct')
+    raise Http404
+    # return elsevier_search(request, 'science_direct')
 
 @author_required
 @login_required
