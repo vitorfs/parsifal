@@ -1,5 +1,5 @@
 Django==1.8.3
-Pillow==2.6.2
+Pillow==8.1.1
 Unipath==1.1
 bibtexparser==0.6.0
 dj-database-url==0.3.0
