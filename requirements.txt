@@ -4,7 +4,7 @@ Unipath==1.1
 bibtexparser==0.6.0
 dj-database-url==0.3.0
 django-extensions==1.5.5
-requests==2.7.0
+requests==2.5.1
 dropbox==2.2.0
 mendeley==0.3.2
 psycopg2==2.6
