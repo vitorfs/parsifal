@@ -1,23 +1,20 @@
-# coding: utf-8
-from django.conf.urls import patterns, include, url
+from django.urls import path
 
-urlpatterns = patterns('parsifal.account_settings.views',
-    url(r'^$', 'settings', name='settings'),
-    url(r'^profile/$', 'profile', name='profile'),
-    url(r'^emails/$', 'emails', name='emails'),
-    url(r'^picture/$', 'picture', name='picture'),
-    url(r'^password/$', 'password', name='password'),
+from parsifal.account_settings import views
 
-    url(r'^connections/$', 'connections', name='connections'),
-    
-    url(r'^mendeley_connection/$', 'mendeley_connection', name='mendeley_connection'),
-    url(r'^connect_mendeley/$', 'connect_mendeley', name='connect_mendeley'),
-    url(r'^disconnect_mendeley/$', 'disconnect_mendeley', name='disconnect_mendeley'),
-
-    url(r'^dropbox_connection/$', 'dropbox_connection', name='dropbox_connection'),
-    url(r'^connect_dropbox/$', 'connect_dropbox', name='connect_dropbox'),
-    url(r'^disconnect_dropbox/$', 'disconnect_dropbox', name='disconnect_dropbox'),
-
-    url(r'^upload_picture/$', 'upload_picture', name='upload_picture'),
-    url(r'^save_uploaded_picture/$', 'save_uploaded_picture', name='save_uploaded_picture'),
-)
+urlpatterns = [
+    path("", views.settings, name="settings"),
+    path("profile/", views.profile, name="profile"),
+    path("emails/", views.emails, name="emails"),
+    path("picture/", views.picture, name="picture"),
+    path("password/", views.password, name="password"),
+    path("connections/", views.connections, name="connections"),
+    path("mendeley_connection/", views.mendeley_connection, name="mendeley_connection"),
+    path("connect_mendeley/", views.connect_mendeley, name="connect_mendeley"),
+    path("disconnect_mendeley/", views.disconnect_mendeley, name="disconnect_mendeley"),
+    path("dropbox_connection/", views.dropbox_connection, name="dropbox_connection"),
+    path("connect_dropbox/", views.connect_dropbox, name="connect_dropbox"),
+    path("disconnect_dropbox/", views.disconnect_dropbox, name="disconnect_dropbox"),
+    path("upload_picture/", views.upload_picture, name="upload_picture"),
+    path("save_uploaded_picture/", views.save_uploaded_picture, name="save_uploaded_picture"),
+]

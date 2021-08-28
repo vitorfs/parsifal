@@ -1,15 +1,14 @@
-# coding: utf-8
+from django.urls import include, path
 
-from django.conf.urls import patterns, include, url
+from parsifal.reviews import views
 
-
-urlpatterns = patterns('parsifal.reviews.views',
-    url(r'^new/$', 'new', name='new'),
-    url(r'^add_author/$', 'add_author_to_review', name='add_author_to_review'),
-    url(r'^remove_author/$', 'remove_author_from_review', name='remove_author_from_review'),
-    url(r'^save_description/$', 'save_description', name='save_description'),
-    url(r'^leave/$', 'leave', name='leave'),
-    url(r'^planning/', include('parsifal.reviews.planning.urls', namespace='planning')),
-    url(r'^conducting/', include('parsifal.reviews.conducting.urls', namespace='conducting')),
-    url(r'^reporting/', include('parsifal.reviews.reporting.urls', namespace='reporting')),
-)
+urlpatterns = [
+    path("new/", views.new, name="new"),
+    path("add_author/", views.add_author_to_review, name="add_author_to_review"),
+    path("remove_author/", views.remove_author_from_review, name="remove_author_from_review"),
+    path("save_description/", views.save_description, name="save_description"),
+    path("leave/", views.leave, name="leave"),
+    path("planning/", include("parsifal.reviews.planning.urls", namespace="planning")),
+    path("conducting/", include("parsifal.reviews.conducting.urls", namespace="conducting")),
+    path("reporting/", include("parsifal.reviews.reporting.urls", namespace="reporting")),
+]

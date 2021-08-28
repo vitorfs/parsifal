@@ -1,9 +1,9 @@
-# coding: utf-8
+from django.urls import path
 
-from django.conf.urls import patterns, include, url
+from parsifal.help import views
 
-urlpatterns = patterns('parsifal.help.views',
-    url(r'^$', 'articles', name='articles'),
-    url(r'^search/$', 'search', name='search'),
-    url(r'^(?P<slug>[-\w]+)/$', 'article', name='article'),
-)
+urlpatterns = [
+    path("", views.articles, name="articles"),
+    path("search/", views.search, name="search"),
+    path("<slug:slug>/", views.article, name="article"),
+]

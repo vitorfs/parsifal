@@ -1,8 +1,7 @@
-# coding: utf-8
+from django.urls import path
 
-from django.conf.urls import patterns, include, url
+from parsifal.reviews.reporting import views
 
-
-urlpatterns = patterns('parsifal.reviews.reporting.views',
-    url(r'^download_docx/$', 'download_docx', name='download_docx'),
-)
+urlpatterns = [
+    path("download_docx/", views.download_docx, name="download_docx"),
+]

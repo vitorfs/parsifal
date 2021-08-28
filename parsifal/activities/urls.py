@@ -1,8 +1,9 @@
-# coding: utf-8
-from django.conf.urls import patterns, include, url
+from django.urls import path
 
-urlpatterns = patterns('parsifal.activities.views',
-    url(r'^follow/$', 'follow', name='follow'),
-    url(r'^unfollow/$', 'unfollow', name='unfollow'),
-    url(r'^update_followers_count/$', 'update_followers_count', name='update_followers_count'),
-)
+from parsifal.activities import views
+
+urlpatterns = [
+    path("follow/", views.follow, name="follow"),
+    path("unfollow/", views.unfollow, name="unfollow"),
+    path("update_followers_count/", views.update_followers_count, name="update_followers_count"),
+]
