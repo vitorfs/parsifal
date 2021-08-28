@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -186,7 +187,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='searchsession',
             name='source',
-            field=models.ForeignKey(to='reviews.Source', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Source', null=True),
         ),
         migrations.AddField(
             model_name='review',
@@ -196,47 +197,47 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='question',
             name='review',
-            field=models.ForeignKey(to='reviews.Review'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review'),
         ),
         migrations.AddField(
             model_name='qualityquestion',
             name='review',
-            field=models.ForeignKey(to='reviews.Review'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review'),
         ),
         migrations.AddField(
             model_name='qualityassessment',
             name='question',
-            field=models.ForeignKey(to='reviews.QualityQuestion'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.QualityQuestion'),
         ),
         migrations.AddField(
             model_name='qualityassessment',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.AddField(
             model_name='qualityanswer',
             name='review',
-            field=models.ForeignKey(to='reviews.Review'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review'),
         ),
         migrations.AddField(
             model_name='keyword',
             name='review',
-            field=models.ForeignKey(to='reviews.Review'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review'),
         ),
         migrations.AddField(
             model_name='keyword',
             name='synonym_of',
-            field=models.ForeignKey(to='reviews.Keyword', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Keyword', null=True),
         ),
         migrations.AddField(
             model_name='dataextractionfield',
             name='review',
-            field=models.ForeignKey(to='reviews.Review'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review'),
         ),
         migrations.AddField(
             model_name='dataextraction',
             name='field',
-            field=models.ForeignKey(to='reviews.DataExtractionField'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.DataExtractionField'),
         ),
         migrations.AddField(
             model_name='dataextraction',
@@ -246,16 +247,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='dataextraction',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.AddField(
             model_name='article',
             name='review',
-            field=models.ForeignKey(to='reviews.Review'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review'),
         ),
         migrations.AddField(
             model_name='article',
             name='source',
-            field=models.ForeignKey(to='reviews.Source', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Source', null=True),
         ),
     ]

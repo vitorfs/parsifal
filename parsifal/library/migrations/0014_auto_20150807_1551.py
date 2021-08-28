@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -32,16 +33,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='document',
             name='review',
-            field=models.ForeignKey(related_name='documents', to='reviews.Review', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='reviews.Review', null=True),
         ),
         migrations.AlterField(
             model_name='document',
             name='user',
-            field=models.ForeignKey(related_name='documents', to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.AddField(
             model_name='document',
             name='shared_folder',
-            field=models.ForeignKey(related_name='documents', to='library.SharedFolder', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='library.SharedFolder', null=True),
         ),
     ]

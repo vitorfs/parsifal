@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -43,16 +44,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='category',
-            field=models.ForeignKey(to='help.Category'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='help.Category'),
         ),
         migrations.AddField(
             model_name='article',
             name='created_by',
-            field=models.ForeignKey(related_name='help_article_creation_user', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='help_article_creation_user', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='article',
             name='updated_by',
-            field=models.ForeignKey(related_name='help_article_update_user', to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='help_article_update_user', to=settings.AUTH_USER_MODEL, null=True),
         ),
     ]

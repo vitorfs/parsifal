@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -20,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='folder',
             name='user',
-            field=models.ForeignKey(related_name='library_folders', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='library_folders', to=settings.AUTH_USER_MODEL),
         ),
     ]
