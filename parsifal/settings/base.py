@@ -21,7 +21,7 @@ ADMINS = (("Vitor Freitas", "vitorfs@gmail.com"),)
 
 MANAGERS = ADMINS
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     "parsifal.core",
     "parsifal.help",
     "parsifal.library",
-)
+]
 
 INTERNAL_IPS = ["127.0.0.1"]
 
@@ -66,7 +66,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
 ]
 
 

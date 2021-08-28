@@ -19,10 +19,10 @@ class Entry(models.Model):
     summary = models.TextField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=10, choices=ENTRY_STATUS)
     start_publication = models.DateTimeField()
-    created_by = models.ForeignKey(User, on_delete=models.PROTECT)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True)
-    edited_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    edited_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="+")
 
     class Meta:
         verbose_name = _("entry")

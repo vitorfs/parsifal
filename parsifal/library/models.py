@@ -135,7 +135,7 @@ class Document(models.Model):
     # Parsifal management field
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="documents")
     review = models.ForeignKey("reviews.Review", on_delete=models.CASCADE, null=True, related_name="documents")
-    shared_folder = models.ForeignKey(SharedFolder, on_delete=models.SET_NULL, null=True, related_name="documents")
+    shared_folder = models.ForeignKey(SharedFolder, on_delete=models.CASCADE, null=True, related_name="documents")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
