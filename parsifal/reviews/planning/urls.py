@@ -2,6 +2,8 @@ from django.urls import path
 
 from parsifal.reviews.planning import views
 
+app_name = "planning"
+
 urlpatterns = [
     path("save_source/", views.save_source, name="save_source"),
     path("remove_source/", views.remove_source_from_review, name="remove_source_from_review"),

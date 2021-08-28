@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     "parsifal.core",
     "parsifal.help",
     "parsifal.library",
-    "parsifal.search",
 )
 
 INTERNAL_IPS = ["127.0.0.1"]

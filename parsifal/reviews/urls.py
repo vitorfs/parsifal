@@ -2,6 +2,8 @@ from django.urls import include, path
 
 from parsifal.reviews import views
 
+app_name = "reviews"
+
 urlpatterns = [
     path("new/", views.new, name="new"),
     path("add_author/", views.add_author_to_review, name="add_author_to_review"),

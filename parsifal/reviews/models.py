@@ -159,7 +159,7 @@ class Review(models.Model):
                 return questions_count * higher_weight_answer.weight
             else:
                 return 0.0
-        except:
+        except Exception:
             return 0.0
 
 

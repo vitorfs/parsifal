@@ -50,12 +50,12 @@ def search_studies(request, username, review_name):
     try:
         scopus = sessions.filter(source__name__iexact="Scopus")[0]
         database_queries["scopus"] = scopus
-    except:
+    except Exception:
         pass
     try:
         science_direct = sessions.filter(source__name__iexact="Science@Direct")[0]
         database_queries["science_direct"] = science_direct
-    except:
+    except Exception:
         pass
     sources_names = []
     for source in review.sources.all():
@@ -89,7 +89,7 @@ def save_source_string(request):
         search_session.search_string = search_string
         search_session.save()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -127,7 +127,7 @@ def import_base_string(request):
         search_session.search_string = base_search_string
         search_session.save()
         return HttpResponse(base_search_string)
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -251,7 +251,7 @@ def build_quality_assessment_table(request, review, order):
 
                 try:
                     question_answer = quality_assessment.filter(question__id=question.id).get()
-                except:
+                except Exception:
                     question_answer = None
 
                 for answer in quality_answers:
@@ -367,7 +367,7 @@ def build_data_extraction_field_row(article, field):
     if field.field_type == DataExtractionField.BOOLEAN_FIELD:
         true = ""
         false = ""
-        if extraction != None:
+        if extraction is not None:
             if extraction.get_value():
                 true = " selected"
             else:
@@ -405,17 +405,19 @@ def build_data_extraction_field_row(article, field):
 
     elif field.field_type == DataExtractionField.SELECT_MANY_FIELD:
         for value in field.get_select_values():
-            if extraction != None and value in extraction.get_value():
+            if extraction is not None and value in extraction.get_value():
                 checked = " checked"
             else:
                 checked = ""
-            str_field += '<label class="checkbox-inline"><input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}</label> '.format(
-                article.id, field.id, value.id, checked, escape(value.value)
+            str_field += (
+                '<label class="checkbox-inline">'
+                '<input type="checkbox" name="{0}-{1}-value" value="{2}"{3}>{4}'
+                "</label> ".format(article.id, field.id, value.id, checked, escape(value.value))
             )
 
     elif field.field_type == DataExtractionField.STRING_FIELD:
         value = ""
-        if extraction != None:
+        if extraction is not None:
             value = extraction.get_value()
         str_field = '<textarea class="form-control" name="{0}-{1}-value" rows="3">{2}</textarea>'.format(
             article.id, field.id, escape(value)
@@ -449,9 +451,9 @@ def build_data_extraction_table(review, is_finished):
                 )
 
                 if study.finished_data_extraction:
-                    str_table += '<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-not-finished"><span class="glyphicon glyphicon-check"></span> <span class="action-text">mark as undone</span></a></span>'
+                    str_table += '<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-not-finished"><span class="glyphicon glyphicon-check"></span> <span class="action-text">mark as undone</span></a></span>'  # noqa
                 else:
-                    str_table += '<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-finished"><span class="glyphicon glyphicon-unchecked"></span> <span class="action-text">mark as done</span></a></span>'
+                    str_table += '<span class="pull-right"><a href="javascript:void(0);" class="js-finished-button js-mark-as-finished"><span class="glyphicon glyphicon-unchecked"></span> <span class="action-text">mark as done</span></a></span>'  # noqa
 
                 str_table += "</h3></div>"
                 str_table += '<div class="panel-body form-horizontal" data-article-id="{0}">'.format(study.id)
@@ -607,7 +609,7 @@ def bibtex_to_article_object(bib_database, review, source):
                     article.note = entry["note"][:500]
                 article.review = review
                 article.source = source
-            except:
+            except Exception:
                 continue
             articles.append(article)
     return articles
@@ -622,7 +624,7 @@ def _import_articles(request, source, articles):
                 article.created_by = request.user
                 article.save()
                 success = success + 1
-            except:
+            except Exception:
                 error = error + 1
         if success > 0:
             messages.success(request, "{0} articles successfully imported to {1}!".format(success, source.name))
@@ -830,14 +832,14 @@ def save_article_details(request):
             try:
                 selection_criteria = SelectionCriteria.objects.get(pk=selection_criteria_id)
                 article.selection_criteria = selection_criteria
-            except:
+            except Exception:
                 article.selection_criteria = None
 
             article.updated_by = request.user
             article.save()
 
             return HttpResponse(build_article_table_row(article))
-        except:
+        except Exception:
             return HttpResponseBadRequest()
     else:
         return HttpResponseBadRequest()
@@ -860,7 +862,7 @@ def save_quality_assessment(request):
         quality_assessment.save()
 
         return HttpResponse(article.get_score())
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -877,7 +879,7 @@ def quality_assessment_detailed(request):
             "conducting/partial_conducting_quality_assessment_detailed.html",
             {"review": review, "quality_assessment_table": quality_assessment_table, "order": order},
         )
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -888,7 +890,7 @@ def quality_assessment_summary(request):
         review_id = request.GET["review-id"]
         review = Review.objects.get(pk=review_id)
         return render(request, "conducting/partial_conducting_quality_assessment_summary.html", {"review": review})
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -901,7 +903,7 @@ def multiple_articles_action_remove(request):
         if article_ids_list:
             Article.objects.filter(pk__in=article_ids_list).delete()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -914,7 +916,7 @@ def multiple_articles_action_accept(request):
         if article_ids_list:
             Article.objects.filter(pk__in=article_ids_list).update(status=Article.ACCEPTED)
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -927,7 +929,7 @@ def multiple_articles_action_reject(request):
         if article_ids_list:
             Article.objects.filter(pk__in=article_ids_list).update(status=Article.REJECTED)
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -940,7 +942,7 @@ def multiple_articles_action_duplicated(request):
         if article_ids_list:
             Article.objects.filter(pk__in=article_ids_list).update(status=Article.DUPLICATED)
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 

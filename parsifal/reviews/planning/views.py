@@ -76,7 +76,7 @@ def save_objective(request):
             review.objective = objective
             review.save()
             return HttpResponse("Your review have been saved successfully!")
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -99,12 +99,12 @@ def save_question(request):
         review = Review.objects.get(pk=review_id)
         try:
             question = Question.objects.get(pk=question_id)
-        except:
+        except Exception:
             question = Question(review=review)
         question.question = description[:500]
         question.save()
         return render(request, "planning/partial_planning_question.html", {"question": question})
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -121,7 +121,7 @@ def save_question_order(request):
                 question.order = order
                 question.save()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -138,10 +138,10 @@ def add_or_edit_question(request):
         review = Review.objects.get(pk=review_id)
         try:
             question = Question.objects.get(pk=question_id)
-        except:
+        except Exception:
             question = Question(review=review)
         return render(request, "planning/partial_planning_question_form.html", {"question": question})
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -162,7 +162,7 @@ def remove_question(request):
             except Question.DoesNotExist:
                 return HttpResponseBadRequest()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -234,7 +234,7 @@ def import_pico_keywords(request):
             context = RequestContext(request, {"keyword": keyword})
             html += render_to_string("planning/partial_keyword.html", context)
         return HttpResponse(html)
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -250,7 +250,7 @@ def remove_keyword(request):
             synonym.delete()
         keyword.delete()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -368,7 +368,7 @@ def save_generic_search_string(request):
         generic_search_string.search_string = search_string
         generic_search_string.save()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -384,9 +384,9 @@ def html_source(source):
     else:
         html += "<td>" + escape(source.url) + "</td>"
     if source.is_default:
-        html += '<td class="text-right"><span data-toggle="tooltip" data-placement="top" data-container="body" title="It\'s not possible to edit Digital Library\'s details"><button type="button" class="btn btn-sm btn-warning" disabled>edit</button></span> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'
+        html += '<td class="text-right"><span data-toggle="tooltip" data-placement="top" data-container="body" title="It\'s not possible to edit Digital Library\'s details"><button type="button" class="btn btn-sm btn-warning" disabled>edit</button></span> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'  # noqa
     else:
-        html += '<td class="text-right"><button type="button" class="btn btn-sm btn-warning btn-edit-source"><span class="glyphicon glyphicon-pencil"></span> edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove"><span class="glyphicon glyphicon-trash"></span> remove</a></td></tr>'
+        html += '<td class="text-right"><button type="button" class="btn btn-sm btn-warning btn-edit-source"><span class="glyphicon glyphicon-pencil"></span> edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove"><span class="glyphicon glyphicon-trash"></span> remove</a></td></tr>'  # noqa
     return html
 
 
@@ -440,13 +440,13 @@ def remove_source_from_review(request):
             review.get_source_articles(source.id).delete()
             try:
                 review.searchsession_set.filter(source=source).delete()
-            except:
+            except Exception:
                 pass
         else:
             source.delete()
         review.save()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -481,7 +481,7 @@ def suggested_sources(request):
             </tr>"""
             )
         return HttpResponse(return_html)
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -499,7 +499,7 @@ def add_suggested_sources(request):
             return_html += html_source(source)
         review.save()
         return HttpResponse(return_html)
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -519,7 +519,7 @@ def add_criteria(request):
         criteria = SelectionCriteria(review=review, description=description, criteria_type=criteria_type)
         criteria.save()
         return HttpResponse('<option value="' + str(criteria.id) + '">' + escape(criteria.description) + "</option>")
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -534,7 +534,7 @@ def remove_criteria(request):
             criteria = SelectionCriteria.objects.get(pk=id, review_id=review_id)
             criteria.delete()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -551,7 +551,7 @@ def add_quality_assessment_question(request):
         return render(
             request, "planning/partial_quality_assessment_question_form.html", {"quality_question": quality_question}
         )
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -564,7 +564,7 @@ def edit_quality_assessment_question(request):
         return render(
             request, "planning/partial_quality_assessment_question_form.html", {"quality_question": quality_question}
         )
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -589,7 +589,7 @@ def save_quality_assessment_question(request):
         return render(
             request, "planning/partial_quality_assessment_question.html", {"quality_question": quality_question}
         )
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -606,7 +606,7 @@ def save_quality_assessment_question_order(request):
                 question.order = order
                 question.save()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -618,7 +618,7 @@ def remove_quality_assessment_question(request):
         quality_question = QualityQuestion.objects.get(pk=quality_question_id)
         quality_question.delete()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -630,7 +630,7 @@ def add_quality_assessment_answer(request):
         return render(
             request, "planning/partial_quality_assessment_answer_form.html", {"quality_answer": quality_answer}
         )
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -643,7 +643,7 @@ def edit_quality_assessment_answer(request):
         return render(
             request, "planning/partial_quality_assessment_answer_form.html", {"quality_answer": quality_answer}
         )
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -659,7 +659,7 @@ def save_quality_assessment_answer(request):
         weight = weight.replace(",", ".")
         try:
             weight = float(weight)
-        except:
+        except Exception:
             weight = 0.0
 
         review = Review.objects.get(pk=review_id)
@@ -674,7 +674,7 @@ def save_quality_assessment_answer(request):
         quality_answer.save()
 
         return render(request, "planning/partial_quality_assessment_answer.html", {"quality_answer": quality_answer})
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -686,7 +686,7 @@ def remove_quality_assessment_answer(request):
         quality_answer = QualityAnswer.objects.get(pk=quality_answer_id)
         quality_answer.delete()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -714,7 +714,7 @@ def add_suggested_answer(request):
             return HttpResponse(html_answers)
         else:
             return HttpResponseBadRequest()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -726,7 +726,7 @@ def calculate_max_score(request):
         review = Review.objects.get(pk=review_id)
         max_score = review.calculate_quality_assessment_max_score()
         return HttpResponse(max_score)
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -740,7 +740,7 @@ def save_cutoff_score(request):
         review.quality_assessment_cutoff_score = float(cutoff_score)
         review.save()
         return HttpResponse("Cutoff score saved successfully!")
-    except:
+    except Exception:
         return HttpResponseBadRequest("Invalid value.")
 
 
@@ -814,7 +814,7 @@ def save_data_extraction_field(request):
             for select_value in field.get_select_values():
                 select_value.delete()
         return render(request, "planning/partial_data_extraction_field.html", {"field": field})
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -831,7 +831,7 @@ def save_data_extraction_field_order(request):
                 field.order = order
                 field.save()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -846,5 +846,5 @@ def remove_data_extraction_field(request):
             select_value.delete()
         field.delete()
         return HttpResponse()
-    except:
+    except Exception:
         return HttpResponseBadRequest()

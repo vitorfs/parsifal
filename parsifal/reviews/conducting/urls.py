@@ -2,6 +2,8 @@ from django.urls import path
 
 from parsifal.reviews.conducting import views
 
+app_name = "conducting"
+
 urlpatterns = [
     path("add_source_string/", views.add_source_string, name="add_source_string"),
     path("save_source_string/", views.save_source_string, name="save_source_string"),

@@ -51,7 +51,7 @@ def update_followers_count(request):
         user = get_object_or_404(User, pk=user_id)
         followers_count = user.profile.get_followers_count()
         return HttpResponse(followers_count)
-    except:
+    except Exception:
         return HttpResponseBadRequest()
 
 

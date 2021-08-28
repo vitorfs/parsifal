@@ -2,6 +2,8 @@ from django.urls import path
 
 from parsifal.activities import views
 
+app_name = "activities"
+
 urlpatterns = [
     path("follow/", views.follow, name="follow"),
     path("unfollow/", views.unfollow, name="unfollow"),

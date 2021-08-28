@@ -21,7 +21,8 @@ def signup(request):
                 request,
                 messages.ERROR,
                 _(
-                    "There was some problems while creating your account. Please review some fields before submiting again."
+                    "There was some problems while creating your account. "
+                    "Please review some fields before submiting again."
                 ),
             )
             return render(request, "auth/signup.html", {"form": form})

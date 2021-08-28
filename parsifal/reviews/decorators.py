@@ -17,10 +17,10 @@ def main_author_required(f):
         else:
             try:
                 review_id = request.POST["review-id"]
-            except:
+            except Exception:
                 try:
                     review_id = request.GET["review-id"]
-                except:
+                except Exception:
                     return HttpResponseBadRequest()
 
             review = Review.objects.get(pk=review_id)
@@ -48,10 +48,10 @@ def author_required(f):
         else:
             try:
                 review_id = request.POST["review-id"]
-            except:
+            except Exception:
                 try:
                     review_id = request.GET["review-id"]
-                except:
+                except Exception:
                     return HttpResponseBadRequest()
             review = Review.objects.get(pk=review_id)
             if review.is_author_or_coauthor(request.user):
