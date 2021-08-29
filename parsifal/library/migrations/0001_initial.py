@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 from django.conf import settings
+import django.db.models.deletion
 import parsifal.library.models
 
 
@@ -69,7 +70,7 @@ class Migration(migrations.Migration):
                 ('size', models.IntegerField(default=0)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('document', models.ForeignKey(to='library.Document')),
+                ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='library.Document')),
             ],
             options={
                 'verbose_name': 'Document File',

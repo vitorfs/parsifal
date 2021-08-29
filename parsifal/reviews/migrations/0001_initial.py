@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('value', models.CharField(max_length=1000, blank=True)),
-                ('article', models.ForeignKey(to='reviews.Article')),
+                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Article')),
             ],
         ),
         migrations.CreateModel(
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('value', models.CharField(max_length=1000)),
-                ('field', models.ForeignKey(to='reviews.DataExtractionField')),
+                ('field', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.DataExtractionField')),
             ],
             options={
                 'ordering': ('value',),
@@ -93,8 +93,8 @@ class Migration(migrations.Migration):
             name='QualityAssessment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('answer', models.ForeignKey(to='reviews.QualityAnswer', null=True)),
-                ('article', models.ForeignKey(to='reviews.Article')),
+                ('answer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.QualityAnswer', null=True)),
+                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Article')),
             ],
         ),
         migrations.CreateModel(
@@ -140,7 +140,7 @@ class Migration(migrations.Migration):
                 ('comparison', models.CharField(max_length=200, blank=True)),
                 ('outcome', models.CharField(max_length=200, blank=True)),
                 ('context', models.CharField(max_length=200, blank=True)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('co_authors', models.ManyToManyField(related_name='co_authors', to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -153,7 +153,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('search_string', models.TextField(max_length=2000)),
-                ('review', models.ForeignKey(to='reviews.Review')),
+                ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review')),
             ],
         ),
         migrations.CreateModel(
@@ -162,7 +162,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('criteria_type', models.CharField(max_length=1, choices=[(b'I', b'Inclusion'), (b'E', b'Exclusion')])),
                 ('description', models.CharField(max_length=200)),
-                ('review', models.ForeignKey(to='reviews.Review')),
+                ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review')),
             ],
             options={
                 'ordering': ('description',),

@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import parsifal.reviews.models
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -19,9 +20,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('imported_file', models.FileField(null=True, upload_to=parsifal.reviews.models.search_result_file_upload_to)),
                 ('documents', models.ManyToManyField(to='library.Document')),
-                ('review', models.ForeignKey(to='reviews.Review')),
-                ('search_session', models.ForeignKey(to='reviews.SearchSession', null=True)),
-                ('source', models.ForeignKey(to='reviews.Source')),
+                ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review')),
+                ('search_session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.SearchSession', null=True)),
+                ('source', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Source')),
             ],
         ),
     ]

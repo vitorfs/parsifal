@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('status', models.CharField(default='U', max_length=1, choices=[('U', 'Unclassified'), ('R', 'Rejected'), ('A', 'Accepted'), ('D', 'Duplicated')])),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('document', models.ForeignKey(to='library.Document')),
+                ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='library.Document')),
             ],
         ),
         migrations.CreateModel(
@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('has_finished', models.BooleanField(default=False)),
-                ('review', models.ForeignKey(to='reviews.Review')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True)),
+                ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, null=True)),
             ],
         ),
         migrations.AddField(
