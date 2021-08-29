@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext, gettext_lazy as _
 
 from parsifal.apps.authentication.models import Profile
 
@@ -20,6 +21,13 @@ class UserEmailForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("email",)
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        email = User.objects.normalize_email(email)
+        if User.objects.exclude(pk=self.instance.pk).filter(email__iexact=email).exists():
+            raise ValidationError(gettext("User with this Email already exists."))
+        return email
 
 
 class ProfileForm(forms.ModelForm):
