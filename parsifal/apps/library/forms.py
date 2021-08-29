@@ -22,7 +22,7 @@ class FolderForm(forms.ModelForm):
         ]
 
     def clean(self):
-        cleaned_data = super(FolderForm, self).clean()
+        cleaned_data = super().clean()
         name = cleaned_data.get("name")
         user = cleaned_data.get("user")
         if Folder.objects.filter(name=name, user=user).exists():

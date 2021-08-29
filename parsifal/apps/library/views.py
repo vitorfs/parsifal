@@ -126,7 +126,7 @@ def new_folder(request):
 def edit_folder(request):
     delete_folder = request.POST.get("delete", "") == "delete"
     folder_id = request.POST.get("id")
-    folder = Folder.objects.get(pk=folder_id)
+    folder = Folder.objects.get(pk=folder_id, user=request.user)
     if delete_folder:
         folder.delete()
         messages.success(request, "The folder {0} was deleted successfully!".format(folder.name))
@@ -139,7 +139,7 @@ def edit_folder(request):
             messages.success(request, "The folder {0} was changed successfully!".format(folder.name))
         else:
             messages.error(request, "An error occurred while trying to save folder {0}".format(folder.name))
-    return redirect("library:folder", args=(folder.slug,))
+    return redirect("library:folder", slug=folder.slug)
 
 
 @login_required

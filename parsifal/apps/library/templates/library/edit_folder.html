@@ -1,6 +1,7 @@
 <form id="form-folder-settings" method="post" action="{% url 'library:edit_folder' %}">
   {% csrf_token %}
   <input type="hidden" name="id" value="{{ folder.id }}">
+  <input type="hidden" name="user" value="{{ folder.user.id }}">
   <div class="modal fade" id="modal-folder-settings">
     <div class="modal-dialog">
       <div class="modal-content">

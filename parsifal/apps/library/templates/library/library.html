@@ -32,7 +32,7 @@ Library · Parsifal
 
   <div class="row">
     <div class="col-md-4 col-lg-3">
-      {% include 'library/includes/includes/menu.html' with reviews=reviews folder_form=folder_form %}
+      {% include 'library/includes/menu.html' with reviews=reviews folder_form=folder_form %}
     </div>
     <div class="col-md-8 col-lg-9">
       <div class="panel panel-default">
@@ -62,7 +62,7 @@ Library · Parsifal
           </h3>
         </div>
         <div class="panel-body">
-          {% include 'library/includes/includes/toolbar.html' with documents=documents active_folder=active_folder %}
+          {% include 'library/includes/toolbar.html' with documents=documents active_folder=active_folder %}
         </div>
         <form id="form-library" method="post" action="{% url 'library:list_actions' %}">
           {% csrf_token %}

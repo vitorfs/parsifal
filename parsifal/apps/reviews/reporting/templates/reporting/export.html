@@ -24,7 +24,7 @@
 
 {% block tab_content %}
 
-  {% include 'reporting/includes/includes/header.html' with active_tab='export' %}
+  {% include 'reporting/includes/header.html' with active_tab='export' %}
 
   <form method="get" action="{% url 'reviews:reporting:download_docx' %}">
     <input type="hidden" name="review-id" value="{{ review.pk }}">
