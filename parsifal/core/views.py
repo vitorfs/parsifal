@@ -10,10 +10,14 @@ def get_following_feeds(user):
     feeds = []
     try:
         activities = []
-        followers = Activity.objects.filter(to_user=user, activity_type=Activity.FOLLOW)
+        followers = Activity.objects.select_related("to_user__profile", "from_user__profile").filter(
+            to_user=user, activity_type=Activity.FOLLOW
+        )
         for follower_user in followers:
             activities.append(follower_user)
-        following = Activity.objects.filter(from_user=user, activity_type=Activity.FOLLOW)
+        following = Activity.objects.select_related("to_user__profile", "from_user__profile").filter(
+            from_user=user, activity_type=Activity.FOLLOW
+        )
         for following_user in following:
             activities.append(following_user)
             initial_activity = Activity.objects.get(

@@ -75,8 +75,8 @@ class Profile(models.Model):
 
     def get_reviews(self):
         user_reviews = []
-        author_reviews = Review.objects.filter(author=self.user)
-        co_author_reviews = Review.objects.filter(co_authors=self.user)
+        author_reviews = Review.objects.select_related("author").filter(author=self.user)
+        co_author_reviews = Review.objects.select_related("author").filter(co_authors=self.user)
         for r in author_reviews:
             user_reviews.append(r)
         for r in co_author_reviews:
