@@ -40,7 +40,7 @@ def signup(request):
 
 
 def signin(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect("/")
     else:
         if request.method == "POST":

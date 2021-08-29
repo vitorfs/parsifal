@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}{{ review.title }}{% endblock %}
 
@@ -8,10 +8,10 @@
   <script>
   var contacts = [
     {% for contact in user.profile.get_following %}
-      { 
-        pk: '{{ contact.pk }}', 
-        email: '{{ contact.email }}', 
-        name: '{{ contact.profile.get_screen_name }}' 
+      {
+        pk: '{{ contact.pk }}',
+        email: '{{ contact.email }}',
+        name: '{{ contact.profile.get_screen_name }}'
       }{% if not forloop.last %}, {% endif %}
     {% endfor %}
   ];
@@ -110,5 +110,5 @@
       </div>
     </div>
   </div>
-  
+
 {% endblock content %}

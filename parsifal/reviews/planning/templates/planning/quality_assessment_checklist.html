@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}Planning · {{ review.title }}{% endblock %}
 
@@ -17,7 +17,7 @@
   <script>
     $(function () {
       $("#protocol").affix({
-        offset: {     
+        offset: {
           top: $("#protocol").offset().top - 20,
           bottom: 70
         }
@@ -99,7 +99,7 @@
             </button>
             {% if not review.get_quality_assessment_answers %}
               <button type="button" class="btn btn-link" id="add-suggested-answers">(Add Suggested Answers)</button>
-            {% endif %}                
+            {% endif %}
           </div>
         </div>
       </section>

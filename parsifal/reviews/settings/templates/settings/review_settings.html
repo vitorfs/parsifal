@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}Review Settings · {{ review.title }}{% endblock %}
 
@@ -13,7 +13,7 @@
         }
         else {
           $("#confirm-transfer").prop("disabled", true);
-        }        
+        }
       });
       $("#enable-confirm-deletion").click(function () {
         if ($(this).is(":checked")) {

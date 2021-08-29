@@ -61,7 +61,7 @@ def following(request, username):
     following = page_user.profile.get_following()
     user_following = None
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         user_following = request.user.profile.get_following()
 
     return render(
@@ -77,7 +77,7 @@ def followers(request, username):
     followers = user.profile.get_followers()
     user_following = None
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         user_following = request.user.profile.get_following()
 
     return render(

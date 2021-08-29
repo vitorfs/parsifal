@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}Planning · {{ review.title }}{% endblock %}
 
@@ -14,7 +14,7 @@
   {% include 'planning/planning_header.html' with active_tab='extraction' %}
 
   {% csrf_token %}
-      
+
   <section id="data-extraction-section" style="margin-bottom: 20px;">
     <div class="panel panel-default">
       <div class="panel-heading">

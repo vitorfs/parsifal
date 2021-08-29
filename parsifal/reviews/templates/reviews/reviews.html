@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
+{% load static %}
 
 {% block title %}{{ page_user.profile.get_screen_name }} · Parsifal{% endblock %}
 
@@ -59,7 +59,7 @@
         </div>
         <div class="row" style="color: #aaa;">
           <div class="col-sm-6">
-            <span class="glyphicon glyphicon-user"></span> {{ page_user.username }} 
+            <span class="glyphicon glyphicon-user"></span> {{ page_user.username }}
             {% if page_user.profile.public_email %}<span class="glyphicon glyphicon-envelope" style="margin-left: 10px;"></span> {{ page_user.profile.public_email }}{% endif %}
             {% if page_user.profile.url %}<span class="glyphicon glyphicon-globe" style="margin-left: 10px;"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a>{% endif %}
           </div>
@@ -100,7 +100,7 @@
                 </tr>
               {% endfor %}
             </tbody>
-          </table>  
+          </table>
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
