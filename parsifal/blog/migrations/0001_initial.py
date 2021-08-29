@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import django.utils.timezone
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -24,8 +25,8 @@ class Migration(migrations.Migration):
                 ('start_publication', models.DateTimeField()),
                 ('creation_date', models.DateTimeField(default=django.utils.timezone.now)),
                 ('last_update', models.DateTimeField(null=True, blank=True)),
-                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('edited_by', models.ForeignKey(related_name='+', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('edited_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
                 'verbose_name': 'Entry',
