@@ -78,7 +78,7 @@ def upload_picture(request):
         ext = os.path.splitext(f.name)[1].lower()
         valid_extensions = [".gif", ".png", ".jpg", ".jpeg", ".bmp"]
         if ext in valid_extensions:
-            filename = django_settings.MEDIA_ROOT + "/profile_pictures/" + request.user.username + "_tmp.jpg"
+            filename = f"{django_settings.MEDIA_ROOT}/profile_pictures/{request.user.username}_tmp.jpg"
             with open(filename, "wb+") as destination:
                 for chunk in f.chunks():
                     destination.write(chunk)
@@ -105,14 +105,15 @@ def save_uploaded_picture(request):
         y = int(request.POST["y"])
         w = int(request.POST["w"])
         h = int(request.POST["h"])
-        tmp_filename = django_settings.MEDIA_ROOT + "/profile_pictures/" + request.user.username + "_tmp.jpg"
-        filename = django_settings.MEDIA_ROOT + "/profile_pictures/" + request.user.username + ".jpg"
+        tmp_filename = f"{django_settings.MEDIA_ROOT}/profile_pictures/{request.user.username}_tmp.jpg"
+        filename = f"{django_settings.MEDIA_ROOT}/profile_pictures/{request.user.username}.jpg"
         im = Image.open(tmp_filename)
         cropped_im = im.crop((x, y, w + x, h + y))
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
         cropped_im.save(filename)
         os.remove(tmp_filename)
-        return HttpResponse(django_settings.MEDIA_URL + "profile_pictures/" + request.user.username + ".jpg")
+        image_url = f"{django_settings.MEDIA_URL}/profile_pictures/{request.user.username}.jpg"
+        return HttpResponse(image_url)
     except Exception:
         return HttpResponseBadRequest()
 

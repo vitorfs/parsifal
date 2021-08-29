@@ -6,7 +6,6 @@ from django.forms.formsets import formset_factory
 from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
-from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.urls import reverse as r
 from django.utils.html import escape
@@ -231,8 +230,7 @@ def import_pico_keywords(request):
         html = ""
 
         for keyword in keywords:
-            context = RequestContext(request, {"keyword": keyword})
-            html += render_to_string("planning/partial_keyword.html", context)
+            html += render_to_string("planning/partial_keyword.html", {"keyword": keyword}, request)
         return HttpResponse(html)
     except Exception:
         return HttpResponseBadRequest()
@@ -273,9 +271,8 @@ def add_keyword(request):
                     form.instance.review = review
                     form.instance.synonym_of = keyword
                     form.save()
-            context = RequestContext(request, {"keyword": keyword})
             response["status"] = "ok"
-            response["html"] = render_to_string("planning/partial_keyword.html", context)
+            response["html"] = render_to_string("planning/partial_keyword.html", {"keyword": keyword}, request)
             dump = json.dumps(response)
             return HttpResponse(dump, content_type="application/json")
         else:
@@ -284,8 +281,9 @@ def add_keyword(request):
         form = KeywordForm()
         formset = SynonymFormSet(prefix="synonym")
         response["status"] = "new"
-    context = RequestContext(request, {"review": review, "form": form, "formset": formset})
-    response["html"] = render_to_string("planning/partial_keyword_form.html", context)
+    response["html"] = render_to_string(
+        "planning/partial_keyword_form.html", {"review": review, "form": form, "formset": formset}, request
+    )
     dump = json.dumps(response)
     return HttpResponse(dump, content_type="application/json")
 

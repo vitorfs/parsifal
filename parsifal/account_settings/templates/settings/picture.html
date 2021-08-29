@@ -40,7 +40,7 @@
             <h3 class="panel-title">Profile picture</h3>
           </div>
           <div class="panel-body">
-            <img src="{{ user.profile.get_picture }}" style="width: 200px;" class="thumbnail profile-picture">
+            <img src="{{ user.profile.get_picture }}" alt="{{ user.profile.get_screen_name }}" style="width: 200px;" class="thumbnail profile-picture">
           </div>
           <div class="panel-footer">
             <button type="button" class="btn btn-primary" id="btn-upload-picture">Upload new picture</button>
@@ -58,7 +58,7 @@
                 {% if uploaded_picture %}
                   <div class="selected-picture">
                     <p>Crop the profile picture and then click on the <strong>Save Picture</strong> button</p>
-                    <img src="{{ MEDIA_URL }}/profile_pictures/{{ request.user.username }}_tmp.jpg?_={% now 'U' %}" id="crop-picture">
+                    <img src="/media/profile_pictures/{{ request.user.username }}_tmp.jpg?_={% now 'U' %}" alt="{{ request.user.username }}" id="crop-picture">
                     <input type="hidden" id="x" name="x">
                     <input type="hidden" id="y" name="y">
                     <input type="hidden" id="w" name="w">

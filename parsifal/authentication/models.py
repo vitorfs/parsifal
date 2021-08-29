@@ -33,8 +33,9 @@ class Profile(models.Model):
     def get_picture(self):
         no_picture = django_settings.STATIC_URL + "img/user.png"
         try:
-            filename = django_settings.MEDIA_ROOT + "/profile_pictures/" + self.user.username + ".jpg"
-            picture_url = django_settings.MEDIA_URL + "profile_pictures/" + self.user.username + ".jpg"
+            filename = f"{django_settings.MEDIA_ROOT}/profile_pictures/{self.user.username}.jpg"
+            picture_url = f"{django_settings.MEDIA_URL}profile_pictures/{self.user.username}.jpg"
+            print(filename)
             if os.path.isfile(filename):
                 return picture_url
             else:
@@ -52,7 +53,9 @@ class Profile(models.Model):
             return self.user.username
 
     def get_followers(self):
-        activities = Activity.objects.filter(to_user__pk=self.pk, activity_type=Activity.FOLLOW)
+        activities = Activity.objects.select_related("from_user__profile").filter(
+            to_user__pk=self.pk, activity_type=Activity.FOLLOW
+        )
         followers = []
         for activity in activities:
             followers.append(activity.from_user)
@@ -63,7 +66,9 @@ class Profile(models.Model):
         return followers_count
 
     def get_following(self):
-        activities = Activity.objects.filter(from_user__pk=self.pk, activity_type=Activity.FOLLOW)
+        activities = Activity.objects.select_related("to_user__profile").filter(
+            from_user__pk=self.pk, activity_type=Activity.FOLLOW
+        )
         following = []
         for activity in activities:
             following.append(activity.to_user)
@@ -75,8 +80,8 @@ class Profile(models.Model):
 
     def get_reviews(self):
         user_reviews = []
-        author_reviews = Review.objects.select_related("author").filter(author=self.user)
-        co_author_reviews = Review.objects.select_related("author").filter(co_authors=self.user)
+        author_reviews = Review.objects.select_related("author__profile").filter(author=self.user)
+        co_author_reviews = Review.objects.select_related("author__profile").filter(co_authors=self.user)
         for r in author_reviews:
             user_reviews.append(r)
         for r in co_author_reviews:
