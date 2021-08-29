@@ -1,21 +1,24 @@
-from django.db.models import Q
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from parsifal.help.models import Article
 
 
 def articles(request):
-    articles = Article.objects.filter(is_active=True).order_by(
-        "category__name",
-        "title",
+    articles = (
+        Article.objects.select_related("category")
+        .filter(is_active=True)
+        .order_by(
+            "category__name",
+            "title",
+        )
     )
     return render(request, "help/articles.html", {"articles": articles})
 
 
 def article(request, slug):
     article = get_object_or_404(Article, slug=slug, is_active=True)
-    article.views += 1
-    article.save()
+    Article.objects.filter(pk=article.pk).update(views=F("views") + 1)
     return render(request, "help/article.html", {"article": article})
 
 
