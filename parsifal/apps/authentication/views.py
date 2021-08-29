@@ -4,13 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 
 from parsifal.apps.authentication.forms import SignUpForm
-
-password_reset = PasswordResetView.as_view()
-password_reset_confirm = PasswordResetConfirmView.as_view()
 
 
 def signup(request):
@@ -69,24 +66,17 @@ def signout(request):
     return HttpResponseRedirect("/")
 
 
-def reset(request):
-    return password_reset(
-        request,
-        template_name="auth/reset.html",
-        email_template_name="auth/reset_email.html",
-        subject_template_name="auth/reset_subject.txt",
-        post_reset_redirect=reverse("success"),
-    )
+reset = PasswordResetView.as_view(
+    template_name="auth/reset.html",
+    email_template_name="auth/reset_email.html",
+    subject_template_name="auth/reset_subject.txt",
+    success_url=reverse_lazy("success"),
+)
 
 
-def reset_confirm(request, uidb64=None, token=None):
-    return password_reset_confirm(
-        request,
-        template_name="auth/reset_confirm.html",
-        uidb64=uidb64,
-        token=token,
-        post_reset_redirect=reverse("signin"),
-    )
+reset_confirm = PasswordResetConfirmView.as_view(
+    template_name="auth/reset_confirm.html", success_url=reverse_lazy("signin")
+)
 
 
 def success(request):
