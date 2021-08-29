@@ -1,0 +1,380 @@
+{% extends 'conducting/conducting.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'js/../../static/js/conducting_search_studies.js' %}"></script>
+{% endblock javascript %}
+
+{% block tab_content %}
+
+  {% include "conducting/conducting_header.html" with active_tab="search" %}
+
+  <div class="modal fade" id="base-string-help">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">About the Search Strings</h4>
+        </div>
+        <div class="modal-body">
+          <p>The base search string is the search string designed during the planning phase. It should be database agnostic, enhance the reader's readability and represent the essence of the search string used in the digital libraries.</p>
+          <p>Most of the digital libraries have it's particularities and different advanced search resources. Here you can store the specific search string used in each database.</p>
+          <p>You can edit the base search string in the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'reviews:conducting:add_source_string' %}">
+    {% csrf_token %}
+    <input type="hidden" name="review-id" value="{{ review.id }}">
+    <div class="modal fade" id="modal-source-string">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Select Sources</h4>
+          </div>
+          <div class="modal-body">
+            {% if add_sources %}
+            <div class="alert alert-info" role="alert">
+              <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Showing the available sources from you Protocol, defined in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.
+            </div>
+            <table class="table table-check-all">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" autocomplete="off">
+                  </th>
+                  <th>Name</th>
+                  <th>URL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for source in add_sources %}
+                  <tr>
+                    <td><input type="checkbox" name="source" value="{{ source.pk }}" autocomplete="off"></td>
+                    <td>{{ source.name }}</td>
+                    <td>{{ source.url }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+              <div class="well text-center" style="padding: 3em;">
+                <span class="glyphicon glyphicon-folder-open" style="font-size: 2.2em; color: #aaa;"></span>
+                <h4 style="margin-top: 20px; margin-bottom: 20px;">No source available. Add sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.</h3>
+                <a href="{% url 'planning' review.author.username review.name %}#sources-section" class="btn btn-primary">New source</a>
+              </div>
+            {% endif %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success"{% if not add_sources %} disabled{% endif %}>Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="panel panel-default" id="search-strings">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Search Strings
+        <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+          <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#base-string-help"></span>
+        </a>
+      </h3>
+    </div>
+    <div class="panel-body">
+
+      <div class="alert alert-info" role="alert">
+        <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Add digital source-specific search strings. Use this space to save all search string formats used during the research.
+      </div>
+
+      <ul class="nav nav-tabs" role="tablist" id="source-search-strings">
+        <li role="presentation" class="active"><a href="#base" aria-controls="base" role="tab" data-toggle="tab">Base String</a></li>
+        {% for search_session in review.get_latest_source_search_strings  %}
+          <li role="presentation"><a href="#source_{{ search_session.source.pk }}" aria-controls="source_{{ search_session.source.pk }}" role="tab" data-toggle="tab">{{ search_session.source.name }}</a></li>
+        {% endfor %}
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="base">
+          {% with search_string=review.get_generic_search_string %}
+            {% if search_string.search_string %}
+              <pre><code>{{ review.get_generic_search_string.search_string_as_html|safe }}</code></pre>
+            {% else %}
+              <em class="text-muted">No provided search string. Please visit the <a href="{% url 'planning' review.author.username review.name %}#search-string-section">planning tab</a> and create one.</em>
+            {% endif %}
+          {% endwith %}
+        </div>
+        {% for search_session in review.get_latest_source_search_strings  %}
+          <div role="tabpanel" class="tab-pane" id="source_{{ search_session.source.pk }}">
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="review-id" value="{{ review.id }}">
+              <input type="hidden" name="source-id" value="{{ search_session.source.pk }}">
+              <div class="form-group">
+                <textarea name="search_string" class="form-control expanding" rows="4" autocomplete="off" maxlength="10000">{{ search_session.search_string }}</textarea>
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn btn-sm btn-danger pull-right js-remove-source-string" data-remote="{% url 'reviews:conducting:remove_source_string' %}">
+                  <span class="btn-ajax-normal">
+                    <span class="glyphicon glyphicon-trash"></span> Remove {{ search_session.source.name }}
+                  </span>
+                  <span class="btn-ajax-loading">
+                    <span class="glyphicon glyphicon-refresh spin"></span> Removing…
+                  </span>
+                  <span class="btn-ajax-complete">
+                    <span class="glyphicon glyphicon-ok"></span> Removed!
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-success js-save-source-string" data-remote="{% url 'reviews:conducting:save_source_string' %}">
+                  <span class="btn-ajax-normal">
+                    <span class="glyphicon glyphicon-ok"></span> Save
+                  </span>
+                  <span class="btn-ajax-loading">
+                    <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                  </span>
+                  <span class="btn-ajax-complete">
+                    <span class="glyphicon glyphicon-ok"></span> Saved!
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-primary js-import-base-string" data-remote="{% url 'reviews:conducting:import_base_string' %}">
+                  <span class="btn-ajax-normal">
+                    <span class="glyphicon glyphicon-import"></span> Import Base String
+                  </span>
+                  <span class="btn-ajax-loading">
+                    <span class="glyphicon glyphicon-refresh spin"></span> Importing…
+                  </span>
+                  <span class="btn-ajax-complete">
+                    <span class="glyphicon glyphicon-ok"></span> Imported!
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-source-string"><span class="glyphicon glyphicon-plus"></span> Add source-specific search string</button>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Search</h3>
+    </div>
+    <div class="panel-body">
+      <div class="alert alert-info" role="alert">
+        <strong><span class="glyphicon glyphicon-info-sign"></span></strong> <strong>Parsifal</strong> is integrated with <strong>Scopus's</strong> and <strong>Science@Direct's</strong> databases. To enable the automatic search pick them as sources in the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a>.
+      </div>
+
+      <div class="panel-group" id="remote-search-panels" role="tablist" aria-multiselectable="true">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a role="button" data-toggle="collapse" href="#search-scopus-collapse" aria-expanded="false">
+                {% if 'scopus' in database_queries.keys %}
+                  <span class="glyphicon glyphicon-minus pull-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-plus pull-right"></span>
+                {% endif %}
+                Scopus
+              </a>
+            </h3>
+          </div>
+          <div id="search-scopus-collapse" class="panel-collapse collapse{% if 'scopus' in database_queries.keys %} in{% endif %}" role="tabpanel" data-source-id="{{ database_queries.scopus.source.pk }}">
+            <div class="panel-body">
+              <form action="{% url 'reviews:conducting:search_scopus' %}" class="source-search">
+                <input type="hidden" name="review-id" value="{{ review.id }}">
+                <input type="hidden" name="start" value="0">
+                <input type="hidden" name="source-id" value="{{ database_queries.scopus.source.pk }}">
+                <input type="hidden" name="page-query" value="">
+                <div class="form-group">
+                  <label class="control-label">Query</label>
+                  <textarea class="form-control" name="query">{{ database_queries.scopus.search_string }}</textarea>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-ajax-normal">
+                      <span class="glyphicon glyphicon-search"></span> Search
+                    </span>
+                    <span class="btn-ajax-loading">
+                      <span class="glyphicon glyphicon-refresh spin"></span> Searching…
+                    </span>
+                    <span class="btn-ajax-complete">
+                      <span class="glyphicon glyphicon-ok"></span> Done!
+                    </span>
+                  </button>
+                  {% if 'scopus' in database_queries.keys %}
+                    <button type="button" class="btn btn-success js-save-elsevier-string" data-remote="{% url 'reviews:conducting:save_source_string' %}">
+                      <span class="btn-ajax-normal">
+                        Save to Scopus Search String
+                      </span>
+                      <span class="btn-ajax-loading">
+                        <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                      </span>
+                      <span class="btn-ajax-complete">
+                        <span class="glyphicon glyphicon-ok"></span> Saved!
+                      </span>
+                    </button>
+                  {% else %}
+                    {% if 'scopus' in sources_names %}
+                      <a href="#search-strings" class="btn btn-link">Add a search string for Scopus to perform automatic searches</a>
+                    {% else %}
+                      <a href="{% url 'protocol' review.author.username review.name %}#sources-section" class="btn btn-link">Add Scopus to your sources to perform automatic searches</a>
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Document results:</label> <span class="document-results">0</span>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <label class="control-label">Items per page:</label>
+                    <select name="count">
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                      <option>200</option>
+                    </select>
+                  </div>
+                </div>
+                <table class="table table-condensed table-striped table-bordered">
+                  <thead>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Year</th>
+                    <th>Journal</th>
+                    <th>Citations</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="5">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <nav>
+                  <ul class="pager">
+                    <li class="disabled"><a href="#" ref="first">First</a></li>
+                    <li class="disabled"><a href="#" ref="prev">Previous</a></li>
+                    <li class="disabled hide"><a href="#" ref="self">Current</a></li>
+                    <li class="disabled"><a href="#" ref="next">Next</a></li>
+                    <li class="disabled"><a href="#" ref="last">Last</a></li>
+                  </ul>
+                </nav>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {% comment %}
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <a role="button" data-toggle="collapse" href="#search-science-direct-collapse" aria-expanded="false">
+                {% if 'science_direct' in database_queries.keys %}
+                  <span class="glyphicon glyphicon-minus pull-right"></span>
+                {% else %}
+                  <span class="glyphicon glyphicon-plus pull-right"></span>
+                {% endif %}
+                Science@Direct
+              </a>
+            </h3>
+          </div>
+          <div id="search-science-direct-collapse" class="panel-collapse collapse{% if 'science_direct' in database_queries.keys %} in{% endif %}" role="tabpanel" data-source-id="{{ database_queries.science_direct.source.pk }}">
+            <div class="panel-body">
+              <form action="{% url 'reviews:conducting:search_science_direct' %}" class="source-search">
+                <input type="hidden" name="review-id" value="{{ review.id }}">
+                <input type="hidden" name="start" value="0">
+                <input type="hidden" name="source-id" value="{{ database_queries.science_direct.source.pk }}">
+                <input type="hidden" name="page-query" value="">
+                <div class="form-group">
+                  <label class="control-label">Query</label>
+                  <textarea class="form-control" name="query">{{ database_queries.science_direct.search_string }}</textarea>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-ajax-normal">
+                      <span class="glyphicon glyphicon-search"></span> Search
+                    </span>
+                    <span class="btn-ajax-loading">
+                      <span class="glyphicon glyphicon-refresh spin"></span> Searching…
+                    </span>
+                    <span class="btn-ajax-complete">
+                      <span class="glyphicon glyphicon-ok"></span> Done!
+                    </span>
+                  </button>
+                  {% if 'science_direct' in database_queries.keys %}
+                    <button type="button" class="btn btn-success js-save-elsevier-string" data-remote="{% url 'reviews:conducting:save_source_string' %}">
+                      <span class="btn-ajax-normal">
+                        Save to Science@Direct Search String
+                      </span>
+                      <span class="btn-ajax-loading">
+                        <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                      </span>
+                      <span class="btn-ajax-complete">
+                        <span class="glyphicon glyphicon-ok"></span> Saved!
+                      </span>
+                    </button>
+                  {% else %}
+                    {% if 'science@direct' in sources_names %}
+                      <a href="#search-strings" class="btn btn-link">Add a search string for Science@Direct to perform automatic searches</a>
+                    {% else %}
+                      <a href="{% url 'protocol' review.author.username review.name %}#sources-section" class="btn btn-link">Add Science@Direct to your sources to perform automatic searches</a>
+                    {% endif %}
+                  {% endif %}
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Document results:</label> <span class="document-results">0</span>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <label class="control-label">Items per page:</label>
+                    <select name="count">
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                      <option>200</option>
+                    </select>
+                  </div>
+                </div>
+                <table class="table table-condensed table-striped table-bordered">
+                  <thead>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Year</th>
+                    <th>Journal</th>
+                    <th>Citations</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="5">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <nav>
+                  <ul class="pager">
+                    <li class="disabled"><a href="#" ref="first">First</a></li>
+                    <li class="disabled"><a href="#" ref="prev">Previous</a></li>
+                    <li class="disabled hide"><a href="#" ref="self">Current</a></li>
+                    <li class="disabled"><a href="#" ref="next">Next</a></li>
+                    <li class="disabled"><a href="#" ref="last">Last</a></li>
+                  </ul>
+                </nav>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endcomment %}
+
+      </div>
+
+    </div>
+  </div>
+
+{% endblock tab_content %}

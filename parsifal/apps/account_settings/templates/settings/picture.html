@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Account Settings · Parsifal{% endblock %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link href="{% static 'css/jquery.Jcrop.min.css' %}" rel="stylesheet">
+  <style>
+    .jcrop-keymgr {
+      display: none!important;
+    }
+  </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/jquery.Jcrop.min.js' %}?_=1"></script>
+  <script type="text/javascript" src="{% static 'js/../../static/js/profile.js' %}?_=1"></script>
+  <script>
+    {% if uploaded_picture %}
+      $(function () {
+        $("#modal-upload-picture").modal('show');
+        window.history.pushState("", "", "/settings/picture/");
+      });
+    {% endif %}
+  </script>
+{% endblock javascript %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-3">
+      {% include "settings/settings_menu.html" %}
+    </div>
+    <div class="col-md-9">
+      <form enctype="multipart/form-data" method="post" action="{% url 'settings:upload_picture' %}" id="picture-upload-form" class="form-block">
+        {% csrf_token %}
+        <input type="file" name="picture" class="hide">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Profile picture</h3>
+          </div>
+          <div class="panel-body">
+            <img src="{{ user.profile.get_picture }}" alt="{{ user.profile.get_screen_name }}" style="width: 200px;" class="thumbnail profile-picture">
+          </div>
+          <div class="panel-footer">
+            <button type="button" class="btn btn-primary" id="btn-upload-picture">Upload new picture</button>
+          </div>
+        </div>
+
+        <div class="modal fade" id="modal-upload-picture">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crop Profile Picture</h4>
+              </div>
+              <div class="modal-body">
+                {% if uploaded_picture %}
+                  <div class="selected-picture">
+                    <p>Crop the profile picture and then click on the <strong>Save Picture</strong> button</p>
+                    <img src="/media/profile_pictures/{{ request.user.username }}_tmp.jpg?_={% now 'U' %}" alt="{{ request.user.username }}" id="crop-picture">
+                    <input type="hidden" id="x" name="x">
+                    <input type="hidden" id="y" name="y">
+                    <input type="hidden" id="w" name="w">
+                    <input type="hidden" id="h" name="h">
+                  </div>
+                {% endif %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-save-picture">Save picture</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+{% endblock content %}

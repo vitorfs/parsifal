@@ -3,14 +3,14 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
-from parsifal.activities import views as activities_views
-from parsifal.authentication import views as auth_views
-from parsifal.core import views as core_views
-from parsifal.reviews import views as reviews_views
-from parsifal.reviews.conducting import views as reviews_conducting_views
-from parsifal.reviews.planning import views as reviews_planning_views
-from parsifal.reviews.reporting import views as reviews_reporting_views
-from parsifal.reviews.settings import views as reviews_settings_views
+from parsifal.apps.activities import views as activities_views
+from parsifal.apps.authentication import views as auth_views
+from parsifal.apps.core import views as core_views
+from parsifal.apps.reviews import views as reviews_views
+from parsifal.apps.reviews.conducting import views as reviews_conducting_views
+from parsifal.apps.reviews.planning import views as reviews_planning_views
+from parsifal.apps.reviews.reporting import views as reviews_reporting_views
+from parsifal.apps.reviews.settings import views as reviews_settings_views
 
 urlpatterns = [
     path("", core_views.home, name="home"),
@@ -21,12 +21,12 @@ urlpatterns = [
     path("reset/", auth_views.reset, name="reset"),
     path("reset/<str:uidb64>/<str:token>/", auth_views.reset_confirm, name="password_reset_confirm"),
     path("success/", auth_views.success, name="success"),
-    path("reviews/", include("parsifal.reviews.urls", namespace="reviews")),
-    path("activity/", include("parsifal.activities.urls", namespace="activities")),
-    path("blog/", include("parsifal.blog.urls", namespace="blog")),
-    path("help/", include("parsifal.help.urls", namespace="help")),
-    path("library/", include("parsifal.library.urls", namespace="library")),
-    path("settings/", include("parsifal.account_settings.urls", namespace="settings")),
+    path("reviews/", include("parsifal.apps.reviews.urls", namespace="reviews")),
+    path("activity/", include("parsifal.apps.activities.urls", namespace="activities")),
+    path("blog/", include("parsifal.apps.blog.urls", namespace="blog")),
+    path("help/", include("parsifal.apps.help.urls", namespace="help")),
+    path("library/", include("parsifal.apps.library.urls", namespace="library")),
+    path("settings/", include("parsifal.apps.account_settings.urls", namespace="settings")),
     path("review_settings/transfer/", reviews_settings_views.transfer, name="transfer_review"),
     path("review_settings/delete/", reviews_settings_views.delete, name="delete_review"),
     path("admin/", admin.site.urls),
