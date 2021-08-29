@@ -5,12 +5,12 @@
 {% block title %}Planning · {{ review.title }}{% endblock %}
 
 {% block javascript %}
-  <script src="{% static 'js/../../static/js/planning_data_extraction.js' %}?_=2"></script>
+  <script src="{% static 'js/planning_data_extraction.js' %}?_=2"></script>
 {% endblock javascript %}
 
 {% block content %}
 
-  {% include 'reviews/../../../templates/reviews/review_header.html' with active_menu='planning' %}
+  {% include 'reviews/review_header.html' with active_menu='planning' %}
   {% include 'planning/planning_header.html' with active_tab='extraction' %}
 
   {% csrf_token %}
