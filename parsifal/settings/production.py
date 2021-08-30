@@ -1,5 +1,8 @@
 # flake8: noqa
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 from .base import *
 
 # ==============================================================================
@@ -31,3 +34,15 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+
+
+# ==============================================================================
+# THIRD-PARTY APPS
+# ==============================================================================
+
+sentry_sdk.init(
+    dsn=config("SENTRY_DSN", default=""),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+)
