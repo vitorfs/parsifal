@@ -104,6 +104,8 @@ DATABASES = {
 # AUTHENTICATION AND AUTHORIZATION SETTINGS
 # ==============================================================================
 
+AUTHENTICATION_BACKENDS = ("parsifal.apps.authentication.backends.CaseInsensitiveUsernameOrEmailModelBackend",)
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
