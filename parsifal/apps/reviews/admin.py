@@ -5,15 +5,15 @@ from parsifal.apps.reviews.models import Review
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         "name",
         "title",
         "description",
         "author",
         "create_date",
         "last_update",
-    ]
-    search_fields = ["name", "title", "description"]
+    )
+    search_fields = ("name", "title", "description")
     filter_horizontal = ("co_authors",)
     fields = [
         "name",
@@ -31,3 +31,4 @@ class ReviewAdmin(admin.ModelAdmin):
         "outcome",
         "context",
     ]
+    raw_id_fields = ("author", "co_authors")
