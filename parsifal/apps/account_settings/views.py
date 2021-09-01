@@ -116,8 +116,3 @@ def save_uploaded_picture(request):
         return HttpResponse(image_url)
     except Exception:
         return HttpResponseBadRequest()
-
-
-@login_required
-def connections(request):
-    return render(request, "settings/connections.html")
