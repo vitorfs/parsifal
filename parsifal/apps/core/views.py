@@ -1,6 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.html import escape
+from django.views.generic import RedirectView
 
 from parsifal.apps.activities.models import Activity
 from parsifal.apps.blog.models import Entry
@@ -63,3 +65,8 @@ def home(request):
             {"user_reviews": user_reviews, "feeds": feeds, "latest_news": latest_news},
         )
     return render(request, "core/cover.html")
+
+
+class LoginRedirectView(LoginRequiredMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("reviews", kwargs={"username": self.request.user.username})

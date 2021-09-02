@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.admin",
     "django.contrib.humanize",
+    "crispy_forms",
     "parsifal.apps.reviews",
     "parsifal.apps.reviews.planning",
     "parsifal.apps.reviews.conducting",
@@ -125,8 +126,10 @@ ABSOLUTE_URL_OVERRIDES = {
     "auth.user": lambda u: "/%s/" % u.username,
 }
 
-LOGIN_URL = "/signin/"
-LOGOUT_URL = "/signout/"
+LOGIN_REDIRECT_URL = "login_redirect"
+LOGOUT_REDIRECT_URL = "home"
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"
 
 
 # ==============================================================================
@@ -173,5 +176,7 @@ DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 # ==============================================================================
 # THIRD-PARTY APPS
 # ==============================================================================
+
+CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 ELSEVIER_API_KEY = config("ELSEVIER_API_KEY")

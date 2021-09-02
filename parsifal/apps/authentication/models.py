@@ -35,7 +35,6 @@ class Profile(models.Model):
         try:
             filename = f"{django_settings.MEDIA_ROOT}/profile_pictures/{self.user.username}.jpg"
             picture_url = f"{django_settings.MEDIA_URL}profile_pictures/{self.user.username}.jpg"
-            print(filename)
             if os.path.isfile(filename):
                 return picture_url
             else:

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_filters i18n %}
+
+{% block title %}{% trans "Log in" %} · Parsifal{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "Log in" %}</h3>
+        </div>
+        <div class="panel-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">{% trans "Log in" %}</button>
+            <a href="{% url "password_reset" %}" class="btn btn-link">{% trans "Forgot your password?" %}</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

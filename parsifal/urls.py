@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 
 from parsifal.apps.activities import views as activities_views
 from parsifal.apps.authentication import views as auth_views
@@ -14,13 +14,11 @@ from parsifal.apps.reviews.settings import views as reviews_settings_views
 
 urlpatterns = [
     path("", core_views.home, name="home"),
-    path("about/", TemplateView.as_view(template_name="core/about.html"), name="about"),
+    path("", include("django.contrib.auth.urls")),
+    path("login/success/", core_views.LoginRedirectView.as_view(), name="login_redirect"),
     path("signup/", auth_views.signup, name="signup"),
-    path("signin/", auth_views.signin, name="signin"),
-    path("signout/", auth_views.signout, name="signout"),
-    path("reset/", auth_views.reset, name="reset"),
-    path("reset/<str:uidb64>/<str:token>/", auth_views.reset_confirm, name="password_reset_confirm"),
-    path("success/", auth_views.success, name="success"),
+    path("signin/", RedirectView.as_view(pattern_name="login"), name="signin"),
+    path("about/", TemplateView.as_view(template_name="core/about.html"), name="about"),
     path("reviews/", include("parsifal.apps.reviews.urls", namespace="reviews")),
     path("activity/", include("parsifal.apps.activities.urls", namespace="activities")),
     path("blog/", include("parsifal.apps.blog.urls", namespace="blog")),
