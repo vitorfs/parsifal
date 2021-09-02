@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.sites",
     "django.contrib.humanize",
     "crispy_forms",
     "parsifal.apps.reviews",
