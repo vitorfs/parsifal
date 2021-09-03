@@ -1,16 +1,26 @@
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
 
 from parsifal.apps.activities import views as activities_views
 from parsifal.apps.authentication import views as auth_views
+from parsifal.apps.blog.sitemaps import BlogSitemap
 from parsifal.apps.core import views as core_views
+from parsifal.apps.core.sitemaps import StaticSitemap
+from parsifal.apps.help.sitemaps import HelpSitemap
 from parsifal.apps.reviews import views as reviews_views
 from parsifal.apps.reviews.conducting import views as reviews_conducting_views
 from parsifal.apps.reviews.planning import views as reviews_planning_views
 from parsifal.apps.reviews.reporting import views as reviews_reporting_views
 from parsifal.apps.reviews.settings import views as reviews_settings_views
+
+sitemaps = {
+    "blog": BlogSitemap(),
+    "help": HelpSitemap(),
+    "static": StaticSitemap(),
+}
 
 urlpatterns = [
     path("", core_views.home, name="home"),
@@ -28,7 +38,7 @@ urlpatterns = [
     path("review_settings/transfer/", reviews_settings_views.transfer, name="transfer_review"),
     path("review_settings/delete/", reviews_settings_views.delete, name="delete_review"),
     path("admin/", admin.site.urls),
-    path("sitemap.xml", TemplateView.as_view(template_name="sitemap.xml", content_type="application/xml")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path("<str:username>/following/", activities_views.following, name="following"),
     path("<str:username>/followers/", activities_views.followers, name="followers"),

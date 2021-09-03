@@ -22,13 +22,14 @@ ADMINS = (("Vitor Freitas", "vitorfs@gmail.com"),)
 MANAGERS = ADMINS
 
 INSTALLED_APPS = [
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.admin",
     "django.contrib.sites",
+    "django.contrib.sitemaps",
     "django.contrib.humanize",
     "crispy_forms",
     "parsifal.apps.reviews",

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from bs4 import BeautifulSoup
@@ -41,6 +42,9 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("help:article", args=(self.slug,))
 
     def raw_content(self):
         soup = BeautifulSoup(self.content)
