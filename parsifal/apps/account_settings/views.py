@@ -2,7 +2,6 @@ import os
 
 from django.conf import settings as django_settings
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
@@ -10,7 +9,7 @@ from django.urls import reverse as r
 
 from PIL import Image
 
-from parsifal.apps.account_settings.forms import PasswordForm, ProfileForm, UserEmailForm
+from parsifal.apps.account_settings.forms import ProfileForm, UserEmailForm
 
 
 @login_required
@@ -24,7 +23,7 @@ def profile(request):
         form = ProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            messages.success(request, "Your profile were successfully edited.")
+            messages.success(request, "Your profile was successfully edited.")
             return redirect(r("settings:profile"))
     else:
         form = ProfileForm(instance=request.user.profile)
@@ -54,21 +53,6 @@ def emails(request):
     else:
         form = UserEmailForm(instance=request.user)
     return render(request, "settings/emails.html", {"form": form})
-
-
-@login_required
-def password(request):
-    if request.method == "POST":
-        form = PasswordForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Password changed successfully.")
-            update_session_auth_hash(request, form.user)
-        else:
-            messages.error(request, "Please correct the error below.")
-    else:
-        form = PasswordForm(request.user)
-    return render(request, "settings/password.html", {"form": form})
 
 
 @login_required

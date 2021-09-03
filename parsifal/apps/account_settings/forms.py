@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy as _
@@ -63,15 +62,3 @@ class ProfileForm(forms.ModelForm):
         u.save()
         profile = super().save(*args, **kwargs)
         return profile
-
-
-class PasswordForm(PasswordChangeForm):
-    old_password = forms.CharField(
-        label=_("Old password"), widget=forms.PasswordInput(attrs={"class": "form-control"})
-    )
-    new_password1 = forms.CharField(
-        label=_("New password"), widget=forms.PasswordInput(attrs={"class": "form-control"})
-    )
-    new_password2 = forms.CharField(
-        label=_("Confirm password"), widget=forms.PasswordInput(attrs={"class": "form-control"})
-    )
