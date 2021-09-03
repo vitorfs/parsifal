@@ -16,7 +16,7 @@ urlpatterns = [
     path("", core_views.home, name="home"),
     path("", include("django.contrib.auth.urls")),
     path("login/success/", core_views.LoginRedirectView.as_view(), name="login_redirect"),
-    path("signup/", auth_views.signup, name="signup"),
+    path("signup/", auth_views.SignUpView.as_view(), name="signup"),
     path("signin/", RedirectView.as_view(pattern_name="login"), name="signin"),
     path("about/", TemplateView.as_view(template_name="core/about.html"), name="about"),
     path("reviews/", include("parsifal.apps.reviews.urls", namespace="reviews")),
