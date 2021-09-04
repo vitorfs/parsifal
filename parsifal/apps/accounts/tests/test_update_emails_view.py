@@ -5,11 +5,11 @@ from parsifal.apps.authentication.tests.factories import UserFactory
 from parsifal.utils.test import login_redirect_url
 
 
-class TestUpdateProfileView(TestCase):
+class TestUpdateEmailsViewView(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.user = UserFactory(first_name="VITOR")
-        cls.url = reverse("settings:profile")
+        cls.user = UserFactory(email="john.doe@example.com")
+        cls.url = reverse("settings:emails")
 
     def test_login_required(self):
         response = self.client.get(self.url)
@@ -21,19 +21,14 @@ class TestUpdateProfileView(TestCase):
         with self.subTest(msg="Test get status code"):
             self.assertEqual(200, response.status_code)
 
-        parts = ("csrfmiddlewaretoken", "first_name", "last_name", "public_email", "VITOR")
+        parts = ("csrfmiddlewaretoken", "email", "john.doe@example.com")
         for part in parts:
             with self.subTest(msg="Test response body", part=part):
                 self.assertContains(response, part)
 
     def test_post_success(self):
         data = {
-            "first_name": "John",
-            "last_name": "Doe",
-            "public_email": "john.doe@example.com",
-            "url": "https://example.com",
-            "institution": "University of Oulu",
-            "location": "Oulu",
+            "email": "doe.john@example.com",
         }
         self.client.force_login(self.user)
         response = self.client.post(self.url, data, follow=True)
@@ -44,14 +39,13 @@ class TestUpdateProfileView(TestCase):
             self.assertEqual(200, response.status_code)
 
         with self.subTest(msg="Test success message"):
-            self.assertContains(response, "Your profile was updated with success!")
+            self.assertContains(response, "Account email was updated with success!")
 
-        for value in data.values():
-            with self.subTest(msg="Test form saved data", value=value):
-                self.assertContains(response, f'value="{value}"')
+        with self.subTest(msg="Test form saved data"):
+            self.assertContains(response, 'value="doe.john@example.com"')
 
     def test_post_fail(self):
-        data = {"url": "x" * 100}  # invalid url with 100 chars
+        data = {"email": "invalidemail"}
         self.client.force_login(self.user)
         response = self.client.post(self.url, data)
 
@@ -59,4 +53,4 @@ class TestUpdateProfileView(TestCase):
             self.assertEqual(200, response.status_code)
 
         with self.subTest(msg="Test error message"):
-            self.assertContains(response, "Ensure this value has at most 50 characters (it has 100).")
+            self.assertContains(response, "Enter a valid email address.")
