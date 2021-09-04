@@ -3,7 +3,7 @@ import requests
 from parsifal.utils.elsevier.exceptions import ElsevierException, ElsevierInvalidRequest, ElsevierQuotaExceeded
 
 
-class ElsevierClient(object):
+class ElsevierClient:
     def __init__(self, api_key, host="http://api.elsevier.com/content"):
         self.api_key = api_key
         self.host = host
