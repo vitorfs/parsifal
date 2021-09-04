@@ -2,10 +2,10 @@
 
 {% block title %}Account Settings · Parsifal{% endblock %}
 
-{% block content %}  
+{% block content %}
   <div class="row">
     <div class="col-md-3">
-      {% include "settings/settings_menu.html" %}
+      {% include "accounts/menu.html" %}
     </div>
     <div class="col-md-9">
       <form action="{% url 'settings:emails' %}" method="post">

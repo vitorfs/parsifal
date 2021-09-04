@@ -34,7 +34,7 @@ urlpatterns = [
     path("blog/", include("parsifal.apps.blog.urls", namespace="blog")),
     path("help/", include("parsifal.apps.help.urls", namespace="help")),
     path("library/", include("parsifal.apps.library.urls", namespace="library")),
-    path("settings/", include("parsifal.apps.account_settings.urls", namespace="settings")),
+    path("settings/", include("parsifal.apps.accounts.urls", namespace="settings")),
     path("review_settings/transfer/", reviews_settings_views.transfer, name="transfer_review"),
     path("review_settings/delete/", reviews_settings_views.delete, name="delete_review"),
     path("admin/", admin.site.urls),

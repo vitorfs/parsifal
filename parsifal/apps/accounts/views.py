@@ -3,31 +3,41 @@ import os
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse as r
+from django.urls import reverse, reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import RedirectView, UpdateView
 
 from PIL import Image
 
-from parsifal.apps.account_settings.forms import ProfileForm, UserEmailForm
+from parsifal.apps.accounts.forms import ProfileForm, UserEmailForm
 
 
-@login_required
-def settings(request):
-    return redirect("/settings/profile/")
+class SettingsRedirectView(LoginRequiredMixin, RedirectView):
+    pattern_name = "settings:profile"
 
 
-@login_required
-def profile(request):
-    if request.method == "POST":
-        form = ProfileForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Your profile was successfully edited.")
-            return redirect(r("settings:profile"))
-    else:
-        form = ProfileForm(instance=request.user.profile)
-    return render(request, "settings/profile.html", {"form": form})
+class UpdateProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = ProfileForm
+    success_url = reverse_lazy("settings:profile")
+    success_message = _("Your profile was updated with success!")
+    template_name = "accounts/profile.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+
+class UpdateEmailsView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = UserEmailForm
+    success_url = reverse_lazy("settings:emails")
+    success_message = _("Account email was updated with success!")
+    template_name = "accounts/emails.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 @login_required
@@ -38,21 +48,7 @@ def picture(request):
             uploaded_picture = True
     except Exception:
         uploaded_picture = False
-    return render(request, "settings/picture.html", {"uploaded_picture": uploaded_picture})
-
-
-@login_required
-def emails(request):
-    if request.method == "POST":
-        form = UserEmailForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Account Email changed successfully.")
-        else:
-            messages.error(request, "Please correct the error below.")
-    else:
-        form = UserEmailForm(instance=request.user)
-    return render(request, "settings/emails.html", {"form": form})
+    return render(request, "accounts/picture.html", {"uploaded_picture": uploaded_picture})
 
 
 @login_required
@@ -74,12 +70,14 @@ def upload_picture(request):
                 new_size = new_width, new_height
                 im.thumbnail(new_size, Image.ANTIALIAS)
                 im.save(filename)
-            return redirect("/settings/picture/?upload_picture=uploaded")
+            url = reverse("settings:picture")
+            url = f"{url}?upload_picture=uploaded"
+            return redirect(url)
         else:
             messages.error(request, "Invalid file format.")
     except Exception:
         messages.error(request, "An expected error occurred.")
-    return redirect("/settings/picture/")
+    return redirect("settings:picture")
 
 
 @login_required
