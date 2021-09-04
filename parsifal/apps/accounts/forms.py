@@ -36,11 +36,8 @@ class ProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        try:
-            self.fields["first_name"].initial = self.instance.user.first_name
-            self.fields["last_name"].initial = self.instance.user.last_name
-        except User.DoesNotExist:
-            pass
+        self.fields["first_name"].initial = self.instance.user.first_name
+        self.fields["last_name"].initial = self.instance.user.last_name
 
     class Meta:
         model = Profile
@@ -50,5 +47,6 @@ class ProfileForm(forms.ModelForm):
     def save(self, commit=True):
         self.instance.user.first_name = self.cleaned_data["first_name"]
         self.instance.user.last_name = self.cleaned_data["last_name"]
-        self.instance.user.save()
+        if commit:
+            self.instance.user.save()
         return super().save(commit)
