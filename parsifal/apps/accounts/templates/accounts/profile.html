@@ -1,6 +1,8 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Account Settings · Parsifal{% endblock %}
+{% load crispy_forms_filters i18n %}
+
+{% block title %}{% trans "Account Settings" %} · Parsifal{% endblock %}
 
 {% block content %}
   <div class="row">
@@ -8,17 +10,17 @@
       {% include "accounts/menu.html" %}
     </div>
     <div class="col-md-9">
-      <form action="{% url 'settings:profile' %}" method="post">
+      <form method="post">
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Edit Profile ({{ user.username }})</h3>
+            <h3 class="panel-title">{% trans "Edit Profile" %} ({{ user.username }})</h3>
           </div>
           <div class="panel-body">
-            {% include 'form_vertical.html' with form=form %}
+            {{ form|crispy }}
           </div>
           <div class="panel-footer">
-            <button type="submit" class="btn btn-success btn-large">Save profile</button>
+            <button type="submit" class="btn btn-success btn-large">{% trans "Save profile" %}</button>
           </div>
         </div>
       </form>

@@ -11,13 +11,11 @@ from parsifal.apps.reviews.models import Review
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    public_email = models.EmailField(null=True, blank=True)
-    location = models.CharField(max_length=50)
-    url = models.CharField(max_length=50)
-    institution = models.CharField(max_length=50)
-    mendeley_token = models.CharField(max_length=2000, null=True, blank=True)
-    dropbox_token = models.CharField(max_length=2000, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_("user"))
+    public_email = models.EmailField(_("public email"), blank=True)
+    location = models.CharField(_("location"), max_length=50, blank=True)
+    url = models.CharField(_("url"), max_length=50, blank=True)
+    institution = models.CharField(_("institution"), max_length=50, blank=True)
 
     class Meta:
         verbose_name = _("profile")
