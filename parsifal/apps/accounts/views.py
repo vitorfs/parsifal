@@ -6,10 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import RedirectView, UpdateView
+from django.views.generic import RedirectView, TemplateView, UpdateView
 
 from PIL import Image
 
@@ -40,15 +40,12 @@ class UpdateEmailsView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return self.request.user
 
 
-@login_required
-def picture(request):
-    uploaded_picture = False
-    try:
-        if request.GET["upload_picture"] == "uploaded":
-            uploaded_picture = True
-    except Exception:
-        uploaded_picture = False
-    return render(request, "accounts/picture.html", {"uploaded_picture": uploaded_picture})
+class PictureView(LoginRequiredMixin, TemplateView):
+    template_name = "accounts/picture.html"
+
+    def get_context_data(self, **kwargs):
+        kwargs["uploaded_picture"] = self.request.GET.get("upload_picture") == "uploaded"
+        return super().get_context_data(**kwargs)
 
 
 @login_required
