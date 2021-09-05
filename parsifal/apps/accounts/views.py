@@ -1,3 +1,4 @@
+import logging
 import os
 
 from django.conf import settings as django_settings
@@ -5,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -14,6 +16,8 @@ from django.views.generic import RedirectView, TemplateView, UpdateView
 from PIL import Image
 
 from parsifal.apps.accounts.forms import ProfileForm, UserEmailForm
+
+logger = logging.getLogger(__name__)
 
 
 class SettingsRedirectView(LoginRequiredMixin, RedirectView):
@@ -51,14 +55,14 @@ class PictureView(LoginRequiredMixin, TemplateView):
 @login_required
 def upload_picture(request):
     try:
+        fs = FileSystemStorage()
         f = request.FILES["picture"]
         ext = os.path.splitext(f.name)[1].lower()
         valid_extensions = [".gif", ".png", ".jpg", ".jpeg", ".bmp"]
         if ext in valid_extensions:
             filename = f"{django_settings.MEDIA_ROOT}/profile_pictures/{request.user.username}_tmp.jpg"
-            with open(filename, "wb+") as destination:
-                for chunk in f.chunks():
-                    destination.write(chunk)
+            fs.delete(filename)
+            filename = fs.save(filename, f)
             im = Image.open(filename)
             width, height = im.size
             if width > 560:
@@ -73,6 +77,7 @@ def upload_picture(request):
         else:
             messages.error(request, "Invalid file format.")
     except Exception:
+        logger.exception("An error occurred while trying to upload a picture.")
         messages.error(request, "An expected error occurred.")
     return redirect("settings:picture")
 

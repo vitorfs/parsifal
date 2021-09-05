@@ -46,6 +46,8 @@ def new(request):
             form.instance.author = request.user
 
             name = slugify(form.instance.title)
+            if not name:
+                name = "literature-review"
             unique_name = name
             i = 0
             while Review.objects.filter(name=unique_name, author__username=request.user.username):
