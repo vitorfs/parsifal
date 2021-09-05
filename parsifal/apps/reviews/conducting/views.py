@@ -662,7 +662,7 @@ def import_bibtex(request):
 
     if ext in valid_extensions or bibtex_file.content_type == "application/x-bibtex":
         try:
-            parser = BibTexParser()
+            parser = BibTexParser(common_strings=True)
             parser.customization = convert_to_unicode
             bib_database = bibtexparser.load(bibtex_file, parser=parser)
             articles = bibtex_to_article_object(bib_database, review, source)
@@ -690,7 +690,7 @@ def import_bibtex_raw_content(request):
     review = Review.objects.get(pk=review_id)
     source = Source.objects.get(pk=source_id)
 
-    parser = BibTexParser()
+    parser = BibTexParser(common_strings=True)
     parser.customization = convert_to_unicode
     bib_database = bibtexparser.loads(bibtex_file, parser=parser)
     articles = bibtex_to_article_object(bib_database, review, source)

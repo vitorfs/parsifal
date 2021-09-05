@@ -177,7 +177,7 @@ DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 # THIRD-PARTY APPS
 # ==============================================================================
 
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = config("COMPRESS_ENABLED", default=not DEBUG, cast=bool)
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
