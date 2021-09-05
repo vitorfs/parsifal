@@ -1,0 +1,28 @@
+<p>
+  <form method="get" class="pull-right" style="display: inline;">
+    <strong>Order by: </strong>
+    <select name="order" id="quality-assessment-order">
+      <option value="title"{% if order == 'title' %} selected{% endif %}>Title (a - z)</option>
+      <option value="-title"{% if order == '-title' %} selected{% endif %}>Title (z - a)</option>
+      <option value="year"{% if order == 'year' %} selected{% endif %}>Year (0 - 9)</option>
+      <option value="-year"{% if order == '-year' %} selected{% endif %}>Year (9 - 0)</option>
+    </select>
+  </form>
+  <strong>Show:</strong>
+  <input type="radio" name="filter" id="all-filter" checked> All
+  <input type="radio" name="filter" id="done-filter"> Done
+  <input type="radio" name="filter" id="pending-filter"> Pending
+  {% if review.quality_assessment_cutoff_score > 0.0 %}
+    <input type="radio" name="filter" id="score-higher-filter"> Score higher than {{ review.quality_assessment_cutoff_score }}
+    <input type="radio" name="filter" id="score-lower-filter"> Score lower or equal to {{ review.quality_assessment_cutoff_score }}
+  {% endif %}
+</p>
+
+<p>To answer the form you may click on the desired answer on the following tables.</p>
+
+<input type="hidden" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}">
+<input type="hidden" id="questions-count" value="{{ review.get_quality_assessment_questions|length }}">
+
+<div class="quality-assessment">
+  {{ quality_assessment_table|safe }}
+</div>

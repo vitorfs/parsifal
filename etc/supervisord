@@ -1,0 +1,7 @@
+[program:parsifal]
+command=/home/parsifal/parsifal/bin/gunicorn_start
+user=parsifal
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/home/parsifal/logs/gunicorn.log

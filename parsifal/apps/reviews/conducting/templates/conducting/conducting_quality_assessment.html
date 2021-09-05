@@ -1,0 +1,31 @@
+{% extends 'conducting/conducting.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/conducting_quality_assessment.js' %}?v=2"></script>
+{% endblock javascript %}
+
+{% block tab_content %}
+  {% include "conducting/conducting_header.html" with active_tab="quality" %}
+  <h3>Quality Assessment</h3>
+
+  {% if finished_all_steps %}
+    <ul class="nav nav-pills" id="quality-menu" style="margin-bottom: 20px;">
+      <li class="active"><a href="{% url 'reviews:conducting:quality_assessment_detailed' %}">Detailed</a></li>
+      <li><a href="{% url 'reviews:conducting:quality_assessment_summary' %}">Summary</a></li>
+    </ul>
+
+    <div class="quality-container">
+      {% include "conducting/partial_conducting_quality_assessment_detailed.html" with review=review quality_assessment_table=quality_assessment_table %}
+    </div>
+  {% else %}
+    <p>There are a few steps you have to finish before assess the quality of the studies:</p>
+    <ul>
+      {% for message in steps_messages %}
+        <li>{{ message|safe }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock tab_content %}

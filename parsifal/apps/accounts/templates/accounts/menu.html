@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{% trans "Account settings" %}</h3>
+  </div>
+  <div class="list-group">
+    <a href="{% url 'settings:profile' %}" class="list-group-item">{% trans "Profile" %}</a>
+    <a href="{% url 'settings:emails' %}" class="list-group-item">{% trans "Emails" %}</a>
+    <a href="{% url 'settings:picture' %}" class="list-group-item">{% trans "Picture" %}</a>
+    <a href="{% url 'password_change' %}" class="list-group-item">{% trans "Password" %}</a>
+  </div>
+</div>

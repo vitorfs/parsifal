@@ -1,0 +1,25 @@
+#!/bin/bash
+
+NAME="parsifal"
+DIR=/home/parsifal/parsifal
+USER=parsifal
+GROUP=parsifal
+WORKERS=3
+BIND=unix:/home/parsifal/run/gunicorn.sock
+DJANGO_SETTINGS_MODULE=parsifal.settings.production
+DJANGO_WSGI_MODULE=parsifal.wsgi
+LOG_LEVEL=info
+
+source /home/parsifal/venv/bin/activate
+
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DIR:$PYTHONPATH
+
+exec /home/parsifal/venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+  --name $NAME \
+  --workers $WORKERS \
+  --user=$USER \
+  --group=$GROUP \
+  --bind=$BIND \
+  --log-level=$LOG_LEVEL \
+  --log-file=-

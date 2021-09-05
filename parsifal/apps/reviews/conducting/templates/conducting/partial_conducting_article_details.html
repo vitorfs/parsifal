@@ -1,0 +1,153 @@
+<div class="alert hide" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <span class="modal-alert"></span>
+</div>
+
+<form name="article-details" id="article-details" method="post" action="">
+  {% csrf_token %}
+  <input type="hidden" name="article-id" id="article-id" value="{{ article.id }}">
+  <input type="hidden" name="review-id" id="review-id" value="{{ article.review.id }}">
+  <input type="hidden" name="source-id" id="source-id" value="{{ article.source.id }}">
+
+  <div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#tab-details" aria-controls="tab-details" role="tab" data-toggle="tab">Details</a>
+      </li>
+      <li role="presentation">
+        <a href="#tab-comments" aria-controls="tab-comments" role="tab" data-toggle="tab">Comments</a>
+      </li>
+      {% comment %}<li role="presentation">
+        <a href="#tab-files" aria-controls="tab-files" role="tab" data-toggle="tab">Files</a>
+      </li>{% endcomment %}
+      {% if article.url %}
+        <li class="pull-right">
+          <a href="{{ article.url|default_if_none:'' }}" target="_blank" role="tab" title="Change the URL via Article URL">
+            <small>
+              <span class="glyphicon glyphicon-new-window"></span>
+              External Link
+            </small>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="tab-details">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Status</label>
+                <select name="status" id="status" class="form-control">
+                  {% for status in article.ARTICLE_STATUS %}
+                    <option value="{{ status.0 }}"{% if article.status == status.0 %} selected{% endif %}>{{ status.1 }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label">Selection Criteria</label>
+                <select name="selection_criteria" class="form-control">
+                  <option value="">Select...</option>
+                  <optgroup label="Inclusion Criterias">
+                    {% for criteria in review.get_inclusion_criterias %}
+                      <option value="{{ criteria.id }}"{% if article.selection_criteria == criteria %} selected{% endif %}>{{ criteria.description }}</option>
+                    {% endfor %}
+                  </optgroup>
+                  <optgroup label="Exclusion Criterias">
+                    {% for criteria in review.get_exclusion_criterias %}
+                      <option value="{{ criteria.id }}"{% if article.selection_criteria == criteria %} selected{% endif %}>{{ criteria.description }}</option>
+                    {% endfor %}
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
+        <div class="form-group">
+          <label class="control-label">Title</label>
+          <input type="text" class="form-control" name="title" id="title" value="{{ article.title }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Abstract</label>
+          <textarea name="abstract" id="abstract" rows="5" class="form-control">{{ article.abstract }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Year</label>
+          <input type="text" class="form-control" name="year" id="year" value="{{ article.year|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Author</label>
+          <input type="text" class="form-control" name="author" id="author" value="{{ article.author|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Keywords</label>
+          <input type="text" class="form-control" name="keywords" id="keywords" value="{{ article.keywords|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Author Keywords</label>
+          <input type="text" class="form-control" name="author_keywords" id="author_keywords" value="{{ article.author_keywords|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">BibTex Key</label>
+          <input type="text" class="form-control" name="bibtex-key" id="bibtex-key" value="{{ article.bibtex_key }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Journal</label>
+          <input type="text" class="form-control" name="journal" id="journal" value="{{ article.journal|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Document Type</label>
+          <input type="text" class="form-control" name="document-type" id="document-type" value="{{ article.document_type|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Pages</label>
+          <input type="text" class="form-control" name="pages" id="pages" value="{{ article.pages|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Volume</label>
+          <input type="text" class="form-control" name="volume" id="volume" value="{{ article.volume|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">DOI</label>
+          <input type="text" class="form-control" name="doi" id="doi" value="{{ article.doi|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">URL</label>
+          <input type="text" class="form-control" name="url" id="url" value="{{ article.url|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Affiliation</label>
+          <input type="text" class="form-control" name="affiliation" id="affiliation" value="{{ article.affiliation|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Publisher</label>
+          <input type="text" class="form-control" name="publisher" id="publisher" value="{{ article.publisher|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">ISSN</label>
+          <input type="text" class="form-control" name="issn" id="issn" value="{{ article.issn|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Language</label>
+          <input type="text" class="form-control" name="language" id="language" value="{{ article.language|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Note</label>
+          <input type="text" class="form-control" name="note" id="note" value="{{ article.note|default_if_none:'' }}">
+        </div>
+
+      </div>
+      <div role="tabpanel" class="tab-pane" id="tab-comments">
+        <div class="form-group">
+          <label class="control-label">Comments</label>
+          <textarea name="comments" class="form-control" id="comments" rows="5">{{ article.comments|default_if_none:'' }}</textarea>
+        </div>
+      </div>
+      {% comment %}<div role="tabpanel" class="tab-pane" id="tab-files">
+        {% include 'conducting/partial_article_files.html' %}
+      </div>{% endcomment %}
+    </div>
+  </div>
+</form>

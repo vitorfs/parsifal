@@ -1,0 +1,95 @@
+{% extends 'conducting/conducting.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'js/conducting_import_studies.js' %}?_=2"></script>
+{% endblock javascript %}
+
+{% block tab_content %}
+
+  {% include "conducting/conducting_header.html" with active_tab="import" %}
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Import Studies</h3>
+        </div>
+        {% if review.sources.all %}
+          <table class="table table-v-align-middle" id="tbl-import-studies">
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Imported Studies</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for source in sources %}
+                <tr>
+                  <td>{{ source.source.name }}</td>
+                  <td>{{ source.count }}</td>
+                  <td class="text-center">
+                    <form enctype="multipart/form-data" method="post" action="{% url 'reviews:conducting:import_bibtex' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="review-id" value="{{ review.id }}">
+                      <input type="hidden" name="source-id" value="{{ source.source.id }}">
+                      <input type="file" class="hide" name="bibtex">
+                    </form>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                        Import
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" class="btn-import-bibtex">BibTeX file <small>(.bib, .bibtex)</small></a></li>
+                        <li><a href="javascript:void(0);" class="js-import-bibtex-raw-content" data-source-id="{{ source.source.id }}" data-toggle="modal" data-target="#parse-bibtex">Paste BibTeX content</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="panel-body">
+            <p>There are a few steps you have to finish before you import the studies:</p>
+            <ul>
+              <li>Use the <a href="{% url 'planning' review.author.username review.name %}#sources-section">planning tab</a> to add sources to your review.</li>
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <form action="{% url 'reviews:conducting:import_bibtex_raw_content' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="review-id" value="{{ review.id }}">
+    <input type="hidden" id="bibtex-raw-content-source-id" name="source-id" value="">
+    <div class="modal fade" id="parse-bibtex">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Parse BibTeX Content</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="bibtex_raw_content" class="control-label">Paste the raw BibTeX file contents</label>
+              <textarea id="bibtex_raw_content" name="bibtex_file" class="form-control" rows="10"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Import</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+{% endblock tab_content %}

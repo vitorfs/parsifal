@@ -1,0 +1,100 @@
+{% extends 'conducting/conducting.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link href="{% static 'css/fileupload/jquery.fileupload.css' %}" rel="stylesheet">
+{% endblock stylesheet %}
+
+{% block javascript %}
+  <script src="{% static 'js/fileupload/jquery.ui.widget.js' %}"></script>
+  <script src="{% static 'js/fileupload/jquery.iframe-transport.js' %}"></script>
+  <script src="{% static 'js/fileupload/jquery.fileupload.js' %}"></script>
+  <script src="{% static 'js/conducting_study_selection.js' %}?v=2"></script>
+{% endblock javascript %}
+
+{% block tab_content %}
+
+  {% include "conducting/conducting_header.html" with active_tab="studies" %}
+
+  <h3>Study Selection</h3>
+
+  <div class="modal fade" id="modal-duplicates">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Duplicates</h4>
+        </div>
+        <div class="modal-body" style="overflow-y: scroll;">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" id="btn-resolve-all">Resolve All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-add-article">
+    <div class="modal-header">
+      <a href="#" class="close close-modal">×</a>
+      <h2>New Article</h2>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-warning close-modal">Cancel</button>
+      <button type="button" class="btn btn-success btn-save-article">Save</button>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-article">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Article Details <small>(<span class="current-article"></span>/<span class="total-articles"></span>)</small></h4>
+        </div>
+        <div class="modal-body" style="overflow-y: scroll;">
+
+        </div>
+        <div class="modal-footer">
+          <div class="pull-left">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="save-and-move-next"> Automatically save the status on change and move next
+              </label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-previous">Previous</button>
+          <button type="button" class="btn btn-primary" id="btn-next">Next</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success btn-save-article">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if finished_all_steps %}
+    <ul class="nav nav-tabs" id="source-tab">
+      <li>
+        <a href="#" source-id="None">All Sources</a>
+      </li>
+      {% for source in review.sources.all %}
+        <li{% if source.id == active_tab %} class="active"{% endif %}>
+          <a href="#" source-id="{{ source.id }}">{{ source.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="source-tab-content" style="min-height: 200px;"></div>
+  {% else %}
+    <p>There are a few steps you have to finish before you select the studies:</p>
+    <ul>
+      {% for message in steps_messages %}
+        <li>{{ message|safe }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock tab_content %}

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+{% if active_folder %}
+{{ active_folder.name }}
+{% else %}
+Library · Parsifal
+{% endif %}
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'js/library.js' %}"></script>
+{% endblock %}
+
+{% block mustache %}
+  {% verbatim %}
+    <script id="folder-action-template" type="x-tmpl-mustache">
+      <li>
+        <a href="javascript:void(0);" class="{{ css_class }}" data-to-folder-id="{{ to }}" data-from-folder-id="{{ from }}">{{ name }}</a>
+      </li>
+    </script>
+  {% endverbatim %}
+{% endblock %}
+
+{% block content %}
+  <h2 class="page-header">
+    My Library
+    <a href="#" class="pull-right btn btn-primary"><span class="glyphicon glyphicon-cog"></span> Library settings</a>
+  </h2>
+
+  <div class="row">
+    <div class="col-md-4 col-lg-3">
+      {% include 'library/includes/menu.html' with reviews=reviews folder_form=folder_form %}
+    </div>
+    <div class="col-md-8 col-lg-9">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <form action="" method="get" id="search-form">
+            <input type="hidden" name="o" value="{{ order }}">
+            <div class="input-group pull-right" style="width: 300px; font-weight: normal; margin-top: -6px;">
+              <input type="text" name="q" class="form-control input-sm" placeholder="Search" value="{{ querystring }}">
+              <span class="input-group-btn">
+                {% if querystring %}
+                  <a href="" class="btn btn-default btn-sm" data-toggle="tooltip" title="Clear search" data-placement="bottom" data-container="body">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+                {% endif %}
+                <button class="btn btn-default btn-sm" type="submit" data-toggle="tooltip" title="Search" data-placement="bottom" data-container="body">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </form>
+          <h3 class="panel-title">
+            {% if active_folder %}
+              <span class="glyphicon glyphicon-folder-close" style="margin-right: 5px;"></span> {{ active_folder.name }}
+            {% else %}
+              <span class="glyphicon glyphicon-inbox" style="margin-right: 5px;"></span> All documents
+            {% endif %}
+          </h3>
+        </div>
+        <div class="panel-body">
+          {% include 'library/includes/toolbar.html' with documents=documents active_folder=active_folder %}
+        </div>
+        <form id="form-library" method="post" action="{% url 'library:list_actions' %}">
+          {% csrf_token %}
+          <input type="hidden" name="action" id="library-action">
+          <input type="hidden" name="select-all-pages" id="select-all-pages" value="">
+          <input type="hidden" name="querystring" value="{{ querystring }}">
+          <input type="hidden" name="action-folder-id" id="action-folder-id" value="">
+          <input type="hidden" name="active-folder-id" id="active-folder-id" value="{{ active_folder.pk }}">
+          <input type="hidden" name="redirect" value="{{ current_full_path }}">
+          <table class="table table-hover" id="library-documents" data-num-pages="{{ documents.paginator.num_pages }}" data-num-documents="{{ documents.object_list.count }}">
+            <tbody>
+              <tr class="bg-warning text-center js-message-select-all-pages" style="display: none;">
+                <td colspan="2">
+                  All <strong>{{ documents.object_list.count }}</strong> documents selected on this page.
+                  {% if documents.paginator.num_pages > 1 %}
+                    <a href="javascript:void(0);" class="js-select-all-documents">Select all <strong>{{ documents.paginator.count }}</strong> documents in this folder.</a>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr class="bg-warning text-center js-message-clear-selection" style="display: none;">
+                <td colspan="2">
+                  All <strong>{{ documents.paginator.count }}</strong> documents selected in this folder.
+                  <a href="javascript:void(0);" class="js-clear-selection">Clear selection.</a>
+                </td>
+              </tr>
+              {% for document in documents %}
+                <tr data-id="{{ document.id }}">
+                  <td style="text-align: center; vertical-align: middle; width: 35px;" class="js-document-checkbox">
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    <input type="checkbox" name="document" class="hide" value="{{ document.pk }}" autocomplete="off">
+                  </td>
+                  <td class="js-document-details">
+                    {% include 'library/partial_document_summary.html' with document=document %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="2" class="empty-library">
+                    {% if querystring %}
+                      <span class="glyphicon glyphicon-search"></span>
+                      <h4>The search returned no result.</h4>
+                      <a href="" class="btn btn-default">Clear search</a>
+                    {% else %}
+                      <span class="glyphicon glyphicon-duplicate"></span>
+                      <h4>There are no documents in this folder.</h4>
+                      <button type="button" class="btn btn-primary js-new-document"><span class="glyphicon glyphicon-plus"></span> Add a document</button>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% include 'library/edit_folder.html' with folder=active_folder %}
+
+  <div class="modal fade" id="modal-document" data-remote-url="{% url 'library:new_document' %}">
+    <div class="modal-dialog modal-lg"></div>
+  </div>
+{% endblock %}

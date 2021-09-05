@@ -1,5 +1,5 @@
-{% load staticfiles %}<!DOCTYPE html>
-<html>
+{% load static %}<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
@@ -29,7 +29,7 @@
   <link rel="icon" type="image/png" href="{% static 'img/android-chrome-192x192.png' %}" sizes="192x192">
   <link rel="icon" type="image/png" href="{% static 'img/favicon-96x96.png' %}" sizes="96x96">
   <link rel="icon" type="image/png" href="{% static 'img/favicon-16x16.png' %}" sizes="16x16">
-  <link rel="manifest" href="{% static 'manifest.json' %}">
+  <link rel="manifest" href="{% static 'img/manifest.json' %}">
   <meta name="msapplication-TileColor" content="#2b5797">
   <meta name="msapplication-TileImage" content="{% static 'img/mstile-144x144.png' %}">
   <meta name="theme-color" content="#ffffff">
@@ -82,16 +82,16 @@
     </div>
   </div>
   <script src="{% static 'js/mustache.min.js' %}"></script>
-  <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+  <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/jquery.tablesorter.min.js' %}"></script>
   <script src="{% static 'js/selectize.min.js' %}"></script>
   <script src="{% static 'js/expanding.js' %}"></script>
-  <script src="{% static 'js/parsifal.js' %}?v=2"></script>
+  <script src="{% static 'js/parsifal.js' %}"></script>
   <script>
     $(function () {
       $.parsifal.init();
-      if (document.location.hostname.indexOf('parsif.al') != -1) {
+      if (document.location.hostname.indexOf('parsif.al') !== -1) {
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -108,7 +108,6 @@
     });
   </script>
   {% block javascript %}{% endblock %}
-
   {% verbatim %}
     <script id="alert-template" type="x-tmpl-mustache">
       <div id="{{ id }}" class="alert alert-dismissible fade in {{ alert-class }}" role="alert">

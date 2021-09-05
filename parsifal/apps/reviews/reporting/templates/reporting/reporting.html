@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Reporting · {{ review.title }}{% endblock %}
+
+{% block content %}
+
+  {% include 'reviews/review_header.html' with active_menu='reporting' %}
+
+  {% block tab_content %}
+  {% endblock tab_content %}
+
+{% endblock content %}
