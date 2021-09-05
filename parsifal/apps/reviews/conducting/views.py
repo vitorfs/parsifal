@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from django.conf import settings as django_settings
@@ -10,6 +11,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.context_processors import csrf
 from django.urls import reverse as r
 from django.utils.html import escape
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 import bibtexparser
@@ -32,6 +34,8 @@ from parsifal.apps.reviews.models import (
 )
 from parsifal.utils.elsevier.client import ElsevierClient
 from parsifal.utils.elsevier.exceptions import ElsevierInvalidRequest, ElsevierQuotaExceeded
+
+logger = logging.getLogger(__name__)
 
 
 @author_required
@@ -657,13 +661,20 @@ def import_bibtex(request):
     valid_extensions = [".bib", ".bibtex"]
 
     if ext in valid_extensions or bibtex_file.content_type == "application/x-bibtex":
-        parser = BibTexParser()
-        parser.customization = convert_to_unicode
-        bib_database = bibtexparser.load(bibtex_file, parser=parser)
-        articles = bibtex_to_article_object(bib_database, review, source)
-        _import_articles(request, source, articles)
+        try:
+            parser = BibTexParser()
+            parser.customization = convert_to_unicode
+            bib_database = bibtexparser.load(bibtex_file, parser=parser)
+            articles = bibtex_to_article_object(bib_database, review, source)
+            _import_articles(request, source, articles)
+        except Exception as err:
+            logger.exception("An error occurred while trying to parse the bibtex file.")
+            detail = str(err)
+            messages.error(
+                request, _("An error occurred while trying to parse the bibtex file. Error detail: %s") % detail
+            )
     else:
-        messages.error(request, "Invalid file type. Only .bib or .bibtex files are accepted.")
+        messages.error(request, _("Invalid file type. Only .bib or .bibtex files are accepted."))
 
     return redirect(r("import_studies", args=(review.author.username, review.name)))
 

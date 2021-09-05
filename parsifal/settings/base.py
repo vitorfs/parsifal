@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
+    "compressor",
     "crispy_forms",
     "parsifal.apps.reviews",
     "parsifal.apps.reviews.planning",
@@ -159,6 +160,7 @@ STATICFILES_DIRS = [str(BASE_DIR / "static")]
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
 )
 
 
@@ -174,6 +176,8 @@ DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 # ==============================================================================
 # THIRD-PARTY APPS
 # ==============================================================================
+
+COMPRESS_ENABLED = True
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
