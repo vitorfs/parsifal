@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext
 
+from parsifal.apps.activities.constants import ActivityTypes
 from parsifal.apps.activities.models import Activity
 
 logger = logging.getLogger(__name__)
@@ -21,7 +22,7 @@ def follow(request):
         following = from_user.profile.get_following()
 
         if to_user not in following:
-            Activity.objects.create(from_user=from_user, to_user=to_user, activity_type=Activity.FOLLOW)
+            Activity.objects.create(from_user=from_user, to_user=to_user, activity_type=ActivityTypes.FOLLOW)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
@@ -40,7 +41,7 @@ def unfollow(request):
         following = from_user.profile.get_following()
 
         if to_user in following:
-            Activity.objects.filter(from_user=from_user, to_user=to_user, activity_type=Activity.FOLLOW).delete()
+            Activity.objects.filter(from_user=from_user, to_user=to_user, activity_type=ActivityTypes.FOLLOW).delete()
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
