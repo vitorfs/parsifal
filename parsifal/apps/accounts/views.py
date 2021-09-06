@@ -10,7 +10,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 from django.views.generic import RedirectView, TemplateView, UpdateView
 
 from PIL import Image
@@ -75,10 +75,10 @@ def upload_picture(request):
             url = f"{url}?upload_picture=uploaded"
             return redirect(url)
         else:
-            messages.error(request, "Invalid file format.")
+            messages.error(request, gettext("Invalid file format."))
     except Exception:
         logger.exception("An error occurred while trying to upload a picture.")
-        messages.error(request, "An expected error occurred.")
+        messages.error(request, gettext("An expected error occurred."))
     return redirect("settings:picture")
 
 

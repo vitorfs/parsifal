@@ -9,6 +9,7 @@ from parsifal.apps.authentication.models import Profile
 
 class UserEmailForm(forms.ModelForm):
     email = forms.CharField(
+        label=_("Email"),
         widget=forms.EmailInput(attrs={"class": "form-control"}),
         max_length=254,
         help_text=_(

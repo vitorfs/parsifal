@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Account Settings · Parsifal{% endblock %}
+{% load compress i18n %}
+
+{% block title %}{% trans "Account Settings" %} · Parsifal{% endblock %}
 
 {% load static %}
 
 {% block stylesheet %}
-  <link href="{% static 'css/jquery.Jcrop.min.css' %}" rel="stylesheet">
-  <style>
-    .jcrop-keymgr {
-      display: none!important;
-    }
-  </style>
+  {% compress css %}
+    <link href="{% static 'css/jquery.Jcrop.min.css' %}" rel="stylesheet">
+    <style>
+      .jcrop-keymgr {
+        display: none!important;
+      }
+    </style>
+  {% endcompress %}
 {% endblock stylesheet %}
 
 {% block javascript %}
-  <script type="text/javascript" src="{% static 'js/jquery.Jcrop.min.js' %}?_=1"></script>
-  <script type="text/javascript" src="{% static 'js/profile.js' %}?_=1"></script>
+  {% compress js %}
+    <script type="text/javascript" src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+  {% endcompress %}
   <script>
     {% if uploaded_picture %}
       $(function () {
@@ -37,13 +43,13 @@
         <input type="file" name="picture" class="hide">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Profile picture</h3>
+            <h3 class="panel-title">{% trans "Profile picture" %}</h3>
           </div>
           <div class="panel-body">
             <img src="{{ user.profile.get_picture }}" alt="{{ user.profile.get_screen_name }}" style="width: 200px;" class="thumbnail profile-picture">
           </div>
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary" id="btn-upload-picture">Upload new picture</button>
+            <button type="button" class="btn btn-primary" id="btn-upload-picture">{% trans "Upload new picture" %}</button>
           </div>
         </div>
 
@@ -51,13 +57,13 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Crop Profile Picture</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% trans "Crop Profile Picture" %}</h4>
               </div>
               <div class="modal-body">
                 {% if uploaded_picture %}
                   <div class="selected-picture">
-                    <p>Crop the profile picture and then click on the <strong>Save Picture</strong> button</p>
+                    <p>{% trans "Crop the profile picture and then click on the <strong>Save Picture</strong> button" %}</p>
                     <img src="/media/profile_pictures/{{ request.user.username }}_tmp.jpg?_={% now 'U' %}" alt="{{ request.user.username }}" id="crop-picture">
                     <input type="hidden" id="x" name="x">
                     <input type="hidden" id="y" name="y">
@@ -67,8 +73,8 @@
                 {% endif %}
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success btn-save-picture">Save picture</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-success btn-save-picture">{% trans "Save picture" %}</button>
               </div>
             </div>
           </div>

@@ -2,6 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 
-class AccountSettingsConfig(AppConfig):
+class AccountsConfig(AppConfig):
     name = "parsifal.apps.accounts"
-    verbose_name = _("Account Settings")
+    verbose_name = _("Accounts")
