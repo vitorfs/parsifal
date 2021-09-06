@@ -3,6 +3,8 @@
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+import parsifal
+
 from .base import *
 
 # ==============================================================================
@@ -42,6 +44,8 @@ EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
 
 sentry_sdk.init(
     dsn=config("SENTRY_DSN", default=""),
+    environment=PARSIFAL_ENVIRONMENT,
+    release="parsifal@%s" % parsifal.__version__,
     integrations=[DjangoIntegration()],
     traces_sample_rate=0.01,
     send_default_pii=True,
