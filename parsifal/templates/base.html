@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>{% block title %}Parsifal{% endblock %}</title>
   {% block meta %}
-  <meta name="Description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review.">
-  <meta property="og:title" content="Perform Systematic Literature Reviews" />
-  <meta property="og:description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review." />
-  <meta property="og:type" content="website">
+    <meta name="Description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review.">
+    <meta property="og:title" content="Perform Systematic Literature Reviews" />
+    <meta property="og:description" content="Parsifal is a tool to support researchers to perform systematic literature reviews. Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. Parsifal will help you planning, conducting and reporting the review." />
+    <meta property="og:type" content="website">
   {% endblock %}
   <meta property="og:site_name" content="Parsifal" />
   <meta property="og:url" content="https://parsif.al{{ request.path }}" />
@@ -40,6 +40,19 @@
     <link href="{% static 'css/parsifal.css' %}" rel="stylesheet">
   {% endcompress %}
   {% block stylesheet %}{% endblock %}
+  {% if environment == "production" and google_analytics_ua %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_ua }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ google_analytics_ua }}');
+      {% if user.is_authenticated %}
+        gtag('config', 'GA_MEASUREMENT_ID', {'user_id': '{{ user.pk }}'});
+      {% endif %}
+    </script>
+  {% endif %}
 </head>
 <body>
   <div class="wrapper">
@@ -91,26 +104,12 @@
     <script src="{% static 'js/selectize.min.js' %}"></script>
     <script src="{% static 'js/expanding.js' %}"></script>
     <script src="{% static 'js/parsifal.js' %}"></script>
+    <script>
+      $(function () {
+        $.parsifal.init();
+      });
+    </script>
   {% endcompress %}
-  <script>
-    $(function () {
-      $.parsifal.init();
-      if (document.location.hostname.indexOf('parsif.al') !== -1) {
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        {% if user.is_authenticated %}
-          ga('create', 'UA-42049022-2', 'parsif.al', {
-            userId: '{{ user.pk }}'
-          });
-        {% else %}
-          ga('create', 'UA-42049022-2', 'parsif.al');
-        {% endif %}
-        ga('send', 'pageview');
-      }
-    });
-  </script>
   {% block javascript %}{% endblock %}
   {% verbatim %}
     <script id="alert-template" type="x-tmpl-mustache">

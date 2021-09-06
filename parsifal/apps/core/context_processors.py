@@ -6,4 +6,5 @@ def settings(request):
         "environment": django_settings.PARSIFAL_ENVIRONMENT,
         "recaptcha_enabled": django_settings.GOOGLE_RECAPTCHA_ENABLED,
         "recaptcha_site_key": django_settings.GOOGLE_RECAPTCHA_SITE_KEY,
+        "google_analytics_ua": django_settings.GOOGLE_ANALYTICS_UA,
     }
