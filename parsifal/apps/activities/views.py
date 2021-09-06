@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -5,6 +7,8 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext
 
 from parsifal.apps.activities.models import Activity
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -17,12 +21,12 @@ def follow(request):
         following = from_user.profile.get_following()
 
         if to_user not in following:
-            activity = Activity(from_user=from_user, to_user=to_user, activity_type=Activity.FOLLOW)
-            activity.save()
+            Activity.objects.create(from_user=from_user, to_user=to_user, activity_type=Activity.FOLLOW)
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
     except Exception:
+        logger.exception("An error occurred while trying to follow a user.")
         return HttpResponseBadRequest()
 
 
@@ -36,12 +40,12 @@ def unfollow(request):
         following = from_user.profile.get_following()
 
         if to_user in following:
-            activity = Activity.objects.get(from_user=from_user, to_user=to_user, activity_type=Activity.FOLLOW)
-            activity.delete()
+            Activity.objects.filter(from_user=from_user, to_user=to_user, activity_type=Activity.FOLLOW).delete()
             return HttpResponse()
         else:
             return HttpResponseBadRequest()
     except Exception:
+        logger.exception("An error occurred while trying to unfollow a user.")
         return HttpResponseBadRequest()
 
 

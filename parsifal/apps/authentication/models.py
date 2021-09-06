@@ -51,7 +51,7 @@ class Profile(models.Model):
 
     def get_followers(self):
         activities = Activity.objects.select_related("from_user__profile").filter(
-            to_user__pk=self.pk, activity_type=Activity.FOLLOW
+            to_user=self.user, activity_type=Activity.FOLLOW
         )
         followers = []
         for activity in activities:
@@ -59,12 +59,12 @@ class Profile(models.Model):
         return followers
 
     def get_followers_count(self):
-        followers_count = Activity.objects.filter(to_user__pk=self.pk, activity_type=Activity.FOLLOW).count()
+        followers_count = Activity.objects.filter(to_user=self.user, activity_type=Activity.FOLLOW).count()
         return followers_count
 
     def get_following(self):
         activities = Activity.objects.select_related("to_user__profile").filter(
-            from_user__pk=self.pk, activity_type=Activity.FOLLOW
+            from_user=self.user, activity_type=Activity.FOLLOW
         )
         following = []
         for activity in activities:
@@ -72,7 +72,7 @@ class Profile(models.Model):
         return following
 
     def get_following_count(self):
-        following_count = Activity.objects.filter(from_user__pk=self.pk, activity_type=Activity.FOLLOW).count()
+        following_count = Activity.objects.filter(from_user=self.user, activity_type=Activity.FOLLOW).count()
         return following_count
 
     def get_reviews(self):
