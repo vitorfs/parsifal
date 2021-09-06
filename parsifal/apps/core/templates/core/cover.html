@@ -3,24 +3,34 @@
 {% load i18n %}
 
 {% block javascript %}
-  <script type="text/javascript">
-    $(function() {
-      $("#new-account").submit(function () {
-        $("input[name=password2]").val($("input[name=password1]").val());
+  {% if recaptcha_enabled %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+     function onSubmit(token) {
+       $("input[name=password2]").val($("input[name=password1]").val());
+       document.getElementById("signUpForm").submit();
+     }
+    </script>
+  {% else %}
+    <script>
+      $(function() {
+        $("#signUpForm").submit(function () {
+          $("input[name=password2]").val($("input[name=password1]").val());
+        });
       });
-    });
-  </script>
+    </script>
+  {% endif %}
 {% endblock javascript %}
 
 {% block content %}
   <div class="row cover">
     <div class="col-md-7">
-      <h1>Perform Systematic Literature Reviews</h1>
+      <h1>{% trans "Perform Systematic Literature Reviews" %}</h1>
       <p class="lead">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
     </div>
     <div class="col-md-5">
       <h2>{% trans "Sign up for Parsifal" %}</h2>
-      <form action="{% url "signup" %}" method="post" id="new-account">
+      <form action="{% url "signup" %}" method="post" id="signUpForm">
         {% csrf_token %}
         <input type="hidden" name="password2">
         <div class="form-group">
@@ -33,7 +43,11 @@
           <input class="form-control input-lg" type="email" placeholder="{% trans "Email" %}" name="email" aria-label="{% trans "Email" %}">
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-success btn-lg btn-block">{% trans "Create a new account" %}</button>
+          {% if recaptcha_enabled %}
+            <button class="g-recaptcha btn btn-success btn-lg btn-block" data-sitekey="{{ recaptcha_site_key }}" data-callback="onSubmit">{% trans "Create a new account" %}</button>
+          {% else %}
+            <button type="submit" class="btn btn-success btn-lg btn-block">{% trans "Create a new account" %}</button>
+          {% endif %}
         </div>
       </form>
     </div>

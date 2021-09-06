@@ -53,6 +53,8 @@ SITE_ID = 1
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
+
 
 # ==============================================================================
 # MIDDLEWARE SETTINGS
@@ -84,6 +86,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "parsifal.apps.core.context_processors.recaptcha",
             ],
         },
     },
@@ -181,4 +184,8 @@ COMPRESS_ENABLED = config("COMPRESS_ENABLED", default=not DEBUG, cast=bool)
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
-ELSEVIER_API_KEY = config("ELSEVIER_API_KEY")
+ELSEVIER_API_KEY = config("ELSEVIER_API_KEY", default="")
+
+GOOGLE_RECAPTCHA_ENABLED = config("GOOGLE_RECAPTCHA_ENABLED", default=False, cast=bool)
+GOOGLE_RECAPTCHA_SITE_KEY = config("GOOGLE_RECAPTCHA_SITE_KEY", default="")
+GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY", default="")

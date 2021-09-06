@@ -4,6 +4,17 @@
 
 {% block title %}{% trans "Sign up" %} · Parsifal{% endblock %}
 
+{% block javascript %}
+  {% if recaptcha_enabled %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+     function onSubmit(token) {
+       document.getElementById("signUpForm").submit();
+     }
+    </script>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
@@ -12,10 +23,14 @@
           <h3 class="panel-title">{% trans "Sign up for Parsifal" %}</h3>
         </div>
         <div class="panel-body">
-          <form method="post" novalidate>
+          <form method="post" id="signUpForm">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-success">{% trans "Create an account" %}</button>
+            {% if recaptcha_enabled %}
+              <button class="g-recaptcha btn btn-success" data-sitekey="{{ recaptcha_site_key }}" data-callback="onSubmit">{% trans "Create an account" %}</button>
+            {% else %}
+              <button type="submit" class="btn btn-success">{% trans "Create an account" %}</button>
+            {% endif %}
           </form>
         </div>
       </div>
