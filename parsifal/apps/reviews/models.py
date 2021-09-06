@@ -39,33 +39,33 @@ class Review(models.Model):
         (PUBLISHED, "Published"),
     )
 
-    name = models.SlugField(max_length=255)
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=500, null=True, blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    create_date = models.DateTimeField(auto_now_add=True)
-    last_update = models.DateTimeField(auto_now=True)
-    objective = models.TextField(max_length=1000)
-    sources = models.ManyToManyField(Source)
-    status = models.CharField(max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
-    co_authors = models.ManyToManyField(User, related_name="co_authors")
-    quality_assessment_cutoff_score = models.FloatField(default=0.0)
-    population = models.CharField(max_length=200, blank=True)
-    intervention = models.CharField(max_length=200, blank=True)
-    comparison = models.CharField(max_length=200, blank=True)
-    outcome = models.CharField(max_length=200, blank=True)
-    context = models.CharField(max_length=200, blank=True)
+    name = models.SlugField(_("name"), max_length=255)
+    title = models.CharField(_("title"), max_length=255)
+    description = models.CharField(_("description"), max_length=500, blank=True)
+    author = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_("author"))
+    create_date = models.DateTimeField(_("date created"), auto_now_add=True)
+    last_update = models.DateTimeField(_("last update"), auto_now=True)
+    objective = models.TextField(_("objective"), max_length=1000, blank=True)
+    sources = models.ManyToManyField(Source, verbose_name=_("sources"))
+    status = models.CharField(_("status"), max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
+    co_authors = models.ManyToManyField(User, related_name="co_authors", verbose_name=_("co-authors"))
+    quality_assessment_cutoff_score = models.FloatField(_("quality assessment cutoff score"), default=0.0)
+    population = models.CharField(_("population"), max_length=200, blank=True)
+    intervention = models.CharField(_("intervention"), max_length=200, blank=True)
+    comparison = models.CharField(_("comparison"), max_length=200, blank=True)
+    outcome = models.CharField(_("outcome"), max_length=200, blank=True)
+    context = models.CharField(_("context"), max_length=200, blank=True)
 
     class Meta:
-        verbose_name = "Review"
-        verbose_name_plural = "Reviews"
+        verbose_name = _("review")
+        verbose_name_plural = _("reviews")
         unique_together = (("name", "author"),)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("review", args=(str(self.author.username), str(self.name)))
+        return reverse("review", args=(self.author.username, self.name))
 
     def get_questions(self):
         questions = Question.objects.filter(review__id=self.id)
