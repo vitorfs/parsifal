@@ -8,6 +8,7 @@ from decouple import Csv, config
 # ==============================================================================
 # CORE SETTINGS
 # ==============================================================================
+import parsifal
 from parsifal.apps.core.constants import Environments
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -201,4 +202,5 @@ GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY", default="")
 # FIRST-PARTY APP
 # ==============================================================================
 
+PARSIFAL_RELEASE = f"parsifal@{parsifal.__version__}"
 PARSIFAL_ENVIRONMENT = config("PARSIFAL_ENVIRONMENT", default=Environments.LOCAL)

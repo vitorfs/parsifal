@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DIR=/home/parsifal
+
+su - parsifal -c "git -C $DIR/parsifal pull origin master"
+
+su - parsifal -c "$DIR/venv/bin/pip install -r $DIR/parsifal/requirements/production.txt"
+su - parsifal -c "$DIR/venv/bin/python $DIR/parsifal/manage.py migrate --settings=parsifal.settings.production"
+su - parsifal -c "$DIR/venv/bin/python $DIR/parsifal/manage.py collectstatic --settings=parsifal.settings.production --noinput"
+
+sudo supervisorctl restart parsifal
+
+PARSIFAL_RELEASE=$(su - parsifal -c "$DIR/venv/bin/python $DIR/parsifal/manage.py release --settings=parsifal.settings.production")
+PARSIFAL_ENVIRONMENT=$(su - parsifal -c "$DIR/venv/bin/python $DIR/parsifal/manage.py environment --settings=parsifal.settings.production")
+
+sentry-cli releases new -p parsifal $PARSIFAL_RELEASE
+sentry-cli releases set-commits --auto $PARSIFAL_RELEASE
+sentry-cli releases deploys $PARSIFAL_RELEASE new -e $PARSIFAL_ENVIRONMENT
+
+exit 0
