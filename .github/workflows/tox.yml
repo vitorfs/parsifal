@@ -1,11 +1,10 @@
-name: Tox
+name: Parsifal CI
 
 on:
   pull_request:
     branches:
     - master
     - dev
-    - tox
   push:
     branches:
     - master
@@ -13,12 +12,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  py39:
+  build:
     runs-on: ubuntu-latest
-    container: python:3.9-alpine
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Postgres
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Set up Postgres
       run: |
         sudo apt-get update
         sudo apt-get -y install postgresql postgresql-contrib
@@ -28,9 +30,8 @@ jobs:
         sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH SUPERUSER;\""
         sudo su - postgres -c "createdb --owner richardwagner parsifal"
     - name: Setup Tox
-      run: pip install --user --upgrade tox
-    - name: Run Tox
-      env:
-        TOXENV: py39
       run: |
-        "$HOME/.local/bin/tox"
+        python -m pip install --upgrade pip
+        pip install tox
+    - name: Run Tox
+      run: tox
