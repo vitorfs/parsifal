@@ -46,6 +46,10 @@ urlpatterns = [
     # Review URLs
     path("<str:username>/<str:review_name>/", reviews_views.review, name="review"),
     path("<str:username>/<str:review_name>/settings/", reviews_settings_views.settings, name="settings"),
+    path(
+        "<str:username>/<str:review_name>/settings/invites/",
+        include("parsifal.apps.invites.urls", namespace="invites"),
+    ),
     # Planning Phase
     path("<str:username>/<str:review_name>/planning/", reviews_planning_views.planning, name="planning"),
     path("<str:username>/<str:review_name>/planning/protocol/", reviews_planning_views.protocol, name="protocol"),

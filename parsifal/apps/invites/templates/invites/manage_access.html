@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_filters i18n static %}
+
+{% block title %}{% trans "Manage Access" %} · {{ review.title }}{% endblock %}
+
+{% block content %}
+  {% include "reviews/review_header.html" %}
+  <div class="row">
+    <div class="col-md-3">
+      {% include "settings/includes/menu.html" with menu="manage_access" %}
+    </div>
+    <div class="col-md-9">
+
+      <div class="panel panel-primary">
+        <div class="panel-body">
+          <h3 class="page-header">{% trans "Invite someone to collaborate" %}</h3>
+          <p>{% trans "Pick someone from your contact list or inform the person email address." %}</p>
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">{% trans "Send invitation" %}</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "Invitations" %}</h3>
+        </div>
+        <div class="panel-body">
+          {% for invite in invites %}
+            <p>{{ invite }}</p>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}

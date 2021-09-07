@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "parsifal.apps.blog",
     "parsifal.apps.core",
     "parsifal.apps.help",
+    "parsifal.apps.invites",
     "parsifal.apps.library",
 ]
 
