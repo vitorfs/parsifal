@@ -27,7 +27,7 @@ jobs:
         sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH PASSWORD 'holygrail';\""
         sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH SUPERUSER;\""
         sudo su - postgres -c "createdb --owner richardwagner parsifal"
-    - name: Install Tox
+    - name: Setup Tox
       run: pip install --user --upgrade tox
     - name: Run Tox
       env:
