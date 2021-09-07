@@ -47,10 +47,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '{{ google_analytics_ua }}');
-      {% if user.is_authenticated %}
-        gtag('config', 'GA_MEASUREMENT_ID', {'user_id': '{{ user.pk }}'});
-      {% endif %}
+      gtag('config', '{{ google_analytics_ua }}'{% if user.is_authenticated %}, {'user_id': '{{ user.pk }}'}{% endif %});
     </script>
   {% endif %}
 </head>
