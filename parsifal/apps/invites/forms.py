@@ -59,3 +59,11 @@ class SendInviteForm(forms.ModelForm):
         except User.DoesNotExist:
             pass
         return invitee_email
+
+    def save(self, commit=True):
+        self.instance = super().save(commit=False)
+        self.instance.review = self.review
+        self.instance.invited_by = self.request.user
+        if commit:
+            self.instance.save()
+        return self.instance

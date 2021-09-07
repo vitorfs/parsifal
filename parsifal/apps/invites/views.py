@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse
 from django.views.generic import CreateView
 
 from parsifal.apps.invites.forms import SendInviteForm
@@ -10,6 +11,9 @@ class ManageAccessView(LoginRequiredMixin, AuthorRequiredMixin, ReviewMixin, Cre
     model = Invite
     form_class = SendInviteForm
     template_name = "invites/manage_access.html"
+
+    def get_success_url(self):
+        return reverse("invites:manage_access", args=(self.review.author.username, self.review.name))
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
