@@ -22,3 +22,7 @@ exclude = '''
   | migrations
 )/
 '''
+
+[tool.towncrier]
+package = "parsifal"
+filename = "CHANGELOG.md"
