@@ -1,0 +1,36 @@
+name: Tox
+
+on:
+  pull_request:
+    branches:
+    - master
+    - dev
+    - tox
+  push:
+    branches:
+    - master
+    - dev
+  workflow_dispatch:
+
+jobs:
+  py39:
+    runs-on: ubuntu-latest
+    container: python:3.9-alpine
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Postgres
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install postgresql postgresql-contrib
+        sudo service postgresql start
+        sudo su - postgres -c "createuser richardwagner"
+        sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH PASSWORD 'holygrail';\""
+        sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH SUPERUSER;\""
+        sudo su - postgres -c "createdb --owner richardwagner parsifal"
+    - name: Install Tox
+      run: pip install --user --upgrade tox
+    - name: Run Tox
+      env:
+        TOXENV: py39
+      run: |
+        "$HOME/.local/bin/tox"
