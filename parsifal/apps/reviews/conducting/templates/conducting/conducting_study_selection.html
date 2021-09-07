@@ -1,16 +1,20 @@
 {% extends 'conducting/conducting.html' %}
 
-{% load static %}
+{% load compress static %}
 
 {% block stylesheet %}
-  <link href="{% static 'css/fileupload/jquery.fileupload.css' %}" rel="stylesheet">
+  {% compress css %}
+    <link href="{% static 'css/fileupload/jquery.fileupload.css' %}" rel="stylesheet">
+  {% endcompress %}
 {% endblock stylesheet %}
 
 {% block javascript %}
-  <script src="{% static 'js/fileupload/jquery.ui.widget.js' %}"></script>
-  <script src="{% static 'js/fileupload/jquery.iframe-transport.js' %}"></script>
-  <script src="{% static 'js/fileupload/jquery.fileupload.js' %}"></script>
-  <script src="{% static 'js/conducting_study_selection.js' %}?v=2"></script>
+  {% compress js %}
+    <script src="{% static 'js/fileupload/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'js/fileupload/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'js/fileupload/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'js/conducting_study_selection.js' %}"></script>
+  {% endcompress %}
 {% endblock javascript %}
 
 {% block tab_content %}
