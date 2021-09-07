@@ -19,7 +19,7 @@
 
 ## Status
 
-[![codecov](https://codecov.io/gh/vitorfs/parsifal/branch/master/graph/badge.svg?token=OABAeCeFqt)](https://codecov.io/gh/vitorfs/parsifal)
+[![codecov](https://codecov.io/gh/vitorfs/parsifal/branch/master/graph/badge.svg?token=FGjSTTlvuG)](https://codecov.io/gh/vitorfs/parsifal)
 [![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## About
