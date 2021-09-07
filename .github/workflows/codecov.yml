@@ -1,0 +1,37 @@
+name: Codecov
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Set up Postgres
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install postgresql postgresql-contrib
+        sudo service postgresql start
+        sudo su - postgres -c "createuser richardwagner"
+        sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH PASSWORD 'holygrail';\""
+        sudo su - postgres -c "psql -c \"ALTER USER richardwagner WITH SUPERUSER;\""
+        sudo su - postgres -c "createdb --owner richardwagner parsifal"
+    - name: Generate Reports
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements/tests.txt
+        coverage run manage.py test --settings=parsifal.settings.tests
+        coverage xml
+    - name: Send coverage do Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage.xml
+        fail_ci_if_error: true
+        verbose: true
