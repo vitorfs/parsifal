@@ -3,7 +3,9 @@
 {% load compress static %}
 
 {% block stylesheet %}
-  <link href="{% static 'css/fileupload/jquery.fileupload.css' %}" rel="stylesheet">
+  {% compress css %}
+    <link href="{% static 'css/fileupload/jquery.fileupload.css' %}" rel="stylesheet">
+  {% endcompress %}
 {% endblock stylesheet %}
 
 {% block javascript %}
