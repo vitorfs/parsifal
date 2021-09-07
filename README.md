@@ -1,12 +1,34 @@
-# Parsifal
+<p align="center">
+  <a href="https://parsif.al">
+    <img src="https://parsif.al/static/img/dark_grail.svg" alt="Parsifal logo" height="150">
+  </a>
+</p>
 
-Parsifal is a tool to support researchers to perform systematic literature reviews.
+<h1 align="center">Parsifal</h1>
 
-A systematic literature review is a secondary study with the objective to identify, analyze and interpret all available evidences from primary studies related to a specific research question. As suggested by Kitchenham and Charters, the activity to perform a systematic literature review involves planning, conducting and reporting the review.
+<p align="center">
+  Parsifal is a tool to support researchers to perform systematic literature reviews.
+  <br>
+  <br>
+  <a href="https://github.com/vitorfs/parsifal/issues/new">Report bug</a>
+  ·
+  <a href="https://parsif.al/blog/">Blog</a>
+  ·
+  <a href="https://parsif.al/help/">Help</a>
+</p>
 
-Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher, designing the protocol, adjusting the search string, filtering the results, sometimes more than a thousand of articles, selecting those articles that attends the include criteria and removing those articles that attends the exclude criteria. After that, the researcher might start to analyze the relevant result one by one.
+# Status
 
-# Specs
+[![codecov](https://codecov.io/gh/vitorfs/parsifal/branch/master/graph/badge.svg?token=OABAeCeFqt)](https://codecov.io/gh/vitorfs/parsifal)
+[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+# About
+
+A systematic literature review is a secondary study with the objective to identify, analyze and interpret all available evidence from primary studies related to a specific research question. As suggested by Kitchenham and Charters, the activity to perform a systematic literature review involves planning, conducting, and reporting the review.
+
+Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher, designing the protocol, adjusting the search string, filtering the results, sometimes more than a thousand articles, selecting those articles that attend the inclusion criteria, and removing those articles that attend the exclude criteria. After that, the researcher might start to analyze the relevant result one by one.
+
+# Tech Stack
 
 The project is currently running on the following versions:
 
