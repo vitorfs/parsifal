@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.functions import Lower
 from django.utils.translation import gettext as _
 
+from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.invites.models import Invite
 
 
@@ -23,13 +24,14 @@ class SendInviteForm(forms.ModelForm):
             .order_by("lower_username")
         )
         self.fields["invitee"].label = _("Contacts")
-        self.fields["invitee"].help_text = _("This list display all persons you are currently following on Parsifal.")
+        self.fields["invitee"].help_text = _("List of people that you are currently following on Parsifal.")
 
-        self.fields["invitee_email"].label = _("Email address of the user you want to invite")
+        self.fields["invitee_email"].label = _("Email address of the person you want to invite")
         self.fields["invitee_email"].help_text = _(
-            "If the person you want to invite is not on Parsifal, you can inform their email address and we will send"
+            "If the person you want to invite is not on Parsifal, you can inform their email address and we will send "
             "an invitation link to their inbox."
         )
+        self.fields["invitee_email"].required = False
 
     def clean(self):
         cleaned_data = super().clean()
@@ -45,23 +47,30 @@ class SendInviteForm(forms.ModelForm):
         invitee = self.cleaned_data.get("invitee")
         if self.review.is_author_or_coauthor(invitee):
             self.add_error("invitee", _("This person is already a co-author of this review."))
+        if Invite.objects.filter(invitee_email__iexact=invitee.email, status=InviteStatus.PENDING).exists():
+            self.add_error("invitee", _("This person already has a pending invite."))
         return invitee
 
     def clean_invitee_email(self):
         invitee_email = self.cleaned_data.get("invitee_email")
-        invitee_email = User.objects.normalize_email(invitee_email)
-        if invitee_email.lower() == self.request.user.email.lower():
-            self.add_error("invitee_email", _("You cannot invite yourself."))
-        try:
-            user = User.objects.get(email__iexact=invitee_email)
-            if self.review.is_author_or_coauthor(user):
-                self.add_error("invitee_email", _("This person is already a co-author of this review."))
-        except User.DoesNotExist:
-            pass
+        if invitee_email:
+            invitee_email = User.objects.normalize_email(invitee_email)
+            if invitee_email.lower() == self.request.user.email.lower():
+                self.add_error("invitee_email", _("You cannot invite yourself."))
+            try:
+                user = User.objects.get(email__iexact=invitee_email)
+                if self.review.is_author_or_coauthor(user):
+                    self.add_error("invitee_email", _("This person is already a co-author of this review."))
+            except User.DoesNotExist:
+                pass
+            if Invite.objects.filter(invitee_email__iexact=invitee_email, status=InviteStatus.PENDING).exists():
+                self.add_error("invitee_email", _("This person already has a pending invite."))
         return invitee_email
 
     def save(self, commit=True):
         self.instance = super().save(commit=False)
+        if self.instance.invitee:
+            self.instance.invitee_email = self.instance.invitee.email
         self.instance.review = self.review
         self.instance.invited_by = self.request.user
         if commit:

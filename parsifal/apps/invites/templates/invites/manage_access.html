@@ -12,10 +12,12 @@
     </div>
     <div class="col-md-9">
 
-      <div class="panel panel-primary">
+      <div class="panel panel-default">
         <div class="panel-body">
           <h3 class="page-header">{% trans "Invite someone to collaborate" %}</h3>
-          <p>{% trans "Pick someone from your contact list or inform the person email address." %}</p>
+          <div class="alert alert-info">
+            {% trans "Pick someone from your contact list or inform the person email address." %}
+          </div>
           <form action="" method="post">
             {% csrf_token %}
             {{ form|crispy }}
@@ -28,11 +30,28 @@
         <div class="panel-heading">
           <h3 class="panel-title">{% trans "Invitations" %}</h3>
         </div>
-        <div class="panel-body">
-          {% for invite in invites %}
-            <p>{{ invite }}</p>
-          {% endfor %}
-        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{% trans "Invitee" %}</th>
+              <th>{% trans "Date sent" %}</th>
+              <th>{% trans "Invited by" %}</th>
+              <th>{% trans "Status" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for invite in invites %}
+              <tr>
+                <td>{{ invite.get_invitee_email }}</td>
+                <td>{{ invite.date_sent|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td>{{ invite.invited_by.profile }}</td>
+                <td>{{ invite.get_status_display }}</td>
+                <td></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
 
     </div>

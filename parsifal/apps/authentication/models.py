@@ -23,6 +23,9 @@ class Profile(models.Model):
         verbose_name_plural = _("profiles")
         db_table = "auth_profile"
 
+    def __str__(self):
+        return self.get_screen_name()
+
     def get_url(self):
         url = self.url
         if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:
