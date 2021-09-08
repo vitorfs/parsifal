@@ -1,9 +1,11 @@
 {% extends 'conducting/conducting.html' %}
 
-{% load static %}
+{% load compress static %}
 
 {% block javascript %}
-  <script src="{% static 'js/conducting_search_studies.js' %}"></script>
+  {% compress js %}
+    <script src="{% static 'js/conducting_search_studies.js' %}"></script>
+  {% endcompress %}
 {% endblock javascript %}
 
 {% block tab_content %}
