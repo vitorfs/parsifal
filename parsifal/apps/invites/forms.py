@@ -45,10 +45,11 @@ class SendInviteForm(forms.ModelForm):
 
     def clean_invitee(self):
         invitee = self.cleaned_data.get("invitee")
-        if self.review.is_author_or_coauthor(invitee):
-            self.add_error("invitee", _("This person is already a co-author of this review."))
-        if Invite.objects.filter(invitee_email__iexact=invitee.email, status=InviteStatus.PENDING).exists():
-            self.add_error("invitee", _("This person already has a pending invite."))
+        if invitee:
+            if self.review.is_author_or_coauthor(invitee):
+                self.add_error("invitee", _("This person is already a co-author of this review."))
+            if Invite.objects.filter(invitee_email__iexact=invitee.email, status=InviteStatus.PENDING).exists():
+                self.add_error("invitee", _("This person already has a pending invite."))
         return invitee
 
     def clean_invitee_email(self):
