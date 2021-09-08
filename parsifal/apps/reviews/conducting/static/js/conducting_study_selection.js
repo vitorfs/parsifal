@@ -1,15 +1,14 @@
 function isScrolledIntoView(elem) {
-    var docViewTop = $(window).scrollTop();
-    var docViewBottom = docViewTop + $(window).height();
+    const docViewTop = $(window).scrollTop();
+    const docViewBottom = docViewTop + $(window).height();
 
-    var elemTop = $(elem).offset().top;
-    var elemBottom = elemTop + $(elem).height();
+    const elemTop = $(elem).offset().top;
+    const elemBottom = elemTop + $(elem).height();
 
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
 $(function () {
-
 
   $("body").on("click", ".js-start-upload", function () {
     $(this).siblings("input[type='file']").click();
@@ -177,8 +176,6 @@ $(function () {
   });
 
   function move(step) {
-    var row = $(".source-articles tbody tr.active");
-
     var active = $(".source-articles tbody tr.active").index();
     var old_active = active;
     var size = $(".source-articles tbody tr").length;
@@ -189,6 +186,8 @@ $(function () {
     } while($(next).is(":hidden"));
     $(".source-articles tbody tr").removeClass("active");
     $(next).addClass("active");
+
+    var row = $(".source-articles tbody tr.active");
 
     if (!isScrolledIntoView(row)) {
       if (active > old_active)
@@ -262,7 +261,7 @@ $(function () {
   });
 
   function filter_articles(status) {
-    if (status == "ALL") {
+    if (status === "ALL") {
       $(".source-articles table tbody tr").show();
     }
     else {
@@ -378,7 +377,7 @@ $(function () {
   $(".source-tab-content").on("click", "table tbody tr td input[type=checkbox]", function () {
     var total = $(".source-articles table tbody tr td input[type='checkbox']:visible").length;
     var checked = $(".source-articles table tbody tr td input[type='checkbox']:checked").length;
-    if (checked == total) {
+    if (checked === total) {
       $("#ck-all-articles").prop("checked", true);
     }
     else {
@@ -447,7 +446,7 @@ $(function () {
         var duplicates = $("#modal-duplicates .modal-body tr[duplicate=" + duplicate + "]");
         var duplicates_resolved = $("#modal-duplicates .modal-body tr[duplicate=" + duplicate + "][resolved=true]");
 
-        if (duplicates.length - duplicates_resolved.length == 1) {
+        if (duplicates.length - duplicates_resolved.length === 1) {
           var btn_resolved = $("#modal-duplicates .modal-body tr[duplicate=" + duplicate + "][resolved=false] button");
           $(btn_resolved).text("Resolved");
           $(btn_resolved).prop("disabled", true);
@@ -481,7 +480,7 @@ $(function () {
         $(btn).text("Resolving...");
       },
       success: function (data) {
-        if (data != "") {
+        if (data !== "") {
           var btn_modal = $("#modal-duplicates table tbody tr td button");
           $(btn_modal).prop("disabled", true);
           $(btn_modal).text("Resolved");
@@ -490,7 +489,7 @@ $(function () {
             var article_row = $(".source-tab-content .source-articles tr[oid=" + ids[i] + "]");
             $(article_row).attr("article-status", "D");
             $("span", article_row).replaceWith("<span class=\"label label-warning\">Duplicated</span>");
-          };
+          }
         }
       },
       complete: function () {
@@ -503,7 +502,7 @@ $(function () {
   // On page load
 
   if ($("ul#source-tab li").length > 0) {
-    if($("ul#source-tab li.active").length == 0) {
+    if($("ul#source-tab li.active").length === 0) {
       $("ul#source-tab li:eq(0)").addClass("active");
     }
     $("#source-tab li.active a").click();
