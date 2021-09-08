@@ -57,7 +57,7 @@
 
       $.fn.ajaxEnable = function (callback) {
         callback = callback || function () {};
-        
+
         var btn = $(this);
         $(this).prop("disabled", false);
         $("span[class^='btn-ajax-']", this).hide();
@@ -81,7 +81,7 @@
 
       $.fn.ajaxEnableError = function (callback) {
         callback = callback || function () {};
-        
+
         var btn = $(this);
         $(this).prop("disabled", false);
         $("span[class^='btn-ajax-']", this).hide();
@@ -137,7 +137,7 @@
         });
 
       };
-      
+
     },
 
     uuid: function () {
@@ -197,7 +197,7 @@ var UP_ARROW_KEY = 38;
 var DOWN_ARROW_KEY = 40;
 var ENTER_KEY = 13;
 var ESCAPE_KEY = 27;
-var LOADING = "<table class='loading'><tr><td><img src='/static/img/loading.gif'></td></tr></table>";
+var LOADING = "<table class='loading'><tr><td><img src='/static/img/loading.gif' alt='Loading...'></td></tr></table>";
 
 // Loading functions
 

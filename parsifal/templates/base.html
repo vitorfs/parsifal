@@ -60,8 +60,7 @@
         Sentry.init({
           dsn: "{{ sentry_dsn }}",
           release: "{{ parsifal_release }}",
-          environment: "{{ parsifal_environment }}",
-          integrations: [new Sentry.Integrations.BrowserTracing()]
+          environment: "{{ parsifal_environment }}"
         });
       </script>
     {% endif %}
