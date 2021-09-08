@@ -1,10 +1,12 @@
 {% extends 'conducting/conducting.html' %}
 
-{% load static %}
+{% load compress static %}
 
 {% block javascript %}
   <script src="https://www.google.com/jsapi"></script>
-  <script src="{% static 'js/conducting_data_analysis.js' %}"></script>
+  {% compress js %}
+    <script src="{% static 'js/conducting_data_analysis.js' %}"></script>
+  {% endcompress %}
 {% endblock javascript %}
 
 {% block tab_content %}
