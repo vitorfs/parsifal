@@ -200,6 +200,7 @@ GOOGLE_RECAPTCHA_ENABLED = config("GOOGLE_RECAPTCHA_ENABLED", default=False, cas
 GOOGLE_RECAPTCHA_SITE_KEY = config("GOOGLE_RECAPTCHA_SITE_KEY", default="")
 GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY", default="")
 
+SENTRY_DSN = config("SENTRY_DSN", default="")
 
 # ==============================================================================
 # FIRST-PARTY APP
