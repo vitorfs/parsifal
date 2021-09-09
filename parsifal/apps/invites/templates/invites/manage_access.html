@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_filters i18n static %}
+{% load crispy_forms_filters i18n parsifal_invites static %}
 
-{% block title %}{% trans "Manage Access" %} · {{ review.title }}{% endblock %}
+{% block title %}{% trans "Manage access" %} · {{ review.title }}{% endblock %}
 
 {% block content %}
   {% include "reviews/review_header.html" %}
@@ -30,7 +30,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">{% trans "Invitations" %}</h3>
         </div>
-        <table class="table">
+        <table class="table table-v-align-middle">
           <thead>
             <tr>
               <th>{% trans "Invitee" %}</th>
@@ -46,8 +46,15 @@
                 <td>{{ invite.get_invitee_email }}</td>
                 <td>{{ invite.date_sent|date:"SHORT_DATETIME_FORMAT" }}</td>
                 <td>{{ invite.invited_by.profile }}</td>
-                <td>{{ invite.get_status_display }}</td>
-                <td></td>
+                <td>{% invite_status invite %}</td>
+                <td class="text-right">
+                  <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-link"></span>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
               </tr>
             {% endfor %}
           </tbody>
