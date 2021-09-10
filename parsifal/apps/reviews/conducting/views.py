@@ -365,10 +365,11 @@ def quality_assessment(request, username, review_name):
 def build_data_extraction_field_row(article, field):
     str_field = ""
 
-    try:
-        extraction = DataExtraction.objects.get(article=article, field=field)
-    except Exception:
-        extraction = None
+    extraction = None
+    for data_extraction in article.dataextraction_set.all():
+        if data_extraction.field_id == field.pk:
+            extraction = data_extraction
+            break
 
     if field.field_type == DataExtractionField.BOOLEAN_FIELD:
         true = ""
@@ -401,7 +402,7 @@ def build_data_extraction_field_row(article, field):
             <option value="">Select...</option>""".format(
             article.id, field.id
         )
-        for value in field.get_select_values():
+        for value in field.dataextractionlookup_set.all():
             if extraction is not None and extraction.get_value() is not None and extraction.get_value().id == value.id:
                 selected = " selected"
             else:
@@ -410,7 +411,7 @@ def build_data_extraction_field_row(article, field):
         str_field += "</select>"
 
     elif field.field_type == DataExtractionField.SELECT_MANY_FIELD:
-        for value in field.get_select_values():
+        for value in field.dataextractionlookup_set.all():
             if extraction is not None and value in extraction.get_value():
                 checked = " checked"
             else:
@@ -440,10 +441,13 @@ def build_data_extraction_field_row(article, field):
 
 
 def build_data_extraction_table(review, is_finished):
-    selected_studies = review.get_final_selection_articles()
+    selected_studies = review.get_final_selection_articles().prefetch_related(
+        "dataextraction_set__field",
+        "dataextraction_set__select_values",
+    )
     if is_finished is not None:
         selected_studies = selected_studies.filter(finished_data_extraction=is_finished)
-    data_extraction_fields = review.get_data_extraction_fields()
+    data_extraction_fields = review.get_data_extraction_fields().prefetch_related("dataextractionlookup_set")
     has_quality_assessment = review.has_quality_assessment_checklist()
     if selected_studies and data_extraction_fields:
         str_table = '<div class="panel-group">'
@@ -453,7 +457,7 @@ def build_data_extraction_table(review, is_finished):
                   <div class="panel-heading">
                     <h3 class="panel-title">{0}
                       <span class="badge">{1}</span>""".format(
-                    escape(study.title), study.get_score()
+                    escape(study.title), study.score
                 )
 
                 if study.finished_data_extraction:
@@ -550,6 +554,7 @@ def data_extraction(request, username, review_name):
     try:
         data_extraction_table = build_data_extraction_table(review, is_finished)
     except Exception:
+        logger.exception("An error occurred while trying to build data extraction table.")
         data_extraction_table = "<h3>Something went wrong while rendering the data extraction form.</h3>"
 
     return render(
