@@ -2,7 +2,8 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Value
+from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.text import slugify
@@ -127,15 +128,12 @@ class Review(models.Model):
         return Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
 
     def get_final_selection_articles(self):
-        accepted_articles = Article.objects.filter(review__id=self.id, status=Article.ACCEPTED)
+        accepted_articles = Article.objects.filter(review__id=self.id, status=Article.ACCEPTED).annotate(
+            score=Coalesce(Sum("qualityassessment__answer__weight"), Value(0.0))
+        )
         if self.has_quality_assessment_checklist() and self.quality_assessment_cutoff_score > 0.0:
-            articles = accepted_articles
-            for article in accepted_articles:
-                if article.get_score() <= self.quality_assessment_cutoff_score:
-                    articles = articles.exclude(id=article.id)
-            return articles
-        else:
-            return accepted_articles
+            accepted_articles = accepted_articles.filter(score__gt=self.quality_assessment_cutoff_score)
+        return accepted_articles
 
     def has_quality_assessment_checklist(self):
         has_questions = self.qualityquestion_set.exists()
@@ -279,10 +277,10 @@ class Article(models.Model):
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     bibtex_key = models.CharField(max_length=100)
-    title = models.CharField(max_length=1000, null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True, db_index=True)
     author = models.CharField(max_length=1000, null=True, blank=True)
     journal = models.CharField(max_length=1000, null=True, blank=True)
-    year = models.CharField(max_length=10, null=True, blank=True)
+    year = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
     pages = models.CharField(max_length=20, null=True, blank=True)
     volume = models.CharField(max_length=100, null=True, blank=True)

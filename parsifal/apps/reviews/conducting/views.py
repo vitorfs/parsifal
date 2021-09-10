@@ -5,12 +5,13 @@ import os
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Sum, Value
+from django.db.models.functions import Coalesce
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.context_processors import csrf
 from django.urls import reverse as r
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -227,7 +228,12 @@ def study_selection(request, username, review_name):
 
 
 def build_quality_assessment_table(request, review, order):
-    selected_studies = review.get_accepted_articles().order_by(order)
+    selected_studies = (
+        review.get_accepted_articles()
+        .prefetch_related("qualityassessment_set")
+        .annotate(score=Coalesce(Sum("qualityassessment__answer__weight"), Value(0.0)))
+        .order_by(order)
+    )
     quality_questions = review.get_quality_assessment_questions()
     quality_answers = review.get_quality_assessment_answers()
 
@@ -242,43 +248,35 @@ def build_quality_assessment_table(request, review, order):
 
             <table class="table" id="tbl-quality" article-id="{2}" csrf-token="{3}">
                 <tbody>""".format(
-                escape(study.title), study.get_score(), study.id, str(csrf(request)["csrf_token"]), escape(study.year)
+                escape(study.title), study.score, study.id, str(csrf(request)["csrf_token"]), escape(study.year)
             )
 
-            quality_assessment = study.get_quality_assesment()
-
             for question in quality_questions:
-                str_table += (
-                    '''<tr question-id="'''
-                    + str(question.id)
-                    + """">
-                <td>"""
-                    + escape(question.description)
-                    + """</td>"""
+                str_table += format_html(
+                    '<tr question-id="{question_id}"><td>{question_description}</td>',
+                    question_id=question.pk,
+                    question_description=question.description,
                 )
 
-                try:
-                    question_answer = quality_assessment.filter(question__id=question.id).get()
-                except Exception:
-                    question_answer = None
+                question_answer_id = None
+                for qa in study.qualityassessment_set.all():
+                    if qa.question_id == question.pk:
+                        question_answer_id = qa.answer_id
+                        break
 
                 for answer in quality_answers:
                     selected_answer = ""
-                    if question_answer is not None:
-                        if answer.id == question_answer.answer.id:
-                            selected_answer = " selected-answer"
-                    str_table += (
-                        """<td class="answer"""
-                        + selected_answer
-                        + '''" answer-id="'''
-                        + str(answer.id)
-                        + """">"""
-                        + escape(answer.description)
-                        + """</td>"""
+                    if answer.id == question_answer_id:
+                        selected_answer = " selected-answer"
+                    str_table += format_html(
+                        '<td class="answer {selected}" answer-id="{answer_id}">{answer_description}</td>',
+                        selected=selected_answer,
+                        answer_id=answer.pk,
+                        answer_description=answer.description,
                     )
-                str_table += """</tr>"""
+                str_table += "</tr>"
 
-            str_table += """</tbody></table></div>"""
+            str_table += "</tbody></table></div>"
         return str_table
     else:
         return ""
@@ -367,10 +365,11 @@ def quality_assessment(request, username, review_name):
 def build_data_extraction_field_row(article, field):
     str_field = ""
 
-    try:
-        extraction = DataExtraction.objects.get(article=article, field=field)
-    except Exception:
-        extraction = None
+    extraction = None
+    for data_extraction in article.dataextraction_set.all():
+        if data_extraction.field_id == field.pk:
+            extraction = data_extraction
+            break
 
     if field.field_type == DataExtractionField.BOOLEAN_FIELD:
         true = ""
@@ -403,7 +402,7 @@ def build_data_extraction_field_row(article, field):
             <option value="">Select...</option>""".format(
             article.id, field.id
         )
-        for value in field.get_select_values():
+        for value in field.dataextractionlookup_set.all():
             if extraction is not None and extraction.get_value() is not None and extraction.get_value().id == value.id:
                 selected = " selected"
             else:
@@ -412,7 +411,7 @@ def build_data_extraction_field_row(article, field):
         str_field += "</select>"
 
     elif field.field_type == DataExtractionField.SELECT_MANY_FIELD:
-        for value in field.get_select_values():
+        for value in field.dataextractionlookup_set.all():
             if extraction is not None and value in extraction.get_value():
                 checked = " checked"
             else:
@@ -442,10 +441,13 @@ def build_data_extraction_field_row(article, field):
 
 
 def build_data_extraction_table(review, is_finished):
-    selected_studies = review.get_final_selection_articles()
+    selected_studies = review.get_final_selection_articles().prefetch_related(
+        "dataextraction_set__field",
+        "dataextraction_set__select_values",
+    )
     if is_finished is not None:
         selected_studies = selected_studies.filter(finished_data_extraction=is_finished)
-    data_extraction_fields = review.get_data_extraction_fields()
+    data_extraction_fields = review.get_data_extraction_fields().prefetch_related("dataextractionlookup_set")
     has_quality_assessment = review.has_quality_assessment_checklist()
     if selected_studies and data_extraction_fields:
         str_table = '<div class="panel-group">'
@@ -455,7 +457,7 @@ def build_data_extraction_table(review, is_finished):
                   <div class="panel-heading">
                     <h3 class="panel-title">{0}
                       <span class="badge">{1}</span>""".format(
-                    escape(study.title), study.get_score()
+                    escape(study.title), study.score
                 )
 
                 if study.finished_data_extraction:
@@ -552,6 +554,7 @@ def data_extraction(request, username, review_name):
     try:
         data_extraction_table = build_data_extraction_table(review, is_finished)
     except Exception:
+        logger.exception("An error occurred while trying to build data extraction table.")
         data_extraction_table = "<h3>Something went wrong while rendering the data extraction form.</h3>"
 
     return render(
