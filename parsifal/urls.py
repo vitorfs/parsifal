@@ -112,6 +112,10 @@ if settings.DEBUG:
 
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
 
+    if apps.is_installed("silk"):
+
+        urlpatterns = [path("__silk__/", include("silk.urls"))] + urlpatterns
+
     from django.conf.urls.static import static
 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
