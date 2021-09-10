@@ -1,4 +1,5 @@
 -r tests.txt
 
 django-debug-toolbar==3.2.2
+git+git://github.com/jazzband/django-silk.git#egg=django-silk
 ipython==7.27.0
