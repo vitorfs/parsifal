@@ -11,7 +11,7 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.context_processors import csrf
 from django.urls import reverse as r
-from django.utils.html import escape, format_html
+from django.utils.html import escape
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -237,6 +237,14 @@ def build_quality_assessment_table(request, review, order):
     quality_questions = review.get_quality_assessment_questions()
     quality_answers = review.get_quality_assessment_answers()
 
+    csrf_token = csrf(request)["csrf_token"]
+
+    quality_index = {}
+    for study in selected_studies:
+        quality_index[study.pk] = {}
+        for qa in study.qualityassessment_set.all():
+            quality_index[study.pk][qa.question_id] = qa.answer_id
+
     if quality_questions and quality_answers:
         str_table = ""
         for study in selected_studies:
@@ -248,31 +256,27 @@ def build_quality_assessment_table(request, review, order):
 
             <table class="table" id="tbl-quality" article-id="{2}" csrf-token="{3}">
                 <tbody>""".format(
-                escape(study.title), study.score, study.id, str(csrf(request)["csrf_token"]), escape(study.year)
+                escape(study.title), study.score, study.id, csrf_token, escape(study.year)
             )
 
             for question in quality_questions:
-                str_table += format_html(
-                    '<tr question-id="{question_id}"><td>{question_description}</td>',
+                str_table += '<tr question-id="{question_id}"><td>{question_description}</td>'.format(
                     question_id=question.pk,
-                    question_description=question.description,
+                    question_description=escape(question.description),
                 )
 
-                question_answer_id = None
-                for qa in study.qualityassessment_set.all():
-                    if qa.question_id == question.pk:
-                        question_answer_id = qa.answer_id
-                        break
+                question_answer_id = quality_index[study.pk].get(question.pk)
 
                 for answer in quality_answers:
                     selected_answer = ""
                     if answer.id == question_answer_id:
                         selected_answer = " selected-answer"
-                    str_table += format_html(
-                        '<td class="answer {selected}" answer-id="{answer_id}">{answer_description}</td>',
-                        selected=selected_answer,
-                        answer_id=answer.pk,
-                        answer_description=answer.description,
+                    str_table += (
+                        '<td class="answer {selected}" answer-id="{answer_id}">{answer_description}</td>'.format(
+                            selected=selected_answer,
+                            answer_id=answer.pk,
+                            answer_description=escape(answer.description),
+                        )
                     )
                 str_table += "</tr>"
 

@@ -1,3 +1,12 @@
+Parsifal 2.0.5 (2021-09-10)
+===========================
+
+Bugfixes
+--------
+
+- Improve quality assessment performance (#81)
+
+
 Parsifal 2.0.4 (2021-09-10)
 ===========================
 
