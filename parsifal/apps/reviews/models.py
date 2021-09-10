@@ -279,10 +279,10 @@ class Article(models.Model):
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     bibtex_key = models.CharField(max_length=100)
-    title = models.CharField(max_length=1000, null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True, db_index=True)
     author = models.CharField(max_length=1000, null=True, blank=True)
     journal = models.CharField(max_length=1000, null=True, blank=True)
-    year = models.CharField(max_length=10, null=True, blank=True)
+    year = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
     pages = models.CharField(max_length=20, null=True, blank=True)
     volume = models.CharField(max_length=100, null=True, blank=True)
