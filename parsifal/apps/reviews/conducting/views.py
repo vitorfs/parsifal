@@ -553,8 +553,8 @@ def data_extraction(request, username, review_name):
 
     try:
         data_extraction_table = build_data_extraction_table(review, is_finished)
-    except Exception as err:
-        raise err
+    except Exception:
+        logger.exception("An error occurred while trying to build data extraction table.")
         data_extraction_table = "<h3>Something went wrong while rendering the data extraction form.</h3>"
 
     return render(
