@@ -366,8 +366,9 @@ def build_data_extraction_field_row(article, field):
     str_field = ""
 
     extraction = None
-    for extraction in article.dataextraction_set.all():
-        if extraction.field_id == field.pk:
+    for data_extraction in article.dataextraction_set.all():
+        if data_extraction.field_id == field.pk:
+            extraction = data_extraction
             break
 
     if field.field_type == DataExtractionField.BOOLEAN_FIELD:
@@ -401,7 +402,7 @@ def build_data_extraction_field_row(article, field):
             <option value="">Select...</option>""".format(
             article.id, field.id
         )
-        for value in field.get_select_values():
+        for value in field.dataextractionlookup_set.all():
             if extraction is not None and extraction.get_value() is not None and extraction.get_value().id == value.id:
                 selected = " selected"
             else:
@@ -410,7 +411,7 @@ def build_data_extraction_field_row(article, field):
         str_field += "</select>"
 
     elif field.field_type == DataExtractionField.SELECT_MANY_FIELD:
-        for value in field.get_select_values():
+        for value in field.dataextractionlookup_set.all():
             if extraction is not None and value in extraction.get_value():
                 checked = " checked"
             else:
@@ -440,10 +441,13 @@ def build_data_extraction_field_row(article, field):
 
 
 def build_data_extraction_table(review, is_finished):
-    selected_studies = review.get_final_selection_articles().prefetch_related("dataextraction_set__select_values")
+    selected_studies = review.get_final_selection_articles().prefetch_related(
+        "dataextraction_set__field",
+        "dataextraction_set__select_values",
+    )
     if is_finished is not None:
         selected_studies = selected_studies.filter(finished_data_extraction=is_finished)
-    data_extraction_fields = review.get_data_extraction_fields()
+    data_extraction_fields = review.get_data_extraction_fields().prefetch_related("dataextractionlookup_set")
     has_quality_assessment = review.has_quality_assessment_checklist()
     if selected_studies and data_extraction_fields:
         str_table = '<div class="panel-group">'
