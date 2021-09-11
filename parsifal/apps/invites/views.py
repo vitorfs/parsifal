@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from django.views.generic import CreateView, DeleteView, DetailView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
 from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.invites.forms import SendInviteForm
@@ -63,3 +63,12 @@ class InviteDetailView(DetailView):
     def get_context_data(self, **kwargs):
         kwargs.update(invitee_masked_email=mask_email(self.object.get_invitee_email()))
         return super().get_context_data(**kwargs)
+
+
+class UserInviteListView(LoginRequiredMixin, ListView):
+    model = Invite
+    context_object_name = "invites"
+    template_name = "invites/user_invite_list.html"
+
+    def get_queryset(self):
+        return Invite.objects.filter(status=InviteStatus.PENDING, invitee=self.request.user)

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Invites" %} · Parsifal{% endblock %}
+
+{% block content %}
+  <h2>{% trans "Invites" %}</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Review" %}</th>
+        <th>{% trans "Invited by" %}</th>
+        <th>{% trans "Date" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for invite in invites %}
+        <tr>
+          <td>{{ invite.review.title }}</td>
+          <td>{{ invite.invited_by.profile.get_screen_name }}</td>
+          <td>{{ invite.date_sent|date:"SHORT_DATETIME_FORMAT" }}</td>
+          <td>
+
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
