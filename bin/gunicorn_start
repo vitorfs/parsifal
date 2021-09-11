@@ -5,6 +5,7 @@ DIR=/home/parsifal/parsifal
 USER=parsifal
 GROUP=parsifal
 WORKERS=3
+TIMEOUT=120
 BIND=unix:/home/parsifal/run/gunicorn.sock
 DJANGO_SETTINGS_MODULE=parsifal.settings.production
 DJANGO_WSGI_MODULE=parsifal.wsgi
@@ -18,6 +19,7 @@ export PYTHONPATH=$DIR:$PYTHONPATH
 exec /home/parsifal/venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --name $NAME \
   --workers $WORKERS \
+  --timeout $TIMEOUT \
   --user=$USER \
   --group=$GROUP \
   --bind=$BIND \
