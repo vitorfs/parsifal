@@ -2,7 +2,7 @@
 
 {% load compress i18n %}
 
-{% block title %}{% trans "Invite" %} · {{ review.title }}{% endblock %}
+{% block title %}{% trans "Invite" %} · {{ invite.review.title }}{% endblock %}
 
 {% block stylesheet %}
   {% compress css %}
@@ -44,6 +44,7 @@
                     To accept the invitation, you must log in to your account <strong>{{ invitee_masked_email }}</strong>
                   {% endblocktrans %}
                 </p>
+                <a href="{% url "login" %}?next=/invites/" class="btn btn-primary btn-lg">{% trans "Log in" %}</a>
               {% else %}
                 <p>
                   {% blocktrans trimmed %}

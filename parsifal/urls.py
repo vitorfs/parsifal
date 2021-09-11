@@ -11,6 +11,7 @@ from parsifal.apps.blog.sitemaps import BlogSitemap
 from parsifal.apps.core import views as core_views
 from parsifal.apps.core.sitemaps import StaticSitemap
 from parsifal.apps.help.sitemaps import HelpSitemap
+from parsifal.apps.invites import views as invites_views
 from parsifal.apps.reviews import views as reviews_views
 from parsifal.apps.reviews.conducting import views as reviews_conducting_views
 from parsifal.apps.reviews.planning import views as reviews_planning_views
@@ -41,6 +42,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path("invites/<uuid:code>/", invites_views.InviteDetailView.as_view(), name="invite"),
     path("<str:username>/following/", activities_views.following, name="following"),
     path("<str:username>/followers/", activities_views.followers, name="followers"),
     # Review URLs

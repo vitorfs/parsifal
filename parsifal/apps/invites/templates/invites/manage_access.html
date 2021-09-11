@@ -51,9 +51,9 @@
                   <a href="{{ invite.get_absolute_url }}" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-link"></span>
                   </a>
-                  <button type="button" class="btn btn-danger btn-sm">
+                  <a href="{% url "invites:invite_delete" review.author.username review.name invite.pk %}" class="btn btn-danger btn-sm">
                     <span class="glyphicon glyphicon-trash"></span>
-                  </button>
+                  </a>
                 </td>
               </tr>
             {% endfor %}

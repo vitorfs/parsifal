@@ -37,15 +37,7 @@ class Invite(models.Model):
         return f"{self.review.name} - {self.get_invitee_email()} - {self.get_status_display()}"
 
     def get_absolute_url(self):
-        return reverse(
-            "invites:invite_detail",
-            kwargs={
-                "username": self.review.author.username,
-                "review_name": self.review.name,
-                "invite_id": self.pk,
-                "code": self.code,
-            },
-        )
+        return reverse("invite", args=(self.code,))
 
     def get_invitee_email(self):
         if self.invitee:
@@ -65,3 +57,7 @@ class Invite(models.Model):
         self.status = InviteStatus.REJECTED
         self.date_answered = timezone.now()
         self.save()
+
+    @property
+    def can_delete(self):
+        return self.status == InviteStatus.PENDING

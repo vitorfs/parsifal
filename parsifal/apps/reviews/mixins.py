@@ -23,6 +23,16 @@ class ReviewMixin:
         return super().get_context_data(**kwargs)
 
 
+class MainAuthorRequiredMixin(UserPassesTestMixin):
+    """
+    This mixin depends on having a review property on the view class.
+    It is usually used together with the ReviewMixin
+    """
+
+    def test_func(self):
+        return self.review.author == self.request.user
+
+
 class AuthorRequiredMixin(UserPassesTestMixin):
     """
     This mixin depends on having a review property on the view class.
