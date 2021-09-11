@@ -48,7 +48,9 @@ class SendInviteForm(forms.ModelForm):
         if invitee:
             if self.review.is_author_or_coauthor(invitee):
                 self.add_error("invitee", _("This person is already a co-author of this review."))
-            if Invite.objects.filter(invitee_email__iexact=invitee.email, status=InviteStatus.PENDING).exists():
+            if Invite.objects.filter(
+                review=self.review, invitee_email__iexact=invitee.email, status=InviteStatus.PENDING
+            ).exists():
                 self.add_error("invitee", _("This person already has a pending invite."))
         return invitee
 
@@ -64,7 +66,9 @@ class SendInviteForm(forms.ModelForm):
                     self.add_error("invitee_email", _("This person is already a co-author of this review."))
             except User.DoesNotExist:
                 pass
-            if Invite.objects.filter(invitee_email__iexact=invitee_email, status=InviteStatus.PENDING).exists():
+            if Invite.objects.filter(
+                review=self.review, invitee_email__iexact=invitee_email, status=InviteStatus.PENDING
+            ).exists():
                 self.add_error("invitee_email", _("This person already has a pending invite."))
         return invitee_email
 
@@ -72,6 +76,8 @@ class SendInviteForm(forms.ModelForm):
         self.instance = super().save(commit=False)
         if self.instance.invitee:
             self.instance.invitee_email = self.instance.invitee.email
+        else:
+            self.instance.invitee = User.objects.filter(email__iexact=self.instance.invitee_email).first()
         self.instance.review = self.review
         self.instance.invited_by = self.request.user
         if commit:

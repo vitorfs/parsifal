@@ -1,7 +1,8 @@
 import uuid
 
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, transaction
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -35,15 +36,32 @@ class Invite(models.Model):
     def __str__(self):
         return f"{self.review.name} - {self.get_invitee_email()} - {self.get_status_display()}"
 
+    def get_absolute_url(self):
+        return reverse(
+            "invites:invite_detail",
+            kwargs={
+                "username": self.review.author.username,
+                "review_name": self.review.name,
+                "invite_id": self.pk,
+                "code": self.code,
+            },
+        )
+
     def get_invitee_email(self):
         if self.invitee:
             return self.invitee.email
         return self.invitee_email
 
-    def accept(self):
+    @transaction.atomic()
+    def accept(self, user=None):
         self.status = InviteStatus.ACCEPTED
         self.date_answered = timezone.now()
+        if user and not self.invitee:
+            self.invitee = user
+        self.save()
+        self.review.co_authors.add(self.invitee)
 
     def reject(self):
         self.status = InviteStatus.REJECTED
         self.date_answered = timezone.now()
+        self.save()

@@ -68,29 +68,31 @@
 
 </head>
 <body>
-  <div class="wrapper">
-    {% include 'includes/header.html' %}
-    {% comment %}
-      <div class="announcement">
+  {% block body %}
+    <div class="wrapper">
+      {% include 'includes/header.html' %}
+      {% comment %}
+        <div class="announcement">
+          <div class="container">
+            <strong>Scheduled Maintenance:</strong>
+            In order to upgrade our servers, the application will be offline for approximately 20 minutes on Oct 17, 2015 07:00 UTC.
+          </div>
+        </div>
+      {% endcomment %}
+      {% block fullwidthheader %}{% endblock %}
+      <main>
         <div class="container">
-          <strong>Scheduled Maintenance:</strong>
-          In order to upgrade our servers, the application will be offline for approximately 20 minutes on Oct 17, 2015 07:00 UTC.
+          <div class="messages-container">
+            {% include 'includes/messages.html' %}
+          </div>
+          {% block content %}{% endblock %}
         </div>
-      </div>
-    {% endcomment %}
-    {% block fullwidthheader %}{% endblock %}
-    <main>
-      <div class="container">
-        <div class="messages-container">
-          {% include 'includes/messages.html' %}
-        </div>
-        {% block content %}{% endblock %}
-      </div>
-    </main>
-    {% block fullwidthfooter %}{% endblock %}
-    <div class="push"></div>
-  </div>
-  {% include 'includes/footer.html' %}
+      </main>
+      {% block fullwidthfooter %}{% endblock %}
+      <div class="push"></div>
+    </div>
+    {% include 'includes/footer.html' %}
+  {% endblock body %}
   <div class="modal fade" id="modal-alert">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">

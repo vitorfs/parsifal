@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% load compress i18n %}
+
+{% block title %}{% trans "Invite" %} · {{ review.title }}{% endblock %}
+
+{% block stylesheet %}
+  {% compress css %}
+    <style>
+      body {
+        background-color: #f8f8f8;
+        text-align: center;
+        padding-top: 170px;
+      }
+
+      h1 {
+        font-family: 'Playball', cursive;
+        font-weight: 400;
+        color: #777;
+        font-size: 42px;
+      }
+    </style>
+  {% endcompress %}
+{% endblock %}
+
+{% block body %}
+  <div class="wrapper">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+          <h1>Parsifal</h1>
+          <div class="panel panel-default">
+            <div class="panel-body" style="padding-top: 30px; padding-bottom: 30px;">
+              <p class="lead">
+                {% blocktrans trimmed with invited_by=invite.invited_by.profile.get_screen_name review_title=invite.review.title %}
+                  <strong>{{ invited_by }}</strong> invited you to collaborate on the literature review <strong>"{{ review_title }}"</strong>
+                {% endblocktrans %}
+              </p>
+              {% if invite.invitee %}
+                <p>
+                  {% blocktrans trimmed %}
+                    To accept the invitation, you must log in to your account <strong>{{ invitee_masked_email }}</strong>
+                  {% endblocktrans %}
+                </p>
+              {% else %}
+                <p>
+                  {% blocktrans trimmed %}
+                    To accept the invitation, you must create an account on Parsifal
+                  {% endblocktrans %}
+                </p>
+                <p>
+                  <a href="{% url "signup" %}?invite={{ invite.code }}" class="btn btn-primary btn-lg">{% trans "Sign up" %}</a>
+                </p>
+                <small class="text-muted">{% blocktrans %}This invitation was sent to <strong>{{ invitee_masked_email }}</strong>{% endblocktrans %}</small>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+    <div class="push"></div>
+  </div>
+  {% include 'includes/footer.html' %}
+{% endblock %}

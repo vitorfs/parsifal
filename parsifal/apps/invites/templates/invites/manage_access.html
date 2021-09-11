@@ -48,9 +48,9 @@
                 <td>{{ invite.invited_by.profile }}</td>
                 <td>{% invite_status invite %}</td>
                 <td class="text-right">
-                  <button type="button" class="btn btn-default btn-sm">
+                  <a href="{{ invite.get_absolute_url }}" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-link"></span>
-                  </button>
+                  </a>
                   <button type="button" class="btn btn-danger btn-sm">
                     <span class="glyphicon glyphicon-trash"></span>
                   </button>
