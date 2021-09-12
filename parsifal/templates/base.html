@@ -54,12 +54,18 @@
 
     {% if sentry_dsn %}
       <!-- Sentry -->
-      <script src="https://browser.sentry-cdn.com/6.12.0/bundle.min.js" integrity="sha384-S3qfdh3AsT1UN84WIYNuOX9vVOoFg3nB17Jp5/pTFGDBGBt+dtz7MGAV845efkZr" crossorigin="anonymous"></script>
+      <script
+        src="https://browser.sentry-cdn.com/6.12.0/bundle.tracing.min.js"
+        integrity="sha384-rw3H9WWu9WpZYuqFa9AinpFrirprH4iUuo0HWGP2cjf0wZIa4wH+Wbo4vjkaH+bX"
+        crossorigin="anonymous"
+      ></script>
       <script>
         Sentry.init({
           dsn: "{{ sentry_dsn }}",
           release: "{{ parsifal_release }}",
-          environment: "{{ parsifal_environment }}"
+          environment: "{{ parsifal_environment }}",
+          integrations: [new Sentry.Integrations.BrowserTracing()],
+          tracesSampleRate: 0.05
         });
       </script>
     {% endif %}
