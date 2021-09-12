@@ -37,7 +37,7 @@ class SendInviteForm(forms.ModelForm):
         cleaned_data = super().clean()
         if cleaned_data.get("invitee") and cleaned_data.get("invitee_email"):
             self.add_error(
-                None, _("You must inform either a contact or an email address, but no both at the same time.")
+                None, _("You must inform either a contact or an email address, but not both at the same time.")
             )
         if not cleaned_data.get("invitee") and not cleaned_data.get("invitee_email"):
             self.add_error(None, _("You must inform either a contact or an email address."))
