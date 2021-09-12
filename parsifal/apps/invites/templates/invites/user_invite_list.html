@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Invites" %} · Parsifal{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h2 class="page-header">{% trans "Invites" %}</h2>
+
+      {% if invites %}
+        <table class="table table-striped table-v-align-middle">
+          <thead>
+            <tr>
+              <th>{% trans "Review" %}</th>
+              <th>{% trans "Invited by" %}</th>
+              <th>{% trans "Date" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for invite in invites %}
+              <tr>
+                <td>{{ invite.review.title }}</td>
+                <td>{{ invite.invited_by.profile.get_screen_name }}</td>
+                <td>{{ invite.date_sent|date:"SHORT_DATE_FORMAT" }}</td>
+                <td class="text-right">
+                  <form action="{% url "accept_user_invite" invite.pk %}" method="post" style="display: inline-block">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">
+                      <span class="glyphicon glyphicon-ok"></span>
+                      {% trans "Accept" %}
+                    </button>
+                  </form>
+                  <form action="{% url "reject_user_invite" invite.pk %}" method="post" style="display: inline-block">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">
+                      <span class="glyphicon glyphicon-remove"></span>
+                      {% trans "Reject" %}
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="well text-center" style="padding: 5em;">
+          <span class="glyphicon glyphicon-inbox" style="font-size: 2.6em; color: #aaa;"></span>
+          <h3 style="margin-top: 25px; margin-bottom: 25px;">{% trans "You have no pending invites at this time." %}</h3>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+{% endblock %}

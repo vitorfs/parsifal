@@ -1,13 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse as r
 from django.utils.text import slugify
 from django.views.decorators.http import require_POST
 
+from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.reviews.decorators import author_required, main_author_required
 from parsifal.apps.reviews.forms import CreateReviewForm, ReviewForm
 from parsifal.apps.reviews.models import Review
@@ -25,6 +25,9 @@ def reviews(request, username):
 
     user_reviews = user.profile.get_reviews()
 
+    pending_invites = user.invites_received.filter(status=InviteStatus.PENDING)
+    pending_invites_count = pending_invites.count()
+
     return render(
         request,
         "reviews/reviews.html",
@@ -34,6 +37,8 @@ def reviews(request, username):
             "is_following": is_following,
             "following_count": following_count,
             "followers_count": followers_count,
+            "pending_invites": pending_invites,
+            "pending_invites_count": pending_invites_count,
         },
     )
 
@@ -75,64 +80,6 @@ def review(request, username, review_name):
     else:
         form = ReviewForm(instance=review)
     return render(request, "reviews/review.html", {"review": review, "form": form})
-
-
-@main_author_required
-@login_required
-@require_POST
-def add_author_to_review(request):
-    emails = request.POST.getlist("users")
-    review_id = request.POST.get("review-id")
-    review = get_object_or_404(Review, pk=review_id)
-    authors_added = []
-    authors_invited = []
-
-    inviter_name = request.user.profile.get_screen_name()
-
-    for email in emails:
-        try:
-            user = User.objects.get(email__iexact=email)
-            if user.id != review.author.id:
-                authors_added.append(user.profile.get_screen_name())
-                review.co_authors.add(user)
-        except User.DoesNotExist:
-            authors_invited.append(email)
-
-            subject = "{0} wants to add you as co-author on the systematic literature review {1}".format(
-                inviter_name, review.title
-            )
-            from_email = "{0} via Parsifal <noreply@parsif.al>".format(inviter_name)
-
-            text_content = """Hi {0},
-            {1} invited you to a Parsifal Systematic Literature Review called "{2}".
-            View the review at https://parsif.al/{3}/{4}/""".format(
-                email, inviter_name, review.title, request.user.username, review.name
-            )
-
-            html_content = """<p>Hi {0},</p>
-            <p>{1} invited you to a Parsifal Systematic Literature Review called "{2}".</p>
-            <p>View the review at https://parsif.al/{3}/{4}/</p>
-            <p>Sincerely,</p>
-            <p>The Parsifal Team</p>""".format(
-                email, inviter_name, review.title, request.user.username, review.name
-            )
-
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-
-    review.save()
-
-    if not authors_added and not authors_invited:
-        messages.info(request, "No author invited or added to the review. Nothing really changed.")
-
-    if authors_added:
-        messages.success(request, "The authors {0} were added successfully.".format(", ".join(authors_added)))
-
-    if authors_invited:
-        messages.success(request, "{0} were invited successfully.".format(", ".join(authors_invited)))
-
-    return redirect(r("review", args=(review.author.username, review.name)))
 
 
 @main_author_required

@@ -1,0 +1,13 @@
+{% load i18n %}{% autoescape off %}
+
+{% blocktranslate trimmed with name=invite.invited_by.profile.get_screen_name title=invite.review.title %}
+{{ name }} invited you to a Parsifal Systematic Literature Review called "{{ title }}".
+{% endblocktranslate %}
+
+{% translate "To accept the invitation, visit the link below:" %}
+
+{{ protocol }}://{{ domain }}{% url "invite" invite.code %}
+
+{% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+
+{% endautoescape %}
