@@ -34,7 +34,7 @@ class Invite(models.Model):
         verbose_name_plural = _("invites")
 
     def __str__(self):
-        return f"{self.review.name} - {self.get_invitee_email()} - {self.get_status_display()}"
+        return f"{self.review.name} - {self.get_invitee_email()} - {self.status}"
 
     def get_absolute_url(self):
         return reverse("invite", args=(self.code,))
@@ -46,6 +46,7 @@ class Invite(models.Model):
 
     @transaction.atomic()
     def accept(self, user=None):
+        assert self.invitee or user, "The accept method cannot be called without a valid User account"
         self.status = InviteStatus.ACCEPTED
         self.date_answered = timezone.now()
         if user and not self.invitee:
