@@ -39,12 +39,36 @@
                 {% endblocktrans %}
               </p>
               {% if invite.invitee %}
-                <p>
-                  {% blocktrans trimmed %}
-                    To accept the invitation, you must log in to your account <strong>{{ invitee_masked_email }}</strong>
-                  {% endblocktrans %}
-                </p>
-                <a href="{% url "login" %}?next=/invites/" class="btn btn-primary btn-lg">{% trans "Log in" %}</a>
+                {% if user.is_authenticated and invite.invitee == user %}
+                  <div style="margin-bottom: 20px;">
+                    <form action="{% url "accept_user_invite" invite.pk %}" method="post" style="display: inline-block">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        {% trans "Accept" %}
+                      </button>
+                    </form>
+                    <form action="{% url "reject_user_invite" invite.pk %}" method="post" style="display: inline-block">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-lg">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        {% trans "Reject" %}
+                      </button>
+                    </form>
+                  </div>
+                  <small class="text-muted">
+                    {% blocktrans trimmed with username=invite.invitee.username %}
+                      You are currently logged in as <strong>{{ username }}</strong>.
+                    {% endblocktrans %}
+                  </small>
+                {% else %}
+                  <p>
+                    {% blocktrans trimmed %}
+                      To accept the invitation, you must log in to your account <strong>{{ invitee_masked_email }}</strong>
+                    {% endblocktrans %}
+                  </p>
+                  <a href="{% url "login" %}?next={% url "user_invites" %}" class="btn btn-primary btn-lg">{% trans "Log in" %}</a>
+                {% endif %}
               {% else %}
                 <p>
                   {% blocktrans trimmed %}

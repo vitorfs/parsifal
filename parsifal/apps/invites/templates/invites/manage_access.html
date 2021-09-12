@@ -48,12 +48,14 @@
                 <td>{{ invite.invited_by.profile }}</td>
                 <td>{% invite_status invite %}</td>
                 <td class="text-right">
-                  <a href="{{ invite.get_absolute_url }}" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-link"></span>
-                  </a>
-                  <a href="{% url "invites:invite_delete" review.author.username review.name invite.pk %}" class="btn btn-danger btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </a>
+                  {% if invite.is_pending %}
+                    <a href="{{ invite.get_absolute_url }}" class="btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                    <a href="{% url "invites:invite_delete" review.author.username review.name invite.pk %}" class="btn btn-danger btn-sm">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}

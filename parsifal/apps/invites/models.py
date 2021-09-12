@@ -59,5 +59,5 @@ class Invite(models.Model):
         self.save()
 
     @property
-    def can_delete(self):
+    def is_pending(self):
         return self.status == InviteStatus.PENDING

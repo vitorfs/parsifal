@@ -8,6 +8,7 @@ from django.urls import reverse as r
 from django.utils.text import slugify
 from django.views.decorators.http import require_POST
 
+from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.reviews.decorators import author_required, main_author_required
 from parsifal.apps.reviews.forms import CreateReviewForm, ReviewForm
 from parsifal.apps.reviews.models import Review
@@ -25,6 +26,9 @@ def reviews(request, username):
 
     user_reviews = user.profile.get_reviews()
 
+    pending_invites = user.invites_received.filter(status=InviteStatus.PENDING)
+    pending_invites_count = pending_invites.count()
+
     return render(
         request,
         "reviews/reviews.html",
@@ -34,6 +38,8 @@ def reviews(request, username):
             "is_following": is_following,
             "following_count": following_count,
             "followers_count": followers_count,
+            "pending_invites": pending_invites,
+            "pending_invites_count": pending_invites_count,
         },
     )
 

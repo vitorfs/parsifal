@@ -43,6 +43,8 @@ urlpatterns = [
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path("invites/", invites_views.UserInviteListView.as_view(), name="user_invites"),
+    path("invites/<int:invite_id>/accept/", invites_views.AcceptUserInviteView.as_view(), name="accept_user_invite"),
+    path("invites/<int:invite_id>/reject/", invites_views.RejectUserInviteView.as_view(), name="reject_user_invite"),
     path("invites/<uuid:code>/", invites_views.InviteDetailView.as_view(), name="invite"),
     path("<str:username>/following/", activities_views.following, name="following"),
     path("<str:username>/followers/", activities_views.followers, name="followers"),

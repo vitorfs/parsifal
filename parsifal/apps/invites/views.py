@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
 from parsifal.apps.invites.constants import InviteStatus
@@ -40,7 +42,7 @@ class InviteDeleteView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin,
     context_object_name = "invite"
 
     def get_queryset(self):
-        return self.review.invites.all()
+        return self.review.invites.filter(status=InviteStatus.PENDING)
 
     def get_success_url(self):
         return reverse("invites:manage_access", args=(self.review.author.username, self.review.name))
@@ -71,4 +73,24 @@ class UserInviteListView(LoginRequiredMixin, ListView):
     template_name = "invites/user_invite_list.html"
 
     def get_queryset(self):
-        return Invite.objects.filter(status=InviteStatus.PENDING, invitee=self.request.user)
+        return Invite.objects.select_related("invited_by__profile").filter(
+            status=InviteStatus.PENDING, invitee=self.request.user
+        )
+
+
+class AcceptUserInviteView(LoginRequiredMixin, View):
+    def post(self, request, invite_id):
+        queryset = Invite.objects.filter(status=InviteStatus.PENDING, invitee=self.request.user)
+        invite = get_object_or_404(queryset, pk=invite_id)
+        invite.accept()
+        messages.success(request, _("You have joined the review %s.") % invite.review.title)
+        return redirect(invite.review)
+
+
+class RejectUserInviteView(LoginRequiredMixin, View):
+    def post(self, request, invite_id):
+        queryset = Invite.objects.filter(status=InviteStatus.PENDING, invitee=self.request.user)
+        invite = get_object_or_404(queryset, pk=invite_id)
+        invite.reject()
+        messages.success(request, _("You have rejected the invitation to join the review %s.") % invite.review.title)
+        return redirect("user_invites")
