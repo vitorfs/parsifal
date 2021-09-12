@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMultiAlternatives
 from django.db.models.functions import Lower
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 
 from parsifal.apps.invites.constants import InviteStatus
@@ -72,6 +75,33 @@ class SendInviteForm(forms.ModelForm):
                 self.add_error("invitee_email", _("This person already has a pending invite."))
         return invitee_email
 
+    def send_mail(self):
+        """
+        Send a django.core.mail.EmailMultiAlternatives to `to_email`.
+        """
+        subject = render_to_string("invites/invite_subject.txt", {"invite": self.instance})
+        # Email subject *must not* contain newlines
+        subject = "".join(subject.splitlines())
+
+        current_site = get_current_site(self.request)
+        site_name = current_site.name
+        domain = current_site.domain
+        invited_by_name = self.instance.invited_by.profile.get_screen_name()
+        from_email = f"{invited_by_name} via Parsifal <noreply@parsif.al>"
+        to_email = self.instance.get_invitee_email()
+        body = render_to_string(
+            "invites/invite_email.html",
+            {
+                "invite": self.instance,
+                "site_name": site_name,
+                "domain": domain,
+                "protocol": "https" if self.request.is_secure() else "http",
+            },
+        )
+
+        email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
+        email_message.send()
+
     def save(self, commit=True):
         self.instance = super().save(commit=False)
         if self.instance.invitee:
@@ -82,4 +112,5 @@ class SendInviteForm(forms.ModelForm):
         self.instance.invited_by = self.request.user
         if commit:
             self.instance.save()
+            self.send_mail()
         return self.instance

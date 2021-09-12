@@ -1,0 +1,1 @@
+{% load i18n %}{% blocktranslate with name=invite.invited_by.profile.get_screen_name title=invite.review.title %}{{ name }} is inviting you to collaborate on the literature review {{ title }}{% endblocktranslate %}
