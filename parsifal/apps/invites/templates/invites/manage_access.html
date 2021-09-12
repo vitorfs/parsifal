@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_filters i18n parsifal_invites static %}
+
+{% block title %}{% trans "Manage access" %} · {{ review.title }}{% endblock %}
+
+{% block content %}
+  {% include "reviews/review_header.html" %}
+  <div class="row">
+    <div class="col-md-3">
+      {% include "settings/includes/menu.html" with menu="manage_access" %}
+    </div>
+    <div class="col-md-9">
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h3 class="page-header">{% trans "Invite someone to collaborate" %}</h3>
+          <div class="alert alert-info">
+            {% trans "Pick someone from your contact list or inform the person email address." %}
+          </div>
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">{% trans "Send invitation" %}</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans "Invitations" %}</h3>
+        </div>
+        <table class="table table-v-align-middle">
+          <thead>
+            <tr>
+              <th>{% trans "Invitee" %}</th>
+              <th>{% trans "Date sent" %}</th>
+              <th>{% trans "Invited by" %}</th>
+              <th>{% trans "Status" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for invite in invites %}
+              <tr>
+                <td>{{ invite.get_invitee_email }}</td>
+                <td>{{ invite.date_sent|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td>{{ invite.invited_by.profile }}</td>
+                <td>{% invite_status invite %}</td>
+                <td class="text-right">
+                  {% if invite.is_pending %}
+                    <a href="{{ invite.get_absolute_url }}" class="btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                    <a href="{% url "invites:invite_delete" review.author.username review.name invite.pk %}" class="btn btn-danger btn-sm">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}

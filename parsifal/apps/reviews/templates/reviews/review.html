@@ -1,22 +1,13 @@
 {% extends 'base.html' %}
 
-{% load static %}
+{% load compress i18n static %}
 
 {% block title %}{{ review.title }}{% endblock %}
 
 {% block javascript %}
-  <script>
-  var contacts = [
-    {% for contact in user.profile.get_following %}
-      {
-        pk: '{{ contact.pk }}',
-        email: '{{ contact.email }}',
-        name: '{{ contact.profile.get_screen_name }}'
-      }{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-  ];
-  </script>
-  <script src="{% static 'js/review.js' %}?_=1"></script>
+  {% compress js %}
+    <script src="{% static 'js/review.js' %}"></script>
+  {% endcompress %}
 {% endblock %}
 
 {% block content %}
@@ -29,7 +20,7 @@
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Review details</h3>
+            <h3 class="panel-title">{% trans "Review details" %}</h3>
           </div>
           <div class="panel-body">
             {% include 'form_vertical.html' with form=form %}
@@ -37,7 +28,7 @@
           <div class="panel-footer">
             <button type="submit" class="btn btn-success">
               <span class="glyphicon glyphicon-ok"></span>
-              Save
+              {% trans "Save" %}
             </button>
           </div>
         </div>
@@ -46,14 +37,14 @@
     <div class="col-sm-5 col-md-4 col-lg-3">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Authors</h3>
+          <h3 class="panel-title">{% trans "Authors" %}</h3>
         </div>
         <ul class="list-group authors" data-remove-url="{% url 'reviews:remove_author_from_review' %}">
           <li class="list-group-item" author-id="{{ review.author.id }}">
             <a href="/{{ review.author.username }}/">
               {{ review.author.profile.get_screen_name }}
             </a>
-            <span class="badge">main author</span>
+            <span class="badge">{% trans "main author" %}</span>
           </li>
           {% for author in review.co_authors.all %}
             <li  class="list-group-item" data-user-id="{{ author.id }}">
@@ -66,7 +57,7 @@
                 <form method="post" action="{% url 'reviews:leave' %}" style="display: inline">
                   {% csrf_token %}
                   <input type="hidden" name="review-id" value="{{ review.id }}">
-                  <a href="javascript:void(0);" class="js-leave text-danger pull-right">(leave)</a>
+                  <a href="javascript:void(0);" class="js-leave text-danger pull-right">{% trans "(leave)" %}</a>
                 </form>
               {% endif %}
             </li>
@@ -74,37 +65,10 @@
         </ul>
         {% if user.id == review.author.id %}
           <div class="panel-footer">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-author-modal">
+            <a href="{% url "invites:manage_access" review.author.username review.name %}" class="btn btn-primary">
               <span class="glyphicon glyphicon-plus"></span>
-              Add author
-            </button>
-            <form method="post" action="{% url 'reviews:add_author_to_review' %}">
-              {% csrf_token %}
-              <input type="hidden" name="review-id" value="{{ review.pk }}">
-              <div class="modal fade" id="add-author-modal">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">Add author</h4>
-                    </div>
-                    <div class="modal-body">
-                      <div class="alert alert-info">
-                        You may add someone that doesn't have a Parsifal Account. Just type his email adress and we will send an invitation. :)
-                      </div>
-                      <div class="form-group">
-                        <label for="users" class="control-label">Contacts</label>
-                        <select id="users" name="users" class="contacts" placeholder="Pick an author or invite someone..."></select>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn btn-success">Send invitation</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
+              {% trans "Add author" %}
+            </a>
           </div>
         {% endif %}
       </div>
