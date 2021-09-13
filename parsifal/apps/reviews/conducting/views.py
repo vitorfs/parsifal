@@ -1038,16 +1038,16 @@ def resolve_duplicated(request):
 @login_required
 def resolve_all(request):
     try:
-        article_id_list = []
         review_id = request.POST["review-id"]
         review = Review.objects.get(pk=review_id)
         duplicates = review.get_duplicate_articles()
+        articles_to_update = []
         for duplicate in duplicates:
             for i in range(1, len(duplicate)):
                 duplicate[i].status = Article.DUPLICATED
-                duplicate[i].save()
-                article_id_list.append(str(duplicate[i].id))
-        return HttpResponse(",".join(article_id_list))
+                articles_to_update.append(duplicate[i])
+        Article.objects.bulk_update(articles_to_update, fields=("status",))
+        return HttpResponse(",".join([str(article.pk) for article in articles_to_update]))
     except Exception:
         return HttpResponseBadRequest()
 
