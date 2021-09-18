@@ -7,15 +7,15 @@ from django.db.models.functions import Coalesce
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.text import slugify
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 
 from parsifal.apps.library.models import Document
 
 
 class Source(models.Model):
-    name = models.CharField(max_length=100)
-    url = models.CharField(max_length=200)
-    is_default = models.BooleanField(default=False)
+    name = models.CharField(_("name"), max_length=100)
+    url = models.CharField(_("url"), max_length=200)
+    is_default = models.BooleanField(_("default?"), default=False)
 
     class Meta:
         verbose_name = _("Source")
@@ -36,8 +36,8 @@ class Review(models.Model):
     UNPUBLISHED = "U"
     PUBLISHED = "P"
     REVIEW_STATUS = (
-        (UNPUBLISHED, "Unpublished"),
-        (PUBLISHED, "Published"),
+        (UNPUBLISHED, _("Unpublished")),
+        (PUBLISHED, _("Published")),
     )
 
     name = models.SlugField(_("name"), max_length=255)
@@ -162,14 +162,18 @@ class Review(models.Model):
 
 
 class Question(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="research_questions")
-    question = models.CharField(max_length=500)
-    parent_question = models.ForeignKey("self", on_delete=models.CASCADE, null=True, related_name="+")
-    order = models.IntegerField(default=0)
+    review = models.ForeignKey(
+        Review, on_delete=models.CASCADE, related_name="research_questions", verbose_name=_("review")
+    )
+    question = models.CharField(_("question"), max_length=500)
+    parent_question = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, related_name="+", verbose_name=_("parent question")
+    )
+    order = models.IntegerField(_("order"), default=0)
 
     class Meta:
-        verbose_name = "Question"
-        verbose_name_plural = "Questions"
+        verbose_name = _("question")
+        verbose_name_plural = _("questions")
         ordering = ("order",)
 
     def __str__(self):
@@ -183,17 +187,17 @@ class SelectionCriteria(models.Model):
     INCLUSION = "I"
     EXCLUSION = "E"
     SELECTION_TYPES = (
-        (INCLUSION, "Inclusion"),
-        (EXCLUSION, "Exclusion"),
+        (INCLUSION, _("Inclusion")),
+        (EXCLUSION, _("Exclusion")),
     )
 
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    criteria_type = models.CharField(max_length=1, choices=SELECTION_TYPES)
-    description = models.CharField(max_length=200)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    criteria_type = models.CharField(_("type"), max_length=1, choices=SELECTION_TYPES)
+    description = models.CharField(_("description"), max_length=200)
 
     class Meta:
-        verbose_name = "Selection Criteria"
-        verbose_name_plural = "Selection Criterias"
+        verbose_name = _("selection criteria")
+        verbose_name_plural = _("selection criterion")
         ordering = ("description",)
 
     def __str__(self):
@@ -205,10 +209,14 @@ class SelectionCriteria(models.Model):
 
 
 class SearchSession(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
-    search_string = models.TextField(max_length=10000)
-    version = models.IntegerField(default=1)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True, verbose_name=_("source"))
+    search_string = models.TextField(_("search string"), max_length=10000)
+    version = models.IntegerField(_("version"), default=1)
+
+    class Meta:
+        verbose_name = _("search session")
+        verbose_name_plural = _("search sessions")
 
     def __str__(self):
         return self.search_string
@@ -224,23 +232,33 @@ def search_result_file_upload_to(instance, filename):
 
 
 class SearchResult(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE)
-    search_session = models.ForeignKey(SearchSession, on_delete=models.CASCADE, null=True)
-    imported_file = models.FileField(upload_to=search_result_file_upload_to, null=True)
-    documents = models.ManyToManyField(Document)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, verbose_name=_("source"))
+    search_session = models.ForeignKey(
+        SearchSession, on_delete=models.CASCADE, null=True, verbose_name=_("search session")
+    )
+    imported_file = models.FileField(_("imported file"), upload_to=search_result_file_upload_to, null=True)
+    documents = models.ManyToManyField(Document, verbose_name=_("documents"))
+
+    class Meta:
+        verbose_name = _("selection result")
+        verbose_name_plural = _("selection results")
 
 
 class StudySelection(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    has_finished = models.BooleanField(default=False)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name=_("user"))
+    has_finished = models.BooleanField(_("has finished?"), default=False)
+
+    class Meta:
+        verbose_name = _("study selection")
+        verbose_name_plural = _("study selections")
 
     def __str__(self):
         if self.user:
-            selection = "{0}'s Selection".format(self.user.username)
+            selection = gettext("{0}'s Selection").format(self.user.username)
         else:
-            selection = "Final Selection"
+            selection = gettext("Final Selection")
         return "{0} ({1})".format(selection, self.review.title)
 
 
@@ -250,17 +268,23 @@ class Study(models.Model):
     ACCEPTED = "A"
     DUPLICATED = "D"
     STUDY_STATUS = (
-        (UNCLASSIFIED, "Unclassified"),
-        (REJECTED, "Rejected"),
-        (ACCEPTED, "Accepted"),
-        (DUPLICATED, "Duplicated"),
+        (UNCLASSIFIED, _("Unclassified")),
+        (REJECTED, _("Rejected")),
+        (ACCEPTED, _("Accepted")),
+        (DUPLICATED, _("Duplicated")),
     )
-    study_selection = models.ForeignKey(StudySelection, on_delete=models.CASCADE, related_name="studies")
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
-    status = models.CharField(max_length=1, choices=STUDY_STATUS, default=UNCLASSIFIED)
-    updated_at = models.DateTimeField(auto_now=True)
-    comments = models.TextField(max_length=2000, blank=True, null=True)
+    study_selection = models.ForeignKey(
+        StudySelection, on_delete=models.CASCADE, related_name="studies", verbose_name=_("study selection")
+    )
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, verbose_name=_("document"))
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True, verbose_name=_("source"))
+    status = models.CharField(_("status"), max_length=1, choices=STUDY_STATUS, default=UNCLASSIFIED)
+    updated_at = models.DateTimeField(_("updated at"), auto_now=True)
+    comments = models.TextField(verbose_name=_("comments"), max_length=2000, blank=True)
+
+    class Meta:
+        verbose_name = _("study")
+        verbose_name_plural = _("studies")
 
 
 class Article(models.Model):
@@ -269,10 +293,10 @@ class Article(models.Model):
     ACCEPTED = "A"
     DUPLICATED = "D"
     ARTICLE_STATUS = (
-        (UNCLASSIFIED, "Unclassified"),
-        (REJECTED, "Rejected"),
-        (ACCEPTED, "Accepted"),
-        (DUPLICATED, "Duplicated"),
+        (UNCLASSIFIED, _("Unclassified")),
+        (REJECTED, _("Rejected")),
+        (ACCEPTED, _("Accepted")),
+        (DUPLICATED, _("Duplicated")),
     )
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
