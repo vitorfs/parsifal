@@ -1,13 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse as r
 from django.utils.text import slugify
-from django.views.decorators.http import require_POST
+from django.utils.translation import gettext
+from django.views import View
 
 from parsifal.apps.reviews.decorators import main_author_required
+from parsifal.apps.reviews.mixins import MainAuthorRequiredMixin, ReviewMixin
 from parsifal.apps.reviews.models import Review
 from parsifal.apps.reviews.settings.forms import ReviewSettingsForm
 
@@ -64,17 +68,14 @@ def transfer(request):
         return HttpResponseBadRequest("Something went wrong.")
 
 
-@main_author_required
-@login_required
-@require_POST
-def delete(request):
-    review_id = request.POST.get("review-id")
-    review = Review.objects.get(pk=review_id)
-    sources = review.sources.all()
-    for source in sources:
-        if not source.is_default:
-            review.sources.remove(source)
-            source.delete()
-    review.delete()
-    messages.success(request, "The review was deleted successfully.")
-    return redirect(r("reviews", args=(review.author.username,)))
+class DeleteReviewView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin, View):
+    @transaction.atomic()
+    def post(self, request, *args, **kwargs):
+        sources = self.review.sources.all()
+        for source in sources:
+            if not source.is_default:
+                self.review.sources.remove(source)
+                source.delete()
+        self.review.delete()
+        messages.success(request, gettext("The review was deleted with success."))
+        return redirect(request.user)

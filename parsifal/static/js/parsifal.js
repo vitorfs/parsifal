@@ -40,8 +40,8 @@
 
       $.fn.disable = function () {
         $(this).prop("disabled", true);
-        $(this).attr("data-original", $(this).text());
-        $(this).text($(this).attr("data-loading"));
+        $(this).data("original", $(this).text());
+        $(this).text($(this).data("loading"));
       };
 
       $.fn.enable = function () {
