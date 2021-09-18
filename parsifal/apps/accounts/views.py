@@ -78,7 +78,7 @@ def upload_picture(request):
             messages.error(request, gettext("Invalid file format."))
     except Exception:
         logger.exception("An error occurred while trying to upload a picture.")
-        messages.error(request, gettext("An expected error occurred."))
+        messages.error(request, gettext("An unexpected error occurred."))
     return redirect("settings:picture")
 
 

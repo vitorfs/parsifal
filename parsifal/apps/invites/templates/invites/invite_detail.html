@@ -2,7 +2,7 @@
 
 {% load compress i18n %}
 
-{% block title %}{% trans "Invite" %} · {{ invite.review.title }}{% endblock %}
+{% block title %}{% trans "Invite" context "noun" %} · {{ invite.review.title }}{% endblock %}
 
 {% block stylesheet %}
   {% compress css %}

@@ -1,0 +1,1538 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-18 23:20+0000\n"
+"PO-Revision-Date: 2021-09-18 20:26-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.4.3\n"
+
+#: parsifal/apps/accounts/apps.py:7
+msgid "Accounts"
+msgstr "Contas"
+
+#: parsifal/apps/accounts/forms.py:12
+#: parsifal/apps/core/templates/core/cover.html:43
+msgid "Email"
+msgstr "Email"
+
+#: parsifal/apps/accounts/forms.py:16
+msgid ""
+"This email account will not be publicly available. It is used for your "
+"Parsifal account management, such as internal notifications and password "
+"reset."
+msgstr ""
+"Esta conta de email não estará disponível publicamente. Ele é usado para o "
+"gerenciamento da sua conta Parsifal, para notificações internas e "
+"redefinição de senha."
+
+#: parsifal/apps/accounts/forms.py:30
+msgid "User with this Email already exists."
+msgstr "Um usuário com este email já existe."
+
+#: parsifal/apps/accounts/forms.py:35
+msgid "First name"
+msgstr "Nome"
+
+#: parsifal/apps/accounts/forms.py:36
+msgid "Last name"
+msgstr "Sobrenome"
+
+#: parsifal/apps/accounts/templates/accounts/emails.html:5
+#: parsifal/apps/accounts/templates/accounts/picture.html:5
+#: parsifal/apps/accounts/templates/accounts/profile.html:5
+msgid "Account Settings"
+msgstr "Configurações da Conta"
+
+#: parsifal/apps/accounts/templates/accounts/emails.html:17
+msgid "Account email"
+msgstr "Email da conta"
+
+#: parsifal/apps/accounts/templates/accounts/emails.html:23
+msgid "Save email"
+msgstr "Salvar email"
+
+#: parsifal/apps/accounts/templates/accounts/menu.html:5
+#: parsifal/templates/includes/header.html:33
+msgid "Account settings"
+msgstr "Configurações da conta"
+
+#: parsifal/apps/accounts/templates/accounts/menu.html:8
+msgid "Profile"
+msgstr "Perfil"
+
+#: parsifal/apps/accounts/templates/accounts/menu.html:9
+msgid "Emails"
+msgstr "Emails"
+
+#: parsifal/apps/accounts/templates/accounts/menu.html:10
+msgid "Picture"
+msgstr "Foto"
+
+#: parsifal/apps/accounts/templates/accounts/menu.html:11
+#: parsifal/apps/core/templates/core/cover.html:40
+msgid "Password"
+msgstr "Senha"
+
+#: parsifal/apps/accounts/templates/accounts/picture.html:46
+msgid "Profile picture"
+msgstr "Foto do perfil"
+
+#: parsifal/apps/accounts/templates/accounts/picture.html:52
+msgid "Upload new picture"
+msgstr "Enviar nova foto"
+
+#: parsifal/apps/accounts/templates/accounts/picture.html:60
+#: parsifal/apps/accounts/templates/accounts/picture.html:76
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:86
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:107
+msgid "Close"
+msgstr "Fechar"
+
+#: parsifal/apps/accounts/templates/accounts/picture.html:61
+msgid "Crop Profile Picture"
+msgstr "Recortar Foto do Perfil"
+
+#: parsifal/apps/accounts/templates/accounts/picture.html:66
+msgid ""
+"Crop the profile picture and then click on the <strong>Save Picture</strong> "
+"button"
+msgstr ""
+"Recorte a foto do perfil e clique no botão <strong>Salvar Foto</strong>"
+
+#: parsifal/apps/accounts/templates/accounts/picture.html:77
+msgid "Save picture"
+msgstr "Salvar foto"
+
+#: parsifal/apps/accounts/templates/accounts/profile.html:17
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: parsifal/apps/accounts/templates/accounts/profile.html:23
+msgid "Save profile"
+msgstr "Salvar perfil"
+
+#: parsifal/apps/accounts/views.py:30
+msgid "Your profile was updated with success!"
+msgstr "Seu perfil foi atualizado com sucesso!"
+
+#: parsifal/apps/accounts/views.py:40
+msgid "Account email was updated with success!"
+msgstr "O email da conta foi atualizado com sucesso!"
+
+#: parsifal/apps/accounts/views.py:78
+msgid "Invalid file format."
+msgstr "Formato de arquivo inválido."
+
+#: parsifal/apps/accounts/views.py:81
+msgid "An unexpected error occurred."
+msgstr "Ocorreu um erro inesperado."
+
+#: parsifal/apps/activities/apps.py:7
+msgid "Activities"
+msgstr "Atividades"
+
+#: parsifal/apps/activities/constants.py:10
+#: parsifal/apps/activities/templates/activities/follow.html:44
+msgid "Follow"
+msgstr "Seguir"
+
+#: parsifal/apps/activities/constants.py:11
+msgid "Comment"
+msgstr "Comentário"
+
+#: parsifal/apps/activities/constants.py:12
+msgid "Star"
+msgstr "Favorito"
+
+#: parsifal/apps/activities/models.py:10
+msgid "from user"
+msgstr "do usuário"
+
+#: parsifal/apps/activities/models.py:11
+msgid "to user"
+msgstr "para o usuário"
+
+#: parsifal/apps/activities/models.py:12 parsifal/apps/reviews/models.py:195
+msgid "type"
+msgstr "tipo"
+
+#: parsifal/apps/activities/models.py:13
+msgid "content"
+msgstr "conteúdo"
+
+#: parsifal/apps/activities/models.py:14 parsifal/apps/invites/models.py:14
+#: parsifal/apps/reviews/models.py:61 parsifal/apps/reviews/models.py:166
+#: parsifal/apps/reviews/models.py:194 parsifal/apps/reviews/models.py:212
+#: parsifal/apps/reviews/models.py:235 parsifal/apps/reviews/models.py:249
+#: parsifal/apps/reviews/models.py:302 parsifal/apps/reviews/models.py:386
+#: parsifal/apps/reviews/models.py:412 parsifal/apps/reviews/models.py:426
+#: parsifal/apps/reviews/models.py:473
+msgid "review"
+msgstr "revisão"
+
+#: parsifal/apps/activities/models.py:15
+msgid "date"
+msgstr "data"
+
+#: parsifal/apps/activities/models.py:18
+msgid "activity"
+msgstr "atividade"
+
+#: parsifal/apps/activities/models.py:19
+msgid "activities"
+msgstr "atividades"
+
+#: parsifal/apps/activities/templates/activities/follow.html:33
+msgid "Joined on"
+msgstr "Membro desde"
+
+#: parsifal/apps/activities/templates/activities/follow.html:40
+msgid "Unfollow"
+msgstr "Deixar de seguir"
+
+#: parsifal/apps/activities/templates/activities/follow.html:60
+#, python-format
+msgid "%(name)s has no followers."
+msgstr "%(name)s não tem seguidores."
+
+#: parsifal/apps/activities/templates/activities/follow.html:62
+#, python-format
+msgid "%(name)s isn't following anybody."
+msgstr "%(name)s não está seguindo ninguém."
+
+#: parsifal/apps/activities/views.py:65
+msgid "following"
+msgstr "seguindo"
+
+#: parsifal/apps/activities/views.py:81
+msgid "followers"
+msgstr "seguidores"
+
+#: parsifal/apps/authentication/apps.py:7
+msgid "Authentication"
+msgstr "Autenticação"
+
+#: parsifal/apps/authentication/forms.py:38
+msgid "Required. 150 characters or fewer. Letters, digits and . _ only."
+msgstr ""
+"Obrigatório. 150 caracteres ou menos. Letras minúsculas, dígitos e . _ "
+"apenas."
+
+#: parsifal/apps/authentication/forms.py:45
+msgid "The Google reCAPTCHA did not validate. Please try again."
+msgstr "A reCAPTCHA do Google não validou. Por favor, tente de novo."
+
+#: parsifal/apps/authentication/models.py:15
+#: parsifal/apps/reviews/models.py:250 parsifal/apps/reviews/models.py:440
+#: parsifal/apps/reviews/models.py:504
+msgid "user"
+msgstr "usuário"
+
+#: parsifal/apps/authentication/models.py:16
+msgid "public email"
+msgstr "email público"
+
+#: parsifal/apps/authentication/models.py:17
+msgid "location"
+msgstr "localização"
+
+#: parsifal/apps/authentication/models.py:18 parsifal/apps/reviews/models.py:17
+#: parsifal/apps/reviews/models.py:316
+msgid "url"
+msgstr "url"
+
+#: parsifal/apps/authentication/models.py:19
+msgid "institution"
+msgstr "instituição"
+
+#: parsifal/apps/authentication/models.py:22
+msgid "profile"
+msgstr "perfil"
+
+#: parsifal/apps/authentication/models.py:23
+msgid "profiles"
+msgstr "perfis"
+
+#: parsifal/apps/authentication/validators.py:89
+msgid "This is a reserved word."
+msgstr "Esta é uma palavra reservada."
+
+#: parsifal/apps/authentication/validators.py:94
+msgid "A user with that email already exists."
+msgstr "Um usuário com este email já existe."
+
+#: parsifal/apps/authentication/validators.py:99
+msgid "A user with that username already exists."
+msgstr "Um usuário com esse nome de usuário já existe."
+
+#: parsifal/apps/authentication/validators.py:105
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and . _ characters."
+msgstr ""
+"Digite um nome de usuário válido. Este valor pode conter apenas letras, "
+"números e . _ caracteres."
+
+#: parsifal/apps/authentication/views.py:39
+msgid "Your account was successfully created."
+msgstr "Sua conta foi criada com sucesso."
+
+#: parsifal/apps/authentication/views.py:46
+msgid ""
+"There were some problems while creating your account. Please review the form "
+"below before submitting it again."
+msgstr ""
+"Houve alguns problemas ao criar sua conta. Por favor, revise o formulário "
+"abaixo antes de submetê-lo novamente."
+
+#: parsifal/apps/blog/apps.py:7 parsifal/templates/includes/header.html:17
+msgid "Blog"
+msgstr "Blog"
+
+#: parsifal/apps/blog/models.py:12
+msgid "Draft"
+msgstr "Rascunho"
+
+#: parsifal/apps/blog/models.py:13
+msgid "Hidden"
+msgstr "Oculto"
+
+#: parsifal/apps/blog/models.py:14 parsifal/apps/reviews/models.py:40
+msgid "Published"
+msgstr "Publicado"
+
+#: parsifal/apps/blog/models.py:29
+msgid "entry"
+msgstr "entrada"
+
+#: parsifal/apps/blog/models.py:30
+msgid "entries"
+msgstr "entradas"
+
+#: parsifal/apps/core/apps.py:7
+msgid "Settings"
+msgstr "Configurações"
+
+#: parsifal/apps/core/models.py:9
+msgid "Image"
+msgstr "Imagem"
+
+#: parsifal/apps/core/models.py:10
+msgid "Video"
+msgstr "Vídeo"
+
+#: parsifal/apps/core/models.py:24
+msgid "media file"
+msgstr "arquivo de mídia"
+
+#: parsifal/apps/core/models.py:25
+msgid "media files"
+msgstr "arquivos de mídia"
+
+#: parsifal/apps/core/templates/core/cover.html:28
+msgid "Perform Systematic Literature Reviews"
+msgstr "Realizar Revisões Sistemáticas de Literatura"
+
+#: parsifal/apps/core/templates/core/cover.html:32
+#: parsifal/templates/registration/signup.html:33
+msgid "Sign up for Parsifal"
+msgstr "Inscreva-se no Parsifal"
+
+#: parsifal/apps/core/templates/core/cover.html:37
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: parsifal/apps/core/templates/core/cover.html:47
+#: parsifal/apps/core/templates/core/cover.html:49
+msgid "Create a new account"
+msgstr "Criar uma nova conta"
+
+#: parsifal/apps/help/apps.py:7 parsifal/templates/includes/header.html:19
+msgid "Help"
+msgstr "Ajuda"
+
+#: parsifal/apps/help/models.py:16
+msgid "category"
+msgstr "categoria"
+
+#: parsifal/apps/help/models.py:17
+msgid "categories"
+msgstr "categorias"
+
+#: parsifal/apps/help/models.py:40 parsifal/apps/reviews/models.py:348
+#: parsifal/apps/reviews/models.py:441 parsifal/apps/reviews/models.py:505
+msgid "article"
+msgstr "artigo"
+
+#: parsifal/apps/help/models.py:41 parsifal/apps/reviews/models.py:349
+msgid "articles"
+msgstr "artigos"
+
+#: parsifal/apps/invites/admin.py:24 parsifal/apps/invites/admin.py:31
+#: parsifal/apps/invites/templates/invites/manage_access.html:36
+msgid "Invitee"
+msgstr "Convidado"
+
+#: parsifal/apps/invites/admin.py:25
+msgid "Important dates"
+msgstr "Datas importantes"
+
+#: parsifal/apps/invites/constants.py:10
+msgid "Pending"
+msgstr "Pendente"
+
+#: parsifal/apps/invites/constants.py:11 parsifal/apps/reviews/models.py:273
+#: parsifal/apps/reviews/models.py:298
+msgid "Accepted"
+msgstr "Aceito"
+
+#: parsifal/apps/invites/constants.py:12 parsifal/apps/reviews/models.py:272
+#: parsifal/apps/reviews/models.py:297
+msgid "Rejected"
+msgstr "Rejeitado"
+
+#: parsifal/apps/invites/forms.py:29
+msgid "Contacts"
+msgstr "Contatos"
+
+#: parsifal/apps/invites/forms.py:30
+msgid "List of people that you are currently following on Parsifal."
+msgstr "Lista de pessoas que você está seguindo atualmente no Parsifal."
+
+#: parsifal/apps/invites/forms.py:32
+msgid "Email address of the person you want to invite"
+msgstr "Endereço de email da pessoa que você deseja convidar"
+
+#: parsifal/apps/invites/forms.py:34
+msgid ""
+"If the person you want to invite is not on Parsifal, you can inform their "
+"email address and we will send an invitation link to their inbox."
+msgstr ""
+"Se a pessoa que você deseja convidar não estiver no Parsifal, você pode "
+"informar seu endereço de email e enviaremos um link de convite para sua "
+"caixa de entrada."
+
+#: parsifal/apps/invites/forms.py:43
+msgid ""
+"You must inform either a contact or an email address, but not both at the "
+"same time."
+msgstr ""
+"Você deve informar um contato ou um endereço de email, mas não ambos ao "
+"mesmo tempo."
+
+#: parsifal/apps/invites/forms.py:46
+msgid "You must inform either a contact or an email address."
+msgstr "Você deve informar um contato ou um endereço de email."
+
+#: parsifal/apps/invites/forms.py:53 parsifal/apps/invites/forms.py:69
+msgid "This person is already a co-author of this review."
+msgstr "Essa pessoa já é coautora desta revisão."
+
+#: parsifal/apps/invites/forms.py:57 parsifal/apps/invites/forms.py:75
+msgid "This person already has a pending invite."
+msgstr "Essa pessoa já tem um convite pendente."
+
+#: parsifal/apps/invites/forms.py:65
+msgid "You cannot invite yourself."
+msgstr "Você não pode se convidar."
+
+#: parsifal/apps/invites/models.py:16
+msgid "invited by"
+msgstr "convidado por"
+
+#: parsifal/apps/invites/models.py:23
+msgid "invitee"
+msgstr "convidado"
+
+#: parsifal/apps/invites/models.py:26
+msgid "invitee email"
+msgstr "email do convidado"
+
+#: parsifal/apps/invites/models.py:27 parsifal/apps/reviews/models.py:51
+#: parsifal/apps/reviews/models.py:281 parsifal/apps/reviews/models.py:313
+msgid "status"
+msgstr "status"
+
+#: parsifal/apps/invites/models.py:28
+msgid "code"
+msgstr "código"
+
+#: parsifal/apps/invites/models.py:29
+msgid "date sent"
+msgstr "data enviada"
+
+#: parsifal/apps/invites/models.py:30
+msgid "date answered"
+msgstr "data respondida"
+
+#: parsifal/apps/invites/models.py:33
+msgid "invite"
+msgstr "convite"
+
+#: parsifal/apps/invites/models.py:34
+msgid "invites"
+msgstr "convites"
+
+#: parsifal/apps/invites/templates/invites/invite_confirm_delete.html:5
+msgid "Delete invite"
+msgstr "Apagar convite"
+
+#: parsifal/apps/invites/templates/invites/invite_confirm_delete.html:18
+#, python-format
+msgid ""
+"Are you sure you want to delete the invite sent to <strong>"
+"%(invitee_email)s</strong>?"
+msgstr ""
+"Tem certeza de que deseja excluir o convite enviado para <strong>"
+"%(invitee_email)s</strong>?"
+
+#: parsifal/apps/invites/templates/invites/invite_confirm_delete.html:23
+msgid "Yes, delete"
+msgstr "Sim, apagar"
+
+#: parsifal/apps/invites/templates/invites/invite_confirm_delete.html:24
+msgid "Never mind"
+msgstr "Cancelar"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:5
+msgctxt "noun"
+msgid "Invite"
+msgstr "Convite"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:37
+#, python-format
+msgid ""
+"<strong>%(invited_by)s</strong> invited you to collaborate on the literature "
+"review <strong>\"%(review_title)s\"</strong>"
+msgstr ""
+"<strong>%(invited_by)s</strong> convidou você a colaborar na revisão de "
+"literatura <strong>\"%(review_title)s\"</strong>"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:48
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:34
+msgid "Accept"
+msgstr "Aceitar"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:55
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:41
+msgid "Reject"
+msgstr "Rejeitar"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:60
+#, python-format
+msgid "You are currently logged in as <strong>%(username)s</strong>."
+msgstr "Atualmente, você está logado como <strong>%(username)s</strong>."
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:66
+#, python-format
+msgid ""
+"To accept the invitation, you must log in to your account <strong>"
+"%(invitee_masked_email)s</strong>"
+msgstr ""
+"Para aceitar o convite, você deve fazer login em sua conta <strong>"
+"%(invitee_masked_email)s</strong>"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:70
+#: parsifal/templates/includes/header.html:47
+#: parsifal/templates/registration/login.html:5
+#: parsifal/templates/registration/login.html:12
+#: parsifal/templates/registration/login.html:18
+#: parsifal/templates/registration/password_reset_complete.html:8
+msgid "Log in"
+msgstr "Entrar"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:74
+msgid "To accept the invitation, you must create an account on Parsifal"
+msgstr "Para aceitar o convite, você deve criar uma conta no Parsifal"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:79
+#: parsifal/templates/includes/header.html:48
+#: parsifal/templates/registration/signup.html:5
+msgid "Sign up"
+msgstr "Registrar"
+
+#: parsifal/apps/invites/templates/invites/invite_detail.html:81
+#, python-format
+msgid "This invitation was sent to <strong>%(invitee_masked_email)s</strong>"
+msgstr ""
+"Este convite foi enviado para <strong>%(invitee_masked_email)s</strong>"
+
+#: parsifal/apps/invites/templates/invites/invite_email.html:3
+#, python-format
+msgid ""
+"%(name)s invited you to a Parsifal Systematic Literature Review called "
+"\"%(title)s\"."
+msgstr ""
+"%(name)s convidou você para uma Revisão Sistemática de Literatura no "
+"Parsifal chamada “%(title)s”."
+
+#: parsifal/apps/invites/templates/invites/invite_email.html:7
+msgid "To accept the invitation, visit the link below:"
+msgstr "Para aceitar o convite, acesse o link abaixo:"
+
+#: parsifal/apps/invites/templates/invites/invite_email.html:11
+#: parsifal/templates/registration/password_reset_email.html:13
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "A equipe %(site_name)s"
+
+#: parsifal/apps/invites/templates/invites/invite_subject.txt:1
+#, python-format
+msgid ""
+"%(name)s is inviting you to collaborate on the literature review %(title)s"
+msgstr ""
+"%(name)s está convidando você a colaborar na revisão de literatura %(title)s"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:5
+#: parsifal/apps/reviews/settings/templates/settings/includes/menu.html:6
+msgid "Manage access"
+msgstr "Gerenciar acesso"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:17
+msgid "Invite someone to collaborate"
+msgstr "Convidar alguém para colaborar"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:19
+msgid "Pick someone from your contact list or inform the person email address."
+msgstr ""
+"Escolha alguém da sua lista de contatos ou informe o endereço de email da "
+"pessoa."
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:24
+msgid "Send invitation"
+msgstr "Enviar convite"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:31
+msgid "Invitations"
+msgstr "Convites"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:37
+msgid "Date sent"
+msgstr "Data enviada"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:38
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:18
+msgid "Invited by"
+msgstr "Convidado por"
+
+#: parsifal/apps/invites/templates/invites/manage_access.html:39
+msgid "Status"
+msgstr "Status"
+
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:5
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:11
+msgid "Invites"
+msgstr "Convites"
+
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:17
+msgid "Review"
+msgstr "Revisão"
+
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:19
+msgid "Date"
+msgstr "Data"
+
+#: parsifal/apps/invites/templates/invites/user_invite_list.html:52
+msgid "You have no pending invites at this time."
+msgstr "Você não tem convites pendentes no momento."
+
+#: parsifal/apps/invites/views.py:26
+#, python-format
+msgid "An invitation was sent to %s."
+msgstr "Um convite foi enviado para %s."
+
+#: parsifal/apps/invites/views.py:52
+msgid "The invitation was removed with success."
+msgstr "O convite foi removido com sucesso."
+
+#: parsifal/apps/invites/views.py:86
+#, python-format
+msgid "You have joined the review %s."
+msgstr "Você ingressou na revisão %s."
+
+#: parsifal/apps/invites/views.py:95
+#, python-format
+msgid "You have rejected the invitation to join the review %s."
+msgstr "Você rejeitou o convite para participar da revisão %s."
+
+#: parsifal/apps/library/apps.py:7
+msgid "Library"
+msgstr "Biblioteca"
+
+#: parsifal/apps/library/models.py:13
+msgid "shared folder"
+msgstr "pasta compartilhada"
+
+#: parsifal/apps/library/models.py:14
+msgid "shared folders"
+msgstr "pastas compartilhadas"
+
+#: parsifal/apps/library/models.py:43
+msgid "Read"
+msgstr "Leitura"
+
+#: parsifal/apps/library/models.py:44
+msgid "Write"
+msgstr "Escrita"
+
+#: parsifal/apps/library/models.py:45
+msgid "Admin"
+msgstr "Administrador"
+
+#: parsifal/apps/library/models.py:55
+msgid "collaborator"
+msgstr "colaborador"
+
+#: parsifal/apps/library/models.py:56
+msgid "collaborators"
+msgstr "colaboradores"
+
+#: parsifal/apps/library/models.py:81 parsifal/apps/reviews/models.py:450
+msgid "Article"
+msgstr "Artigo"
+
+#: parsifal/apps/library/models.py:82
+msgid "Book"
+msgstr "Livro"
+
+#: parsifal/apps/library/models.py:83
+msgid "Booklet"
+msgstr "Livreto"
+
+#: parsifal/apps/library/models.py:84
+msgid "Conference"
+msgstr "Conferência"
+
+#: parsifal/apps/library/models.py:85
+msgid "Inbook"
+msgstr "Inbook"
+
+#: parsifal/apps/library/models.py:86
+msgid "Incollection"
+msgstr "Incollection"
+
+#: parsifal/apps/library/models.py:87
+msgid "Inproceedings"
+msgstr "Inproceedings"
+
+#: parsifal/apps/library/models.py:88
+msgid "Manual"
+msgstr "Manual"
+
+#: parsifal/apps/library/models.py:89
+msgid "Master's Thesis"
+msgstr "Teste de Mestrado"
+
+#: parsifal/apps/library/models.py:90
+msgid "Misc"
+msgstr "Diversos"
+
+#: parsifal/apps/library/models.py:91
+msgid "Ph.D. Thesis"
+msgstr "Tese de Doutorado"
+
+#: parsifal/apps/library/models.py:92
+msgid "Proceedings"
+msgstr "Anais"
+
+#: parsifal/apps/library/models.py:93
+msgid "Tech Report"
+msgstr "Relatório Técnico"
+
+#: parsifal/apps/library/models.py:94 parsifal/apps/reviews/models.py:39
+msgid "Unpublished"
+msgstr "Não publicado"
+
+#: parsifal/apps/library/models.py:106
+msgid "Cross-referenced"
+msgstr "Referência cruzada"
+
+#: parsifal/apps/library/models.py:109
+msgid "How it was published"
+msgstr "Como foi publicado"
+
+#: parsifal/apps/library/models.py:128
+msgid "DOI"
+msgstr "DOI"
+
+#: parsifal/apps/library/models.py:129
+msgid "ISBN"
+msgstr "ISBN"
+
+#: parsifal/apps/library/models.py:130
+msgid "ISSN"
+msgstr "ISSN"
+
+#: parsifal/apps/library/models.py:133
+msgid "URL"
+msgstr "URL"
+
+#: parsifal/apps/library/models.py:144 parsifal/apps/reviews/models.py:279
+msgid "document"
+msgstr "documento"
+
+#: parsifal/apps/library/models.py:145 parsifal/apps/reviews/models.py:241
+msgid "documents"
+msgstr "documentos"
+
+#: parsifal/apps/library/models.py:164
+msgid "document file"
+msgstr "arquivo do documento"
+
+#: parsifal/apps/library/models.py:165
+msgid "document files"
+msgstr "arquivos dos documentos"
+
+#: parsifal/apps/library/models.py:178
+msgid "folder"
+msgstr "pasta"
+
+#: parsifal/apps/library/models.py:179
+msgid "folders"
+msgstr "pastas"
+
+#: parsifal/apps/library/views.py:236 parsifal/apps/library/views.py:247
+msgid "The folder you are trying to copy does not exist."
+msgstr "A pasta que você está tentando copiar não existe."
+
+#: parsifal/apps/reviews/apps.py:7
+msgid "Reviews"
+msgstr "Revisões"
+
+#: parsifal/apps/reviews/conducting/apps.py:7
+msgid "Reviews: Conducting"
+msgstr "Revisões: Condução"
+
+#: parsifal/apps/reviews/conducting/views.py:681
+#, python-format
+msgid ""
+"An error occurred while trying to parse the bibtex file. Error detail: %s"
+msgstr ""
+"Ocorreu um erro ao tentar analisar o arquivo bibtex. Detalhe do erro: %s"
+
+#: parsifal/apps/reviews/conducting/views.py:684
+msgid "Invalid file type. Only .bib or .bibtex files are accepted."
+msgstr "Tipo de arquivo inválido. Apenas arquivos .bib ou .bibtex são aceitos."
+
+#: parsifal/apps/reviews/forms.py:9 parsifal/apps/reviews/forms.py:37
+msgid "Title"
+msgstr "Título"
+
+#: parsifal/apps/reviews/forms.py:11
+msgid "Systematic literature review's title"
+msgstr "Título da revisão sistemática de literatura"
+
+#: parsifal/apps/reviews/forms.py:16 parsifal/apps/reviews/forms.py:39
+msgid "Description"
+msgstr "Descrição"
+
+#: parsifal/apps/reviews/forms.py:20
+msgid "Give a brief description of your systematic literature review"
+msgstr "Dê uma breve descrição para sua revisão sistemática de literatura"
+
+#: parsifal/apps/reviews/forms.py:24
+msgid "Try to keep it short, max 500 characters :)"
+msgstr "Tente mantê-lo curto, no máximo 500 caracteres :)"
+
+#: parsifal/apps/reviews/models.py:16 parsifal/apps/reviews/models.py:43
+msgid "name"
+msgstr "nome"
+
+#: parsifal/apps/reviews/models.py:18
+msgid "default?"
+msgstr "padrão?"
+
+#: parsifal/apps/reviews/models.py:21
+msgid "Source"
+msgstr "Fonte"
+
+#: parsifal/apps/reviews/models.py:22
+msgid "Sources"
+msgstr "Fontes"
+
+#: parsifal/apps/reviews/models.py:44 parsifal/apps/reviews/models.py:304
+msgid "title"
+msgstr "título"
+
+#: parsifal/apps/reviews/models.py:45 parsifal/apps/reviews/models.py:196
+#: parsifal/apps/reviews/models.py:387 parsifal/apps/reviews/models.py:413
+#: parsifal/apps/reviews/models.py:427 parsifal/apps/reviews/models.py:474
+msgid "description"
+msgstr "descrição"
+
+#: parsifal/apps/reviews/models.py:46 parsifal/apps/reviews/models.py:305
+msgid "author"
+msgstr "autor"
+
+#: parsifal/apps/reviews/models.py:47
+msgid "date created"
+msgstr "data de criação"
+
+#: parsifal/apps/reviews/models.py:48
+msgid "last update"
+msgstr "última atualização"
+
+#: parsifal/apps/reviews/models.py:49
+msgid "objective"
+msgstr "objetivo"
+
+#: parsifal/apps/reviews/models.py:50
+msgid "sources"
+msgstr "fontes"
+
+#: parsifal/apps/reviews/models.py:52
+msgid "co-authors"
+msgstr "coautores"
+
+#: parsifal/apps/reviews/models.py:53
+msgid "quality assessment cutoff score"
+msgstr "ponto de corte da avaliação de qualidade"
+
+#: parsifal/apps/reviews/models.py:54
+msgid "population"
+msgstr "população"
+
+#: parsifal/apps/reviews/models.py:55
+msgid "intervention"
+msgstr "intervenção"
+
+#: parsifal/apps/reviews/models.py:56
+msgid "comparison"
+msgstr "comparação"
+
+#: parsifal/apps/reviews/models.py:57
+msgid "outcome"
+msgstr "resultado"
+
+#: parsifal/apps/reviews/models.py:58
+msgid "context"
+msgstr "contexto"
+
+#: parsifal/apps/reviews/models.py:62
+msgid "reviews"
+msgstr "revisões"
+
+#: parsifal/apps/reviews/models.py:168 parsifal/apps/reviews/models.py:175
+#: parsifal/apps/reviews/models.py:442
+msgid "question"
+msgstr "pergunta"
+
+#: parsifal/apps/reviews/models.py:170
+msgid "parent question"
+msgstr "pergunta pai"
+
+#: parsifal/apps/reviews/models.py:172 parsifal/apps/reviews/models.py:428
+#: parsifal/apps/reviews/models.py:476
+msgid "order"
+msgstr "ordenação"
+
+#: parsifal/apps/reviews/models.py:176
+msgid "questions"
+msgstr "perguntas"
+
+#: parsifal/apps/reviews/models.py:190
+msgid "Inclusion"
+msgstr "Inclusão"
+
+#: parsifal/apps/reviews/models.py:191
+msgid "Exclusion"
+msgstr "Exclusão"
+
+#: parsifal/apps/reviews/models.py:199 parsifal/apps/reviews/models.py:326
+msgid "selection criteria"
+msgstr "critérios de seleção"
+
+#: parsifal/apps/reviews/models.py:200
+msgid "selection criterion"
+msgstr "critério de seleção"
+
+#: parsifal/apps/reviews/models.py:213 parsifal/apps/reviews/models.py:236
+#: parsifal/apps/reviews/models.py:280 parsifal/apps/reviews/models.py:308
+msgid "source"
+msgstr "fonte"
+
+#: parsifal/apps/reviews/models.py:214
+msgid "search string"
+msgstr "string de busca"
+
+#: parsifal/apps/reviews/models.py:215
+msgid "version"
+msgstr "versão"
+
+#: parsifal/apps/reviews/models.py:218 parsifal/apps/reviews/models.py:238
+msgid "search session"
+msgstr "sessão de busca"
+
+#: parsifal/apps/reviews/models.py:219
+msgid "search sessions"
+msgstr "sessões de buscas"
+
+#: parsifal/apps/reviews/models.py:240
+msgid "imported file"
+msgstr "arquivo importado"
+
+#: parsifal/apps/reviews/models.py:244
+msgid "selection result"
+msgstr "resultado de seleção"
+
+#: parsifal/apps/reviews/models.py:245
+msgid "selection results"
+msgstr "resultados de seleção"
+
+#: parsifal/apps/reviews/models.py:251
+msgid "has finished?"
+msgstr "terminou?"
+
+#: parsifal/apps/reviews/models.py:254 parsifal/apps/reviews/models.py:277
+msgid "study selection"
+msgstr "seleção de estudo"
+
+#: parsifal/apps/reviews/models.py:255
+msgid "study selections"
+msgstr "seleções de estudos"
+
+#: parsifal/apps/reviews/models.py:259
+#, python-brace-format
+msgid "{0}'s Selection"
+msgstr "Seleção de {0}"
+
+#: parsifal/apps/reviews/models.py:261
+msgid "Final Selection"
+msgstr "Seleção Final"
+
+#: parsifal/apps/reviews/models.py:271 parsifal/apps/reviews/models.py:296
+msgid "Unclassified"
+msgstr "Não classificado"
+
+#: parsifal/apps/reviews/models.py:274 parsifal/apps/reviews/models.py:299
+msgid "Duplicated"
+msgstr "Duplicado"
+
+#: parsifal/apps/reviews/models.py:282 parsifal/apps/reviews/models.py:329
+msgid "updated at"
+msgstr "atualizado em"
+
+#: parsifal/apps/reviews/models.py:283 parsifal/apps/reviews/models.py:314
+msgid "comments"
+msgstr "comentários"
+
+#: parsifal/apps/reviews/models.py:286
+msgid "study"
+msgstr "estudo"
+
+#: parsifal/apps/reviews/models.py:287
+msgid "studies"
+msgstr "estudos"
+
+#: parsifal/apps/reviews/models.py:303
+msgid "bibtex key"
+msgstr "chave bibtex"
+
+#: parsifal/apps/reviews/models.py:306
+msgid "journal"
+msgstr "periódico"
+
+#: parsifal/apps/reviews/models.py:307
+msgid "year"
+msgstr "ano"
+
+#: parsifal/apps/reviews/models.py:309
+msgid "pages"
+msgstr "páginas"
+
+#: parsifal/apps/reviews/models.py:310
+msgid "volume"
+msgstr "volume"
+
+#: parsifal/apps/reviews/models.py:311
+msgid "abstract"
+msgstr "resumo"
+
+#: parsifal/apps/reviews/models.py:312
+msgid "document type"
+msgstr "tipo de documento"
+
+#: parsifal/apps/reviews/models.py:315
+msgid "doi"
+msgstr "doi"
+
+#: parsifal/apps/reviews/models.py:317
+msgid "affiliation"
+msgstr "afiliação"
+
+#: parsifal/apps/reviews/models.py:318
+msgid "author keywords"
+msgstr "palavras-chave do autor"
+
+#: parsifal/apps/reviews/models.py:319 parsifal/apps/reviews/models.py:395
+msgid "keywords"
+msgstr "palavras-chave"
+
+#: parsifal/apps/reviews/models.py:320
+msgid "publisher"
+msgstr "editor"
+
+#: parsifal/apps/reviews/models.py:321
+msgid "issn"
+msgstr "issn"
+
+#: parsifal/apps/reviews/models.py:322
+msgid "language"
+msgstr "idioma"
+
+#: parsifal/apps/reviews/models.py:323
+msgid "note"
+msgstr "anotação"
+
+#: parsifal/apps/reviews/models.py:324
+msgid "finished data extraction?"
+msgstr "finalizou extração de dados?"
+
+#: parsifal/apps/reviews/models.py:328
+msgid "created at"
+msgstr "criado em"
+
+#: parsifal/apps/reviews/models.py:336
+msgid "created by"
+msgstr "criado por"
+
+#: parsifal/apps/reviews/models.py:344
+msgid "updated by"
+msgstr "atualizado por"
+
+#: parsifal/apps/reviews/models.py:380
+msgid "Population"
+msgstr "População"
+
+#: parsifal/apps/reviews/models.py:381
+msgid "Intervention"
+msgstr "Intervenção"
+
+#: parsifal/apps/reviews/models.py:382
+msgid "Comparison"
+msgstr "Comparação"
+
+#: parsifal/apps/reviews/models.py:383
+msgid "Outcome"
+msgstr "Resultado"
+
+#: parsifal/apps/reviews/models.py:389
+msgid "synonym of"
+msgstr "sinônimo de"
+
+#: parsifal/apps/reviews/models.py:391
+msgid "related to"
+msgstr "relacionados com"
+
+#: parsifal/apps/reviews/models.py:394
+msgid "keyword"
+msgstr "palavra-chave"
+
+#: parsifal/apps/reviews/models.py:410
+msgid "Yes"
+msgstr "Sim"
+
+#: parsifal/apps/reviews/models.py:410
+msgid "Partially"
+msgstr "Parcialmente"
+
+#: parsifal/apps/reviews/models.py:410
+msgid "No"
+msgstr "Não"
+
+#: parsifal/apps/reviews/models.py:414
+msgid "weight"
+msgstr "peso"
+
+#: parsifal/apps/reviews/models.py:417
+msgid "quality assessment answer"
+msgstr "resposta avaliação de qualidade"
+
+#: parsifal/apps/reviews/models.py:418
+msgid "quality assessment answers"
+msgstr "respostas de avaliação de qualidade"
+
+#: parsifal/apps/reviews/models.py:431
+msgid "quality assessment question"
+msgstr "pergunta de avaliação de qualidade"
+
+#: parsifal/apps/reviews/models.py:432
+msgid "quality assessment questions"
+msgstr "perguntas de avaliação de qualidade"
+
+#: parsifal/apps/reviews/models.py:443
+msgid "answer"
+msgstr "resposta"
+
+#: parsifal/apps/reviews/models.py:446 parsifal/apps/reviews/models.py:447
+msgid "quality assessment"
+msgstr "avaliação de qualidade"
+
+#: parsifal/apps/reviews/models.py:451
+msgid "Question"
+msgstr "Pergunta"
+
+#: parsifal/apps/reviews/models.py:464
+msgid "Boolean Field"
+msgstr "Campo Booleano"
+
+#: parsifal/apps/reviews/models.py:465
+msgid "String Field"
+msgstr "Campo de Texto"
+
+#: parsifal/apps/reviews/models.py:466
+msgid "Float Field"
+msgstr "Campo Número Real"
+
+#: parsifal/apps/reviews/models.py:467
+msgid "Integer Field"
+msgstr "Campo Número Inteiro"
+
+#: parsifal/apps/reviews/models.py:468
+msgid "Date Field"
+msgstr "Campo da Data"
+
+#: parsifal/apps/reviews/models.py:469
+msgid "Select One Field"
+msgstr "Campo Selecione Um"
+
+#: parsifal/apps/reviews/models.py:470
+msgid "Select Many Field"
+msgstr "Campo Selecione Vários"
+
+#: parsifal/apps/reviews/models.py:475
+msgid "field type"
+msgstr "tipo de campo"
+
+#: parsifal/apps/reviews/models.py:479
+msgid "data extraction field"
+msgstr "campo de extração de dados"
+
+#: parsifal/apps/reviews/models.py:480
+msgid "data extraction fields"
+msgstr "campos de extração de dados"
+
+#: parsifal/apps/reviews/models.py:491 parsifal/apps/reviews/models.py:506
+msgid "field"
+msgstr "campo"
+
+#: parsifal/apps/reviews/models.py:492 parsifal/apps/reviews/models.py:507
+msgid "value"
+msgstr "valor"
+
+#: parsifal/apps/reviews/models.py:495
+msgid "lookup value"
+msgstr "valor de procura"
+
+#: parsifal/apps/reviews/models.py:496
+msgid "lookup values"
+msgstr "valores de procura"
+
+#: parsifal/apps/reviews/models.py:508
+msgid "select values"
+msgstr "selecionar valores"
+
+#: parsifal/apps/reviews/models.py:511
+msgid "data extraction"
+msgstr "extração de dados"
+
+#: parsifal/apps/reviews/models.py:512
+msgid "data extractions"
+msgstr "extrações de dados"
+
+#: parsifal/apps/reviews/models.py:519
+msgid "Expected values: \"True\" or \"False\""
+msgstr "Valores esperados: “Verdadeiro” ou “Falso"
+
+#: parsifal/apps/reviews/models.py:536
+#, python-format
+msgid ""
+"Invalid input for %s field. Expected value: floating point number. Please "
+"use dot instead of comma."
+msgstr ""
+"Entrada inválida para o campo %s. Valor esperado: número de ponto flutuante. "
+"Por favor, use ponto em vez de vírgula."
+
+#: parsifal/apps/reviews/models.py:551
+#, python-format
+msgid "Invalid input for %s field. Expected value: integer number."
+msgstr "Entrada inválida para o campo %s. Valor esperado: número inteiro."
+
+#: parsifal/apps/reviews/models.py:563
+#, python-format
+msgid ""
+"Invalid input for %s field. Expected value: date. Please use the format MM/"
+"DD/YYYY."
+msgstr ""
+"Entrada inválida para o campo %s. Valor esperado: data. Por favor, use o "
+"formato MM/DD/YYYY."
+
+#: parsifal/apps/reviews/planning/apps.py:7
+msgid "Reviews: Planning"
+msgstr "Revisões: Planejamento"
+
+#: parsifal/apps/reviews/reporting/apps.py:7
+msgid "Reviews: Reporting"
+msgstr "Revisões: Comunicação"
+
+#: parsifal/apps/reviews/settings/apps.py:7
+msgid "Reviews: Settings"
+msgstr "Revisões: Configurações"
+
+#: parsifal/apps/reviews/settings/templates/settings/includes/menu.html:5
+msgid "Options"
+msgstr "Opções"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:5
+msgid "Review Settings"
+msgstr "Configuração da Revisão"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:50
+msgid "Review settings"
+msgstr "Configuração da revisão"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:56
+msgid "Save changes"
+msgstr "Salvar alterações"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:63
+msgid "Danger zone"
+msgstr "Zona de perigo"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:67
+msgid "Transfer"
+msgstr "Transferir"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:68
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:87
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:94
+msgid "Transfer ownership"
+msgstr "Transferir propriedade"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:69
+msgid "Transfer this review to another user."
+msgstr "Transfira esta revisão para outro usuário."
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:72
+msgid "Delete"
+msgstr "Apagar"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:73
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:123
+msgid "Delete this review"
+msgstr "Apagar esta revisão"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:74
+msgid "Once you delete a review, there is no going back. Please be certain."
+msgstr ""
+"Uma vez que você exclui uma revisão, não há como voltar atrás. Por favor, "
+"tenha certeza."
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:90
+msgid "New owner's Parsifal username:"
+msgstr "Nome de usuário da conta Parsifal do novo proprietário:"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:108
+msgid "Are you sure?"
+msgstr "Você tem certeza?"
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:112
+#, python-format
+msgid ""
+"This action <strong>CANNOT</strong> be undone. This will permanently delete "
+"the <strong>%(title)s</strong> review and all associated data."
+msgstr ""
+"Esta ação <strong>NÃO PODE</strong> ser desfeita. Isso excluirá "
+"permanentemente a revisão <strong>%(title)s</strong> e todos os dados "
+"associados."
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:118
+msgid "I understand the consequences."
+msgstr "Eu entendo as consequências."
+
+#: parsifal/apps/reviews/settings/templates/settings/review_settings.html:123
+msgid "Deleting... please wait"
+msgstr "Apagando… por favor aguarde"
+
+#: parsifal/apps/reviews/settings/views.py:80
+msgid "The review was deleted with success."
+msgstr "A revisão foi apagada com sucesso."
+
+#: parsifal/apps/reviews/templates/reviews/review.html:23
+msgid "Review details"
+msgstr "Detalhes da revisão"
+
+#: parsifal/apps/reviews/templates/reviews/review.html:31
+msgid "Save"
+msgstr "Salvar"
+
+#: parsifal/apps/reviews/templates/reviews/review.html:40
+msgid "Authors"
+msgstr "Autores"
+
+#: parsifal/apps/reviews/templates/reviews/review.html:47
+msgid "main author"
+msgstr "autor principal"
+
+#: parsifal/apps/reviews/templates/reviews/review.html:60
+msgid "(leave)"
+msgstr "(sair)"
+
+#: parsifal/apps/reviews/templates/reviews/review.html:70
+msgid "Add author"
+msgstr "Adicionar autor"
+
+#: parsifal/apps/reviews/templates/reviews/reviews.html:18
+#, python-format
+msgid ""
+"You have %(pending_invites_count)s pending invite to collaborate on a "
+"literature review. <a href=\"%(invites_url)s\">Review invite</a>."
+msgid_plural ""
+"You have %(pending_invites_count)s pending invites to collaborate on some "
+"literature reviews. <a href=\"%(invites_url)s\">Review invites</a>."
+msgstr[0] ""
+"Você tem %(pending_invites_count)s convite pendente para colaborar em uma "
+"revisão de literatura. <a href=\"%(invites_url)s\">Ver convite</a>."
+msgstr[1] ""
+"Você tem %(pending_invites_count)s convites pendentes para colaborar em "
+"algumas revisões de literatura. <a href=“%(invites_url)s”>Ver convites</a>."
+
+#: parsifal/settings/base.py:159
+msgid "English"
+msgstr "Inglês"
+
+#: parsifal/settings/base.py:159
+msgid "Brazilian Portuguese"
+msgstr "Português do Brasil"
+
+#: parsifal/templates/includes/header.html:8
+msgid "Toggle navigation"
+msgstr "Alternar navegação"
+
+#: parsifal/templates/includes/header.html:18
+msgid "About"
+msgstr "Sobre"
+
+#: parsifal/templates/includes/header.html:25
+msgid "My profile"
+msgstr "Meu perfil"
+
+#: parsifal/templates/includes/header.html:40
+msgid "Log out"
+msgstr "Sair"
+
+#: parsifal/templates/registration/login.html:19
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+#: parsifal/templates/registration/password_change_done.html:5
+#: parsifal/templates/registration/password_change_form.html:5
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: parsifal/templates/registration/password_change_done.html:17
+#: parsifal/templates/registration/password_change_form.html:17
+#: parsifal/templates/registration/password_change_form.html:23
+#: parsifal/templates/registration/password_reset_confirm.html:19
+msgid "Change password"
+msgstr "Alterar senha"
+
+#: parsifal/templates/registration/password_change_done.html:20
+#: parsifal/templates/registration/password_reset_complete.html:6
+msgid "Password changed with success!"
+msgstr "Senha alterada com sucesso!"
+
+#: parsifal/templates/registration/password_reset_complete.html:7
+msgid "Your password has been set. You may go ahead and log in now."
+msgstr ""
+"A sua senha foi definida. Você pode seguir adiante e fazer login agora."
+
+#: parsifal/templates/registration/password_reset_confirm.html:5
+#: parsifal/templates/registration/password_reset_form.html:5
+#: parsifal/templates/registration/password_reset_form.html:12
+msgid "Password reset"
+msgstr "Redefinição de senha"
+
+#: parsifal/templates/registration/password_reset_confirm.html:13
+msgid "Confirm password reset"
+msgstr "Confirmar redefinição de senha"
+
+#: parsifal/templates/registration/password_reset_confirm.html:26
+msgid "Invalid password reset link."
+msgstr "Link de redefinição de senha inválido."
+
+#: parsifal/templates/registration/password_reset_done.html:8
+msgid "Password reset initiated"
+msgstr "Redefinição de senha iniciada"
+
+#: parsifal/templates/registration/password_reset_done.html:9
+msgid ""
+"An email has been sent to the given address. To continue the password reset "
+"process please follow the instructions in this email."
+msgstr ""
+"Um email foi enviado para o endereço informado. Para continuar o processo de "
+"redefinição de senha, siga as instruções neste email."
+
+#: parsifal/templates/registration/password_reset_done.html:11
+msgid ""
+"If you have any problem with the password reset, please contact us at <a "
+"href=\"mailto:support@parsif.al\">support@parsif.al</a>."
+msgstr ""
+"Se você tiver algum problema com a redefinição da senha, entre em contato "
+"conosco no endereço <a href=\"mailto:support@parsif.al\">support@parsif.al</"
+"a>."
+
+#: parsifal/templates/registration/password_reset_email.html:3
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Você está recebendo este email porque você solicitou uma redefinição de "
+"senha para sua conta em %(site_name)s."
+
+#: parsifal/templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Por favor, visite a página a seguir e escolha uma nova senha:"
+
+#: parsifal/templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "O seu nome de usuário, caso o tenha esquecido:"
+
+#: parsifal/templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Obrigado por usar nosso site!"
+
+#: parsifal/templates/registration/password_reset_form.html:18
+msgid "Submit"
+msgstr "Enviar"
+
+#: parsifal/templates/registration/password_reset_subject.txt:1
+msgid "Parsifal Password Reset"
+msgstr "Redefinição de Senha do Parsifal"
+
+#: parsifal/templates/registration/signup.html:25
+#, python-format
+msgid ""
+"Complete the sign up to join the literature review \"<strong>%(title)s</"
+"strong>\"."
+msgstr ""
+"Complete o cadastro para participar da revisão de literatura \"<strong>"
+"%(title)s</strong>\"."
+
+#: parsifal/templates/registration/signup.html:40
+#: parsifal/templates/registration/signup.html:42
+msgid "Create an account"
+msgstr "Criar uma conta"

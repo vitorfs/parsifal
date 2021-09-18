@@ -38,6 +38,7 @@ urlpatterns = [
     path("library/", include("parsifal.apps.library.urls", namespace="library")),
     path("settings/", include("parsifal.apps.accounts.urls", namespace="settings")),
     path("review_settings/transfer/", reviews_settings_views.transfer, name="transfer_review"),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
