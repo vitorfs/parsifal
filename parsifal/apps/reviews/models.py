@@ -299,42 +299,54 @@ class Article(models.Model):
         (DUPLICATED, _("Duplicated")),
     )
 
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    bibtex_key = models.CharField(max_length=100)
-    title = models.CharField(max_length=1000, null=True, blank=True, db_index=True)
-    author = models.CharField(max_length=1000, null=True, blank=True)
-    journal = models.CharField(max_length=1000, null=True, blank=True)
-    year = models.CharField(max_length=10, null=True, blank=True, db_index=True)
-    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
-    pages = models.CharField(max_length=20, null=True, blank=True)
-    volume = models.CharField(max_length=100, null=True, blank=True)
-    abstract = models.TextField(max_length=4000, null=True, blank=True)
-    document_type = models.CharField(max_length=100, null=True, blank=True)
-    status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
-    comments = models.TextField(max_length=2000, null=True, blank=True)
-    doi = models.CharField(max_length=50, null=True, blank=True)
-    url = models.CharField(max_length=500, null=True, blank=True)
-    affiliation = models.CharField(max_length=500, null=True, blank=True)
-    author_keywords = models.CharField(max_length=500, null=True, blank=True)
-    keywords = models.CharField(max_length=500, null=True, blank=True)
-    publisher = models.CharField(max_length=100, null=True, blank=True)
-    issn = models.CharField(max_length=50, null=True, blank=True)
-    language = models.CharField(max_length=50, null=True, blank=True)
-    note = models.CharField(max_length=500, null=True, blank=True)
-    finished_data_extraction = models.BooleanField(default=False)
-    selection_criteria = models.ForeignKey(SelectionCriteria, null=True, blank=True, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    bibtex_key = models.CharField(_("bibtex key"), max_length=100)
+    title = models.CharField(_("title"), max_length=1000, null=True, blank=True, db_index=True)
+    author = models.CharField(_("author"), max_length=1000, null=True, blank=True)
+    journal = models.CharField(_("journal"), max_length=1000, null=True, blank=True)
+    year = models.CharField(_("year"), max_length=10, null=True, blank=True, db_index=True)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True, verbose_name=_("source"))
+    pages = models.CharField(_("pages"), max_length=20, null=True, blank=True)
+    volume = models.CharField(_("volume"), max_length=100, null=True, blank=True)
+    abstract = models.TextField(_("abstract"), max_length=4000, null=True, blank=True)
+    document_type = models.CharField(_("document type"), max_length=100, null=True, blank=True)
+    status = models.CharField(_("status"), max_length=1, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
+    comments = models.TextField(_("comments"), max_length=2000, null=True, blank=True)
+    doi = models.CharField(_("doi"), max_length=50, null=True, blank=True)
+    url = models.CharField(_("url"), max_length=500, null=True, blank=True)
+    affiliation = models.CharField(_("affiliation"), max_length=500, null=True, blank=True)
+    author_keywords = models.CharField(_("author keywords"), max_length=500, null=True, blank=True)
+    keywords = models.CharField(_("keywords"), max_length=500, null=True, blank=True)
+    publisher = models.CharField(_("publisher"), max_length=100, null=True, blank=True)
+    issn = models.CharField(_("issn"), max_length=50, null=True, blank=True)
+    language = models.CharField(_("language"), max_length=50, null=True, blank=True)
+    note = models.CharField(_("note"), max_length=500, null=True, blank=True)
+    finished_data_extraction = models.BooleanField(_("finished data extraction?"), default=False)
+    selection_criteria = models.ForeignKey(
+        SelectionCriteria, null=True, blank=True, on_delete=models.SET_NULL, verbose_name=_("selection criteria")
+    )
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(_("updated at"), auto_now=True, blank=True, null=True)
     created_by = models.ForeignKey(
-        User, null=True, blank=True, related_name="articles_created", on_delete=models.SET_NULL
+        User,
+        null=True,
+        blank=True,
+        related_name="articles_created",
+        on_delete=models.SET_NULL,
+        verbose_name=_("created by"),
     )
     updated_by = models.ForeignKey(
-        User, null=True, blank=True, related_name="articles_updated", on_delete=models.SET_NULL
+        User,
+        null=True,
+        blank=True,
+        related_name="articles_updated",
+        on_delete=models.SET_NULL,
+        verbose_name=_("updated by"),
     )
 
     class Meta:
-        verbose_name = "Article"
-        verbose_name_plural = "Articles"
+        verbose_name = _("article")
+        verbose_name_plural = _("articles")
 
     def __str__(self):
         return self.title
@@ -356,7 +368,7 @@ class Article(models.Model):
             Article.ACCEPTED: "success",
             Article.DUPLICATED: "warning",
         }
-        return '<span class="label label-{0}">{1}</span>'.format(label[self.status], self.get_status_display())
+        return '<span class="label label-{0}">{1}</span>'.format(label[self.status], escape(self.get_status_display()))
 
 
 class Keyword(models.Model):
@@ -365,20 +377,22 @@ class Keyword(models.Model):
     COMPARISON = "C"
     OUTCOME = "O"
     RELATED_TO = (
-        (POPULATION, "Population"),
-        (INTERVENTION, "Intervention"),
-        (COMPARISON, "Comparison"),
-        (OUTCOME, "Outcome"),
+        (POPULATION, _("Population")),
+        (INTERVENTION, _("Intervention")),
+        (COMPARISON, _("Comparison")),
+        (OUTCOME, _("Outcome")),
     )
 
-    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="keywords")
-    description = models.CharField(max_length=200)
-    synonym_of = models.ForeignKey("self", on_delete=models.CASCADE, null=True, related_name="synonyms")
-    related_to = models.CharField(max_length=1, choices=RELATED_TO, blank=True)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="keywords", verbose_name=_("review"))
+    description = models.CharField(_("description"), max_length=200)
+    synonym_of = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, related_name="synonyms", verbose_name=_("synonym of")
+    )
+    related_to = models.CharField(_("related to"), max_length=1, choices=RELATED_TO, blank=True)
 
     class Meta:
-        verbose_name = "Keyword"
-        verbose_name_plural = "Keywords"
+        verbose_name = _("keyword")
+        verbose_name_plural = _("keywords")
         ordering = ("description",)
 
     def __str__(self):
@@ -393,15 +407,15 @@ class Keyword(models.Model):
 
 
 class QualityAnswer(models.Model):
-    SUGGESTED_ANSWERS = (("Yes", 1.0), ("Partially", 0.5), ("No", 0.0))
+    SUGGESTED_ANSWERS = ((_("Yes"), 1.0), (_("Partially"), 0.5), (_("No"), 0.0))
 
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)
-    weight = models.FloatField()
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    description = models.CharField(_("description"), max_length=255)
+    weight = models.FloatField(_("weight"))
 
     class Meta:
-        verbose_name = "Quality Assessment Answer"
-        verbose_name_plural = "Quality Assessment Answers"
+        verbose_name = _("quality assessment answer")
+        verbose_name_plural = _("quality assessment answers")
         ordering = ("-weight",)
 
     def __str__(self):
@@ -409,13 +423,13 @@ class QualityAnswer(models.Model):
 
 
 class QualityQuestion(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)
-    order = models.IntegerField(default=0)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    description = models.CharField(_("description"), max_length=255)
+    order = models.IntegerField(_("order"), default=0)
 
     class Meta:
-        verbose_name = "Quality Assessment Question"
-        verbose_name_plural = "Quality Assessment Questions"
+        verbose_name = _("quality assessment question")
+        verbose_name_plural = _("quality assessment questions")
         ordering = ("order",)
 
     def __str__(self):
@@ -423,13 +437,19 @@ class QualityQuestion(models.Model):
 
 
 class QualityAssessment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    question = models.ForeignKey(QualityQuestion, on_delete=models.CASCADE)
-    answer = models.ForeignKey(QualityAnswer, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name=_("user"))
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name=_("article"))
+    question = models.ForeignKey(QualityQuestion, on_delete=models.CASCADE, verbose_name=_("question"))
+    answer = models.ForeignKey(QualityAnswer, on_delete=models.CASCADE, null=True, verbose_name=_("answer"))
+
+    class Meta:
+        verbose_name = _("quality assessment")
+        verbose_name_plural = _("quality assessment")
 
     def __str__(self):
-        return str(self.article.id) + " " + str(self.question.id)
+        article_label = _("Article")
+        question_label = _("Question")
+        return f"{article_label} #{self.article_id} - {question_label} #{self.question_id}"
 
 
 class DataExtractionField(models.Model):
@@ -441,23 +461,23 @@ class DataExtractionField(models.Model):
     SELECT_ONE_FIELD = "O"
     SELECT_MANY_FIELD = "M"
     FIELD_TYPES = (
-        (BOOLEAN_FIELD, "Boolean Field"),
-        (STRING_FIELD, "String Field"),
-        (FLOAT_FIELD, "Float Field"),
-        (INTEGER_FIELD, "Integer Field"),
-        (DATE_FIELD, "Date Field"),
-        (SELECT_ONE_FIELD, "Select One Field"),
-        (SELECT_MANY_FIELD, "Select Many Field"),
+        (BOOLEAN_FIELD, _("Boolean Field")),
+        (STRING_FIELD, _("String Field")),
+        (FLOAT_FIELD, _("Float Field")),
+        (INTEGER_FIELD, _("Integer Field")),
+        (DATE_FIELD, _("Date Field")),
+        (SELECT_ONE_FIELD, _("Select One Field")),
+        (SELECT_MANY_FIELD, _("Select Many Field")),
     )
 
-    review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)
-    field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
-    order = models.IntegerField(default=0)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name=_("review"))
+    description = models.CharField(_("description"), max_length=255)
+    field_type = models.CharField(_("field type"), max_length=1, choices=FIELD_TYPES)
+    order = models.IntegerField(_("order"), default=0)
 
     class Meta:
-        verbose_name = "Data Extraction Field"
-        verbose_name_plural = "Data Extraction Fields"
+        verbose_name = _("data extraction field")
+        verbose_name_plural = _("data extraction fields")
         ordering = ("order",)
 
     def get_select_values(self):
@@ -468,12 +488,12 @@ class DataExtractionField(models.Model):
 
 
 class DataExtractionLookup(models.Model):
-    field = models.ForeignKey(DataExtractionField, on_delete=models.CASCADE)
-    value = models.CharField(max_length=1000)
+    field = models.ForeignKey(DataExtractionField, on_delete=models.CASCADE, verbose_name=_("field"))
+    value = models.CharField(_("value"), max_length=1000)
 
     class Meta:
-        verbose_name = "Lookup Value"
-        verbose_name_plural = "Lookup Values"
+        verbose_name = _("lookup value")
+        verbose_name_plural = _("lookup values")
         ordering = ("value",)
 
     def __str__(self):
@@ -481,18 +501,22 @@ class DataExtractionLookup(models.Model):
 
 
 class DataExtraction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    field = models.ForeignKey(DataExtractionField, on_delete=models.CASCADE)
-    value = models.TextField(blank=True, null=True)
-    select_values = models.ManyToManyField(DataExtractionLookup)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name=_("user"))
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name=_("article"))
+    field = models.ForeignKey(DataExtractionField, on_delete=models.CASCADE, verbose_name=_("field"))
+    value = models.TextField(_("value"), blank=True, null=True)
+    select_values = models.ManyToManyField(DataExtractionLookup, verbose_name=_("select values"))
+
+    class Meta:
+        verbose_name = _("data extraction")
+        verbose_name_plural = _("data extractions")
 
     def _set_boolean_value(self, value):
         if value:
             if value in ["True", "False"]:
                 self.value = value
             else:
-                raise ValueError('Expected values: "True" or "False"')
+                raise ValueError(gettext('Expected values: "True" or "False"'))
         else:
             self.value = ""
 
@@ -507,11 +531,14 @@ class DataExtraction(models.Model):
             else:
                 self.value = ""
         except Exception:
-            raise Exception(
-                "Invalid input for "
-                + self.field.description
-                + " field. Expected value: floating point number. Please use dot instead of comma."
+            message = (
+                gettext(
+                    "Invalid input for %s field. Expected value: floating point number. "
+                    "Please use dot instead of comma."
+                )
+                % self.field.description
             )
+            raise Exception(message)
 
     def _set_integer_value(self, value):
         try:
@@ -521,7 +548,8 @@ class DataExtraction(models.Model):
             else:
                 self.value = ""
         except Exception:
-            raise Exception("Invalid input for " + self.field.description + " field. Expected value: integer number.")
+            message = gettext("Invalid input for %s field. Expected value: integer number.") % self.field.description
+            raise Exception(message)
 
     def _set_date_value(self, value):
         try:
@@ -531,11 +559,11 @@ class DataExtraction(models.Model):
             else:
                 self.value = ""
         except Exception:
-            raise Exception(
-                "Invalid input for "
-                + self.field.description
-                + " field. Expected value: date. Please use the format MM/DD/YYYY."
+            message = (
+                gettext("Invalid input for %s field. Expected value: date. Please use the format MM/DD/YYYY.")
+                % self.field.description
             )
+            raise Exception(message)
 
     def _set_select_one_value(self, value):
         self.value = ""
