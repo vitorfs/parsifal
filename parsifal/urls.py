@@ -38,7 +38,6 @@ urlpatterns = [
     path("library/", include("parsifal.apps.library.urls", namespace="library")),
     path("settings/", include("parsifal.apps.accounts.urls", namespace="settings")),
     path("review_settings/transfer/", reviews_settings_views.transfer, name="transfer_review"),
-    path("review_settings/delete/", reviews_settings_views.delete, name="delete_review"),
     path("admin/", admin.site.urls),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
@@ -54,6 +53,11 @@ urlpatterns = [
     path(
         "<str:username>/<str:review_name>/settings/invites/",
         include("parsifal.apps.invites.urls", namespace="invites"),
+    ),
+    path(
+        "<str:username>/<str:review_name>/settings/delete/",
+        reviews_settings_views.DeleteReviewView.as_view(),
+        name="delete_review",
     ),
     # Planning Phase
     path("<str:username>/<str:review_name>/planning/", reviews_planning_views.planning, name="planning"),
