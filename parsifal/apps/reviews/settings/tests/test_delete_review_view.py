@@ -5,7 +5,6 @@ from django.urls import reverse
 from parsifal.apps.authentication.tests.factories import UserFactory
 from parsifal.apps.reviews.models import Review, Source
 from parsifal.apps.reviews.tests.factories import DefaultSourceFactory, ReviewFactory, SourceFactory
-from parsifal.utils.test import login_redirect_url
 
 
 class TestDeleteReviewView(TestCase):
@@ -32,8 +31,8 @@ class TestDeleteReviewView(TestCase):
 
     def test_login_required(self):
         response = self.client.post(self.url)
-        with self.subTest(msg="Test redirect"):
-            self.assertRedirects(response, login_redirect_url(self.url))
+        with self.subTest(msg="Test status code"):
+            self.assertEqual(404, response.status_code)
         with self.subTest(msg="Test review not deleted"):
             self.assertTrue(Review.objects.filter(pk=self.review.pk).exists())
             self.assertEqual(2, Source.objects.count())

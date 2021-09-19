@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.http import HttpResponseBadRequest
@@ -68,7 +67,7 @@ def transfer(request):
         return HttpResponseBadRequest("Something went wrong.")
 
 
-class DeleteReviewView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin, View):
+class DeleteReviewView(MainAuthorRequiredMixin, ReviewMixin, View):
     @transaction.atomic()
     def post(self, request, *args, **kwargs):
         sources = self.review.sources.all()

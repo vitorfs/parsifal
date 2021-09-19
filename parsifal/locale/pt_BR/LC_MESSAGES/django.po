@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 17:19+0000\n"
-"PO-Revision-Date: 2021-09-19 14:19-0300\n"
+"POT-Creation-Date: 2021-09-19 18:25+0000\n"
+"PO-Revision-Date: 2021-09-19 15:25-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -868,23 +868,15 @@ msgstr ""
 msgid "Invalid file type. Only .bib or .bibtex files are accepted."
 msgstr "Tipo de arquivo inválido. Apenas arquivos .bib ou .bibtex são aceitos."
 
-#: parsifal/apps/reviews/forms.py:9 parsifal/apps/reviews/forms.py:37
-msgid "Title"
-msgstr "Título"
-
-#: parsifal/apps/reviews/forms.py:11
+#: parsifal/apps/reviews/forms.py:16
 msgid "Systematic literature review's title"
 msgstr "Título da revisão sistemática de literatura"
 
-#: parsifal/apps/reviews/forms.py:16 parsifal/apps/reviews/forms.py:39
-msgid "Description"
-msgstr "Descrição"
-
-#: parsifal/apps/reviews/forms.py:20
+#: parsifal/apps/reviews/forms.py:18
 msgid "Give a brief description of your systematic literature review"
 msgstr "Dê uma breve descrição para sua revisão sistemática de literatura"
 
-#: parsifal/apps/reviews/forms.py:24
+#: parsifal/apps/reviews/forms.py:25
 msgid "Try to keep it short, max 500 characters :)"
 msgstr "Tente mantê-lo curto, no máximo 500 caracteres :)"
 
@@ -1408,7 +1400,7 @@ msgstr "Eu entendo as consequências."
 msgid "Deleting... please wait"
 msgstr "Apagando… por favor aguarde"
 
-#: parsifal/apps/reviews/settings/views.py:80
+#: parsifal/apps/reviews/settings/views.py:79
 msgid "The review was deleted with success."
 msgstr "A revisão foi apagada com sucesso."
 
@@ -1462,6 +1454,14 @@ msgstr[0] ""
 msgstr[1] ""
 "Você tem %(pending_invites_count)s convites pendentes para colaborar em "
 "algumas revisões de literatura. <a href=“%(invites_url)s”>Ver convites</a>."
+
+#: parsifal/apps/reviews/views.py:52
+msgid "Review created with success!"
+msgstr "A revisão foi criada com sucesso!"
+
+#: parsifal/apps/reviews/views.py:64
+msgid "Review updated with success!"
+msgstr "A revisão foi atualizada com sucesso!"
 
 #: parsifal/settings/base.py:160
 msgid "English"
@@ -1758,3 +1758,9 @@ msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuto"
 msgstr[1] "%d minutos"
+
+#~ msgid "Title"
+#~ msgstr "Título"
+
+#~ msgid "Description"
+#~ msgstr "Descrição"

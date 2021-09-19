@@ -6,7 +6,7 @@ from parsifal.apps.reviews.tests.factories import ReviewFactory
 from parsifal.utils.test import login_redirect_url
 
 
-class TestNewReviewView(TestCase):
+class TestCreateReviewView(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = UserFactory()

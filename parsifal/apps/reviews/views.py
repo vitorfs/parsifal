@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse as r
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.reviews.decorators import author_required, main_author_required
-from parsifal.apps.reviews.forms import CreateReviewForm, ReviewForm
+from parsifal.apps.reviews.forms import CreateReviewForm, UpdateReviewForm
+from parsifal.apps.reviews.mixins import AuthorRequiredMixin, ReviewMixin
 from parsifal.apps.reviews.models import Review
 
 
@@ -58,19 +58,14 @@ class CreateReviewView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return kwargs
 
 
-@author_required
-@login_required
-def review(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username__iexact=username)
-    if request.method == "POST":
-        form = ReviewForm(request.POST, instance=review)
-        if form.is_valid():
-            review = form.save()
-            messages.success(request, "Review was saved successfully.")
-            return redirect(r("review", args=(review.author.username, review.name)))
-    else:
-        form = ReviewForm(instance=review)
-    return render(request, "reviews/review.html", {"review": review, "form": form})
+class UpdateReviewView(AuthorRequiredMixin, ReviewMixin, SuccessMessageMixin, UpdateView):
+    model = Review
+    form_class = UpdateReviewForm
+    success_message = _("Review updated with success!")
+    template_name = "reviews/review.html"
+
+    def get_object(self, queryset=None):
+        return self.review
 
 
 @main_author_required

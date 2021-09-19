@@ -5,15 +5,13 @@ from parsifal.apps.authentication.tests.factories import UserFactory
 from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.invites.models import Invite
 from parsifal.apps.invites.tests.factories import InviteFactory
-from parsifal.utils.test import login_redirect_url
 
 
 class TestInviteDeleteView(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.invite = InviteFactory(invitee_email="invitee@parsif.al")
         cls.co_author = UserFactory()
-        cls.invite.review.co_authors.add(cls.co_author)
+        cls.invite = InviteFactory(invitee_email="invitee@parsif.al", review__co_authors=[cls.co_author])
         cls.url = reverse(
             "invites:invite_delete",
             args=(
@@ -25,7 +23,7 @@ class TestInviteDeleteView(TestCase):
 
     def test_login_required(self):
         response = self.client.get(self.url)
-        self.assertRedirects(response, login_redirect_url(self.url))
+        self.assertEqual(404, response.status_code)
 
     def test_main_author_required(self):
         self.client.force_login(self.co_author)

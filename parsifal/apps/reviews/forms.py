@@ -41,18 +41,11 @@ class CreateReviewForm(forms.ModelForm):
         return self.instance
 
 
-class ReviewForm(forms.ModelForm):
-    title = forms.CharField(label=_("Title"), widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255)
-    description = forms.CharField(
-        label=_("Description"),
-        widget=forms.Textarea(attrs={"class": "form-control expanding", "rows": "4"}),
-        max_length=500,
-        required=False,
-    )
-
+class UpdateReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = (
             "title",
             "description",
         )
+        widgets = {"description": forms.Textarea(attrs={"class": "expanding", "rows": "4"})}

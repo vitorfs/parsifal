@@ -49,7 +49,7 @@ urlpatterns = [
     path("<str:username>/following/", activities_views.following, name="following"),
     path("<str:username>/followers/", activities_views.followers, name="followers"),
     # Review URLs
-    path("<str:username>/<str:review_name>/", reviews_views.review, name="review"),
+    path("<str:username>/<str:review_name>/", reviews_views.UpdateReviewView.as_view(), name="review"),
     path("<str:username>/<str:review_name>/settings/", reviews_settings_views.settings, name="settings"),
     path(
         "<str:username>/<str:review_name>/settings/invites/",

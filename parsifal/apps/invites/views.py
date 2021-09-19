@@ -14,7 +14,7 @@ from parsifal.apps.reviews.mixins import MainAuthorRequiredMixin, ReviewMixin
 from parsifal.utils.mask import mask_email
 
 
-class ManageAccessView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin, SuccessMessageMixin, CreateView):
+class ManageAccessView(MainAuthorRequiredMixin, ReviewMixin, SuccessMessageMixin, CreateView):
     model = Invite
     form_class = SendInviteForm
     template_name = "invites/manage_access.html"
@@ -36,7 +36,7 @@ class ManageAccessView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin,
         return super().get_context_data(**kwargs)
 
 
-class InviteDeleteView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin, DeleteView):
+class InviteDeleteView(MainAuthorRequiredMixin, ReviewMixin, DeleteView):
     model = Invite
     pk_url_kwarg = "invite_id"
     context_object_name = "invite"
