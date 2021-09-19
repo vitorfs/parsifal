@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 06:24+0000\n"
-"PO-Revision-Date: 2021-09-19 03:24-0300\n"
+"POT-Creation-Date: 2021-09-19 16:22+0000\n"
+"PO-Revision-Date: 2021-09-19 13:20-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -372,6 +372,34 @@ msgstr "Nome de usuário"
 #: parsifal/apps/core/templates/core/cover.html:49
 msgid "Create a new account"
 msgstr "Criar uma nova conta"
+
+#: parsifal/apps/core/templates/core/home.html:8
+msgid "New review"
+msgstr "Nova revisão"
+
+#: parsifal/apps/core/templates/core/home.html:9
+msgid "Last updates on your network"
+msgstr "Últimas atualizações em sua rede"
+
+#: parsifal/apps/core/templates/core/home.html:17
+msgid "There are no recent updates to your network."
+msgstr "Não há atualizações recentes em sua rede."
+
+#: parsifal/apps/core/templates/core/home.html:24
+msgid "Lastest news"
+msgstr "Últimas notícias"
+
+#: parsifal/apps/core/templates/core/home.html:27
+msgid "Read more"
+msgstr "Leia mais"
+
+#: parsifal/apps/core/templates/core/home.html:33
+msgid "Your reviews"
+msgstr "Suas revisões"
+
+#: parsifal/apps/core/templates/core/home.html:39
+msgid "You don't have any systematic literature review yet."
+msgstr "Você ainda não tem nenhuma revisão sistemática de literatura."
 
 #: parsifal/apps/help/apps.py:7 parsifal/templates/includes/header.html:19
 msgid "Help"
@@ -1550,3 +1578,171 @@ msgstr ""
 #: parsifal/templates/registration/signup.html:42
 msgid "Create an account"
 msgstr "Criar uma conta"
+
+#. Translators: delta will contain a string like '2 months' or '1 month, 2 weeks'
+#: parsifal/utils/humanize.py:11
+#, python-format
+msgid "%(delta)s ago"
+msgstr "%(delta)s atrás"
+
+#. Translators: please keep a non-breaking space (U+00A0) between count
+#. and time unit.
+#: parsifal/utils/humanize.py:14
+#, python-format
+msgid "an hour ago"
+msgid_plural "%(count)s hours ago"
+msgstr[0] "uma hora atrás"
+msgstr[1] "%(count)s horas atrás"
+
+#. Translators: please keep a non-breaking space (U+00A0) between count
+#. and time unit.
+#: parsifal/utils/humanize.py:17
+#, python-format
+msgid "a minute ago"
+msgid_plural "%(count)s minutes ago"
+msgstr[0] "um minuto atrás"
+msgstr[1] "%(count)s minutos atrás"
+
+#. Translators: please keep a non-breaking space (U+00A0) between count
+#. and time unit.
+#: parsifal/utils/humanize.py:20
+#, python-format
+msgid "a second ago"
+msgid_plural "%(count)s seconds ago"
+msgstr[0] "um segundo atrás"
+msgstr[1] "%(count)s segundos atrás"
+
+#: parsifal/utils/humanize.py:21
+msgid "now"
+msgstr "agora"
+
+#. Translators: please keep a non-breaking space (U+00A0) between count
+#. and time unit.
+#: parsifal/utils/humanize.py:24
+#, python-format
+msgid "a second from now"
+msgid_plural "%(count)s seconds from now"
+msgstr[0] "um segundo a partir de agora"
+msgstr[1] "%(count)s segundos a partir de agora"
+
+#. Translators: please keep a non-breaking space (U+00A0) between count
+#. and time unit.
+#: parsifal/utils/humanize.py:27
+#, python-format
+msgid "a minute from now"
+msgid_plural "%(count)s minutes from now"
+msgstr[0] "um minuto a partir de agora"
+msgstr[1] "%(count)s minutos a partir de agora"
+
+#. Translators: please keep a non-breaking space (U+00A0) between count
+#. and time unit.
+#: parsifal/utils/humanize.py:30
+#, python-format
+msgid "an hour from now"
+msgid_plural "%(count)s hours from now"
+msgstr[0] "uma hora a partir de agora"
+msgstr[1] "%(count)s horas a partir de agora"
+
+#. Translators: delta will contain a string like '2 months' or '1 month, 2 weeks'
+#: parsifal/utils/humanize.py:32
+#, python-format
+msgid "%(delta)s from now"
+msgstr "%(delta)s a partir de agora"
+
+#. Translators: 'naturaltime-past' strings will be included in '%(delta)s ago'
+#: parsifal/utils/humanize.py:36
+#, python-format
+msgctxt "naturaltime-past"
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d ano"
+msgstr[1] "%d anos"
+
+#: parsifal/utils/humanize.py:37
+#, python-format
+msgctxt "naturaltime-past"
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] "%d mês"
+msgstr[1] "%d meses"
+
+#: parsifal/utils/humanize.py:38
+#, python-format
+msgctxt "naturaltime-past"
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] "%d semanas"
+msgstr[1] "%d semanas"
+
+#: parsifal/utils/humanize.py:39
+#, python-format
+msgctxt "naturaltime-past"
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d dia"
+msgstr[1] "%d dias"
+
+#: parsifal/utils/humanize.py:40
+#, python-format
+msgctxt "naturaltime-past"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d hora"
+msgstr[1] "%d horas"
+
+#: parsifal/utils/humanize.py:41
+#, python-format
+msgctxt "naturaltime-past"
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuto"
+msgstr[1] "%d minutos"
+
+#. Translators: 'naturaltime-future' strings will be included in '%(delta)s from now'
+#: parsifal/utils/humanize.py:45
+#, python-format
+msgctxt "naturaltime-future"
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d ano"
+msgstr[1] "%d anos"
+
+#: parsifal/utils/humanize.py:46
+#, python-format
+msgctxt "naturaltime-future"
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] "%d mês"
+msgstr[1] "%d meses"
+
+#: parsifal/utils/humanize.py:47
+#, python-format
+msgctxt "naturaltime-future"
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] "%d semana"
+msgstr[1] "%d semanas"
+
+#: parsifal/utils/humanize.py:48
+#, python-format
+msgctxt "naturaltime-future"
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d dia"
+msgstr[1] "%d dias"
+
+#: parsifal/utils/humanize.py:49
+#, python-format
+msgctxt "naturaltime-future"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d hora"
+msgstr[1] "%d horas"
+
+#: parsifal/utils/humanize.py:50
+#, python-format
+msgctxt "naturaltime-future"
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuto"
+msgstr[1] "%d minutos"

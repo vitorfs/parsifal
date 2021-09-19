@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load humanize %}
+{% load i18n humanize %}
 
 {% block content %}
   <div class="row">
     <div class="col-md-12">
-      <a href="/reviews/new/" class="btn btn-primary pull-right">New review</a>
-      <h2 class="page-header">Last updates on your network</h2>
+      <a href="{% url "reviews:new" %}" class="btn btn-primary pull-right">{% translate "New review" %}</a>
+      <h2 class="page-header">{% translate "Last updates on your network" %}</h2>
     </div>
   </div>
   <div class="row">
@@ -14,29 +14,29 @@
       {% for feed in feeds %}
         <p>{{ feed.message|safe }} <small>{{ feed.date|naturaltime }}</small></p>
       {% empty %}
-        <p>There are no recent updates to your network.</p>
+        <p>{% translate "There are no recent updates to your network." %}</p>
       {% endfor %}
     </div>
     <div class="col-md-4">
       {% if latest_news and latest_news.summary %}
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h3 class="panel-title">Lastest news</h3>
+            <h3 class="panel-title">{% translate "Lastest news" %}</h3>
           </div>
           <div class="panel-body">
-            {{ latest_news.summary }} <a href="{% url 'blog:entry' latest_news.slug %}">Read more</a>
+            {{ latest_news.summary }} <a href="{% url 'blog:entry' latest_news.slug %}">{% translate "Read more" %}</a>
           </div>
         </div>
       {% endif %}
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Your reviews</h3>
+          <h3 class="panel-title">{% translate "Your reviews" %}</h3>
         </div>
         <div class="list-group">
           {% for review in user_reviews %}
-            <a href="/{{ review.author.username }}/{{ review.name }}/" class="list-group-item">{{ review.title }}</a>
+            <a href="{{ review.get_absolute_url }}" class="list-group-item">{{ review.title }}</a>
           {% empty %}
-            <p class="list-group-item">You don't have any systematic literature review yet.</p>
+            <p class="list-group-item">{% translate "You don't have any systematic literature review yet." %}</p>
           {% endfor %}
         </div>
       </div>
