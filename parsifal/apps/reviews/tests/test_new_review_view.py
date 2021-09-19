@@ -38,7 +38,7 @@ class TestNewReviewView(TestCase):
             self.assertEqual(200, response.status_code)
 
         with self.subTest(msg="Test success message"):
-            self.assertContains(response, "Review created successfully.")
+            self.assertContains(response, "Review created with success!")
 
         review = self.user.review_set.first()
 

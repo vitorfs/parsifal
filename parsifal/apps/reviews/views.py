@@ -1,11 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse as r
-from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST
+from django.views.generic import CreateView
 
 from parsifal.apps.invites.constants import InviteStatus
 from parsifal.apps.reviews.decorators import author_required, main_author_required
@@ -43,28 +46,16 @@ def reviews(request, username):
     )
 
 
-@login_required
-def new(request):
-    if request.method == "POST":
-        form = CreateReviewForm(request.POST)
-        if form.is_valid():
-            form.instance.author = request.user
+class CreateReviewView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Review
+    form_class = CreateReviewForm
+    success_message = _("Review created with success!")
+    template_name = "reviews/new.html"
 
-            name = slugify(form.instance.title)
-            if not name:
-                name = "literature-review"
-            unique_name = name
-            i = 0
-            while Review.objects.filter(name=unique_name, author__username=request.user.username):
-                i = i + 1
-                unique_name = "{0}-{1}".format(name, i)
-            form.instance.name = unique_name
-            review = form.save()
-            messages.success(request, "Review created successfully.")
-            return redirect(r("review", args=(review.author.username, review.name)))
-    else:
-        form = CreateReviewForm()
-    return render(request, "reviews/new.html", {"form": form})
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update(request=self.request)
+        return kwargs
 
 
 @author_required

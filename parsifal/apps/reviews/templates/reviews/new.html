@@ -1,4 +1,6 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% load crispy_forms_filters i18n %}
 
 {% block javascript %}
   <script>
@@ -9,13 +11,13 @@
 {% endblock %}
 
 {% block content %}
-  <h2 class="page-header">Create a new review</h2>
+  <h2 class="page-header">{% translate "Create a new review" %}</h2>
   <form method="post">
     {% csrf_token %}
-    {% include 'form_vertical.html' with form=form %}
+    {{ form|crispy }}
     <div class="form-group">
-      <button type="submit" class="btn btn-success">Create review</button>
-      <a href="{% url 'reviews' user.username %}" class="btn btn-default">Cancel</a>
+      <button type="submit" class="btn btn-success">{% translate "Create review" %}</button>
+      <a href="{% url 'reviews' user.username %}" class="btn btn-default">{% translate "Cancel" %}</a>
     </div>
   </form>
 {% endblock content %}
