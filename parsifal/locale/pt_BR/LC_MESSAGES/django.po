@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 19:01+0000\n"
-"PO-Revision-Date: 2021-09-19 16:01-0300\n"
+"POT-Creation-Date: 2021-09-19 21:01+0000\n"
+"PO-Revision-Date: 2021-09-19 18:07-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -400,6 +400,20 @@ msgstr "Suas revisões"
 #: parsifal/apps/core/templates/core/home.html:39
 msgid "You don't have any systematic literature review yet."
 msgstr "Você ainda não tem nenhuma revisão sistemática de literatura."
+
+#: parsifal/apps/core/views.py:38
+#, python-brace-format
+msgid "<a href=\"{0}\">You</a> are now following <a href=\"{1}\">{2}</a>"
+msgstr "<a href=\"{0}\">Você</a> começou a seguir <a href=\"{1}\">{2}</a>"
+
+#: parsifal/apps/core/views.py:46
+msgid "you"
+msgstr "você"
+
+#: parsifal/apps/core/views.py:47
+#, python-brace-format
+msgid "<a href=\"{0}\">{1}</a> is now following <a href=\"{2}\">{3}</a>"
+msgstr "<a href=\"{0}\">{1}</a> começou a seguir <a href=\"{2}\">{3}</a>"
 
 #: parsifal/apps/help/apps.py:7 parsifal/templates/includes/header.html:19
 msgid "Help"

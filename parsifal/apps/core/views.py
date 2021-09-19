@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.html import escape
+from django.utils.translation import gettext as _
 from django.views.generic import RedirectView
 
 from parsifal.apps.activities.constants import ActivityTypes
@@ -34,7 +35,7 @@ def get_following_feeds(user):
         activities.sort(key=lambda a: a.date, reverse=True)
         for activity in activities:
             if activity.from_user == user:
-                activity.message = '<a href="{0}">You</a> are now following <a href="{1}">{2}</a>'.format(
+                activity.message = _('<a href="{0}">You</a> are now following <a href="{1}">{2}</a>').format(
                     reverse("reviews", args=(user.username,)),
                     reverse("reviews", args=(activity.to_user.username,)),
                     escape(activity.to_user.profile.get_screen_name()),
@@ -42,8 +43,8 @@ def get_following_feeds(user):
             else:
                 is_following = activity.to_user.profile.get_screen_name()
                 if activity.to_user == user:
-                    is_following = "you"
-                activity.message = '<a href="{0}">{1}</a> is now following <a href="{2}">{3}</a>'.format(
+                    is_following = _("you")
+                activity.message = _('<a href="{0}">{1}</a> is now following <a href="{2}">{3}</a>').format(
                     reverse("reviews", args=(activity.from_user.username,)),
                     escape(activity.from_user.profile.get_screen_name()),
                     reverse("reviews", args=(activity.to_user.username,)),
