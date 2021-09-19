@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-18 23:20+0000\n"
-"PO-Revision-Date: 2021-09-18 20:26-0300\n"
+"POT-Creation-Date: 2021-09-19 06:24+0000\n"
+"PO-Revision-Date: 2021-09-19 03:24-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -50,6 +50,7 @@ msgid "Last name"
 msgstr "Sobrenome"
 
 #: parsifal/apps/accounts/templates/accounts/emails.html:5
+#: parsifal/apps/accounts/templates/accounts/language.html:5
 #: parsifal/apps/accounts/templates/accounts/picture.html:5
 #: parsifal/apps/accounts/templates/accounts/profile.html:5
 msgid "Account Settings"
@@ -62,6 +63,19 @@ msgstr "Email da conta"
 #: parsifal/apps/accounts/templates/accounts/emails.html:23
 msgid "Save email"
 msgstr "Salvar email"
+
+#: parsifal/apps/accounts/templates/accounts/language.html:18
+msgid "Select your preferred language"
+msgstr "Selecione seu idioma preferido"
+
+#: parsifal/apps/accounts/templates/accounts/language.html:24
+#: parsifal/apps/accounts/templates/accounts/menu.html:11
+msgid "Language"
+msgstr "Idioma"
+
+#: parsifal/apps/accounts/templates/accounts/language.html:40
+msgid "Save language"
+msgstr "Salvar idioma"
 
 #: parsifal/apps/accounts/templates/accounts/menu.html:5
 #: parsifal/templates/includes/header.html:33
@@ -80,7 +94,7 @@ msgstr "Emails"
 msgid "Picture"
 msgstr "Foto"
 
-#: parsifal/apps/accounts/templates/accounts/menu.html:11
+#: parsifal/apps/accounts/templates/accounts/menu.html:12
 #: parsifal/apps/core/templates/core/cover.html:40
 msgid "Password"
 msgstr "Senha"
@@ -131,11 +145,11 @@ msgstr "Seu perfil foi atualizado com sucesso!"
 msgid "Account email was updated with success!"
 msgstr "O email da conta foi atualizado com sucesso!"
 
-#: parsifal/apps/accounts/views.py:78
+#: parsifal/apps/accounts/views.py:82
 msgid "Invalid file format."
 msgstr "Formato de arquivo inválido."
 
-#: parsifal/apps/accounts/views.py:81
+#: parsifal/apps/accounts/views.py:85
 msgid "An unexpected error occurred."
 msgstr "Ocorreu um erro inesperado."
 
@@ -1409,11 +1423,11 @@ msgstr[1] ""
 "Você tem %(pending_invites_count)s convites pendentes para colaborar em "
 "algumas revisões de literatura. <a href=“%(invites_url)s”>Ver convites</a>."
 
-#: parsifal/settings/base.py:159
+#: parsifal/settings/base.py:160
 msgid "English"
 msgstr "Inglês"
 
-#: parsifal/settings/base.py:159
+#: parsifal/settings/base.py:160
 msgid "Brazilian Portuguese"
 msgstr "Português do Brasil"
 
