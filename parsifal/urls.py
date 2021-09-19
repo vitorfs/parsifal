@@ -50,7 +50,11 @@ urlpatterns = [
     path("<str:username>/followers/", activities_views.followers, name="followers"),
     # Review URLs
     path("<str:username>/<str:review_name>/", reviews_views.UpdateReviewView.as_view(), name="review"),
-    path("<str:username>/<str:review_name>/settings/", reviews_settings_views.settings, name="settings"),
+    path(
+        "<str:username>/<str:review_name>/settings/",
+        reviews_settings_views.UpdateReviewSettingsView.as_view(),
+        name="settings",
+    ),
     path(
         "<str:username>/<str:review_name>/settings/invites/",
         include("parsifal.apps.invites.urls", namespace="invites"),

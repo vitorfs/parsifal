@@ -1,13 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
 from django.http import HttpResponseBadRequest
-from django.shortcuts import redirect, render
-from django.urls import reverse as r
-from django.utils.text import slugify
-from django.utils.translation import gettext
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.utils.translation import gettext, gettext_lazy as _
 from django.views import View
+from django.views.generic import UpdateView
 
 from parsifal.apps.reviews.decorators import main_author_required
 from parsifal.apps.reviews.mixins import MainAuthorRequiredMixin, ReviewMixin
@@ -15,27 +16,17 @@ from parsifal.apps.reviews.models import Review
 from parsifal.apps.reviews.settings.forms import ReviewSettingsForm
 
 
-@main_author_required
-@login_required
-def settings(request, username, review_name):
-    review = Review.objects.get(name=review_name, author__username__iexact=username)
-    if request.method == "POST":
-        form = ReviewSettingsForm(request.POST, instance=review)
-        if form.is_valid():
-            name = slugify(form.instance.name)
-            unique_name = name
-            if unique_name != review_name:
-                i = 0
-                while Review.objects.filter(name=unique_name, author__username=review.author.username):
-                    i = i + 1
-                    unique_name = "{0}-{1}".format(name, i)
-            form.instance.name = unique_name
-            review = form.save()
-            messages.success(request, "Review was saved successfully.")
-            return redirect(r("settings", args=(review.author.username, unique_name)))
-    else:
-        form = ReviewSettingsForm(instance=review)
-    return render(request, "settings/review_settings.html", {"review": review, "form": form})
+class UpdateReviewSettingsView(MainAuthorRequiredMixin, ReviewMixin, SuccessMessageMixin, UpdateView):
+    model = Review
+    form_class = ReviewSettingsForm
+    template_name = "settings/review_settings.html"
+    success_message = _("Review updated with success!")
+
+    def get_object(self, queryset=None):
+        return self.review
+
+    def get_success_url(self):
+        return reverse("settings", args=(self.review.author.username, self.review.name))
 
 
 @main_author_required

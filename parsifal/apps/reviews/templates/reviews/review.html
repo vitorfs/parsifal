@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load compress i18n static %}
+{% load crispy_forms_filters compress i18n static %}
 
 {% block title %}{{ review.title }}{% endblock %}
 
 {% block javascript %}
   {% compress js %}
-    <script src="{% static 'js/review.js' %}"></script>
+    <script src="{% static "js/review.js" %}"></script>
   {% endcompress %}
 {% endblock %}
 
@@ -23,7 +23,7 @@
             <h3 class="panel-title">{% translate "Review details" %}</h3>
           </div>
           <div class="panel-body">
-            {% include 'form_vertical.html' with form=form %}
+            {{ form|crispy }}
           </div>
           <div class="panel-footer">
             <button type="submit" class="btn btn-success">
@@ -41,14 +41,14 @@
         </div>
         <ul class="list-group authors" data-remove-url="{% url 'reviews:remove_author_from_review' %}">
           <li class="list-group-item" author-id="{{ review.author.id }}">
-            <a href="/{{ review.author.username }}/">
+            <a href="{{ review.author.get_absolute_url }}">
               {{ review.author.profile.get_screen_name }}
             </a>
             <span class="badge">{% translate "main author" %}</span>
           </li>
           {% for author in review.co_authors.all %}
             <li  class="list-group-item" data-user-id="{{ author.id }}">
-              <a href="{% url 'reviews' author.username %}">{{ author.profile.get_screen_name }}</a>
+              <a href="{{ author.get_absolute_url }}">{{ author.profile.get_screen_name }}</a>
               {% if user.id == review.author.id %}
                 <a href="javascript:void(0);" class="js-remove-author text-danger pull-right">
                   <span class="glyphicon glyphicon-remove"></span>

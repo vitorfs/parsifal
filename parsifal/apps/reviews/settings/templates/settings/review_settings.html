@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load i18n static %}
+{% load crispy_forms_filters i18n static %}
 
 {% block title %}{% translate "Review Settings" %} · {{ review.title }}{% endblock %}
 
@@ -50,7 +50,7 @@
             <h3 class="panel-title">{% translate "Review settings" %}</h3>
           </div>
           <div class="panel-body">
-            {% include 'form_vertical.html' with form=form %}
+            {{ form|crispy }}
           </div>
           <div class="panel-footer">
             <button type="submit" class="btn btn-success">{% translate "Save changes" %}</button>

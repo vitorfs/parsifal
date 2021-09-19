@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 18:25+0000\n"
-"PO-Revision-Date: 2021-09-19 15:25-0300\n"
+"POT-Creation-Date: 2021-09-19 19:01+0000\n"
+"PO-Revision-Date: 2021-09-19 16:01-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -679,6 +679,7 @@ msgid "Invites"
 msgstr "Convites"
 
 #: parsifal/apps/invites/templates/invites/user_invite_list.html:17
+#: parsifal/apps/reviews/templates/reviews/review_header.html:13
 msgid "Review"
 msgstr "Revisão"
 
@@ -818,6 +819,7 @@ msgid "ISSN"
 msgstr "ISSN"
 
 #: parsifal/apps/library/models.py:133
+#: parsifal/apps/reviews/settings/forms.py:21
 msgid "URL"
 msgstr "URL"
 
@@ -1319,11 +1321,20 @@ msgstr "Revisões: Planejamento"
 
 #: parsifal/apps/reviews/reporting/apps.py:7
 msgid "Reviews: Reporting"
-msgstr "Revisões: Comunicação"
+msgstr "Revisões: Disseminação"
 
 #: parsifal/apps/reviews/settings/apps.py:7
 msgid "Reviews: Settings"
 msgstr "Revisões: Configurações"
+
+#: parsifal/apps/reviews/settings/forms.py:28
+#, python-format
+msgid ""
+"Only letters, numbers, underscores or hyphens are allowed.<br>The current "
+"URL of your review is %s"
+msgstr ""
+"Apenas letras, números, ”underscores” ou hífens são permitidos.<br>A URL "
+"atual da sua revisão é %s"
 
 #: parsifal/apps/reviews/settings/templates/settings/includes/menu.html:5
 msgid "Options"
@@ -1331,11 +1342,12 @@ msgstr "Opções"
 
 #: parsifal/apps/reviews/settings/templates/settings/review_settings.html:5
 msgid "Review Settings"
-msgstr "Configuração da Revisão"
+msgstr "Configurações da Revisão"
 
 #: parsifal/apps/reviews/settings/templates/settings/review_settings.html:50
+#: parsifal/apps/reviews/templates/reviews/review_header.html:5
 msgid "Review settings"
-msgstr "Configuração da revisão"
+msgstr "Configurações da revisão"
 
 #: parsifal/apps/reviews/settings/templates/settings/review_settings.html:56
 msgid "Save changes"
@@ -1400,7 +1412,11 @@ msgstr "Eu entendo as consequências."
 msgid "Deleting... please wait"
 msgstr "Apagando… por favor aguarde"
 
-#: parsifal/apps/reviews/settings/views.py:79
+#: parsifal/apps/reviews/settings/views.py:23 parsifal/apps/reviews/views.py:64
+msgid "Review updated with success!"
+msgstr "A revisão foi atualizada com sucesso!"
+
+#: parsifal/apps/reviews/settings/views.py:70
 msgid "The review was deleted with success."
 msgstr "A revisão foi apagada com sucesso."
 
@@ -1440,6 +1456,18 @@ msgstr "(sair)"
 msgid "Add author"
 msgstr "Adicionar autor"
 
+#: parsifal/apps/reviews/templates/reviews/review_header.html:16
+msgid "Planning"
+msgstr "Planejamento"
+
+#: parsifal/apps/reviews/templates/reviews/review_header.html:19
+msgid "Conducting"
+msgstr "Condução"
+
+#: parsifal/apps/reviews/templates/reviews/review_header.html:22
+msgid "Reporting"
+msgstr "Disseminação"
+
 #: parsifal/apps/reviews/templates/reviews/reviews.html:18
 #, python-format
 msgid ""
@@ -1458,10 +1486,6 @@ msgstr[1] ""
 #: parsifal/apps/reviews/views.py:52
 msgid "Review created with success!"
 msgstr "A revisão foi criada com sucesso!"
-
-#: parsifal/apps/reviews/views.py:64
-msgid "Review updated with success!"
-msgstr "A revisão foi atualizada com sucesso!"
 
 #: parsifal/settings/base.py:160
 msgid "English"
