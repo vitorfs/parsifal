@@ -7,7 +7,7 @@
 {% block content %}
   <div class="row">
     <div class="col-md-3">
-      {% include "accounts/menu.html" %}
+      {% include "accounts/menu.html" with menu="profile" %}
     </div>
     <div class="col-md-9">
       <form method="post">
@@ -20,7 +20,7 @@
             {{ form|crispy }}
           </div>
           <div class="panel-footer">
-            <button type="submit" class="btn btn-success btn-large">{% trans "Save profile" %}</button>
+            <button type="submit" class="btn btn-success">{% trans "Save profile" %}</button>
           </div>
         </div>
       </form>

@@ -5,9 +5,10 @@
     <h3 class="panel-title">{% trans "Account settings" %}</h3>
   </div>
   <div class="list-group">
-    <a href="{% url 'settings:profile' %}" class="list-group-item">{% trans "Profile" %}</a>
-    <a href="{% url 'settings:emails' %}" class="list-group-item">{% trans "Emails" %}</a>
-    <a href="{% url 'settings:picture' %}" class="list-group-item">{% trans "Picture" %}</a>
-    <a href="{% url 'password_change' %}" class="list-group-item">{% trans "Password" %}</a>
+    <a href="{% url "settings:profile" %}" class="list-group-item{% if menu == "profile" %} active{% endif %}">{% trans "Profile" %}</a>
+    <a href="{% url "settings:emails" %}" class="list-group-item{% if menu == "emails" %} active{% endif %}">{% trans "Emails" %}</a>
+    <a href="{% url "settings:picture" %}" class="list-group-item{% if menu == "picture" %} active{% endif %}">{% trans "Picture" %}</a>
+    <a href="{% url "settings:language" %}" class="list-group-item{% if menu == "language" %} active{% endif %}">{% trans "Language" %}</a>
+    <a href="{% url "password_change" %}" class="list-group-item{% if menu == "password" %} active{% endif %}">{% trans "Password" %}</a>
   </div>
 </div>

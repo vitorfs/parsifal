@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Account Settings" %} · Parsifal{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-3">
+      {% include "accounts/menu.html" with menu="language" %}
+    </div>
+    <div class="col-md-9">
+      <form action="{% url "set_language" %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{% trans "Set language" %}</h3>
+          </div>
+          <div class="panel-body">
+            <select id="id_language" name="language" aria-label="{% translate "language" %}">
+              {% get_current_language as LANGUAGE_CODE %}
+              {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                  {{ language.name_local }} ({{ language.code }})
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-success">{% trans "Save language" %}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

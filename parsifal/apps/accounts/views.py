@@ -44,6 +44,10 @@ class UpdateEmailsView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return self.request.user
 
 
+class UpdateLanguageView(LoginRequiredMixin, TemplateView):
+    template_name = "accounts/language.html"
+
+
 class PictureView(LoginRequiredMixin, TemplateView):
     template_name = "accounts/picture.html"
 

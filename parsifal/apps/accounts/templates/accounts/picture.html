@@ -35,7 +35,7 @@
 {% block content %}
   <div class="row">
     <div class="col-md-3">
-      {% include "accounts/menu.html" %}
+      {% include "accounts/menu.html" with menu="picture" %}
     </div>
     <div class="col-md-9">
       <form enctype="multipart/form-data" method="post" action="{% url 'settings:upload_picture' %}" id="picture-upload-form" class="form-block">
