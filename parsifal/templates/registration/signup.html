@@ -2,7 +2,7 @@
 
 {% load crispy_forms_filters i18n %}
 
-{% block title %}{% trans "Sign up" %} · Parsifal{% endblock %}
+{% block title %}{% translate "Sign up" %} · Parsifal{% endblock %}
 
 {% block javascript %}
   {% if recaptcha_enabled %}
@@ -22,24 +22,24 @@
       {% if invite %}
         <div class="alert alert-info">
           <span class="glyphicon glyphicon-info-sign"></span>
-          {% blocktrans trimmed with title=invite.review.title %}
+          {% blocktranslate trimmed with title=invite.review.title %}
             Complete the sign up to join the literature review "<strong>{{ title }}</strong>".
-          {% endblocktrans %}
+          {% endblocktranslate %}
         </div>
       {% endif %}
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">{% trans "Sign up for Parsifal" %}</h3>
+          <h3 class="panel-title">{% translate "Sign up for Parsifal" %}</h3>
         </div>
         <div class="panel-body">
           <form method="post" id="signUpForm">
             {% csrf_token %}
             {{ form|crispy }}
             {% if recaptcha_enabled %}
-              <button class="g-recaptcha btn btn-success" data-sitekey="{{ recaptcha_site_key }}" data-callback="onSubmit">{% trans "Create an account" %}</button>
+              <button class="g-recaptcha btn btn-success" data-sitekey="{{ recaptcha_site_key }}" data-callback="onSubmit">{% translate "Create an account" %}</button>
             {% else %}
-              <button type="submit" class="btn btn-success">{% trans "Create an account" %}</button>
+              <button type="submit" class="btn btn-success">{% translate "Create an account" %}</button>
             {% endif %}
           </form>
         </div>

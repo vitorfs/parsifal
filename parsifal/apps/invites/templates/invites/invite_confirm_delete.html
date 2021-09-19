@@ -2,7 +2,7 @@
 
 {% load crispy_forms_filters i18n parsifal_invites static %}
 
-{% block title %}{% trans "Delete invite" %} · {{ review.title }}{% endblock %}
+{% block title %}{% translate "Delete invite" %} · {{ review.title }}{% endblock %}
 
 {% block content %}
   {% include "reviews/review_header.html" %}
@@ -15,13 +15,13 @@
       <form method="post">
         {% csrf_token %}
         <p class="lead">
-          {% blocktrans trimmed with invitee_email=invite.get_invitee_email %}
+          {% blocktranslate trimmed with invitee_email=invite.get_invitee_email %}
             Are you sure you want to delete the invite sent to <strong>{{ invitee_email }}</strong>?
-          {% endblocktrans %}
+          {% endblocktranslate %}
         </p>
         <div>
-          <button type="submit" class="btn btn-danger">{% trans "Yes, delete" %}</button>
-          <a href="{% url "invites:manage_access" review.author.username review.name %}" class="btn btn-default">{% trans "Never mind" %}</a>
+          <button type="submit" class="btn btn-danger">{% translate "Yes, delete" %}</button>
+          <a href="{% url "invites:manage_access" review.author.username review.name %}" class="btn btn-default">{% translate "Never mind" %}</a>
         </div>
       </form>
 

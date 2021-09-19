@@ -2,7 +2,7 @@
 
 {% load crispy_forms_filters i18n parsifal_invites static %}
 
-{% block title %}{% trans "Manage access" %} · {{ review.title }}{% endblock %}
+{% block title %}{% translate "Manage access" %} · {{ review.title }}{% endblock %}
 
 {% block content %}
   {% include "reviews/review_header.html" %}
@@ -14,29 +14,29 @@
 
       <div class="panel panel-default">
         <div class="panel-body">
-          <h3 class="page-header">{% trans "Invite someone to collaborate" %}</h3>
+          <h3 class="page-header">{% translate "Invite someone to collaborate" %}</h3>
           <div class="alert alert-info">
-            {% trans "Pick someone from your contact list or inform the person email address." %}
+            {% translate "Pick someone from your contact list or inform the person email address." %}
           </div>
           <form action="" method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-success">{% trans "Send invitation" %}</button>
+            <button type="submit" class="btn btn-success">{% translate "Send invitation" %}</button>
           </form>
         </div>
       </div>
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">{% trans "Invitations" %}</h3>
+          <h3 class="panel-title">{% translate "Invitations" %}</h3>
         </div>
         <table class="table table-v-align-middle">
           <thead>
             <tr>
-              <th>{% trans "Invitee" %}</th>
-              <th>{% trans "Date sent" %}</th>
-              <th>{% trans "Invited by" %}</th>
-              <th>{% trans "Status" %}</th>
+              <th>{% translate "Invitee" %}</th>
+              <th>{% translate "Date sent" %}</th>
+              <th>{% translate "Invited by" %}</th>
+              <th>{% translate "Status" %}</th>
               <th></th>
             </tr>
           </thead>

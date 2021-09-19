@@ -2,7 +2,7 @@
 
 {% load compress i18n %}
 
-{% block title %}{% trans "Invite" context "noun" %} · {{ invite.review.title }}{% endblock %}
+{% block title %}{% translate "Invite" context "noun" %} · {{ invite.review.title }}{% endblock %}
 
 {% block stylesheet %}
   {% compress css %}
@@ -34,9 +34,9 @@
           <div class="panel panel-default">
             <div class="panel-body" style="padding-top: 30px; padding-bottom: 30px;">
               <p class="lead">
-                {% blocktrans trimmed with invited_by=invite.invited_by.profile.get_screen_name review_title=invite.review.title %}
+                {% blocktranslate trimmed with invited_by=invite.invited_by.profile.get_screen_name review_title=invite.review.title %}
                   <strong>{{ invited_by }}</strong> invited you to collaborate on the literature review <strong>"{{ review_title }}"</strong>
-                {% endblocktrans %}
+                {% endblocktranslate %}
               </p>
               {% if invite.invitee %}
                 {% if user.is_authenticated and invite.invitee == user %}
@@ -45,40 +45,40 @@
                       {% csrf_token %}
                       <button type="submit" class="btn btn-success btn-lg">
                         <span class="glyphicon glyphicon-ok"></span>
-                        {% trans "Accept" %}
+                        {% translate "Accept" %}
                       </button>
                     </form>
                     <form action="{% url "reject_user_invite" invite.pk %}" method="post" style="display: inline-block">
                       {% csrf_token %}
                       <button type="submit" class="btn btn-danger btn-lg">
                         <span class="glyphicon glyphicon-remove"></span>
-                        {% trans "Reject" %}
+                        {% translate "Reject" %}
                       </button>
                     </form>
                   </div>
                   <small class="text-muted">
-                    {% blocktrans trimmed with username=invite.invitee.username %}
+                    {% blocktranslate trimmed with username=invite.invitee.username %}
                       You are currently logged in as <strong>{{ username }}</strong>.
-                    {% endblocktrans %}
+                    {% endblocktranslate %}
                   </small>
                 {% else %}
                   <p>
-                    {% blocktrans trimmed %}
+                    {% blocktranslate trimmed %}
                       To accept the invitation, you must log in to your account <strong>{{ invitee_masked_email }}</strong>
-                    {% endblocktrans %}
+                    {% endblocktranslate %}
                   </p>
-                  <a href="{% url "login" %}?next={% url "user_invites" %}" class="btn btn-primary btn-lg">{% trans "Log in" %}</a>
+                  <a href="{% url "login" %}?next={% url "user_invites" %}" class="btn btn-primary btn-lg">{% translate "Log in" %}</a>
                 {% endif %}
               {% else %}
                 <p>
-                  {% blocktrans trimmed %}
+                  {% blocktranslate trimmed %}
                     To accept the invitation, you must create an account on Parsifal
-                  {% endblocktrans %}
+                  {% endblocktranslate %}
                 </p>
                 <p>
-                  <a href="{% url "signup" %}?invite={{ invite.code }}" class="btn btn-primary btn-lg">{% trans "Sign up" %}</a>
+                  <a href="{% url "signup" %}?invite={{ invite.code }}" class="btn btn-primary btn-lg">{% translate "Sign up" %}</a>
                 </p>
-                <small class="text-muted">{% blocktrans %}This invitation was sent to <strong>{{ invitee_masked_email }}</strong>{% endblocktrans %}</small>
+                <small class="text-muted">{% blocktranslate %}This invitation was sent to <strong>{{ invitee_masked_email }}</strong>{% endblocktranslate %}</small>
               {% endif %}
             </div>
           </div>

@@ -25,28 +25,28 @@
 {% block content %}
   <div class="row cover">
     <div class="col-md-7">
-      <h1>{% trans "Perform Systematic Literature Reviews" %}</h1>
+      <h1>{% translate "Perform Systematic Literature Reviews" %}</h1>
       <p class="lead">Performing a systematic literature review is a labor-intensive task that requires a huge amount of work from the researcher. <strong>Parsifal</strong> will help you planning, conducting and reporting the review.</p>
     </div>
     <div class="col-md-5">
-      <h2>{% trans "Sign up for Parsifal" %}</h2>
+      <h2>{% translate "Sign up for Parsifal" %}</h2>
       <form action="{% url "signup" %}" method="post" id="signUpForm">
         {% csrf_token %}
         <input type="hidden" name="password2">
         <div class="form-group">
-          <input class="form-control input-lg" type="text" placeholder="{% trans "Username" %}" name="username" aria-label="{% trans "Username" %}">
+          <input class="form-control input-lg" type="text" placeholder="{% translate "Username" %}" name="username" aria-label="{% translate "Username" %}">
         </div>
         <div class="form-group">
-          <input class="form-control input-lg" type="password" placeholder="{% trans "Password" %}" name="password1" aria-label="{% trans "Password" %}">
+          <input class="form-control input-lg" type="password" placeholder="{% translate "Password" %}" name="password1" aria-label="{% translate "Password" %}">
         </div>
         <div class="form-group">
-          <input class="form-control input-lg" type="email" placeholder="{% trans "Email" %}" name="email" aria-label="{% trans "Email" %}">
+          <input class="form-control input-lg" type="email" placeholder="{% translate "Email" %}" name="email" aria-label="{% translate "Email" %}">
         </div>
         <div class="form-group">
           {% if recaptcha_enabled %}
-            <button class="g-recaptcha btn btn-success btn-lg btn-block" data-sitekey="{{ recaptcha_site_key }}" data-callback="onSubmit">{% trans "Create a new account" %}</button>
+            <button class="g-recaptcha btn btn-success btn-lg btn-block" data-sitekey="{{ recaptcha_site_key }}" data-callback="onSubmit">{% translate "Create a new account" %}</button>
           {% else %}
-            <button type="submit" class="btn btn-success btn-lg btn-block">{% trans "Create a new account" %}</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block">{% translate "Create a new account" %}</button>
           {% endif %}
         </div>
       </form>

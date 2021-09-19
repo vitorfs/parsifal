@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
   <div class="list-group">
-    <a href="{% url 'settings' review.author.username review.name %}" class="list-group-item{% if menu == "options" %} active{% endif %}">{% trans "Options" %}</a>
-    <a href="{% url "invites:manage_access" review.author.username review.name %}" class="list-group-item{% if menu == "manage_access" %} active{% endif %}">{% trans "Manage access" %}</a>
+    <a href="{% url 'settings' review.author.username review.name %}" class="list-group-item{% if menu == "options" %} active{% endif %}">{% translate "Options" %}</a>
+    <a href="{% url "invites:manage_access" review.author.username review.name %}" class="list-group-item{% if menu == "manage_access" %} active{% endif %}">{% translate "Manage access" %}</a>
   </div>
 </div>

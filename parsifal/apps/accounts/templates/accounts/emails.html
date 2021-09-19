@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Account Settings" %} · Parsifal{% endblock %}
+{% block title %}{% translate "Account Settings" %} · Parsifal{% endblock %}
 
 {% block content %}
   <div class="row">
@@ -14,13 +14,13 @@
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{% trans "Account email" %}</h3>
+            <h3 class="panel-title">{% translate "Account email" %}</h3>
           </div>
           <div class="panel-body">
             {% include 'form_vertical.html' with form=form %}
           </div>
           <div class="panel-footer">
-            <button type="submit" class="btn btn-success">{% trans "Save email" %}</button>
+            <button type="submit" class="btn btn-success">{% translate "Save email" %}</button>
           </div>
         </div>
       </form>

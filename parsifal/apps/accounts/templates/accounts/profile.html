@@ -2,7 +2,7 @@
 
 {% load crispy_forms_filters i18n %}
 
-{% block title %}{% trans "Account Settings" %} · Parsifal{% endblock %}
+{% block title %}{% translate "Account Settings" %} · Parsifal{% endblock %}
 
 {% block content %}
   <div class="row">
@@ -14,13 +14,13 @@
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{% trans "Edit Profile" %} ({{ user.username }})</h3>
+            <h3 class="panel-title">{% translate "Edit Profile" %} ({{ user.username }})</h3>
           </div>
           <div class="panel-body">
             {{ form|crispy }}
           </div>
           <div class="panel-footer">
-            <button type="submit" class="btn btn-success">{% trans "Save profile" %}</button>
+            <button type="submit" class="btn btn-success">{% translate "Save profile" %}</button>
           </div>
         </div>
       </form>

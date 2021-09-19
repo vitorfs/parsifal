@@ -2,21 +2,21 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Invites" %} · Parsifal{% endblock %}
+{% block title %}{% translate "Invites" %} · Parsifal{% endblock %}
 
 {% block content %}
 
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <h2 class="page-header">{% trans "Invites" %}</h2>
+      <h2 class="page-header">{% translate "Invites" %}</h2>
 
       {% if invites %}
         <table class="table table-striped table-v-align-middle">
           <thead>
             <tr>
-              <th>{% trans "Review" %}</th>
-              <th>{% trans "Invited by" %}</th>
-              <th>{% trans "Date" %}</th>
+              <th>{% translate "Review" %}</th>
+              <th>{% translate "Invited by" %}</th>
+              <th>{% translate "Date" %}</th>
               <th></th>
             </tr>
           </thead>
@@ -31,14 +31,14 @@
                     {% csrf_token %}
                     <button type="submit" class="btn btn-success btn-sm">
                       <span class="glyphicon glyphicon-ok"></span>
-                      {% trans "Accept" %}
+                      {% translate "Accept" %}
                     </button>
                   </form>
                   <form action="{% url "reject_user_invite" invite.pk %}" method="post" style="display: inline-block">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger btn-sm">
                       <span class="glyphicon glyphicon-remove"></span>
-                      {% trans "Reject" %}
+                      {% translate "Reject" %}
                     </button>
                   </form>
                 </td>
@@ -49,7 +49,7 @@
       {% else %}
         <div class="well text-center" style="padding: 5em;">
           <span class="glyphicon glyphicon-inbox" style="font-size: 2.6em; color: #aaa;"></span>
-          <h3 style="margin-top: 25px; margin-bottom: 25px;">{% trans "You have no pending invites at this time." %}</h3>
+          <h3 style="margin-top: 25px; margin-bottom: 25px;">{% translate "You have no pending invites at this time." %}</h3>
         </div>
       {% endif %}
 

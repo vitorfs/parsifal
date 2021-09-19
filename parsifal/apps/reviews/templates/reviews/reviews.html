@@ -15,11 +15,11 @@
   {% if pending_invites_count > 0 %}
     <div class="alert alert-warning">
       {% url "user_invites" as invites_url %}
-      {% blocktrans trimmed count pending_invites_count=pending_invites_count %}
+      {% blocktranslate trimmed count pending_invites_count=pending_invites_count %}
         You have {{ pending_invites_count }} pending invite to collaborate on a literature review. <a href="{{ invites_url }}">Review invite</a>.
         {% plural %}
         You have {{ pending_invites_count }} pending invites to collaborate on some literature reviews. <a href="{{ invites_url }}">Review invites</a>.
-      {% endblocktrans %}
+      {% endblocktranslate %}
     </div>
   {% endif %}
 
