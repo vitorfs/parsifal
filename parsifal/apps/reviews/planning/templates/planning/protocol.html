@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load static %}
+{% load i18n compress static %}
 
-{% block title %}Planning · {{ review.title }}{% endblock %}
+{% block title %}{% translate "Planning" %} · {{ review.title }}{% endblock %}
 
 {% block stylesheet %}
   <style>
@@ -13,23 +13,26 @@
 {% endblock stylesheet %}
 
 {% block javascript %}
-  <script src="{% static 'js/planning.js' %}?v=1"></script>
-  <script src="{% static 'js/planning_question.js' %}?v=1"></script>
-  <script src="{% static 'js/planning_picoc.js' %}?v=1"></script>
-  <script src="{% static 'js/planning_keyword.js' %}?v=2"></script>
-  <script src="{% static 'js/planning_source.js' %}?v=2"></script>
-  <script src="{% static 'js/planning_search_string.js' %}?v=1"></script>
-  <script src="{% static 'js/planning_criteria.js' %}?v=1"></script>
-  <script>
-    $(function () {
-      $("#protocol").affix({
-        offset: {
-          top: $("#protocol").offset().top - 20,
-          bottom: 70
-        }
+  {% compress js %}
+    <script src="{% static 'js/planning.js' %}"></script>
+    <script src="{% static 'js/planning_question.js' %}"></script>
+    <script src="{% static 'js/planning_picoc.js' %}"></script>
+    <script src="{% static 'js/planning_keyword.js' %}"></script>
+    <script src="{% static 'js/planning_source.js' %}"></script>
+    <script src="{% static 'js/planning_search_string.js' %}"></script>
+    <script src="{% static 'js/planning_criteria.js' %}"></script>
+    <script>
+      $(function () {
+        var $protocol = $("#protocol");
+        $protocol.affix({
+          offset: {
+            top: $protocol.offset().top - 20,
+            bottom: 70
+          }
+        });
       });
-    });
-  </script>
+    </script>
+  {% endcompress %}
 {% endblock javascript %}
 
 {% block content %}
@@ -41,16 +44,16 @@
     <div class="hidden-sm col-md-4 col-lg-3" style="padding-top: 20px;">
       <div id="protocol" class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Protocol</h3>
+          <h3 class="panel-title">{% translate "Protocol" %}</h3>
         </div>
         <div class="list-group">
-          <a href="#objective-section" class="list-group-item">Objectives</a>
-          <a href="#picoc-section" class="list-group-item">PICOC</a>
-          <a href="#question-section" class="list-group-item">Research Questions</a>
-          <a href="#keywords-section" class="list-group-item">Keywords and Synonyms</a>
-          <a href="#search-string-section" class="list-group-item">Search String</a>
-          <a href="#sources-section" class="list-group-item">Sources</a>
-          <a href="#selection-section" class="list-group-item">Selection Criteria</a>
+          <a href="#objective-section" class="list-group-item">{% translate "Objectives" %}</a>
+          <a href="#picoc-section" class="list-group-item">{% translate "PICOC" %}</a>
+          <a href="#question-section" class="list-group-item">{% translate "Research Questions" %}</a>
+          <a href="#keywords-section" class="list-group-item">{% translate "Keywords and Synonyms" %}</a>
+          <a href="#search-string-section" class="list-group-item">{% translate "Search String" %}</a>
+          <a href="#sources-section" class="list-group-item">{% translate "Sources" %}</a>
+          <a href="#selection-section" class="list-group-item">{% translate "Selection Criteria" %}</a>
         </div>
       </div>
     </div>
@@ -62,11 +65,21 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">About the Objectives</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "About the Objectives" %}</h4>
               </div>
               <div class="modal-body">
-                <p><strong>Identification of the need for a review.</strong> The need for a systematic review originates from a researcher aiming to understand the state-of-the-art in an area, or from practitioners wanting to use empirical evidence in their strategic decision-making or improvement activities. If there are more or less systematic literature reviews available in the field, they should be appraised regarding scope and quality, to evaluate if they are sufficient to meet the current needs for a review. A systematic literature review may be viewed as a research method for making a literature review.</p>
+                <p>
+                  <strong>{% translate "Identification of the need for a review." %}</strong>
+                  {% blocktranslate trimmed %}
+                    The need for a systematic review originates from a researcher aiming to understand the
+                    state-of-the-art in an area, or from practitioners wanting to use empirical evidence in their
+                    strategic decision-making or improvement activities. If there are more or less systematic
+                    literature reviews available in the field, they should be appraised regarding scope and quality,
+                    to evaluate if they are sufficient to meet the current needs for a review. A systematic literature
+                    review may be viewed as a research method for making a literature review.
+                  {% endblocktranslate %}
+                </p>
               </div>
               <div class="modal-footer" style="text-align: left;">
                 <p><small class="text-muted">C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell and A. Wesslén, <a href="http://www.springer.com/us/book/9783642290435" target="_blank">"Experimentation in Software Engineering"</a>, Springer, ISBN 978-3-642-29043-5, 2012.</small></p>
@@ -81,30 +94,30 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Objectives
-                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+                {% translate "Objectives" %}
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="{% translate "What's this? Click to get help." %}" data-placement="top" data-container="body">
                   <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#objective-help"></span>
                 </a>
               </h3>
             </div>
             <div class="panel-body">
               <div class="form-group">
-                <textarea rows="4" name="objective" class="form-control expanding">{{ review.objective }}</textarea>
+                <textarea rows="4" name="objective" class="form-control expanding" aria-label="{% translate "Objective" %}">{{ review.objective }}</textarea>
               </div>
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success btn-save-objective">
                 <span class="btn-ajax-normal">
-                  <span class="glyphicon glyphicon-ok"></span> Save
+                  <span class="glyphicon glyphicon-ok"></span> {% translate "Save" %}
                 </span>
                 <span class="btn-ajax-loading">
-                  <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                  <span class="glyphicon glyphicon-refresh spin"></span> {% translate "Saving…" %}
                 </span>
                 <span class="btn-ajax-error">
-                  <span class="glyphicon glyphicon-remove"></span> Error!
+                  <span class="glyphicon glyphicon-remove"></span> {% translate "Error!" %}
                 </span>
                 <span class="btn-ajax-complete">
-                  <span class="glyphicon glyphicon-ok"></span> Saved!
+                  <span class="glyphicon glyphicon-ok"></span> {% translate "Saved!" %}
                 </span>
               </button>
             </div>
@@ -118,17 +131,17 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">About the PICOC</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "About the PICOC" %}</h4>
               </div>
               <div class="modal-body">
-                <p>PICOC stands for <em>population</em>, <em>intervention</em>, <em>comparison</em>, <em>outcomes</em> and <em>context</em>.</p>
+                <p>{% translate "PICOC stands for <em>population</em>, <em>intervention</em>, <em>comparison</em>, <em>outcomes</em> and <em>context</em>." %}</p>
                 <ul>
-                  <li>The <em>population</em> in which the evidence is collected, i.e. which group of people, programs or businesses are of interest for the review?</li>
-                  <li>The <em>intervention</em> applied in the empirical study, i.e. which technology, tool or procedure is under study?</li>
-                  <li>The <em>comparison</em> to which the intervention is compared, i.e. how is the control treatment defined? In particular the ‘placebo’ intervention is critical, as “not using the intervention” is mostly not a valid action in software engineering.</li>
-                  <li>The <em>outcomes</em> of the experiment should not only be statistically significant, but also be significant from a practical point of view. For example, it is probably not interesting that an outcome is 10% better in some respect if it is twice as time consuming.</li>
-                  <li>The <em>context</em> of the study must be defined, which is an extended view of the population, including whether it is conducted in academia or industry, in which industry segment, and also the incentives for the subjects.</li>
+                  <li>{% translate "The <em>population</em> in which the evidence is collected, i.e. which group of people, programs or businesses are of interest for the review?" %}</li>
+                  <li>{% translate "The <em>intervention</em> applied in the empirical study, i.e. which technology, tool or procedure is under study?" %}</li>
+                  <li>{% translate "The <em>comparison</em> to which the intervention is compared, i.e. how is the control treatment defined? In particular the ‘placebo’ intervention is critical, as “not using the intervention” is mostly not a valid action in software engineering." %}</li>
+                  <li>{% translate "The <em>outcomes</em> of the experiment should not only be statistically significant, but also be significant from a practical point of view. For example, it is probably not interesting that an outcome is 10% better in some respect if it is twice as time consuming." %}</li>
+                  <li>{% translate "The <em>context</em> of the study must be defined, which is an extended view of the population, including whether it is conducted in academia or industry, in which industry segment, and also the incentives for the subjects." %}</li>
                 </ul>
               </div>
               <div class="modal-footer" style="text-align: left;">
@@ -145,41 +158,41 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                PICOC
-                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+                {% translate "PICOC" %}
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="{% translate "What's this? Click to get help." %}" data-placement="top" data-container="body">
                   <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#picoc-help"></span>
                 </a>
               </h3>
             </div>
             <div class="panel-body">
-              <p>Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string.</p>
-              <p>If any of the sections of PICOC doesn't apply to your research, please leave it blank.</p>
+              <p>{% translate "Separate the terms used in the PICOC using commas. This will make possible to save them separately as keywords so we can help you design your search string." %}</p>
+              <p>{% translate "If any of the sections of PICOC doesn't apply to your research, please leave it blank." %}</p>
               <div class="form-group">
-                <label class="control-label col-md-2" for="population">Population</label>
+                <label class="control-label col-md-2" for="population">{% translate "Population" %}</label>
                 <div class="col-md-10">
                   <input type="text" class="form-control" id="population" name="population" maxlength="200" value="{{ review.population }}">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-2" for="intervention">Intervention</label>
+                <label class="control-label col-md-2" for="intervention">{% translate "Intervention" %}</label>
                 <div class="col-md-10">
                   <input type="text" class="form-control" id="intervention" name="intervention" maxlength="200" value="{{ review.intervention }}">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-2" for="comparison">Comparison</label>
+                <label class="control-label col-md-2" for="comparison">{% translate "Comparison" %}</label>
                 <div class="col-md-10">
                   <input type="text" class="form-control" id="comparison" name="comparison" maxlength="200" value="{{ review.comparison }}">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-2" for="outcome">Outcome</label>
+                <label class="control-label col-md-2" for="outcome">{% translate "Outcome" %}</label>
                 <div class="col-md-10">
                   <input type="text" class="form-control" id="outcome" name="outcome" maxlength="200" value="{{ review.outcome }}">
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-2" for="context">Context</label>
+                <label class="control-label col-md-2" for="context">{% translate "Context" %}</label>
                 <div class="col-md-10">
                   <input type="text" class="form-control" id="context" name="context" maxlength="200" value="{{ review.context }}">
                 </div>
@@ -188,16 +201,16 @@
             <div class="panel-footer">
               <button type="button" class="btn btn-success btn-save-picoc" data-loading="Saving...">
                 <span class="btn-ajax-normal">
-                  <span class="glyphicon glyphicon-ok"></span> Save
+                  <span class="glyphicon glyphicon-ok"></span> {% translate "Save" %}
                 </span>
                 <span class="btn-ajax-loading">
-                  <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                  <span class="glyphicon glyphicon-refresh spin"></span> {% translate "Saving…" %}
                 </span>
                 <span class="btn-ajax-error">
-                  <span class="glyphicon glyphicon-remove"></span> Error!
+                  <span class="glyphicon glyphicon-remove"></span> {% translate "Error!" %}
                 </span>
                 <span class="btn-ajax-complete">
-                  <span class="glyphicon glyphicon-ok"></span> Saved!
+                  <span class="glyphicon glyphicon-ok"></span> {% translate "Saved!" %}
                 </span>
               </button>
             </div>
@@ -211,11 +224,18 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">About the Research Questions</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "About the Research Questions" %}</h4>
               </div>
               <div class="modal-body">
-                <p>The area of the systematic review and the specific research questions set the focus for the identification of the primary studies, the extraction of data from the studies and the analysis. Hence, the research questions must be well thought through and phrased. Aspects to take into account in phrasing the research questions include the PICOC.</p>
+                <p>
+                  {% blocktranslate trimmed %}
+                    The area of the systematic review and the specific research questions set the focus for the
+                    identification of the primary studies, the extraction of data from the studies and the analysis.
+                    Hence, the research questions must be well thought through and phrased. Aspects to take into
+                    account in phrasing the research questions include the PICOC.
+                  {% endblocktranslate %}
+                </p>
               </div>
               <div class="modal-footer" style="text-align: left;">
                 <p><small class="text-muted">C. Wohlin, P. Runeson, M. Höst, M. C. Ohlsson, B. Regnell and A. Wesslén, <a href="http://www.springer.com/us/book/9783642290435" target="_blank">"Experimentation in Software Engineering"</a>, Springer, ISBN 978-3-642-29043-5, 2012.</small></p>
@@ -228,8 +248,8 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Research Questions
-                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+                {% translate "Research Questions" %}
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="{% translate "What's this? Click to get help." %}" data-placement="top" data-container="body">
                   <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#question-help"></span>
                 </a>
               </h3>
@@ -245,7 +265,7 @@
             </table>
             <div class="panel-footer">
               <button type="button" class="btn btn-primary" id="btn-add-question">
-                <span class="glyphicon glyphicon-plus"></span> Add Question
+                <span class="glyphicon glyphicon-plus"></span> {% translate "Add Question" %}
               </button>
             </div>
           </div>
@@ -257,73 +277,73 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">About the Keywords and Synonyms</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "About the Keywords and Synonyms" %}</h4>
               </div>
               <div class="modal-body">
-                <p>The keywords are basically extracted from the <em>population</em>, <em>intervention</em>, <em>comparison</em> and <em>outcomes</em>.</p>
-                <p>Every keyword must be related with one step of the PICOC. Please note, the <em>context</em> is related with the <em>population</em>.</p>
-                <p>After determining all relevant keywords, you should relate them if all their synonyms to make your search string broader.</p>
-                <p><strong>Example:</strong> <sup><a href="#kitchenham2007-keywords">[1]</a></sup></p>
+                <p>{% translate "The keywords are basically extracted from the <em>population</em>, <em>intervention</em>, <em>comparison</em> and <em>outcomes</em>." %}</p>
+                <p>{% translate "Every keyword must be related with one step of the PICOC. Please note, the <em>context</em> is related to the <em>population</em>." %}</p>
+                <p>{% translate "After determining all relevant keywords, you should relate them if all their synonyms to make your search string broader." %}</p>
+                <p><strong>{% translate "Example:" %}</strong> <sup><a href="#kitchenham2007-keywords">[1]</a></sup></p>
                 <table class="table table-bordered table-condensed">
                   <thead>
                     <tr>
-                      <th style="width: 50%;">Keyword</th>
-                      <th>Synonyms</th>
+                      <th style="width: 50%;">{% translate "Keyword" %}</th>
+                      <th>{% translate "Synonyms" %}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td rowspan="6" style="vertical-align: middle;">software <small>(Population)</small></td>
-                      <td>application</td>
+                      <td rowspan="6" style="vertical-align: middle;">{% translate "software" %} <small>({% translate "Population" %})</small></td>
+                      <td>{% translate "application" %}</td>
                     </tr>
                     <tr>
-                      <td>product</td>
+                      <td>{% translate "product" %}</td>
                     </tr>
                     <tr>
-                      <td>Web</td>
+                      <td>{% translate "Web" %}</td>
                     </tr>
                     <tr>
-                      <td>WWW</td>
+                      <td>{% translate "WWW" %}</td>
                     </tr>
                     <tr>
-                      <td>project</td>
+                      <td>{% translate "project" %}</td>
                     </tr>
                     <tr>
-                      <td>development</td>
+                      <td>{% translate "development" %}</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td rowspan="4" style="vertical-align: middle;">cross company <small>(Intervention)</small></td>
-                      <td>cross organisation</td>
+                      <td rowspan="4" style="vertical-align: middle;">{% translate "cross company" %} <small>({% translate "Intervention" %})</small></td>
+                      <td>{% translate "cross organisation" %}</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>cross organization</td>
+                      <td>{% translate "cross organization" %}</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>multiple-organizational</td>
+                      <td>{% translate "multiple-organizational" %}</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>multiple-organisational model</td>
+                      <td>{% translate "multiple-organisational model" %}</td>
                     </tr>
                     <tr>
-                      <td rowspan="4" style="vertical-align: middle;">within-organisation <small>(Comparison)</small></td>
-                      <td>within-organization</td>
+                      <td rowspan="4" style="vertical-align: middle;">{% translate "within-organisation" %} <small>({% translate "Comparison" %})</small></td>
+                      <td>{% translate "within-organization" %}</td>
                     </tr>
                     <tr>
-                      <td>within-organizational</td>
+                      <td>{% translate "within-organizational" %}</td>
                     </tr>
                     <tr>
-                      <td>within-organisational</td>
+                      <td>{% translate "within-organisational" %}</td>
                     </tr>
                     <tr>
-                      <td>single company</td>
+                      <td>{% translate "single company" %}</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td rowspan="2" style="vertical-align: middle;">Accuracy <small>(Outcome)</small></td>
-                      <td>Mean Magnitude</td>
+                      <td rowspan="2" style="vertical-align: middle;">{% translate "Accuracy" %} <small>({% translate "Outcome" %})</small></td>
+                      <td>{% translate "Mean Magnitude" %}</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>Relative Error</td>
+                      <td>{% translate "Relative Error" %}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -339,21 +359,21 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">
-              Keywords and Synonyms
-              <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+              {% translate "Keywords and Synonyms" %}
+              <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="{% translate "What's this? Click to get help." %}" data-placement="top" data-container="body">
                 <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#keywords-help"></span>
               </a>
             </h3>
           </div>
           <div class="panel-body">
-            To edit or remove a certain keyword or synonym you may click on it's description to enable the field.
+            {% translate "To edit or remove a certain keyword or synonym you may click on it's description to enable the field." %}
           </div>
           <table class="table" id="table-keywords">
             <thead>
               <tr>
-                <th>Keyword</th>
-                <th>Synonyms</th>
-                <th>Related to</th>
+                <th>{% translate "Keyword" %}</th>
+                <th>{% translate "Synonyms" %}</th>
+                <th>{% translate "Related to" %}</th>
                 <th></th>
               </tr>
             </thead>
@@ -366,11 +386,11 @@
           <div class="panel-footer">
             <button type="button" class="btn btn-primary" id="add-keyword">
               <span class="glyphicon glyphicon-plus"></span>
-              Add Keyword
+              {% translate "Add Keyword" %}
             </button>
             <button type="button" class="btn btn-primary" id="import-pico-keywords">
               <span class="glyphicon glyphicon-import"></span>
-              Import PICO Keywods</button>
+              {% translate "Import PICO Keywods" %}</button>
           </div>
         </div>
 
@@ -391,13 +411,13 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Are you sure?</h4>
+                <h4 class="modal-title">{% translate "Are you sure?" %}</h4>
               </div>
               <div class="modal-body">
-                <p>This action <strong>cannot</strong> be undone. This will remove the <strong id="delete-keyword-name"></strong> keyword, and all related synonyms.</p>
+                <p>{% translate 'This action <strong>cannot</strong> be undone. This will remove the <strong id="delete-keyword-name"></strong> keyword, and all related synonyms.' %}</p>
               </div>
               <div class="modal-footer">
-                <button type="button" id="confirm-keyword-deletion" class="btn btn-danger btn-block" data-keyword-id="">Remove this keyword</button>
+                <button type="button" id="confirm-keyword-deletion" class="btn btn-danger btn-block" data-keyword-id="">{% translate "Remove this keyword" %}</button>
               </div>
             </div>
           </div>
@@ -411,23 +431,36 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">About the Search String</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "About the Search String" %}</h4>
               </div>
               <div class="modal-body">
-                <p>The golden rule to design a good search string is to separate the keywords and synonyms with the boolean operator <strong>OR</strong> and separate the <em>population</em>, <em>intervention</em>, <em>comparison</em> and <em>outcomes</em> with parentheses and using the boolean operator <strong>AND</strong>, as following:</p>
+                <p>
+                  {% blocktranslate trimmed %}
+                    The golden rule to design a good search string is to separate the keywords and synonyms with the
+                    boolean operator <strong>OR</strong> and separate the <em>population</em>, <em>intervention</em>,
+                    <em>comparison</em> and <em>outcomes</em> with parentheses and using the boolean operator
+                    <strong>AND</strong>, as following:
+                  {% endblocktranslate %}
+                </p>
                 <pre><code>(<em>population</em>   <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n) <strong>AND</strong>
 (<em>intervention</em> <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n) <strong>AND</strong>
 (<em>comparison</em>   <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n) <strong>AND</strong>
 (<em>outcomes</em>     <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n)</code></pre>
-                <p>
-                  <strong class="text-success"><span class="glyphicon glyphicon-ok"></span> Good example</strong>
+                <hr>
+                <div>
+                  <p>
+                    <strong class="text-success"><span class="glyphicon glyphicon-ok"></span> {% translate "Good example" %}</strong>
+                  </p>
                   <pre style="word-break: normal;"><code>(software <strong>OR</strong> application <strong>OR</strong> product <strong>OR</strong> Web <strong>OR</strong> WWW <strong>OR</strong> project) <strong>AND</strong> (development <strong>OR</strong> "cross company" <strong>OR</strong> "cross organisation" <strong>OR</strong> "cross organization" <strong>OR</strong> multiple-organizational) <strong>AND</strong> ("multiple-organisational model" <strong>OR</strong> within-organisation <strong>OR</strong> within-organization <strong>OR</strong> within-organizational <strong>OR</strong> within-organisational <strong>OR</strong> "single company") <strong>AND</strong> (Accuracy <strong>OR</strong> "Mean Magnitude" <strong>OR</strong> "Relative Error")</code></pre>
-                </p>
-                <p>
-                  <strong class="text-danger"><span class="glyphicon glyphicon-ban-circle"></span> Bad example</strong>
+                </div>
+                <hr>
+                <div>
+                  <p>
+                    <strong class="text-danger"><span class="glyphicon glyphicon-ban-circle"></span> {% translate "Bad example" %}</strong>
+                  </p>
                   <pre style="word-break: normal;"><code>software <strong>or</strong> application <strong>or</strong> product <strong>or</strong> Web <strong>or</strong> WWW <strong>or</strong> project <strong>and</strong> development <strong>or</strong> cross company <strong>or</strong> cross organisation <strong>or</strong> cross organization <strong>or</strong> multiple-organizational <strong>and</strong> multiple-organisational model <strong>or</strong> within-organisation <strong>or</strong> within-organization <strong>or</strong> within-organizational <strong>or</strong> within-organisational <strong>or</strong> single company <strong>and</strong> Accuracy <strong>or</strong> Mean Magnitude <strong>or</strong> Relative Error</code></pre>
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -439,34 +472,37 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Search String
-                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="What's this? Click to get help." data-placement="top" data-container="body">
+                {% translate "Search String" %}
+                <a href="javascript:void(0);" class="pull-right" data-toggle="tooltip" title="{% translate "What's this? Click to get help." %}" data-placement="top" data-container="body">
                   <span class="glyphicon glyphicon-question-sign" data-toggle="modal" data-target="#search-string-help"></span>
                 </a>
               </h3>
             </div>
             <div class="panel-body">
               <div class="alert alert-info" role="alert">
-                <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Use uppercase for boolean operators (<strong>AND</strong>, <strong>OR</strong>), double quotes for composite words and parentheses to logically separate the keywords and synonyms.
+                <strong>
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                </strong>
+                {% translate "Use uppercase for boolean operators (<strong>AND</strong>, <strong>OR</strong>), double quotes for composite words and parentheses to logically separate the keywords and synonyms." %}
               </div>
-              <textarea rows="4" name="search-string" class="form-control expanding search-string" maxlength="10000">{{ review.get_generic_search_string.search_string }}</textarea>
+              <textarea rows="4" name="search-string" class="form-control expanding search-string" maxlength="10000" aria-label="{% translate "Search String" %}">{{ review.get_generic_search_string.search_string }}</textarea>
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success btn-save-generic-search-string">
                 <span class="btn-ajax-normal">
-                  <span class="glyphicon glyphicon-ok"></span> Save
+                  <span class="glyphicon glyphicon-ok"></span> {% translate "Save" %}
                 </span>
                 <span class="btn-ajax-loading">
-                  <span class="glyphicon glyphicon-refresh spin"></span> Saving…
+                  <span class="glyphicon glyphicon-refresh spin"></span> {% translate "Saving…" %}
                 </span>
                 <span class="btn-ajax-error">
-                  <span class="glyphicon glyphicon-remove"></span> Error!
+                  <span class="glyphicon glyphicon-remove"></span> {% translate "Error!" %}
                 </span>
                 <span class="btn-ajax-complete">
-                  <span class="glyphicon glyphicon-ok"></span> Saved!
+                  <span class="glyphicon glyphicon-ok"></span> {% translate "Saved!" %}
                 </span>
               </button>
-              <button type="button" class="btn btn-primary btn-suggested-search-string">Suggested Search String</button>
+              <button type="button" class="btn btn-primary btn-suggested-search-string">{% translate "Suggested Search String" %}</button>
             </div>
           </div>
         </form>
@@ -478,8 +514,8 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Digital Libraries</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "Digital Libraries" %}</h4>
               </div>
               <div class="modal-body">
                 <form action="" method="post" id="form-suggested-sources">
@@ -489,10 +525,10 @@
                     <thead>
                       <tr>
                         <th>
-                          <input type="checkbox" id="checkbox-all-sources">
+                          <input type="checkbox" id="checkbox-all-sources" aria-label="{% translate "Check all" %}">
                         </th>
-                        <th>Name</th>
-                        <th>URL</th>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "URL" %}</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -500,8 +536,8 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="btn-save-suggested-sources">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% translate "Close" %}</button>
+                <button type="button" class="btn btn-success" id="btn-save-suggested-sources">{% translate "Save" %}</button>
               </div>
             </div>
           </div>
@@ -511,14 +547,14 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% translate "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% translate "Are you sure?" %}</h4>
               </div>
               <div class="modal-body">
-                <p>This action <strong>cannot</strong> be undone. This will remove the <strong id="delete-source-name"></strong> source, and permanently delete all imported articles associated with it.</p>
+                <p>{% translate 'This action <strong>cannot</strong> be undone. This will remove the <strong id="delete-source-name"></strong> source, and permanently delete all imported articles associated with it.' %}</p>
               </div>
               <div class="modal-footer">
-                <button type="button" id="confirm-deletion" class="btn btn-danger btn-block" data-source-id="">Remove this source</button>
+                <button type="button" id="confirm-deletion" class="btn btn-danger btn-block" data-source-id="">{% translate "Remove this source" %}</button>
               </div>
             </div>
           </div>
@@ -526,13 +562,13 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Sources</h3>
+            <h3 class="panel-title">{% translate "Sources" %}</h3>
           </div>
           <table class="table" id="tbl-sources">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>URL</th>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "URL" %}</th>
                 <th style="width: 200px"></th>
               </tr>
             </thead>
@@ -542,28 +578,28 @@
                   <td>{{ source.name }}</td>
                   <td>
                     {% if source.url %}
-                      <a href="{{ source.url }}" target="_blank">{{ source.url }}</a>
+                      <a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.url }}</a>
                     {% else %}
                       {{ source.url }}
                     {% endif %}
                   </td>
                   <td class="text-right">
                     {% if source.is_default %}
-                      <span data-toggle="tooltip" data-placement="top" data-container="body" title="It's not possible to edit Digital Library's details">
+                      <span data-toggle="tooltip" data-placement="top" data-container="body" title="{% translate "It's not possible to edit Digital Library's details" %}">
                         <button type="button" class="btn btn-warning btn-sm" disabled>
                           <span class="glyphicon glyphicon-pencil"></span>
-                          edit
+                          {% translate "edit" %}
                         </button>
                       </span>
                     {% else %}
                       <button type="button" class="btn btn-warning btn-sm btn-edit-source">
                         <span class="glyphicon glyphicon-pencil"></span>
-                        edit
+                        {% translate "edit" %}
                       </button>
                     {% endif %}
                     <button type="button" class="btn btn-danger btn-sm js-start-remove">
                       <span class="glyphicon glyphicon-trash"></span>
-                      remove
+                      {% translate "remove" %}
                     </button>
                   </td>
                 </tr>
@@ -573,9 +609,9 @@
           <div class="panel-footer">
             <button type="button" class="btn btn-primary" id="btn-add-source">
               <span class="glyphicon glyphicon-plus"></span>
-              Add Source
+              {% translate "Add Source" %}
             </button>
-            <button type="button" class="btn btn-primary" id="btn-suggested-sources" data-toggle="modal" data-target="#modal-suggested-sources">Add a Digital Library</button>
+            <button type="button" class="btn btn-primary" id="btn-suggested-sources" data-toggle="modal" data-target="#modal-suggested-sources">{% translate "Add a Digital Library" %}</button>
           </div>
         </div>
       </section>
@@ -583,18 +619,18 @@
       <section id="selection-section" style="margin-bottom: 20px;">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Selection Criteria</h3>
+            <h3 class="panel-title">{% translate "Selection Criteria" %}</h3>
           </div>
           <div class="panel-body">
-            <p>Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add.</p>
+            <p>{% translate "Inform your inclusion or exclusion criteria and press <strong>Enter</strong> to add." %}</p>
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="input-inclusion" class="control-label">Inclusion Criteria</label>
+                  <label for="input-inclusion" class="control-label">{% translate "Inclusion Criteria" %}</label>
                   <input type="text" id="input-inclusion" maxlength="200" class="form-control">
                 </div>
                 <div class="form-group">
-                  <select multiple="multiple" size="6" id="inclusion-criteria" class="form-control">
+                  <select multiple="multiple" size="6" id="inclusion-criteria" class="form-control" aria-label="{% translate "Inclusion Criteria" %}">
                     {% for criteria in review.get_inclusion_criterias %}
                       <option value="{{ criteria.id }}">{{ criteria.description }}</option>
                     {% endfor %}
@@ -602,16 +638,16 @@
                 </div>
                 <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#inclusion-criteria">
                   <span class="glyphicon glyphicon-trash"></span>
-                  remove selected
+                  {% translate "remove selected" %}
                 </button>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="input-exclusion" class="control-label">Exclusion Criteria</label>
+                  <label for="input-exclusion" class="control-label">{% translate "Exclusion Criteria" %}</label>
                   <input type="text" id="input-exclusion" maxlength="200" class="form-control">
                 </div>
                 <div class="form-group">
-                  <select multiple="multiple" size="6" id="exclusion-criteria" class="form-control">
+                  <select multiple="multiple" size="6" id="exclusion-criteria" class="form-control" aria-label="{% translate "Exclusion Criteria" %}">
                     {% for criteria in review.get_exclusion_criterias %}
                       <option value="{{ criteria.id }}">{{ criteria.description }}</option>
                     {% endfor %}
@@ -619,7 +655,7 @@
                 </div>
                 <button type="button" class="btn btn-danger btn-sm btn-remove-criteria" data-target="#exclusion-criteria">
                   <span class="glyphicon glyphicon-trash"></span>
-                  remove selected
+                  {% translate "remove selected" %}
                 </button>
               </div>
             </div>
