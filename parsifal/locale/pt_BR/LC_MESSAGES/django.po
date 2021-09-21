@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 03:39+0000\n"
-"PO-Revision-Date: 2021-09-20 00:44-0300\n"
+"POT-Creation-Date: 2021-09-21 02:06+0000\n"
+"PO-Revision-Date: 2021-09-20 23:25-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -963,14 +963,17 @@ msgid "quality assessment cutoff score"
 msgstr "ponto de corte da avaliação de qualidade"
 
 #: parsifal/apps/reviews/models.py:54
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:446
 msgid "population"
 msgstr "população"
 
 #: parsifal/apps/reviews/models.py:55
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:447
 msgid "intervention"
 msgstr "intervenção"
 
 #: parsifal/apps/reviews/models.py:56
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:448
 msgid "comparison"
 msgstr "comparação"
 
@@ -1379,7 +1382,7 @@ msgstr "Objetivos"
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:51
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:161
 msgid "PICOC"
-msgstr ""
+msgstr "PICOC"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:52
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:251
@@ -1421,6 +1424,14 @@ msgid ""
 "review. A systematic literature review may be viewed as a research method "
 "for making a literature review."
 msgstr ""
+"A necessidade de uma revisão sistemática surge de um pesquisador com o "
+"objetivo de compreender o estado da arte em uma área, ou da industria que "
+"deseja utilizar evidências empíricas para tomada de decisão estratégica ou "
+"em atividades de melhorias. Se houver revisões de literatura mais ou menos "
+"sistemáticas disponíveis no campo, elas devem ser avaliadas quanto ao escopo "
+"e qualidade, para avaliar se são suficientes para atender às necessidades "
+"atuais de uma revisão. Uma revisão sistemática da literatura pode ser vista "
+"como um método de pesquisa para fazer uma revisão de literatura."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:98
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:162
@@ -1443,6 +1454,7 @@ msgid "Save"
 msgstr "Salvar"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:114
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:202
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:207
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:496
 msgid "Saving…"
@@ -1462,25 +1474,31 @@ msgstr "Salvo!"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:135
 msgid "About the PICOC"
-msgstr ""
+msgstr "Sobre o PICOC"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:138
 msgid ""
 "PICOC stands for <em>population</em>, <em>intervention</em>, <em>comparison</"
 "em>, <em>outcomes</em> and <em>context</em>."
 msgstr ""
+"PICOC significa <em>população</em>, <em>intervenção</em>, <em>comparação</"
+"em>, <em>resultados (em inglês, \"outcomes\")</em> e <em>contexto</em>."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:140
 msgid ""
 "The <em>population</em> in which the evidence is collected, i.e. which group "
 "of people, programs or businesses are of interest for the review?"
 msgstr ""
+"A <em>população</em> em que as evidências são coletadas, ou seja, qual grupo "
+"de pessoas, programas ou empresas são de interesse para a revisão?"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:141
 msgid ""
 "The <em>intervention</em> applied in the empirical study, i.e. which "
 "technology, tool or procedure is under study?"
 msgstr ""
+"A <em>intervenção</em> aplicada no estudo empírico, ou seja, qual "
+"tecnologia, ferramenta ou procedimento está em estudo?"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:142
 msgid ""
@@ -1489,6 +1507,10 @@ msgid ""
 "critical, as “not using the intervention” is mostly not a valid action in "
 "software engineering."
 msgstr ""
+"A <em>comparação</em> com a qual a intervenção é comparada, ou seja, como o "
+"tratamento de controle é definido? Em particular, a intervenção \"placebo\" "
+"é crucial, pois \"não usar a intervenção\" não é, na maioria dos casos, uma "
+"ação válida na engenharia de software."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:143
 #, python-format
@@ -1498,6 +1520,10 @@ msgid ""
 "example, it is probably not interesting that an outcome is 10%% better in "
 "some respect if it is twice as time consuming."
 msgstr ""
+"Os <em>resultados</em> do experimento não devem ser apenas estatisticamente "
+"significativos, mas também ser significativos do ponto de vista prático. Por "
+"exemplo, provavelmente não é interessante que um resultado seja 10%% melhor "
+"em algum aspecto se for duas vezes mais demorado."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:144
 msgid ""
@@ -1506,6 +1532,9 @@ msgid ""
 "industry, in which industry segment, and also the incentives for the "
 "subjects."
 msgstr ""
+"O <em>contexto</em> do estudo deve ser definido, que é uma visão ampliada da "
+"população, incluindo se é realizado na academia ou na indústria, em que "
+"segmento da indústria, e também os incentivos para os participantes."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:168
 msgid ""
@@ -1513,12 +1542,17 @@ msgid ""
 "to save them separately as keywords so we can help you design your search "
 "string."
 msgstr ""
+"Separe os termos utilizados no PICOC usando vírgulas. Isso tornará possível "
+"salvá-los separadamente como palavras-chave para que possamos ajudá-lo a "
+"projetar sua string de busca."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:169
 msgid ""
 "If any of the sections of PICOC doesn't apply to your research, please leave "
 "it blank."
 msgstr ""
+"Se alguma das seções do PICOC não se aplicar à sua pesquisa, por favor, "
+"deixe-a em branco."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:195
 msgid "Context"
@@ -1536,6 +1570,11 @@ msgid ""
 "be well thought through and phrased. Aspects to take into account in "
 "phrasing the research questions include the PICOC."
 msgstr ""
+"A área da revisão sistemática e as questões específicas da pesquisa "
+"estabelecem o foco para a identificação dos estudos primários, a extração de "
+"dados dos estudos e a análise. Portanto, as questões de pesquisa devem ser "
+"bem pensadas e formuladas. Aspectos a serem contabilizado na formulação das "
+"questões de pesquisa incluem o PICOC."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:268
 msgid "Add Question"
@@ -1550,18 +1589,24 @@ msgid ""
 "The keywords are basically extracted from the <em>population</em>, "
 "<em>intervention</em>, <em>comparison</em> and <em>outcomes</em>."
 msgstr ""
+"As palavras-chave são basicamente extraídas da <em>população</em>, "
+"<em>intervenção</em>, <em>comparação</em> e <em>resultados</em>."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:285
 msgid ""
 "Every keyword must be related with one step of the PICOC. Please note, the "
 "<em>context</em> is related to the <em>population</em>."
 msgstr ""
+"Cada palavra-chave deve estar relacionada com uma etapa do PICOC. Por favor, "
+"note que o <em>contexto</em> está relacionado com a <em>população</em>."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:286
 msgid ""
 "After determining all relevant keywords, you should relate them if all their "
 "synonyms to make your search string broader."
 msgstr ""
+"Depois de determinar todas as palavras-chave relevantes, você deve relacioná-"
+"las se todos os seus sinônimos para tornar sua string de pesquisa mais ampla."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:287
 msgid "Example:"
@@ -1576,92 +1621,6 @@ msgstr "Palavra-Chave"
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:375
 msgid "Synonyms"
 msgstr "Sinônimos"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:297
-msgid "software"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:298
-#, fuzzy
-#| msgid "population"
-msgid "application"
-msgstr "população"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:301
-msgid "product"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:304
-msgid "Web"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:307
-msgid "WWW"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:310
-#, fuzzy
-#| msgid "objective"
-msgid "project"
-msgstr "objetivo"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:313
-#, fuzzy
-#| msgid "document"
-msgid "development"
-msgstr "documento"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:316
-msgid "cross company"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:317
-msgid "cross organisation"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:320
-msgid "cross organization"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:323
-msgid "multiple-organizational"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:326
-msgid "multiple-organisational model"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:329
-msgid "within-organisation"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:330
-msgid "within-organization"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:333
-msgid "within-organizational"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:336
-msgid "within-organisational"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:339
-msgid "single company"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:342
-msgid "Accuracy"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:343
-msgid "Mean Magnitude"
-msgstr ""
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:346
-msgid "Relative Error"
-msgstr ""
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:369
 msgid ""
@@ -1681,7 +1640,7 @@ msgstr "Adicionar Palavra-Chave"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:393
 msgid "Import PICO Keywods"
-msgstr ""
+msgstr "Importar palavras-chaves do PICO"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:414
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:551
@@ -1690,17 +1649,13 @@ msgid "Are you sure?"
 msgstr "Você tem certeza?"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:417
-#, fuzzy
-#| msgid ""
-#| "This action <strong>CANNOT</strong> be undone. This will permanently "
-#| "delete the <strong>%(title)s</strong> review and all associated data."
 msgid ""
 "This action <strong>cannot</strong> be undone. This will remove the <strong "
 "id=\"delete-keyword-name\"></strong> keyword, and all related synonyms."
 msgstr ""
-"Esta ação <strong>NÃO PODE</strong> ser desfeita. Isso excluirá "
-"permanentemente a revisão <strong>%(title)s</strong> e todos os dados "
-"associados."
+"Esta ação <strong>não pode</strong> ser desfeita. Isso removerá a palavra-"
+"chave <strong id=\"delete-keyword-name\"></strong>, e todos os sinônimos "
+"relacionados."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:420
 msgid "Remove this keyword"
@@ -1718,6 +1673,36 @@ msgid ""
 "<em>outcomes</em> with parentheses and using the boolean operator "
 "<strong>AND</strong>, as following:"
 msgstr ""
+"A regra de ouro para projetar uma boa string de busca é separar as palavras-"
+"chave e sinônimos com o operador booleano <strong>OR</strong> e separar a "
+"<em>população</em>, <em>intervenção</em>, <em>comparação</em> e "
+"<em>resultados</em> com parênteses e usar o operador booleano <strong>AND</"
+"strong>, como a seguir:"
+
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:446
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:447
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:448
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:449
+msgid "synonym-1"
+msgstr "sinônimo-1"
+
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:446
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:447
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:448
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:449
+msgid "synonym-2"
+msgstr "sinônimo-2"
+
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:446
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:447
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:448
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:449
+msgid "synonym-n"
+msgstr "sinônimo-n"
+
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:449
+msgid "outcomes"
+msgstr "resultados"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:453
 msgid "Good example"
@@ -1733,6 +1718,9 @@ msgid ""
 "strong>), double quotes for composite words and parentheses to logically "
 "separate the keywords and synonyms."
 msgstr ""
+"Use letras maiúsculas para operadores booleanos (<strong>AND</strong>, "
+"<strong>OR</strong>), aspas duplas para palavras compostas e parênteses para "
+"separar logicamente as palavras-chave e sinônimos."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:505
 msgid "Suggested Search String"
@@ -1752,18 +1740,14 @@ msgid "Name"
 msgstr "Nome"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:554
-#, fuzzy
-#| msgid ""
-#| "This action <strong>CANNOT</strong> be undone. This will permanently "
-#| "delete the <strong>%(title)s</strong> review and all associated data."
 msgid ""
 "This action <strong>cannot</strong> be undone. This will remove the <strong "
 "id=\"delete-source-name\"></strong> source, and permanently delete all "
 "imported articles associated with it."
 msgstr ""
-"Esta ação <strong>NÃO PODE</strong> ser desfeita. Isso excluirá "
-"permanentemente a revisão <strong>%(title)s</strong> e todos os dados "
-"associados."
+"Esta ação <strong>não pode</strong> ser desfeita. Isso removerá a fonte "
+"<strong id=\"delete-source-name\"></strong> e excluirá permanentemente todos "
+"os artigos importados associados a ela."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:557
 msgid "Remove this source"
@@ -1795,6 +1779,8 @@ msgid ""
 "Inform your inclusion or exclusion criteria and press <strong>Enter</strong> "
 "to add."
 msgstr ""
+"Informe seus critérios de inclusão ou exclusão e pressione <strong>Enter</"
+"strong> para adicionar."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:629
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:633
@@ -2262,6 +2248,21 @@ msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuto"
 msgstr[1] "%d minutos"
+
+#, fuzzy
+#~| msgid "population"
+#~ msgid "application"
+#~ msgstr "população"
+
+#, fuzzy
+#~| msgid "objective"
+#~ msgid "project"
+#~ msgstr "objetivo"
+
+#, fuzzy
+#~| msgid "document"
+#~ msgid "development"
+#~ msgstr "documento"
 
 #~ msgid "Title"
 #~ msgstr "Título"

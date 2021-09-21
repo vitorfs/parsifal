@@ -199,7 +199,7 @@
               </div>
             </div>
             <div class="panel-footer">
-              <button type="button" class="btn btn-success btn-save-picoc" data-loading="Saving...">
+              <button type="button" class="btn btn-success btn-save-picoc" data-loading="{% translate "Saving…" %}">
                 <span class="btn-ajax-normal">
                   <span class="glyphicon glyphicon-ok"></span> {% translate "Save" %}
                 </span>
@@ -294,56 +294,56 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td rowspan="6" style="vertical-align: middle;">{% translate "software" %} <small>({% translate "Population" %})</small></td>
-                      <td>{% translate "application" %}</td>
+                      <td rowspan="6" style="vertical-align: middle;">software <small>({% translate "Population" %})</small></td>
+                      <td>application</td>
                     </tr>
                     <tr>
-                      <td>{% translate "product" %}</td>
+                      <td>product</td>
                     </tr>
                     <tr>
-                      <td>{% translate "Web" %}</td>
+                      <td>Web</td>
                     </tr>
                     <tr>
-                      <td>{% translate "WWW" %}</td>
+                      <td>WWW</td>
                     </tr>
                     <tr>
-                      <td>{% translate "project" %}</td>
+                      <td>project</td>
                     </tr>
                     <tr>
-                      <td>{% translate "development" %}</td>
+                      <td>development</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td rowspan="4" style="vertical-align: middle;">{% translate "cross company" %} <small>({% translate "Intervention" %})</small></td>
-                      <td>{% translate "cross organisation" %}</td>
+                      <td rowspan="4" style="vertical-align: middle;">cross company <small>({% translate "Intervention" %})</small></td>
+                      <td>cross organisation</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>{% translate "cross organization" %}</td>
+                      <td>cross organization</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>{% translate "multiple-organizational" %}</td>
+                      <td>multiple-organizational</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>{% translate "multiple-organisational model" %}</td>
+                      <td>multiple-organisational model</td>
                     </tr>
                     <tr>
-                      <td rowspan="4" style="vertical-align: middle;">{% translate "within-organisation" %} <small>({% translate "Comparison" %})</small></td>
-                      <td>{% translate "within-organization" %}</td>
+                      <td rowspan="4" style="vertical-align: middle;">within-organisation <small>({% translate "Comparison" %})</small></td>
+                      <td>within-organization</td>
                     </tr>
                     <tr>
-                      <td>{% translate "within-organizational" %}</td>
+                      <td>within-organizational</td>
                     </tr>
                     <tr>
-                      <td>{% translate "within-organisational" %}</td>
+                      <td>within-organisational</td>
                     </tr>
                     <tr>
-                      <td>{% translate "single company" %}</td>
+                      <td>single company</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td rowspan="2" style="vertical-align: middle;">{% translate "Accuracy" %} <small>({% translate "Outcome" %})</small></td>
-                      <td>{% translate "Mean Magnitude" %}</td>
+                      <td rowspan="2" style="vertical-align: middle;">Accuracy <small>({% translate "Outcome" %})</small></td>
+                      <td>Mean Magnitude</td>
                     </tr>
                     <tr style="background-color: #f9f9f9;">
-                      <td>{% translate "Relative Error" %}</td>
+                      <td>Relative Error</td>
                     </tr>
                   </tbody>
                 </table>
@@ -443,10 +443,10 @@
                     <strong>AND</strong>, as following:
                   {% endblocktranslate %}
                 </p>
-                <pre><code>(<em>population</em>   <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n) <strong>AND</strong>
-(<em>intervention</em> <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n) <strong>AND</strong>
-(<em>comparison</em>   <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n) <strong>AND</strong>
-(<em>outcomes</em>     <strong>OR</strong> synonym-1 <strong>OR</strong> synonym-2 <strong>OR</strong> synonym-n)</code></pre>
+                <pre><code>(<em>{% translate "population" %}</em>   <strong>OR</strong> {% translate "synonym-1" %} <strong>OR</strong> {% translate "synonym-2" %} <strong>OR</strong> {% translate "synonym-n" %}) <strong>AND</strong>
+(<em>{% translate "intervention" %}</em> <strong>OR</strong> {% translate "synonym-1" %} <strong>OR</strong> {% translate "synonym-2" %} <strong>OR</strong> {% translate "synonym-n" %}) <strong>AND</strong>
+(<em>{% translate "comparison" %}</em>   <strong>OR</strong> {% translate "synonym-1" %} <strong>OR</strong> {% translate "synonym-2" %} <strong>OR</strong> {% translate "synonym-n" %}) <strong>AND</strong>
+(<em>{% translate "outcomes" %}</em>     <strong>OR</strong> {% translate "synonym-1" %} <strong>OR</strong> {% translate "synonym-2" %} <strong>OR</strong> {% translate "synonym-n" %})</code></pre>
                 <hr>
                 <div>
                   <p>
