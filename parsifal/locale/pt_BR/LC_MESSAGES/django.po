@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-21 02:06+0000\n"
-"PO-Revision-Date: 2021-09-20 23:25-0300\n"
+"POT-Creation-Date: 2021-09-26 21:50+0000\n"
+"PO-Revision-Date: 2021-09-26 19:04-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -109,6 +109,7 @@ msgstr "Enviar nova foto"
 
 #: parsifal/apps/accounts/templates/accounts/picture.html:60
 #: parsifal/apps/accounts/templates/accounts/picture.html:76
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:8
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:68
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:134
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:227
@@ -1356,23 +1357,181 @@ msgstr ""
 msgid "Reviews: Planning"
 msgstr "Revisões: Planejamento"
 
+#: parsifal/apps/reviews/planning/templates/planning/data_extraction_form.html:5
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:5
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:5
+#: parsifal/apps/reviews/templates/reviews/review_header.html:16
+msgid "Planning"
+msgstr "Planejamento"
+
+#: parsifal/apps/reviews/planning/templates/planning/data_extraction_form.html:23
+#: parsifal/apps/reviews/planning/templates/planning/planning_header.html:11
+msgid "Data Extraction Form"
+msgstr "Formulário de Extração de Dados"
+
+#: parsifal/apps/reviews/planning/templates/planning/data_extraction_form.html:29
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:5
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question_form.html:5
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_answer_form.html:5
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question_form.html:5
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:85
+msgid "Description"
+msgstr "Descrição"
+
+#: parsifal/apps/reviews/planning/templates/planning/data_extraction_form.html:30
+msgid "Type"
+msgstr "Tipo"
+
+#: parsifal/apps/reviews/planning/templates/planning/data_extraction_form.html:31
+msgid "Values"
+msgstr "Valores"
+
+#: parsifal/apps/reviews/planning/templates/planning/data_extraction_form.html:46
+msgid "Add Field"
+msgstr "Adicionar Campo"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field.html:29
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword.html:20
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question.html:19
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_answer.html:9
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question.html:19
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:591
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:597
+#: parsifal/apps/reviews/planning/views.py:395
+#: parsifal/apps/reviews/planning/views.py:748
+msgid "edit"
+msgstr "editar"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field.html:32
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question.html:22
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question.html:22
+msgid "loading…"
+msgstr "carregando…"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field.html:37
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword.html:24
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question.html:27
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_answer.html:13
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question.html:27
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:602
+#: parsifal/apps/reviews/planning/views.py:396
+#: parsifal/apps/reviews/planning/views.py:749
+msgid "remove"
+msgstr "remover"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field.html:40
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question.html:30
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question.html:30
+msgid "removing…"
+msgstr "removendo…"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:8
+msgid "Field Type"
+msgstr "Tipo do Campo"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:9
+msgid "Select…"
+msgstr "Selecionar…"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:17
+msgid "Lookup Values"
+msgstr "Lista de Valores"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:18
+msgid "Add one value per line."
+msgstr "Adicione um valor por linha."
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:21
+msgid ""
+"Available only for <strong>select one</strong> or <strong>select many</"
+"strong> fields."
+msgstr ""
+"Disponível apenas para campos do tipo <strong>selecione um</strong> ou "
+"<strong>selecione vários</strong>."
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:27
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question_form.html:10
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_answer_form.html:13
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question_form.html:10
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:130
+msgid "save"
+msgstr "salvar"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:30
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question_form.html:13
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question_form.html:13
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:133
+msgid "saving…"
+msgstr "salvando…"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:33
+msgid "error!"
+msgstr "erro!"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:36
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question_form.html:16
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question_form.html:16
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:136
+msgid "saved!"
+msgstr "salvo!"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_data_extraction_field_form.html:39
+#: parsifal/apps/reviews/planning/templates/planning/partial_planning_question_form.html:20
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_answer_form.html:15
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_question_form.html:19
+msgid "cancel"
+msgstr "cancelar"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:11
+msgid "Edit Keyword"
+msgstr "Editar Palavra-Chave"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:13
+msgid "New Keyword"
+msgstr "Nova Palavra-Chave"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:23
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:292
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:375
+msgid "Synonyms"
+msgstr "Sinônimos"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:24
+msgid "Remove"
+msgstr "Remover"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:56
+msgid "Add synonym"
+msgstr "Adicione sinônimo"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:64
+#: parsifal/apps/reviews/templates/reviews/new.html:20
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_keyword_form.html:67
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:111
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:204
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:493
+#: parsifal/apps/reviews/planning/templates/planning/protocol.html:540
+#: parsifal/apps/reviews/templates/reviews/review.html:31
+msgid "Save"
+msgstr "Salvar"
+
+#: parsifal/apps/reviews/planning/templates/planning/partial_quality_assessment_answer_form.html:8
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:86
+msgid "Weight"
+msgstr "Peso"
+
 #: parsifal/apps/reviews/planning/templates/planning/planning_header.html:5
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:47
 msgid "Protocol"
 msgstr "Protocolo"
 
 #: parsifal/apps/reviews/planning/templates/planning/planning_header.html:8
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:43
 msgid "Quality Assessment Checklist"
 msgstr "Lista de Verificação de Avaliação de Qualidade"
-
-#: parsifal/apps/reviews/planning/templates/planning/planning_header.html:11
-msgid "Data Extraction Form"
-msgstr "Formulário de Extração de Dados"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:5
-#: parsifal/apps/reviews/templates/reviews/review_header.html:16
-msgid "Planning"
-msgstr "Planejamento"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:50
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:97
@@ -1444,14 +1603,6 @@ msgstr "O que é isto? Clique para obter ajuda."
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:105
 msgid "Objective"
 msgstr "Objetivo"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:111
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:204
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:493
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:540
-#: parsifal/apps/reviews/templates/reviews/review.html:31
-msgid "Save"
-msgstr "Salvar"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:114
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:202
@@ -1577,6 +1728,7 @@ msgstr ""
 "questões de pesquisa incluem o PICOC."
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:268
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:71
 msgid "Add Question"
 msgstr "Adicionar Questão"
 
@@ -1616,11 +1768,6 @@ msgstr "Exemplo:"
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:374
 msgid "Keyword"
 msgstr "Palavra-Chave"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:292
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:375
-msgid "Synonyms"
-msgstr "Sinônimos"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:369
 msgid ""
@@ -1754,17 +1901,9 @@ msgid "Remove this source"
 msgstr "Remover essa fonte"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:588
+#: parsifal/apps/reviews/planning/views.py:394
 msgid "It's not possible to edit Digital Library's details"
 msgstr "Não é possível editar os detalhes da Biblioteca Digital"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:591
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:597
-msgid "edit"
-msgstr "editar"
-
-#: parsifal/apps/reviews/planning/templates/planning/protocol.html:602
-msgid "remove"
-msgstr "remover"
 
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:612
 msgid "Add Source"
@@ -1796,6 +1935,74 @@ msgstr "remover selecionados"
 #: parsifal/apps/reviews/planning/templates/planning/protocol.html:650
 msgid "Exclusion Criteria"
 msgstr "Critérios de Exclusão"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:46
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:57
+msgid "Questions"
+msgstr "Questões"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:47
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:80
+msgid "Answers"
+msgstr "Respostas"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:48
+msgid "Score"
+msgstr "Pontuação"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:101
+msgid "Add Answer"
+msgstr "Adicionar Resposta"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:104
+msgid "(Add Suggested Answers)"
+msgstr "(Adicionar Respostas Sugeridas)"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:113
+msgid "Quality Assessment Scores"
+msgstr "Pontuações de Avaliação da Qualidade"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:118
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:119
+msgid "Max Score"
+msgstr "Pontuação Máxima"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:121
+msgid ""
+"Calculated based on the number of questions and on the answer of greater "
+"weight"
+msgstr ""
+"Calculado com base na quantidade de perguntas e na resposta de maior peso"
+
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:125
+#: parsifal/apps/reviews/planning/templates/planning/quality_assessment_checklist.html:126
+msgid "Cutoff Score"
+msgstr "Ponto de Corte"
+
+#: parsifal/apps/reviews/planning/views.py:75
+#, python-format
+msgid ""
+"The review objectives should not exceed 1000 characters. The given "
+"objectives have %s characters."
+msgstr ""
+"Os objetivos da revisão não devem exceder 1000 caracteres. Os objetivos "
+"informados têm %s caracteres."
+
+#: parsifal/apps/reviews/planning/views.py:81
+msgid "Your review have been saved successfully!"
+msgstr "Sua revisão foi salva com sucesso!"
+
+#: parsifal/apps/reviews/planning/views.py:779
+msgid "Cutoff score saved successfully!"
+msgstr "Ponto de corte salvo com sucesso!"
+
+#: parsifal/apps/reviews/planning/views.py:781
+msgid "Invalid value."
+msgstr "Valor inválido."
+
+#: parsifal/apps/reviews/planning/views.py:815
+msgid "Description and Type are required fields."
+msgstr "Descrição e Tipo são campos obrigatórios."
 
 #: parsifal/apps/reviews/reporting/apps.py:7
 msgid "Reviews: Reporting"
@@ -1901,10 +2108,6 @@ msgstr "Crie uma nova revisão"
 #: parsifal/apps/reviews/templates/reviews/new.html:19
 msgid "Create review"
 msgstr "Criar revisão"
-
-#: parsifal/apps/reviews/templates/reviews/new.html:20
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: parsifal/apps/reviews/templates/reviews/review.html:23
 msgid "Review details"
@@ -2266,6 +2469,3 @@ msgstr[1] "%d minutos"
 
 #~ msgid "Title"
 #~ msgstr "Título"
-
-#~ msgid "Description"
-#~ msgstr "Descrição"

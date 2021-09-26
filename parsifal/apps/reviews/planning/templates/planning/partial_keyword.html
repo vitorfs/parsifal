@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <tr data-keyword-id="{{ keyword.pk }}" data-keyword-description="{{ keyword.description }}">
   <td style="vertical-align: middle;">
     {{ keyword.description }}
@@ -15,11 +17,11 @@
   <td style="width: 200px; text-align: right; vertical-align: middle;">
     <button type="button" class="btn btn-sm btn-warning js-start-keyword-edit">
       <span class="glyphicon glyphicon-pencil"></span>
-      edit
+      {% translate "edit" %}
     </button>
     <button type="button" class="btn btn-sm btn-danger js-start-keyword-deletion">
       <span class="glyphicon glyphicon-trash"></span>
-      remove
+      {% translate "remove" %}
     </button>
   </td>
 </tr>

@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <tr oid="{{ field.id }}">
   <td style="width: 50px; text-align: center; vertical-align: middle;">
     <input type="hidden" name="data-extraction-field-order" value="{{ question.order }}">
@@ -24,18 +26,18 @@
   <td style="width: 200px; text-align: right; vertical-align: middle;">
     <button type="button" class="btn btn-sm btn-warning btn-edit-data-extraction-field">
       <span class="btn-ajax-normal">
-        <span class="glyphicon glyphicon-pencil"></span> edit
+        <span class="glyphicon glyphicon-pencil"></span> {% translate "edit" %}
       </span>
       <span class="btn-ajax-loading">
-        <span class="glyphicon glyphicon-refresh spin"></span> loading…
+        <span class="glyphicon glyphicon-refresh spin"></span> {% translate "loading…" %}
       </span>
     </button>
     <button type="button" class="btn btn-sm btn-danger btn-remove-data-extraction-field">
       <span class="btn-ajax-normal">
-        <span class="glyphicon glyphicon-trash"></span> remove
+        <span class="glyphicon glyphicon-trash"></span> {% translate "remove" %}
       </span>
       <span class="btn-ajax-loading">
-        <span class="glyphicon glyphicon-refresh spin"></span> removing…
+        <span class="glyphicon glyphicon-refresh spin"></span> {% translate "removing…" %}
       </span>
     </button>
   </td>

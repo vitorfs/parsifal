@@ -7,8 +7,8 @@ from django.forms.models import inlineformset_factory
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse as r
 from django.utils.html import escape
+from django.utils.translation import gettext as _
 
 from parsifal.apps.reviews.decorators import author_required
 from parsifal.apps.reviews.models import (
@@ -29,7 +29,7 @@ from parsifal.apps.reviews.planning.forms import KeywordForm, SynonymForm
 @author_required
 @login_required
 def planning(request, username, review_name):
-    return redirect(r("protocol", args=(username, review_name)))
+    return redirect("protocol", username, review_name)
 
 
 @author_required
@@ -72,13 +72,13 @@ def save_objective(request):
         review = Review.objects.get(pk=review_id)
         if len(objective) > 1000:
             return HttpResponseBadRequest(
-                "The review objectives should not exceed 1000 characters. The given objectives have %s characters."
+                _("The review objectives should not exceed 1000 characters. The given objectives have %s characters.")
                 % len(objective)
             )
         else:
             review.objective = objective
             review.save()
-            return HttpResponse("Your review have been saved successfully!")
+            return HttpResponse(_("Your review have been saved successfully!"))
     except Exception:
         return HttpResponseBadRequest()
 
@@ -389,10 +389,23 @@ def html_source(source):
         html += '<td><a href="' + escape(source.url) + '" target="_blank">' + escape(source.url) + "</a></td>"
     else:
         html += "<td>" + escape(source.url) + "</td>"
+
+    params = {
+        "title": _("It's not possible to edit Digital Library's details"),
+        "edit": _("edit"),
+        "remove": _("remove"),
+    }
     if source.is_default:
-        html += '<td class="text-right"><span data-toggle="tooltip" data-placement="top" data-container="body" title="It\'s not possible to edit Digital Library\'s details"><button type="button" class="btn btn-sm btn-warning" disabled>edit</button></span> <button type="button" class="btn btn-danger btn-sm js-start-remove">remove</a></td></tr>'  # noqa
+        html += (
+            '<td class="text-right"><span data-toggle="tooltip" data-placement="top" data-container="body" title="%(title)s"><button type="button" class="btn btn-sm btn-warning" disabled>%(edit)s</button></span> <button type="button" class="btn btn-danger btn-sm js-start-remove">%(remove)s</a></td></tr>'  # noqa
+            % params
+        )
     else:
-        html += '<td class="text-right"><button type="button" class="btn btn-sm btn-warning btn-edit-source"><span class="glyphicon glyphicon-pencil"></span> edit</button> <button type="button" class="btn btn-danger btn-sm js-start-remove"><span class="glyphicon glyphicon-trash"></span> remove</a></td></tr>'  # noqa
+        html += (
+            '<td class="text-right"><button type="button" class="btn btn-sm btn-warning btn-edit-source"><span class="glyphicon glyphicon-pencil"></span> %(edit)s</button> <button type="button" class="btn btn-danger btn-sm js-start-remove"><span class="glyphicon glyphicon-trash"></span> %(remove)s</a></td></tr>'  # noqa
+            % params
+        )
+
     return html
 
 
@@ -725,11 +738,15 @@ def add_suggested_answer(request):
                   <td>{1}</td>
                   <td>{2}</td>
                   <td>
-                    <button type="button" class="btn btn-warning btn-sm btn-edit-quality-answer">edit</button>
-                    <button type="button" class="btn btn-danger btn-sm btn-remove-quality-answer">remove</button>
+                    <button type="button" class="btn btn-warning btn-sm btn-edit-quality-answer">{3}</button>
+                    <button type="button" class="btn btn-danger btn-sm btn-remove-quality-answer">{4}</button>
                   </td>
                 </tr>""".format(
-                    quality_answer.id, quality_answer.description, quality_answer.weight
+                    quality_answer.id,
+                    escape(quality_answer.description),
+                    quality_answer.weight,
+                    _("edit"),
+                    _("remove"),
                 )
             return HttpResponse(html_answers)
         else:
@@ -759,9 +776,9 @@ def save_cutoff_score(request):
         review = Review.objects.get(pk=review_id)
         review.quality_assessment_cutoff_score = float(cutoff_score)
         review.save()
-        return HttpResponse("Cutoff score saved successfully!")
+        return HttpResponse(_("Cutoff score saved successfully!"))
     except Exception:
-        return HttpResponseBadRequest("Invalid value.")
+        return HttpResponseBadRequest(_("Invalid value."))
 
 
 # =====================================================================================================================
@@ -795,7 +812,7 @@ def save_data_extraction_field(request):
         field_id = request.POST["field-id"]
 
         if not field_type and not description:
-            return HttpResponseBadRequest("Description and Type are required fields.")
+            return HttpResponseBadRequest(_("Description and Type are required fields."))
 
         lookup_values = lookup_values.split("\n")
         lookup_values = list(set(lookup_values))

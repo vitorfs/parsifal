@@ -1,10 +1,12 @@
+{% load i18n %}
+
 <tr oid="{{ field.id|default:'None' }}" csrf-token="{{ csrf_token }}">
   <td colspan="2">
-    <input type="text" class="form-control" id="data-extraction-field-description" maxlength="255" value="{{ field.description }}">
+    <input type="text" class="form-control" id="data-extraction-field-description" maxlength="255" value="{{ field.description }}" aria-label="{% translate "Description" %}">
   </td>
   <td style="vertical-align: middle;">
-    <select id="data-extraction-field-type" class="form-control">
-      <option value="">Select...</option>
+    <select id="data-extraction-field-type" class="form-control" aria-label="{% translate "Field Type" %}">
+      <option value="">{% translate "Select…" %}</option>
       {% for field_type in field.FIELD_TYPES %}
         <option value="{{ field_type.0 }}" {% if field.field_type == field_type.0 %} selected{% endif %}>{{ field_type.1 }}</option>
       {% endfor %}
@@ -12,28 +14,28 @@
   </td>
   <td style="vertical-align: middle;">
     <div class="select-field" style="{% if not field.is_select_field %}display: none{% endif %}">
-      <textarea class="form-control" id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}{% endfor %}</textarea>
-      <p>Add one value per line.</p>
+      <textarea class="form-control" id="data-extraction-lookup-values" style="width: 250px" aria-label="{% translate "Lookup Values" %}">{% for value in field.get_select_values %}{{ value }}{% endfor %}</textarea>
+      <p>{% translate "Add one value per line." %}</p>
     </div>
     <div class="no-select-field" style="{% if field.is_select_field %}display: none{% endif %}">
-      <p>Available only for <strong>select one</strong> or <strong>select many</strong> fields.</p>
+      <p>{% translate "Available only for <strong>select one</strong> or <strong>select many</strong> fields." %}</p>
     </div>
   </td>
   <td style="width: 200px; text-align: right; vertical-align: middle;">
     <button type="button" class="btn btn-sm btn-success" id="btn-save-data-extraction-field">
       <span class="btn-ajax-normal">
-        <span class="glyphicon glyphicon-ok"></span> save
+        <span class="glyphicon glyphicon-ok"></span> {% translate "save" %}
       </span>
       <span class="btn-ajax-loading">
-        <span class="glyphicon glyphicon-refresh spin"></span> saving…
+        <span class="glyphicon glyphicon-refresh spin"></span> {% translate "saving…" %}
       </span>
       <span class="btn-ajax-error">
-        <span class="glyphicon glyphicon-remove"></span> error!
+        <span class="glyphicon glyphicon-remove"></span> {% translate "error!" %}
       </span>
       <span class="btn-ajax-complete">
-        <span class="glyphicon glyphicon-ok"></span> saved!
+        <span class="glyphicon glyphicon-ok"></span> {% translate "saved!" %}
       </span>
     </button>
-    <button type="button" class="btn btn-sm btn-default" id="btn-cancel-data-extraction-field">cancel</button>
+    <button type="button" class="btn btn-sm btn-default" id="btn-cancel-data-extraction-field">{% translate "cancel" %}</button>
   </td>
 </tr>

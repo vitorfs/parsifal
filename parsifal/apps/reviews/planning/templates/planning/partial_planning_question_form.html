@@ -1,21 +1,23 @@
+{% load i18n %}
+
 <tr data-question-id="{{ question.id|default:'None' }}">
   <td style="vertical-align: middle;" colspan="2">
-    <input class="form-control" type="text" name="question-description" maxlength="500" value="{{ question.question }}">
+    <input class="form-control" type="text" name="question-description" maxlength="500" value="{{ question.question }}" aria-label="{% translate "Description" %}">
   </td>
   <td style="width: 180px; text-align: right; vertical-align: middle;">
     <button type="button" class="btn btn-sm btn-success btn-save-question">
       <span class="btn-ajax-normal">
-        <span class="glyphicon glyphicon-ok"></span> save
+        <span class="glyphicon glyphicon-ok"></span> {% translate "save" %}
       </span>
       <span class="btn-ajax-loading">
-        <span class="glyphicon glyphicon-refresh spin"></span> saving…
+        <span class="glyphicon glyphicon-refresh spin"></span> {% translate "saving…" %}
       </span>
       <span class="btn-ajax-complete">
-        <span class="glyphicon glyphicon-ok"></span> saved!
+        <span class="glyphicon glyphicon-ok"></span> {% translate "saved!" %}
       </span>
     </button>
     <button type="button" class="btn btn-sm btn-default btn-cancel-question">
-      cancel
+      {% translate "cancel" %}
     </button>
   </td>
 </tr>

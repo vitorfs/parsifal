@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-{% load static %}
+{% load compress i18n static %}
 
-{% block title %}Planning · {{ review.title }}{% endblock %}
+{% block title %}{% translate "Planning" %} · {{ review.title }}{% endblock %}
 
 {% block stylesheet %}
   <style>
@@ -13,23 +13,26 @@
 {% endblock stylesheet %}
 
 {% block javascript %}
-  <script src="{% static 'js/planning_quality_assessment.js' %}?_=2"></script>
-  <script>
-    $(function () {
-      $("#protocol").affix({
-        offset: {
-          top: $("#protocol").offset().top - 20,
-          bottom: 70
-        }
+  {% compress js %}
+    <script src="{% static "js/planning_quality_assessment.js" %}"></script>
+    <script>
+      $(function () {
+        var $protocol = $("#protocol");
+        $protocol.affix({
+          offset: {
+            top: $protocol.offset().top - 20,
+            bottom: 70
+          }
+        });
       });
-    });
-  </script>
+    </script>
+  {% endcompress %}
 {% endblock javascript %}
 
 {% block content %}
 
-  {% include 'reviews/review_header.html' with active_menu='planning' %}
-  {% include 'planning/planning_header.html' with active_tab='quality' %}
+  {% include "reviews/review_header.html" with active_menu="planning" %}
+  {% include "planning/planning_header.html" with active_tab="quality" %}
 
   {% csrf_token %}
 
@@ -37,12 +40,12 @@
     <div class="hidden-sm col-md-4 col-lg-3" style="padding-top: 20px;">
       <div id="protocol" class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Quality Assessment Checklist</h3>
+          <h3 class="panel-title">{% translate "Quality Assessment Checklist" %}</h3>
         </div>
         <div class="list-group">
-          <a href="#questions" class="list-group-item">Questions</a>
-          <a href="#answers" class="list-group-item">Answers</a>
-          <a href="#score" class="list-group-item">Score</a>
+          <a href="#questions" class="list-group-item">{% translate "Questions" %}</a>
+          <a href="#answers" class="list-group-item">{% translate "Answers" %}</a>
+          <a href="#score" class="list-group-item">{% translate "Score" %}</a>
         </div>
       </div>
     </div>
@@ -51,7 +54,7 @@
       <section id="questions">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Questions</h3>
+            <h3 class="panel-title">{% translate "Questions" %}</h3>
           </div>
           <table class="table" id="tbl-quality-questions">
             <tbody>
@@ -65,7 +68,7 @@
           <div class="panel-footer">
             <button type="button" class="btn btn-primary" id="btn-add-quality-question">
               <span class="glyphicon glyphicon-plus"></span>
-              Add Question
+              {% translate "Add Question" %}
             </button>
           </div>
         </div>
@@ -74,13 +77,13 @@
       <section id="answers">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Answers</h3>
+            <h3 class="panel-title">{% translate "Answers" %}</h3>
           </div>
           <table class="table" id="tbl-quality-answers">
             <thead>
               <tr>
-                <th>Description</th>
-                <th>Weight</th>
+                <th>{% translate "Description" %}</th>
+                <th>{% translate "Weight" %}</th>
                 <th style="width: 150px;"></th>
               </tr>
             </thead>
@@ -95,10 +98,10 @@
           <div class="panel-footer">
             <button type="button" class="btn btn-primary" id="btn-add-quality-answer">
               <span class="glyphicon glyphicon-plus"></span>
-              Add Answer
+              {% translate "Add Answer" %}
             </button>
             {% if not review.get_quality_assessment_answers %}
-              <button type="button" class="btn btn-link" id="add-suggested-answers">(Add Suggested Answers)</button>
+              <button type="button" class="btn btn-link" id="add-suggested-answers">{% translate "(Add Suggested Answers)" %}</button>
             {% endif %}
           </div>
         </div>
@@ -107,30 +110,30 @@
       <section id="score" style="margin-bottom: 20px;">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Quality Assessment Scores</h3>
+            <h3 class="panel-title">{% translate "Quality Assessment Scores" %}</h3>
           </div>
           <table class="table" id="tbl-cutoff-score">
             <tbody>
               <tr>
-                <td style="white-space: nowrap; vertical-align: middle;"><strong>Max Score</strong></td>
-                <td><input type="text" class="form-control" id="max-score" readonly value="{{ review.calculate_quality_assessment_max_score }}" style="width: 70px; text-align: right;"></td>
+                <td style="white-space: nowrap; vertical-align: middle;"><strong>{% translate "Max Score" %}</strong></td>
+                <td><input type="text" class="form-control" id="max-score" aria-label="{% translate "Max Score" %}" readonly value="{{ review.calculate_quality_assessment_max_score }}" style="width: 70px; text-align: right;"></td>
                 <td>
-                  <span class="help-block">Calculated based on the number of questions and on the answer of greater weight</span>
+                  <span class="help-block">{% translate "Calculated based on the number of questions and on the answer of greater weight" %}</span>
                 </td>
               </tr>
               <tr>
-                <td style="white-space: nowrap; vertical-align: middle;"><strong>Cutoff Score</strong></td>
-                <td><input type="text" class="form-control" id="cutoff-score" value="{{ review.quality_assessment_cutoff_score }}" style="width: 70px; text-align: right;"></td>
+                <td style="white-space: nowrap; vertical-align: middle;"><strong>{% translate "Cutoff Score" %}</strong></td>
+                <td><input type="text" class="form-control" id="cutoff-score" aria-label="{% translate "Cutoff Score" %}" value="{{ review.quality_assessment_cutoff_score }}" style="width: 70px; text-align: right;"></td>
                 <td>
                   <button type="button" class="btn btn-sm btn-success" id="save-cutoff-score">
                     <span class="btn-ajax-normal">
-                      <span class="glyphicon glyphicon-ok"></span> save
+                      <span class="glyphicon glyphicon-ok"></span> {% translate "save" %}
                     </span>
                     <span class="btn-ajax-loading">
-                      <span class="glyphicon glyphicon-refresh spin"></span> saving…
+                      <span class="glyphicon glyphicon-refresh spin"></span> {% translate "saving…" %}
                     </span>
                     <span class="btn-ajax-complete">
-                      <span class="glyphicon glyphicon-ok"></span> saved!
+                      <span class="glyphicon glyphicon-ok"></span> {% translate "saved!" %}
                     </span>
                   </button>
                 </td>
@@ -141,5 +144,4 @@
       </section>
     </div>
   </div>
-
 {% endblock content %}

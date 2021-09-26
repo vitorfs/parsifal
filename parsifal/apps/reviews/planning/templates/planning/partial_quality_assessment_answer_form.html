@@ -1,15 +1,17 @@
+{% load i18n %}
+
 <tr oid="{{ quality_answer.id|default:'None' }}" csrf-token="{{ csrf_token }}">
   <td>
-    <input type="text" maxlength="255" class="form-control quality-answer-description" value="{{ quality_answer.description }}">
+    <input type="text" maxlength="255" class="form-control quality-answer-description" value="{{ quality_answer.description }}" aria-label="{% translate "Description" %}">
   </td>
   <td>
-    <input type="text" maxlength="10" class="form-control quality-answer-weight" value="{{ quality_answer.weight|default_if_none:'' }}">
+    <input type="text" maxlength="10" class="form-control quality-answer-weight" value="{{ quality_answer.weight|default_if_none:'' }}" aria-label="{% translate "Weight" %}">
   </td>
   <td style="width: 200px; text-align: right; vertical-align: middle;">
     <button type="button" class="btn btn-sm btn-success btn-save-quality-answer">
       <span class="glyphicon glyphicon-ok"></span>
-      save
+      {% translate "save" %}
     </button>
-    <button type="button" class="btn btn-sm btn-default btn-cancel-quality-answer">cancel</button>
+    <button type="button" class="btn btn-sm btn-default btn-cancel-quality-answer">{% translate "cancel" %}</button>
   </td>
 </tr>
