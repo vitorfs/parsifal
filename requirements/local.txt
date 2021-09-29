@@ -2,5 +2,5 @@
 
 django-debug-toolbar==3.2.2
 git+git://github.com/jazzband/django-silk.git#egg=django-silk
-ipython==7.27.0
+ipython==7.28.0
 towncrier==21.3.0

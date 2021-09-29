@@ -18,7 +18,6 @@ from django.views.decorators.http import require_POST
 import bibtexparser
 import xlwt
 from bibtexparser.bparser import BibTexParser
-from bibtexparser.customization import convert_to_unicode
 
 from parsifal.apps.reviews.decorators import author_required
 from parsifal.apps.reviews.models import (
@@ -670,7 +669,6 @@ def import_bibtex(request):
     if ext in valid_extensions or bibtex_file.content_type == "application/x-bibtex":
         try:
             parser = BibTexParser(common_strings=True)
-            parser.customization = convert_to_unicode
             bib_database = bibtexparser.load(bibtex_file, parser=parser)
             articles = bibtex_to_article_object(bib_database, review, source)
             _import_articles(request, source, articles)
@@ -698,7 +696,6 @@ def import_bibtex_raw_content(request):
     source = Source.objects.get(pk=source_id)
 
     parser = BibTexParser(common_strings=True)
-    parser.customization = convert_to_unicode
     bib_database = bibtexparser.loads(bibtex_file, parser=parser)
     articles = bibtex_to_article_object(bib_database, review, source)
     _import_articles(request, source, articles)

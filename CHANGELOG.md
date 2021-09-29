@@ -1,3 +1,14 @@
+Parsifal 2.1.1 (2021-09-28)
+===========================
+
+Bugfixes
+--------
+
+- Improve study selection resolve all action (#86)
+- Fixes error while trying to delete a literature review (#89)
+- Fix issue while trying to import a bibtex file. (#91)
+
+
 Parsifal 2.1 (2021-09-12)
 =========================
 
