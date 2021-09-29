@@ -45,6 +45,6 @@ sentry_sdk.init(
     environment=PARSIFAL_ENVIRONMENT,
     release=PARSIFAL_RELEASE,
     integrations=[DjangoIntegration()],
-    traces_sample_rate=0.05,
+    traces_sample_rate=0.01,
     send_default_pii=True,
 )
