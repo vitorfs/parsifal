@@ -1,8 +1,7 @@
-bleach==4.1.0
 bibtexparser==1.2.0
 Django==3.2.7
 django-compressor==2.4.1
-django-crispy-forms==1.12.0
+django-crispy-forms==1.13.0
 dj-database-url==0.5.0
 requests==2.26.0
 Pillow==8.3.2
@@ -10,5 +9,5 @@ psycopg2-binary==2.9.1
 python-decouple==3.4
 python-docx==0.8.11
 pytz==2021.1
-beautifulsoup4==4.9.3
+beautifulsoup4==4.10.0
 xlwt==1.3.0

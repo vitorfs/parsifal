@@ -65,7 +65,7 @@
           release: "{{ parsifal_release }}",
           environment: "{{ parsifal_environment }}",
           integrations: [new Sentry.Integrations.BrowserTracing()],
-          tracesSampleRate: 0.05
+          tracesSampleRate: 0.01
         });
       </script>
     {% endif %}

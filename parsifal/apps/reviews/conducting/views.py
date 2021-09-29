@@ -18,7 +18,6 @@ from django.views.decorators.http import require_POST
 import bibtexparser
 import xlwt
 from bibtexparser.bparser import BibTexParser
-from bibtexparser.customization import convert_to_unicode
 
 from parsifal.apps.reviews.decorators import author_required
 from parsifal.apps.reviews.models import (
@@ -670,7 +669,6 @@ def import_bibtex(request):
     if ext in valid_extensions or bibtex_file.content_type == "application/x-bibtex":
         try:
             parser = BibTexParser(common_strings=True)
-            parser.customization = convert_to_unicode
             bib_database = bibtexparser.load(bibtex_file, parser=parser)
             articles = bibtex_to_article_object(bib_database, review, source)
             _import_articles(request, source, articles)
@@ -698,7 +696,6 @@ def import_bibtex_raw_content(request):
     source = Source.objects.get(pk=source_id)
 
     parser = BibTexParser(common_strings=True)
-    parser.customization = convert_to_unicode
     bib_database = bibtexparser.loads(bibtex_file, parser=parser)
     articles = bibtex_to_article_object(bib_database, review, source)
     _import_articles(request, source, articles)
@@ -1038,16 +1035,16 @@ def resolve_duplicated(request):
 @login_required
 def resolve_all(request):
     try:
-        article_id_list = []
         review_id = request.POST["review-id"]
         review = Review.objects.get(pk=review_id)
         duplicates = review.get_duplicate_articles()
+        articles_to_update = []
         for duplicate in duplicates:
             for i in range(1, len(duplicate)):
                 duplicate[i].status = Article.DUPLICATED
-                duplicate[i].save()
-                article_id_list.append(str(duplicate[i].id))
-        return HttpResponse(",".join(article_id_list))
+                articles_to_update.append(duplicate[i])
+        Article.objects.bulk_update(articles_to_update, fields=("status",))
+        return HttpResponse(",".join([str(article.pk) for article in articles_to_update]))
     except Exception:
         return HttpResponseBadRequest()
 
