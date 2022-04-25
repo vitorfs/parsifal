@@ -317,7 +317,7 @@ $(function () {
             $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
               var row = $(this).closest("tr");
               $(row).attr("article-status", "A");
-              $("span", row).replaceWith("<span class='label label-success'>Unclassified</span>");
+              $("span", row).replaceWith("<span class='label label-default'>Unclassified</span>");
             });
             break;
           case "accept":
