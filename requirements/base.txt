@@ -1,5 +1,5 @@
 bibtexparser==1.2.0
-Django==3.2.7
+Django==3.2.14
 django-compressor==2.4.1
 django-crispy-forms==1.13.0
 dj-database-url==0.5.0
