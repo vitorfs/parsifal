@@ -929,6 +929,17 @@ def multiple_articles_action_remove(request):
     except Exception:
         return HttpResponseBadRequest()
 
+@author_required
+@login_required
+def multiple_articles_action_unclassify(request):
+    try:
+        article_ids = request.POST["article_ids"]
+        article_ids_list = article_ids.split("|")
+        if article_ids_list:
+            Article.objects.filter(pk__in=article_ids_list).update(status=Article.UNCLASSIFIED)
+        return HttpResponse()
+    except Exception:
+        return HttpResponseBadRequest()
 
 @author_required
 @login_required

@@ -313,6 +313,13 @@ $(function () {
               $(this).closest("tr").remove();
             });
             break;
+          case "unclassify":
+            $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
+              var row = $(this).closest("tr");
+              $(row).attr("article-status", "A");
+              $("span", row).replaceWith("<span class='label label-default'>Unclassified</span>");
+            });
+            break;
           case "accept":
             $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
               var row = $(this).closest("tr");
@@ -358,6 +365,9 @@ $(function () {
         article_ids = article_ids.substring(0, article_ids.length - 1);
         switch (action) {
           case "remove":
+            multiple_articles_actions(article_ids, action);
+            break;
+          case "unclassify":
             multiple_articles_actions(article_ids, action);
             break;
           case "accept":
