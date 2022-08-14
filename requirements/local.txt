@@ -1,6 +1,6 @@
 -r tests.txt
 
-django-debug-toolbar==3.2.2
+django-debug-toolbar==3.5.0
 git+git://github.com/jazzband/django-silk.git#egg=django-silk
-ipython==7.28.0
-towncrier==21.3.0
+ipython==8.4.0
+towncrier==21.9.0

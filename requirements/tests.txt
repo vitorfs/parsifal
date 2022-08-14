@@ -1,8 +1,8 @@
 -r base.txt
 
-coverage==5.5
-factory-boy==3.2.0
-flake8==3.9.2
-isort==5.9.3
-black==21.7b0
-tox==3.24.4
+coverage==6.4.3
+factory-boy==3.2.1
+flake8==5.0.4
+isort==5.10.1
+black==22.6.0
+tox==3.25.1
