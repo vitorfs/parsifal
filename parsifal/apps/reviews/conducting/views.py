@@ -924,7 +924,24 @@ def multiple_articles_action_remove(request):
         article_ids = request.POST["article_ids"]
         article_ids_list = article_ids.split("|")
         if article_ids_list:
-            Article.objects.filter(pk__in=article_ids_list).delete()
+            review_id = request.POST["review-id"]
+            review = get_object_or_404(Review, pk=review_id)
+            review.article_set.filter(pk__in=article_ids_list).delete()
+        return HttpResponse()
+    except Exception:
+        return HttpResponseBadRequest()
+
+
+@author_required
+@login_required
+def multiple_articles_action_unclassify(request):
+    try:
+        article_ids = request.POST["article_ids"]
+        article_ids_list = article_ids.split("|")
+        if article_ids_list:
+            review_id = request.POST["review-id"]
+            review = get_object_or_404(Review, pk=review_id)
+            review.article_set.filter(pk__in=article_ids_list).update(status=Article.UNCLASSIFIED)
         return HttpResponse()
     except Exception:
         return HttpResponseBadRequest()
@@ -937,7 +954,9 @@ def multiple_articles_action_accept(request):
         article_ids = request.POST["article_ids"]
         article_ids_list = article_ids.split("|")
         if article_ids_list:
-            Article.objects.filter(pk__in=article_ids_list).update(status=Article.ACCEPTED)
+            review_id = request.POST["review-id"]
+            review = get_object_or_404(Review, pk=review_id)
+            review.article_set.filter(pk__in=article_ids_list).update(status=Article.ACCEPTED)
         return HttpResponse()
     except Exception:
         return HttpResponseBadRequest()
@@ -950,7 +969,9 @@ def multiple_articles_action_reject(request):
         article_ids = request.POST["article_ids"]
         article_ids_list = article_ids.split("|")
         if article_ids_list:
-            Article.objects.filter(pk__in=article_ids_list).update(status=Article.REJECTED)
+            review_id = request.POST["review-id"]
+            review = get_object_or_404(Review, pk=review_id)
+            review.article_set.filter(pk__in=article_ids_list).update(status=Article.REJECTED)
         return HttpResponse()
     except Exception:
         return HttpResponseBadRequest()
@@ -963,7 +984,9 @@ def multiple_articles_action_duplicated(request):
         article_ids = request.POST["article_ids"]
         article_ids_list = article_ids.split("|")
         if article_ids_list:
-            Article.objects.filter(pk__in=article_ids_list).update(status=Article.DUPLICATED)
+            review_id = request.POST["review-id"]
+            review = get_object_or_404(Review, pk=review_id)
+            review.article_set.filter(pk__in=article_ids_list).update(status=Article.DUPLICATED)
         return HttpResponse()
     except Exception:
         return HttpResponseBadRequest()
