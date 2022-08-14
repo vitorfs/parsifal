@@ -36,7 +36,7 @@ class ManageAccessView(MainAuthorRequiredMixin, ReviewMixin, SuccessMessageMixin
         return super().get_context_data(**kwargs)
 
 
-class InviteDeleteView(MainAuthorRequiredMixin, ReviewMixin, DeleteView):
+class InviteDeleteView(LoginRequiredMixin, MainAuthorRequiredMixin, ReviewMixin, SuccessMessageMixin, DeleteView):
     model = Invite
     pk_url_kwarg = "invite_id"
     context_object_name = "invite"
@@ -47,10 +47,8 @@ class InviteDeleteView(MainAuthorRequiredMixin, ReviewMixin, DeleteView):
     def get_success_url(self):
         return reverse("invites:manage_access", args=(self.review.author.username, self.review.name))
 
-    def delete(self, request, *args, **kwargs):
-        response = super().delete(request, *args, **kwargs)
-        messages.success(request, _("The invitation was removed with success."))
-        return response
+    def get_success_message(self, cleaned_data):
+        return _("The invitation was removed with success.")
 
 
 class InviteDetailView(DetailView):

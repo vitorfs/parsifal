@@ -30,6 +30,11 @@ urlpatterns = [
         name="multiple_articles_action_remove",
     ),
     path(
+        "multiple_articles_action/unclassify/",
+        views.multiple_articles_action_unclassify,
+        name="multiple_articles_action_unclassify",
+    ),
+    path(
         "multiple_articles_action/accept/",
         views.multiple_articles_action_accept,
         name="multiple_articles_action_accept",

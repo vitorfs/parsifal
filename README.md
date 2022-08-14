@@ -33,7 +33,7 @@ Performing a systematic literature review is a labor-intensive task that require
 The project is currently running on the following versions:
 
 * Python 3.9
-* Django 3.2
+* Django 4.1
 * PostgreSQL 12
 * Bootstrap 3.4
 * jQuery 3.6
