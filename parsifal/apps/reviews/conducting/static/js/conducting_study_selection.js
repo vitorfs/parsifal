@@ -316,7 +316,7 @@ $(function () {
           case "unclassify":
             $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
               var row = $(this).closest("tr");
-              $(row).attr("article-status", "A");
+              $(row).attr("article-status", "U");
               $("span", row).replaceWith("<span class='label label-default'>Unclassified</span>");
             });
             break;
@@ -337,7 +337,7 @@ $(function () {
           case "duplicated":
             $(".source-articles table tbody input[type=checkbox]:checked").each(function () {
               var row = $(this).closest("tr");
-              $(row).attr("article-status", "R");
+              $(row).attr("article-status", "D");
               $("span", row).replaceWith("<span class='label label-warning'>Duplicated</span>");
             });
             break;
