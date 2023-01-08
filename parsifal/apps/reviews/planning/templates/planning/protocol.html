@@ -594,9 +594,9 @@
                   <input type="text" id="input-inclusion" maxlength="200" class="form-control">
                 </div>
                 <div class="form-group">
-                  <select multiple="multiple" size="6" id="inclusion-criteria" class="form-control">
+                  <select multiple="multiple" size="6" id="inclusion-criteria" class="form-control" style="overflow-x: scroll;">
                     {% for criteria in review.get_inclusion_criterias %}
-                      <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+                      <option class="container row" value="{{ criteria.id }}">{{ criteria.description }}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -611,9 +611,9 @@
                   <input type="text" id="input-exclusion" maxlength="200" class="form-control">
                 </div>
                 <div class="form-group">
-                  <select multiple="multiple" size="6" id="exclusion-criteria" class="form-control">
+                  <select multiple="multiple" size="6" id="exclusion-criteria" class="form-control" style="overflow-x: scroll;">
                     {% for criteria in review.get_exclusion_criterias %}
-                      <option value="{{ criteria.id }}">{{ criteria.description }}</option>
+                    <option class="container row" value="{{ criteria.id }}">{{ criteria.description }}</option>
                     {% endfor %}
                   </select>
                 </div>
