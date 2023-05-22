@@ -12,7 +12,7 @@
   </td>
   <td style="vertical-align: middle;">
     <div class="select-field" style="{% if not field.is_select_field %}display: none{% endif %}">
-      <textarea class="form-control" id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}{% endfor %}</textarea>
+      <textarea class="form-control" id="data-extraction-lookup-values" style="width: 250px">{% for value in field.get_select_values %}{{ value }}&#10;{% endfor %}</textarea>
       <p>Add one value per line.</p>
     </div>
     <div class="no-select-field" style="{% if field.is_select_field %}display: none{% endif %}">
