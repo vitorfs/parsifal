@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='dropbox_token',
-            field=models.CharField(max_length=2000, null=True, blank=True),
+            field=models.CharField(max_length=20000, null=True, blank=True),
         ),
     ]

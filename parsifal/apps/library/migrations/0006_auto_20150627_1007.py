@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='document',
             name='month',
-            field=models.CharField(max_length=30, null=True, blank=True),
+            field=models.CharField(max_length=300, null=True, blank=True),
         ),
     ]

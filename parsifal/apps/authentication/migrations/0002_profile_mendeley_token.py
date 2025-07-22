@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='mendeley_token',
-            field=models.CharField(max_length=255, null=True, blank=True),
+            field=models.CharField(max_length=2550, null=True, blank=True),
         ),
     ]

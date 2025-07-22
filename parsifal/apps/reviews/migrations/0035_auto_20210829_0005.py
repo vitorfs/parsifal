@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='article',
             name='status',
-            field=models.CharField(choices=[('U', 'Unclassified'), ('R', 'Rejected'), ('A', 'Accepted'), ('D', 'Duplicated')], default='U', max_length=1),
+            field=models.CharField(choices=[('U', 'Unclassified'), ('R', 'Rejected'), ('A', 'Accepted'), ('D', 'Duplicated')], default='U', max_length=10),
         ),
         migrations.AlterField(
             model_name='dataextraction',
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='dataextractionfield',
             name='field_type',
-            field=models.CharField(choices=[('B', 'Boolean Field'), ('S', 'String Field'), ('F', 'Float Field'), ('I', 'Integer Field'), ('D', 'Date Field'), ('O', 'Select One Field'), ('M', 'Select Many Field')], max_length=1),
+            field=models.CharField(choices=[('B', 'Boolean Field'), ('S', 'String Field'), ('F', 'Float Field'), ('I', 'Integer Field'), ('D', 'Date Field'), ('O', 'Select One Field'), ('M', 'Select Many Field')], max_length=10),
         ),
         migrations.AlterField(
             model_name='dataextractionfield',
@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='status',
-            field=models.CharField(choices=[('U', 'Unpublished'), ('P', 'Published')], default='U', max_length=1),
+            field=models.CharField(choices=[('U', 'Unpublished'), ('P', 'Published')], default='U', max_length=10),
         ),
         migrations.AlterField(
             model_name='searchresult',
@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='selectioncriteria',
             name='criteria_type',
-            field=models.CharField(choices=[('I', 'Inclusion'), ('E', 'Exclusion')], max_length=1),
+            field=models.CharField(choices=[('I', 'Inclusion'), ('E', 'Exclusion')], max_length=10),
         ),
         migrations.AlterField(
             model_name='selectioncriteria',

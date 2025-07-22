@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='document',
             name='title',
-            field=models.CharField(max_length=500, null=True, blank=True),
+            field=models.CharField(max_length=5000, null=True, blank=True),
         ),
     ]

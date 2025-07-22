@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='document',
             name='note',
-            field=models.CharField(max_length=2000, null=True, blank=True),
+            field=models.CharField(max_length=20000, null=True, blank=True),
         ),
     ]

@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
             name='Article',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=255)),
-                ('slug', models.SlugField(max_length=255)),
-                ('description', models.TextField(max_length=4000)),
+                ('name', models.CharField(max_length=2550)),
+                ('slug', models.SlugField(max_length=2550)),
+                ('description', models.TextField(max_length=40000)),
                 ('views', models.IntegerField(default=0)),
                 ('is_active', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             name='Category',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=255)),
+                ('name', models.CharField(max_length=2550)),
             ],
             options={
                 'verbose_name': 'Category',

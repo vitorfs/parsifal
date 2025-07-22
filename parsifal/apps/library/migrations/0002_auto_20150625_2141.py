@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='folder',
             name='name',
-            field=models.CharField(unique=True, max_length=50),
+            field=models.CharField(unique=True, max_length=500),
         ),
         migrations.AlterField(
             model_name='folder',

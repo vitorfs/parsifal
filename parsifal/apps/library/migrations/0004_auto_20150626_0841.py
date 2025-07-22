@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='folder',
             name='slug',
-            field=models.SlugField(max_length=55),
+            field=models.SlugField(max_length=550),
         ),
     ]

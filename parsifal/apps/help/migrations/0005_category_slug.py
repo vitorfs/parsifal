@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='slug',
-            field=models.SlugField(max_length=255, null=True),
+            field=models.SlugField(max_length=2550, null=True),
         ),
     ]

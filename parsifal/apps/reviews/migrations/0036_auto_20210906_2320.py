@@ -30,12 +30,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='comparison',
-            field=models.CharField(blank=True, max_length=200, verbose_name='comparison'),
+            field=models.CharField(blank=True, max_length=2000, verbose_name='comparison'),
         ),
         migrations.AlterField(
             model_name='review',
             name='context',
-            field=models.CharField(blank=True, max_length=200, verbose_name='context'),
+            field=models.CharField(blank=True, max_length=2000, verbose_name='context'),
         ),
         migrations.AlterField(
             model_name='review',
@@ -45,13 +45,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='description',
-            field=models.CharField(blank=True, default='', max_length=500, verbose_name='description'),
+            field=models.CharField(blank=True, default='', max_length=5000, verbose_name='description'),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name='review',
             name='intervention',
-            field=models.CharField(blank=True, max_length=200, verbose_name='intervention'),
+            field=models.CharField(blank=True, max_length=2000, verbose_name='intervention'),
         ),
         migrations.AlterField(
             model_name='review',
@@ -61,22 +61,22 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='name',
-            field=models.SlugField(max_length=255, verbose_name='name'),
+            field=models.SlugField(max_length=2550, verbose_name='name'),
         ),
         migrations.AlterField(
             model_name='review',
             name='objective',
-            field=models.TextField(blank=True, max_length=1000, verbose_name='objective'),
+            field=models.TextField(blank=True, max_length=10000, verbose_name='objective'),
         ),
         migrations.AlterField(
             model_name='review',
             name='outcome',
-            field=models.CharField(blank=True, max_length=200, verbose_name='outcome'),
+            field=models.CharField(blank=True, max_length=2000, verbose_name='outcome'),
         ),
         migrations.AlterField(
             model_name='review',
             name='population',
-            field=models.CharField(blank=True, max_length=200, verbose_name='population'),
+            field=models.CharField(blank=True, max_length=2000, verbose_name='population'),
         ),
         migrations.AlterField(
             model_name='review',
@@ -91,11 +91,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='status',
-            field=models.CharField(choices=[('U', 'Unpublished'), ('P', 'Published')], default='U', max_length=1, verbose_name='status'),
+            field=models.CharField(choices=[('U', 'Unpublished'), ('P', 'Published')], default='U', max_length=10, verbose_name='status'),
         ),
         migrations.AlterField(
             model_name='review',
             name='title',
-            field=models.CharField(max_length=255, verbose_name='title'),
+            field=models.CharField(max_length=2550, verbose_name='title'),
         ),
     ]

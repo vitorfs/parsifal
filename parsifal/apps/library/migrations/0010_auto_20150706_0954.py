@@ -14,16 +14,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='document',
             name='keywords',
-            field=models.CharField(max_length=2000, null=True, blank=True),
+            field=models.CharField(max_length=20000, null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='document',
             name='publisher',
-            field=models.CharField(max_length=500, null=True, blank=True),
+            field=models.CharField(max_length=5000, null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='document',
             name='url',
-            field=models.CharField(max_length=500, null=True, verbose_name=b'URL', blank=True),
+            field=models.CharField(max_length=5000, null=True, verbose_name=b'URL', blank=True),
         ),
     ]

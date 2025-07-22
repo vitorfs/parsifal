@@ -9,7 +9,7 @@ from parsifal.apps.library.models import Document, Folder, SharedFolder
 class FolderForm(forms.ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control input-sm", "autocomplete": "off"}),
-        max_length=50,
+        max_length=500,
         required=True,
     )
     user = forms.ModelChoiceField(widget=forms.HiddenInput(), queryset=User.objects.all(), required=True)
@@ -43,103 +43,103 @@ class DocumentForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-control", "style": "width: 20%;"}), choices=Document.ENTRY_TYPES
     )
     title = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=255, required=False
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=2550, required=False
     )
     author = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=500, required=False
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=5000, required=False
     )
     abstract = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=4000, required=False
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=40000, required=False
     )
     keywords = forms.CharField(
-        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=500, required=False
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": "1"}), max_length=5000, required=False
     )
     year = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=10, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=100, required=False
     )
     month = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=30, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=300, required=False
     )
 
     booktitle = forms.CharField(
-        label="Book title", widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False
+        label="Book title", widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False
     )
-    editor = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
+    editor = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
     howpublished = forms.CharField(
         label="How it was published",
         widget=forms.TextInput(attrs={"class": "form-control"}),
-        max_length=255,
+        max_length=2550,
         required=False,
     )
-    journal = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
+    journal = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
     url = forms.CharField(
-        label="URL", widget=forms.URLInput(attrs={"class": "form-control"}), max_length=255, required=False
+        label="URL", widget=forms.URLInput(attrs={"class": "form-control"}), max_length=2550, required=False
     )
     publisher = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False
     )
     pages = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=2550, required=False
     )
     number = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=2550, required=False
     )
     volume = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=2550, required=False
     )
     edition = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=2550, required=False
     )
     chapter = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=2550, required=False
     )
 
-    address = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
+    address = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
     crossref = forms.CharField(
         label="Cross-reference",
         widget=forms.TextInput(attrs={"class": "form-control"}),
-        max_length=255,
+        max_length=2550,
         required=False,
     )
     institution = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False
     )
     organization = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False
     )
-    school = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
-    series = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
-    language = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
+    school = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
+    series = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
+    language = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
 
     bibtexkey = forms.CharField(
         label="BibTeX key",
         widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}),
-        max_length=50,
+        max_length=500,
         required=False,
     )
     coden = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=255, required=False
+        widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}), max_length=2550, required=False
     )
     doi = forms.CharField(
         label="DOI",
         widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}),
-        max_length=50,
+        max_length=500,
         required=False,
     )
     isbn = forms.CharField(
         label="ISBN",
         widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}),
-        max_length=30,
+        max_length=300,
         required=False,
     )
     issn = forms.CharField(
         label="ISSN",
         widget=forms.TextInput(attrs={"class": "form-control", "style": "width: 20%;"}),
-        max_length=30,
+        max_length=300,
         required=False,
     )
 
-    note = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=255, required=False)
+    note = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}), max_length=2550, required=False)
 
     class Meta:
         model = Document

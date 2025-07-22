@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='entry',
             name='content',
-            field=models.TextField(max_length=4000, null=True, blank=True),
+            field=models.TextField(max_length=40000, null=True, blank=True),
         ),
     ]

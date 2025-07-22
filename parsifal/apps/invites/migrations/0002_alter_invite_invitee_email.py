@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='invite',
             name='invitee_email',
-            field=models.EmailField(db_index=True, max_length=254, verbose_name='invitee email'),
+            field=models.EmailField(db_index=True, max_length=2540, verbose_name='invitee email'),
         ),
     ]

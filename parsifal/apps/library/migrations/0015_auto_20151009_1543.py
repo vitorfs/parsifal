@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('joined_at', models.DateTimeField(auto_now_add=True)),
                 ('is_owner', models.BooleanField(default=False)),
-                ('access', models.CharField(default=b'R', max_length=1, choices=[(b'R', b'Read'), (b'W', b'Write'), (b'A', b'Admin')])),
+                ('access', models.CharField(default=b'R', max_length=10, choices=[(b'R', b'Read'), (b'W', b'Write'), (b'A', b'Admin')])),
             ],
             options={
                 'verbose_name': 'Collaborator',
@@ -38,22 +38,22 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='folder',
             name='name',
-            field=models.CharField(max_length=50),
+            field=models.CharField(max_length=500),
         ),
         migrations.AlterField(
             model_name='folder',
             name='slug',
-            field=models.SlugField(max_length=255),
+            field=models.SlugField(max_length=2550),
         ),
         migrations.AlterField(
             model_name='sharedfolder',
             name='name',
-            field=models.CharField(max_length=50),
+            field=models.CharField(max_length=500),
         ),
         migrations.AlterField(
             model_name='sharedfolder',
             name='slug',
-            field=models.SlugField(max_length=255),
+            field=models.SlugField(max_length=2550),
         ),
         migrations.AlterUniqueTogether(
             name='folder',
