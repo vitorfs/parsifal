@@ -13,8 +13,8 @@ from parsifal.apps.library.models import Document
 
 
 class Source(models.Model):
-    name = models.CharField(max_length=100)
-    url = models.CharField(max_length=200)
+    name = models.CharField(max_length=1000)
+    url = models.CharField(max_length=2000)
     is_default = models.BooleanField(default=False)
 
     class Meta:
@@ -40,22 +40,22 @@ class Review(models.Model):
         (PUBLISHED, "Published"),
     )
 
-    name = models.SlugField(_("name"), max_length=255)
-    title = models.CharField(_("title"), max_length=255)
-    description = models.CharField(_("description"), max_length=500, blank=True)
+    name = models.SlugField(_("name"), max_length=2550)
+    title = models.CharField(_("title"), max_length=2550)
+    description = models.CharField(_("description"), max_length=5000, blank=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name=_("author"))
     create_date = models.DateTimeField(_("date created"), auto_now_add=True)
     last_update = models.DateTimeField(_("last update"), auto_now=True)
-    objective = models.TextField(_("objective"), max_length=1000, blank=True)
+    objective = models.TextField(_("objective"), max_length=10000, blank=True)
     sources = models.ManyToManyField(Source, verbose_name=_("sources"))
-    status = models.CharField(_("status"), max_length=1, choices=REVIEW_STATUS, default=UNPUBLISHED)
+    status = models.CharField(_("status"), max_length=10, choices=REVIEW_STATUS, default=UNPUBLISHED)
     co_authors = models.ManyToManyField(User, related_name="co_authors", verbose_name=_("co-authors"))
     quality_assessment_cutoff_score = models.FloatField(_("quality assessment cutoff score"), default=0.0)
-    population = models.CharField(_("population"), max_length=200, blank=True)
-    intervention = models.CharField(_("intervention"), max_length=200, blank=True)
-    comparison = models.CharField(_("comparison"), max_length=200, blank=True)
-    outcome = models.CharField(_("outcome"), max_length=200, blank=True)
-    context = models.CharField(_("context"), max_length=200, blank=True)
+    population = models.CharField(_("population"), max_length=2000, blank=True)
+    intervention = models.CharField(_("intervention"), max_length=2000, blank=True)
+    comparison = models.CharField(_("comparison"), max_length=2000, blank=True)
+    outcome = models.CharField(_("outcome"), max_length=2000, blank=True)
+    context = models.CharField(_("context"), max_length=2000, blank=True)
 
     class Meta:
         verbose_name = _("review")
@@ -163,7 +163,7 @@ class Review(models.Model):
 
 class Question(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="research_questions")
-    question = models.CharField(max_length=500)
+    question = models.CharField(max_length=5000)
     parent_question = models.ForeignKey("self", on_delete=models.CASCADE, null=True, related_name="+")
     order = models.IntegerField(default=0)
 
@@ -188,8 +188,8 @@ class SelectionCriteria(models.Model):
     )
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    criteria_type = models.CharField(max_length=1, choices=SELECTION_TYPES)
-    description = models.CharField(max_length=200)
+    criteria_type = models.CharField(max_length=10, choices=SELECTION_TYPES)
+    description = models.CharField(max_length=2000)
 
     class Meta:
         verbose_name = "Selection Criteria"
@@ -207,7 +207,7 @@ class SelectionCriteria(models.Model):
 class SearchSession(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
-    search_string = models.TextField(max_length=10000)
+    search_string = models.TextField(max_length=100000)
     version = models.IntegerField(default=1)
 
     def __str__(self):
@@ -258,9 +258,9 @@ class Study(models.Model):
     study_selection = models.ForeignKey(StudySelection, on_delete=models.CASCADE, related_name="studies")
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
-    status = models.CharField(max_length=1, choices=STUDY_STATUS, default=UNCLASSIFIED)
+    status = models.CharField(max_length=10, choices=STUDY_STATUS, default=UNCLASSIFIED)
     updated_at = models.DateTimeField(auto_now=True)
-    comments = models.TextField(max_length=2000, blank=True, null=True)
+    comments = models.TextField(max_length=20000, blank=True, null=True)
 
 
 class Article(models.Model):
@@ -276,27 +276,27 @@ class Article(models.Model):
     )
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    bibtex_key = models.CharField(max_length=100)
-    title = models.CharField(max_length=1000, null=True, blank=True, db_index=True)
-    author = models.CharField(max_length=1000, null=True, blank=True)
-    journal = models.CharField(max_length=1000, null=True, blank=True)
-    year = models.CharField(max_length=10, null=True, blank=True, db_index=True)
+    bibtex_key = models.CharField(max_length=1000)
+    title = models.CharField(max_length=10000, null=True, blank=True, db_index=True)
+    author = models.CharField(max_length=10000, null=True, blank=True)
+    journal = models.CharField(max_length=10000, null=True, blank=True)
+    year = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
-    pages = models.CharField(max_length=20, null=True, blank=True)
-    volume = models.CharField(max_length=100, null=True, blank=True)
-    abstract = models.TextField(max_length=4000, null=True, blank=True)
-    document_type = models.CharField(max_length=100, null=True, blank=True)
-    status = models.CharField(max_length=1, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
-    comments = models.TextField(max_length=2000, null=True, blank=True)
-    doi = models.CharField(max_length=50, null=True, blank=True)
-    url = models.CharField(max_length=500, null=True, blank=True)
-    affiliation = models.CharField(max_length=500, null=True, blank=True)
-    author_keywords = models.CharField(max_length=500, null=True, blank=True)
-    keywords = models.CharField(max_length=500, null=True, blank=True)
-    publisher = models.CharField(max_length=100, null=True, blank=True)
-    issn = models.CharField(max_length=50, null=True, blank=True)
-    language = models.CharField(max_length=50, null=True, blank=True)
-    note = models.CharField(max_length=500, null=True, blank=True)
+    pages = models.CharField(max_length=200, null=True, blank=True)
+    volume = models.CharField(max_length=1000, null=True, blank=True)
+    abstract = models.TextField(max_length=40000, null=True, blank=True)
+    document_type = models.CharField(max_length=1000, null=True, blank=True)
+    status = models.CharField(max_length=10, choices=ARTICLE_STATUS, default=UNCLASSIFIED)
+    comments = models.TextField(max_length=20000, null=True, blank=True)
+    doi = models.CharField(max_length=500, null=True, blank=True)
+    url = models.CharField(max_length=5000, null=True, blank=True)
+    affiliation = models.CharField(max_length=5000, null=True, blank=True)
+    author_keywords = models.CharField(max_length=5000, null=True, blank=True)
+    keywords = models.CharField(max_length=5000, null=True, blank=True)
+    publisher = models.CharField(max_length=1000, null=True, blank=True)
+    issn = models.CharField(max_length=500, null=True, blank=True)
+    language = models.CharField(max_length=500, null=True, blank=True)
+    note = models.CharField(max_length=5000, null=True, blank=True)
     finished_data_extraction = models.BooleanField(default=False)
     selection_criteria = models.ForeignKey(SelectionCriteria, null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -348,9 +348,9 @@ class Keyword(models.Model):
     )
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name="keywords")
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=2000)
     synonym_of = models.ForeignKey("self", on_delete=models.CASCADE, null=True, related_name="synonyms")
-    related_to = models.CharField(max_length=1, choices=RELATED_TO, blank=True)
+    related_to = models.CharField(max_length=10, choices=RELATED_TO, blank=True)
 
     class Meta:
         verbose_name = "Keyword"
@@ -372,7 +372,7 @@ class QualityAnswer(models.Model):
     SUGGESTED_ANSWERS = (("Yes", 1.0), ("Partially", 0.5), ("No", 0.0))
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=2550)
     weight = models.FloatField()
 
     class Meta:
@@ -386,7 +386,7 @@ class QualityAnswer(models.Model):
 
 class QualityQuestion(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=2550)
     order = models.IntegerField(default=0)
 
     class Meta:
@@ -427,8 +427,8 @@ class DataExtractionField(models.Model):
     )
 
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255)
-    field_type = models.CharField(max_length=1, choices=FIELD_TYPES)
+    description = models.CharField(max_length=2550)
+    field_type = models.CharField(max_length=10, choices=FIELD_TYPES)
     order = models.IntegerField(default=0)
 
     class Meta:
@@ -445,7 +445,7 @@ class DataExtractionField(models.Model):
 
 class DataExtractionLookup(models.Model):
     field = models.ForeignKey(DataExtractionField, on_delete=models.CASCADE)
-    value = models.CharField(max_length=1000)
+    value = models.CharField(max_length=10000)
 
     class Meta:
         verbose_name = "Lookup Value"

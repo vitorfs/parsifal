@@ -24,7 +24,7 @@ class Invite(models.Model):
         related_name="invites_received",
     )
     invitee_email = models.EmailField(_("invitee email"), db_index=True)
-    status = models.CharField(_("status"), max_length=32, choices=InviteStatus.CHOICES, default=InviteStatus.PENDING)
+    status = models.CharField(_("status"), max_length=320, choices=InviteStatus.CHOICES, default=InviteStatus.PENDING)
     code = models.UUIDField(_("code"), default=uuid.uuid4, editable=False)
     date_sent = models.DateTimeField(_("date sent"), auto_now_add=True)
     date_answered = models.DateTimeField(_("date answered"), null=True, blank=True)

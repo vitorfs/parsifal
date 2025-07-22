@@ -12,11 +12,11 @@ class Media(models.Model):
 
     OG_METATAG = '<meta property="og:{0}" content="{1}" />'
 
-    name = models.CharField(max_length=255)
-    url = models.URLField(max_length=500, null=True, blank=True)
-    media_type = models.CharField(max_length=5, choices=MEDIA_TYPES)
+    name = models.CharField(max_length=2550)
+    url = models.URLField(max_length=5000, null=True, blank=True)
+    media_type = models.CharField(max_length=50, choices=MEDIA_TYPES)
     content = models.FileField(upload_to="site/", null=True, blank=True)
-    content_type = models.CharField(max_length=255, null=True, blank=True)
+    content_type = models.CharField(max_length=2550, null=True, blank=True)
     width = models.IntegerField(default=0)
     height = models.IntegerField(default=0)
 

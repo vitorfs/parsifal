@@ -17,12 +17,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='activity',
             name='activity_type',
-            field=models.CharField(choices=[('F', 'Follow'), ('C', 'Comment'), ('S', 'Star')], max_length=1, verbose_name='type'),
+            field=models.CharField(choices=[('F', 'Follow'), ('C', 'Comment'), ('S', 'Star')], max_length=10, verbose_name='type'),
         ),
         migrations.AlterField(
             model_name='activity',
             name='content',
-            field=models.CharField(blank=True, max_length=500, verbose_name='content'),
+            field=models.CharField(blank=True, max_length=5000, verbose_name='content'),
         ),
         migrations.AlterField(
             model_name='activity',

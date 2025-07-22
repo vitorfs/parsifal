@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='searchsession',
             name='search_string',
-            field=models.TextField(max_length=10000),
+            field=models.TextField(max_length=100000),
         ),
     ]

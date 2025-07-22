@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='study',
             name='comments',
-            field=models.TextField(max_length=2000, null=True, blank=True),
+            field=models.TextField(max_length=20000, null=True, blank=True),
         ),
     ]

@@ -24,23 +24,23 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='institution',
-            field=models.CharField(blank=True, max_length=50, verbose_name='institution'),
+            field=models.CharField(blank=True, max_length=500, verbose_name='institution'),
         ),
         migrations.AlterField(
             model_name='profile',
             name='location',
-            field=models.CharField(blank=True, max_length=50, verbose_name='location'),
+            field=models.CharField(blank=True, max_length=500, verbose_name='location'),
         ),
         migrations.AlterField(
             model_name='profile',
             name='public_email',
-            field=models.EmailField(blank=True, default='', max_length=254, verbose_name='public email'),
+            field=models.EmailField(blank=True, default='', max_length=2540, verbose_name='public email'),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name='profile',
             name='url',
-            field=models.CharField(blank=True, max_length=50, verbose_name='url'),
+            field=models.CharField(blank=True, max_length=500, verbose_name='url'),
         ),
         migrations.AlterField(
             model_name='profile',

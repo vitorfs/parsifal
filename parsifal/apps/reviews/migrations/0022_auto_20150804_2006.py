@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='keyword',
             name='related_to',
-            field=models.CharField(blank=True, max_length=1, choices=[('P', 'Population'), ('I', 'Intervention'), ('C', 'Comparison'), ('O', 'Outcome')]),
+            field=models.CharField(blank=True, max_length=10, choices=[('P', 'Population'), ('I', 'Intervention'), ('C', 'Comparison'), ('O', 'Outcome')]),
         ),
     ]

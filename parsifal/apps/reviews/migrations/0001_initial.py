@@ -17,17 +17,17 @@ class Migration(migrations.Migration):
             name='Article',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('bibtex_key', models.CharField(max_length=100)),
-                ('title', models.CharField(max_length=1000, blank=True)),
-                ('journal', models.CharField(max_length=1000, blank=True)),
-                ('year', models.CharField(max_length=10, blank=True)),
-                ('pages', models.CharField(max_length=20, blank=True)),
-                ('volume', models.CharField(max_length=100, blank=True)),
-                ('author', models.CharField(max_length=1000, blank=True)),
-                ('abstract', models.TextField(max_length=4000, blank=True)),
-                ('document_type', models.CharField(max_length=100, blank=True)),
-                ('status', models.CharField(default=b'U', max_length=1, choices=[(b'U', b'Unclassified'), (b'R', b'Rejected'), (b'A', b'Accepted'), (b'D', b'Duplicated')])),
-                ('comments', models.TextField(max_length=4000, blank=True)),
+                ('bibtex_key', models.CharField(max_length=1000)),
+                ('title', models.CharField(max_length=10000, blank=True)),
+                ('journal', models.CharField(max_length=10000, blank=True)),
+                ('year', models.CharField(max_length=100, blank=True)),
+                ('pages', models.CharField(max_length=200, blank=True)),
+                ('volume', models.CharField(max_length=1000, blank=True)),
+                ('author', models.CharField(max_length=10000, blank=True)),
+                ('abstract', models.TextField(max_length=40000, blank=True)),
+                ('document_type', models.CharField(max_length=1000, blank=True)),
+                ('status', models.CharField(default=b'U', max_length=10, choices=[(b'U', b'Unclassified'), (b'R', b'Rejected'), (b'A', b'Accepted'), (b'D', b'Duplicated')])),
+                ('comments', models.TextField(max_length=40000, blank=True)),
             ],
             options={
                 'verbose_name': 'Article',
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             name='DataExtraction',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.CharField(max_length=1000, blank=True)),
+                ('value', models.CharField(max_length=10000, blank=True)),
                 ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Article')),
             ],
         ),
@@ -46,15 +46,15 @@ class Migration(migrations.Migration):
             name='DataExtractionField',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('description', models.CharField(max_length=255)),
-                ('field_type', models.CharField(max_length=1, choices=[(b'B', b'Boolean Field'), (b'S', b'String Field'), (b'F', b'Float Field'), (b'I', b'Integer Field'), (b'D', b'Date Field'), (b'O', b'Select One Field'), (b'M', b'Select Many Field')])),
+                ('description', models.CharField(max_length=2550)),
+                ('field_type', models.CharField(max_length=10, choices=[(b'B', b'Boolean Field'), (b'S', b'String Field'), (b'F', b'Float Field'), (b'I', b'Integer Field'), (b'D', b'Date Field'), (b'O', b'Select One Field'), (b'M', b'Select Many Field')])),
             ],
         ),
         migrations.CreateModel(
             name='DataExtractionLookup',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('value', models.CharField(max_length=1000)),
+                ('value', models.CharField(max_length=10000)),
                 ('field', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.DataExtractionField')),
             ],
             options={
@@ -67,8 +67,8 @@ class Migration(migrations.Migration):
             name='Keyword',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('description', models.CharField(max_length=200)),
-                ('related_to', models.CharField(blank=True, max_length=1, choices=[(b'P', b'Population'), (b'I', b'Intervention'), (b'C', b'Comparison'), (b'O', b'Outcome')])),
+                ('description', models.CharField(max_length=2000)),
+                ('related_to', models.CharField(blank=True, max_length=10, choices=[(b'P', b'Population'), (b'I', b'Intervention'), (b'C', b'Comparison'), (b'O', b'Outcome')])),
             ],
             options={
                 'ordering': ('description',),
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
             name='QualityAnswer',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('description', models.CharField(max_length=255)),
+                ('description', models.CharField(max_length=2550)),
                 ('weight', models.FloatField()),
             ],
             options={
@@ -101,7 +101,7 @@ class Migration(migrations.Migration):
             name='QualityQuestion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('description', models.CharField(max_length=255)),
+                ('description', models.CharField(max_length=2550)),
             ],
             options={
                 'verbose_name': 'Quality Assessment Question',
@@ -112,7 +112,7 @@ class Migration(migrations.Migration):
             name='Question',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('question', models.CharField(max_length=500)),
+                ('question', models.CharField(max_length=5000)),
                 ('parent_question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='reviews.Question', null=True)),
             ],
             options={
@@ -124,22 +124,22 @@ class Migration(migrations.Migration):
             name='Review',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.SlugField(max_length=255)),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.CharField(max_length=500)),
+                ('name', models.SlugField(max_length=2550)),
+                ('title', models.CharField(max_length=2550)),
+                ('description', models.CharField(max_length=5000)),
                 ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('last_update', models.DateTimeField()),
-                ('objective', models.TextField(max_length=1000)),
-                ('status', models.CharField(default=b'U', max_length=1, choices=[(b'U', b'Unpublished'), (b'P', b'Published')])),
+                ('objective', models.TextField(max_length=10000)),
+                ('status', models.CharField(default=b'U', max_length=10, choices=[(b'U', b'Unpublished'), (b'P', b'Published')])),
                 ('quality_assessment_cutoff_score', models.FloatField(default=0.0)),
-                ('study_selection_strategy', models.CharField(default=b'S', max_length=1, choices=[(b'S', b'Single Form'), (b'M', b'Multiple Forms')])),
-                ('quality_assessment_strategy', models.CharField(default=b'S', max_length=1, choices=[(b'S', b'Single Form'), (b'M', b'Multiple Forms')])),
-                ('data_extraction_strategy', models.CharField(default=b'S', max_length=1, choices=[(b'S', b'Single Form'), (b'M', b'Multiple Forms')])),
-                ('population', models.CharField(max_length=200, blank=True)),
-                ('intervention', models.CharField(max_length=200, blank=True)),
-                ('comparison', models.CharField(max_length=200, blank=True)),
-                ('outcome', models.CharField(max_length=200, blank=True)),
-                ('context', models.CharField(max_length=200, blank=True)),
+                ('study_selection_strategy', models.CharField(default=b'S', max_length=10, choices=[(b'S', b'Single Form'), (b'M', b'Multiple Forms')])),
+                ('quality_assessment_strategy', models.CharField(default=b'S', max_length=10, choices=[(b'S', b'Single Form'), (b'M', b'Multiple Forms')])),
+                ('data_extraction_strategy', models.CharField(default=b'S', max_length=10, choices=[(b'S', b'Single Form'), (b'M', b'Multiple Forms')])),
+                ('population', models.CharField(max_length=2000, blank=True)),
+                ('intervention', models.CharField(max_length=2000, blank=True)),
+                ('comparison', models.CharField(max_length=2000, blank=True)),
+                ('outcome', models.CharField(max_length=2000, blank=True)),
+                ('context', models.CharField(max_length=2000, blank=True)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('co_authors', models.ManyToManyField(related_name='co_authors', to=settings.AUTH_USER_MODEL)),
             ],
@@ -152,7 +152,7 @@ class Migration(migrations.Migration):
             name='SearchSession',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('search_string', models.TextField(max_length=2000)),
+                ('search_string', models.TextField(max_length=20000)),
                 ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review')),
             ],
         ),
@@ -160,8 +160,8 @@ class Migration(migrations.Migration):
             name='SelectionCriteria',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('criteria_type', models.CharField(max_length=1, choices=[(b'I', b'Inclusion'), (b'E', b'Exclusion')])),
-                ('description', models.CharField(max_length=200)),
+                ('criteria_type', models.CharField(max_length=10, choices=[(b'I', b'Inclusion'), (b'E', b'Exclusion')])),
+                ('description', models.CharField(max_length=2000)),
                 ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.Review')),
             ],
             options={
@@ -174,8 +174,8 @@ class Migration(migrations.Migration):
             name='Source',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=100)),
-                ('url', models.CharField(max_length=200)),
+                ('name', models.CharField(max_length=1000)),
+                ('url', models.CharField(max_length=2000)),
                 ('is_default', models.BooleanField(default=False)),
             ],
             options={

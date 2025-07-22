@@ -22,6 +22,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='entry',
             name='status',
-            field=models.CharField(choices=[('D', 'Draft'), ('H', 'Hidden'), ('P', 'Published')], max_length=10),
+            field=models.CharField(choices=[('D', 'Draft'), ('H', 'Hidden'), ('P', 'Published')], max_length=100),
         ),
     ]

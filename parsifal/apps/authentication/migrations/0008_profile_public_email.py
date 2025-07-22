@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='public_email',
-            field=models.EmailField(max_length=254, null=True, blank=True),
+            field=models.EmailField(max_length=2540, null=True, blank=True),
         ),
     ]

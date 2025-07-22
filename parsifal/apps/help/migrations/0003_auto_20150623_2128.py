@@ -14,16 +14,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='article',
             name='name',
-            field=models.CharField(unique=True, max_length=255),
+            field=models.CharField(unique=True, max_length=2550),
         ),
         migrations.AlterField(
             model_name='article',
             name='slug',
-            field=models.SlugField(unique=True, max_length=255),
+            field=models.SlugField(unique=True, max_length=2550),
         ),
         migrations.AlterField(
             model_name='category',
             name='name',
-            field=models.CharField(unique=True, max_length=255),
+            field=models.CharField(unique=True, max_length=2550),
         ),
     ]

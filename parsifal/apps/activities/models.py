@@ -9,8 +9,8 @@ from parsifal.apps.reviews.models import Review
 class Activity(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("from user"))
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+", null=True, verbose_name=_("to user"))
-    activity_type = models.CharField(_("type"), max_length=1, choices=ActivityTypes.CHOICES)
-    content = models.CharField(_("content"), max_length=500, blank=True)
+    activity_type = models.CharField(_("type"), max_length=10, choices=ActivityTypes.CHOICES)
+    content = models.CharField(_("content"), max_length=5000, blank=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE, null=True, verbose_name=_("review"))
     date = models.DateTimeField(_("date"), auto_now_add=True)
 

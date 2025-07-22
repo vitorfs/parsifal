@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='article',
             name='comments',
-            field=models.TextField(max_length=2000, null=True, blank=True),
+            field=models.TextField(max_length=20000, null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='article',
             name='document_type',
-            field=models.CharField(max_length=100, null=True, blank=True),
+            field=models.CharField(max_length=1000, null=True, blank=True),
         ),
     ]

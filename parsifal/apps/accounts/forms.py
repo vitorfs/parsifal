@@ -11,7 +11,7 @@ class UserEmailForm(forms.ModelForm):
     email = forms.CharField(
         label=_("Email"),
         widget=forms.EmailInput(attrs={"class": "form-control"}),
-        max_length=254,
+        max_length=2540,
         help_text=_(
             "This email account will not be publicly available. "
             "It is used for your Parsifal account management, "
@@ -32,8 +32,8 @@ class UserEmailForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    first_name = forms.CharField(label=_("First name"), max_length=150, required=False)
-    last_name = forms.CharField(label=_("Last name"), max_length=150, required=False)
+    first_name = forms.CharField(label=_("First name"), max_length=1500, required=False)
+    last_name = forms.CharField(label=_("Last name"), max_length=1500, required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

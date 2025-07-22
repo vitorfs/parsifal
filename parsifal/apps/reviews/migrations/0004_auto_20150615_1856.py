@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='description',
-            field=models.CharField(max_length=500, null=True),
+            field=models.CharField(max_length=5000, null=True),
         ),
         migrations.AlterUniqueTogether(
             name='review',

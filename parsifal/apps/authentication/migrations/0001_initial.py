@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
             name='Profile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('location', models.CharField(max_length=50)),
-                ('url', models.CharField(max_length=50)),
-                ('institution', models.CharField(max_length=50)),
+                ('location', models.CharField(max_length=500)),
+                ('url', models.CharField(max_length=500)),
+                ('institution', models.CharField(max_length=500)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={

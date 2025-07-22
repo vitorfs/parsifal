@@ -9,8 +9,8 @@ from parsifal.apps.core.models import Media
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, null=True)
+    name = models.CharField(max_length=2550, unique=True)
+    slug = models.SlugField(max_length=2550, null=True)
 
     class Meta:
         verbose_name = _("category")
@@ -21,11 +21,11 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, unique=True)
-    description = models.TextField(max_length=500, null=True, blank=True)
-    content = models.TextField(max_length=4000, null=True, blank=True)
-    references = models.TextField(max_length=2000, null=True, blank=True)
+    title = models.CharField(max_length=2550, unique=True)
+    slug = models.SlugField(max_length=2550, unique=True)
+    description = models.TextField(max_length=5000, null=True, blank=True)
+    content = models.TextField(max_length=40000, null=True, blank=True)
+    references = models.TextField(max_length=20000, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     views = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)

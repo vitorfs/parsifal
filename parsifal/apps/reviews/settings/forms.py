@@ -8,7 +8,7 @@ class ReviewSettingsForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
         label="URL",
         help_text="Only letters, numbers, underscores or hyphens are allowed.",
-        max_length=255,
+        max_length=2550,
     )
 
     class Meta:

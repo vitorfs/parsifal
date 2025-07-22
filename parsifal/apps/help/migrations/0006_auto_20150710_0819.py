@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
             name='Media',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=255)),
-                ('url', models.URLField(max_length=500, null=True, blank=True)),
-                ('media_type', models.CharField(max_length=5, choices=[('image', 'Image'), ('video', 'Video')])),
+                ('name', models.CharField(max_length=2550)),
+                ('url', models.URLField(max_length=5000, null=True, blank=True)),
+                ('media_type', models.CharField(max_length=50, choices=[('image', 'Image'), ('video', 'Video')])),
                 ('content', models.FileField(upload_to='help/')),
-                ('content_type', models.CharField(max_length=255, null=True, blank=True)),
+                ('content_type', models.CharField(max_length=2550, null=True, blank=True)),
                 ('width', models.IntegerField(default=0)),
                 ('height', models.IntegerField(default=0)),
             ],
@@ -31,17 +31,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='description',
-            field=models.TextField(max_length=500, null=True, blank=True),
+            field=models.TextField(max_length=5000, null=True, blank=True),
         ),
         migrations.AddField(
             model_name='article',
             name='references',
-            field=models.TextField(max_length=2000, null=True, blank=True),
+            field=models.TextField(max_length=20000, null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='article',
             name='content',
-            field=models.TextField(max_length=4000, null=True, blank=True),
+            field=models.TextField(max_length=40000, null=True, blank=True),
         ),
         migrations.AddField(
             model_name='article',

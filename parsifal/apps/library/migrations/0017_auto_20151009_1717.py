@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='folder',
             name='slug',
-            field=models.SlugField(max_length=255, null=True, blank=True),
+            field=models.SlugField(max_length=2550, null=True, blank=True),
         ),
         migrations.AlterField(
             model_name='sharedfolder',
             name='slug',
-            field=models.SlugField(max_length=255, null=True, blank=True),
+            field=models.SlugField(max_length=2550, null=True, blank=True),
         ),
     ]

@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
             name='Invite',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('invitee_email', models.EmailField(blank=True, max_length=254, verbose_name='invitee email')),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending', max_length=32, verbose_name='status')),
+                ('invitee_email', models.EmailField(blank=True, max_length=2540, verbose_name='invitee email')),
+                ('status', models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending', max_length=320, verbose_name='status')),
                 ('code', models.UUIDField(default=uuid.uuid4, editable=False, verbose_name='code')),
                 ('date_sent', models.DateTimeField(auto_now_add=True, verbose_name='date sent')),
                 ('date_answered', models.DateTimeField(blank=True, null=True, verbose_name='date answered')),
