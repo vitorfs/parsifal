@@ -42,19 +42,25 @@ The project is currently running on the following versions:
 
 To run the project locally first you need to clone the repository:
 
-```
+```bash
 git clone https://github.com/vitorfs/parsifal.git
 ```
 
 Create a virtualenv:
 
+```bash
+python3 -m venv venv
 ```
-virtualenv venv -p python3
+
+Active virtualenv:
+
+```bash
+source venv/bin/activate
 ```
 
 Install the development requirements:
 
-```
+```bash
 pip install -r requirements/local.txt
 ```
 
@@ -62,38 +68,44 @@ Now you should either setup a local PostgreSQL database or use SQLite.
 
 Create a `.env` file in the project root (you can create one by making a copy of the `.env.example`):
 
-```
+```bash
 cp .env.example .env
 ```
 
 Now add the `DATABASE_URL` with the connection string pointing to your local database:
 
-```
+```bash
 DATABASE_URL=postgres://richardwagner:holygrail@localhost:5432/parsifal
 ```
 
 Or for SQLite:
 
-```
+```bash
 DATABASE_URL=sqlite:////tmp/parsifal.sqlite3
 ```
 
 Or if you want to place it elsewhere:
 
-```
+```bash
 DATABASE_URL=sqlite:////Users/vitor/dev/parsifal/parsifal.sqlite3
 ```
 
 Now run the migrations:
 
-```
+```bbash
 python manage.py migrate
 ```
 
 Run the local server:
 
-```
+```bash
 python manage.py runserver
+```
+
+Create super user:
+
+```bash
+python manage.py createsuperuser
 ```
 
 ## License
